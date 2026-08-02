@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Kde najde má duše">
+    <variant name="čeština">
+        <section name="v1a">
+            Kde najde má duše tu
+            pravou svou vlast,
+            kde nalezne pokoj
+            a žádoucí slast?
+            Ach, není svět tento ten
+            pravý můj byt,
+        </section>
+        <section name="v1b">
+            kde hříchu již není, kde
+            blaze lze žít!
+            Ne, ne, ne, ne,
+            není to zem;
+            tam domov jest duší,
+            kde věčný je den!
+        </section>
+        <section name="v2a">
+            Ó, opusť již zemi, bys
+            uzřel tu vlast,
+            kde oblaží duši
+            jen krása a slast,
+            kde slávou se nový skví
+            Jeruzalém,
+        </section>
+        <section name="v2b">
+            trůn Boží a Beránkův
+            utvrzen v něm.
+            Ano, ano,
+            jedině tam
+            svůj pokoj všem věrným
+            dá Pán Ježíš sám!
+        </section>
+        <section name="v3a">
+            Ó, jaký to pokoj je
+            u Pána tam,
+            kde hřích, smrt a bolest
+            již nehrozí nám,
+            kde zvučící harfy a
+            plesání hlas,
+        </section>
+        <section name="v3b">
+            zpěv chvály a radosti
+            uvítá nás!
+            Pokoj, pokoj,
+            věčný pokoj
+            tam rozlévá Ježíš,
+            sám pokoje zdroj.
+        </section>
+        <section name="v4a">
+            Jak blaze je v nebesích
+            u Krista dlít,
+            jím od hříchu obmyt
+            se čistotou skvít,
+            a v nesčetném zástupu
+            před Bohem stát,
+        </section>
+        <section name="v4b">
+            dnem, nocí mu sloužit, jej
+            zvelebovat!
+            Ticho, ticho,
+            kratičký čas,
+            a povolá k sobě
+            i nás Páně hlas.
+        </section>
+        <section name="v5a">
+            Jen, duše má, pevně vždy
+            u víře stůj!
+            Žij Pánu zde k chvále,
+            On díl bude tvůj.
+            Tak jako on miluj, svou
+            nehledej čest,
+        </section>
+        <section name="v5b">
+            jho rozkošné jeho se
+            tiše uč nést!
+            Tiše kříž svůj
+            za ním vždy nes,
+            tvůj žal změní v radost,
+            pláč promění v ples!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1a v1b v2a v2b v3a v3b v4a v4b v5a v5b
+    </repetition>
+</slide>

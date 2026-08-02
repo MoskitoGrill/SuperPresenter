@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Mně nelze pochopit">
+    <variant name="čeština">
+        <section name="v1">
+            Mně nelze pochopit, jak můžeš Ty mou hříchů plnou duši spasiti;
+            však přece věřím, žes mne miloval a za mne život dal.
+        </section>
+        <section name="r1">
+            Ó, Pane, k Tobě já se utíkám, veze vší zásluhy o milost lkám!
+            Vždyť, Pane můj, Tys tak mne se slitoval a za mne život dal.
+        </section>
+        <section name="v2">
+            Tak prázdný, ničemný, můj život byl, do moře hříchů jsem se ponořil;
+            však Ty jsi nade mnou se slitoval a za mne život dal.
+        </section>
+        <section name="v3">
+            Ó nevystihlá hloubka milosti! Jak velký důkaz Boží štědrost:
+            že mne tak vroucí láskou miloval a za mne život dal!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1
+    </repetition>
+</slide>

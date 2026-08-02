@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Ať kříž, jejž Pán dal">
+    <variant name="čeština">
+        <section name="v1">
+            Ať kříž, jejž Pán dal, tíží velice:
+            jeho milost váží víc;
+            ať mraky kol mne honí vichřice:
+            jeho nezatře mi líc.
+        </section>
+        <section name="r1">
+            Není kříže víc než milosti
+            a bouř tichne v jeho blízkosti.
+            Vždy jsem spokojen, když vím,
+            že jest Ježíš vůdcem mým,
+            s ním nade vším zvítězím z milost.
+        </section>
+        <section name="v2">
+            Když trním jít mám, není ostřejší
+            než to, jímž On raněn byl;
+            a kalich můj zde není trpčejší,
+            než On v Getsemane pil.
+        </section>
+        <section name="v3">
+            Vím, lásky že zář svítí jasněji,
+            když jsem blíže u kříže
+            a k nebesům že kráčím snadněji,
+            když mne země nevíže.
+        </section>
+        <section name="v4">
+            Ne jak chtěl bych já, veď mne, Pane můj,
+            Ty sám vyměř moji puť!
+            Ty světlo i stín jak chceš rozděluj,
+            však mi nedáš zahynout.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1 v4 r1
+    </repetition>
+</slide>

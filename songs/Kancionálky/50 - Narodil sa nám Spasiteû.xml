@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Narodil sa nám Spasiteľ">
+    <variant name="čeština">
+        <section name="v1">
+            Narodil sa nám Spasiteľ
+            v tento nočný čas.
+            Prišiel sveta Vykupiteľ,
+            Kristus Ježiš náš.
+            Najsvätejší sám
+            ponížil sa k nám.
+            Ó, nech Ti je večná chvála,
+            mocný nebies Pán!
+        </section>
+        <section name="v2">
+            Veľké svetlo ožiarilo
+            polia betlemské,
+            na zem biednu zostúpilo
+            vojsko nebeské.
+            Krásne spievali,
+            chválu vzdávali.
+            Príchod Kráľa, nášho Pána
+            oznamovali.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2
+    </repetition>
+</slide>

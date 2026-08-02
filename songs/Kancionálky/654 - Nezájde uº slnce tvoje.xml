@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Nezájde už slnce tvoje">
+    <variant name="čeština">
+        <section name="v1">
+            Nezajde už slnce tvoje,
+            mesiac tvoj sa neschová,
+            až ti brány otvorí raz,
+            až ti brány otvorí raz
+            večná ríša Kristova.
+        </section>
+        <section name="v2">
+            Hospodin Boh Trojjediný,
+            kde je svetlom večný sám,
+            skončia sa dni smútku tvojho,
+            skončia sa dni smútku tvojho,
+            skončia sa ti navždy tam.
+        </section>
+        <section name="v3">
+            Nezaznie tam slovo zradné,
+            ani krivdy ťažký ston,
+            spievať bude srdce tvoje,
+            spievať bude srdce tvoje
+            večnej hymny krásny tón.
+        </section>
+        <section name="v4">
+            Mraky žiaľu zaleteli,
+            zmlkli ako letný sen,
+            pred trónom tam Baránkovým,
+            pred trónom tam Baránkovým
+            zabronie ti blaha deň.
+        </section>
+        <section name="v5">
+            Nezájde už slnce tvoje,
+            mesiac tvoj sa neschová,
+            vo večnosti, kde ťa čaká,
+            vo večnosti, kde ťa čaká
+            svätá náruč Otcova.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4 v5
+    </repetition>
+</slide>

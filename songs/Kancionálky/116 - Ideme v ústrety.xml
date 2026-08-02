@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Ideme v ústrety">
+    <variant name="čeština">
+        <section name="v1">
+            Ideme v ústrety
+            významným zmenám,
+            na cestu chystá sa
+            Pán Ježiš k nám.
+            Čoskoro preskočí
+            nebeské brány,
+            aby tu na zemi
+            panoval sám.
+        </section>
+        <section name="r1">
+            Zdvihnite zraky,
+            množia sa znaky,
+            dennica rozlieva
+            nádeje jas.
+            Plnia sa predzvesti
+            Božieho slova,
+            Pánovho príchodu
+            nastáva čas.
+        </section>
+        <section name="v2">
+            Príde Pán zaujať
+            kráľovstvo svoje,
+            odstrániť neprávosť,
+            ukončiť boj.
+            Víťazne zničí moc
+            satana zlého,
+            postaví lásky trón,
+            pokoj dá svoj.
+        </section>
+        <section name="v3">
+            Zármutok prinesie
+            hriešnemu svetu,
+            spaseným príde však
+            blaženosť dať.
+            Premení v skutočnosť
+            nádeje verných,
+            dedišstvo prídu si
+            z rúk jeho vziať.
+        </section>
+        <section name="v4">
+            Chystaj sa, nevesta,
+            k príchodu jeho,
+            privítať verného
+            Ženícha vstaň!
+            Sláviť más svadbu s ním
+            v radosti večnej,
+            On si ťa prenesie
+            v nebeský stan.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1 v4 r1
+    </repetition>
+</slide>

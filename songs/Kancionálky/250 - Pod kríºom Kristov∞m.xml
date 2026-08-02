@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Pod krížom Kristovým">
+    <variant name="čeština">
+        <section name="v1">
+            Pod krížom Kristovým stál som raz, prosil som:
+            Pane môj, spas ma, spas. Sklonil sa ku mne,
+            môj počul hlas, sláva Jemu buď!
+        </section>
+        <section name="r1">
+            Sláva Jemu buď, sláva Jemu buď,
+            za vykúpenie a spasenie sláva Jemu buď!
+        </section>
+        <section name="v2">
+            Predivné spasenie v Kristu je, úzkostí,
+            strachu On zbavuje, nový
+            On život mi daruje, sláva Jemu buď!
+        </section>
+        <section name="v3">
+            Kristovej krvi prúd presvätý, každý môj hriech
+            ním bol obmytý, Jeho krv
+            spasenie zaistí, sláva Jemu buď!
+        </section>
+        <section name="v4">
+            K prameňu spasenia poď už dnes,
+            ponor sa do neho celý hneď,
+            v srdci ti zazvučí vďačný ples: sláva Jemu buď!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1 v4 r1
+    </repetition>
+</slide>

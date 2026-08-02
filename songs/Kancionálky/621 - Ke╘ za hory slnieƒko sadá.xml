@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Keď za hory slniečko sadá">
+    <variant name="čeština">
+        <section name="v1">
+            Keď za hory slniečko sadá
+            a zorami zružovie svet,
+            tak milo znie pesnička vtáka.
+            Tak dobre je v prírode dlieť,
+            keď všetko je utíšené,
+            sťa v modlitbe ponorené.
+        </section>
+        <section name="v2">
+            Hľa, farbami jasajú kvietky,
+            veď nemajú vzácny dar: reč,
+            však sklonené hlavičky všetkých
+            len Tvorcovi vzdávajú česť.
+            Ich vôňa ty hymna je chvál,
+            keď vznáša sa ku nebesám.
+        </section>
+        <section name="v3">
+            Tak vzácna je súmraku chvíľa,
+            keď každý tvor stíšiť sa vie,
+            keď duša, čo večne je živá,
+            tú Božiu reč porozumie
+            a vďačnosťou naplnená
+            je v modlitbách ponorená.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3
+    </repetition>
+</slide>

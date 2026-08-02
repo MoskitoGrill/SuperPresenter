@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Haleluja! Kristus Pán">
+    <variant name="čeština">
+        <section name="r1">
+            Haleluja,
+            haleluja,
+            haleluja!
+        </section>
+        <section name="v1">
+            Kristus Pán
+            slávne z mŕtvých vstal,
+            Spasiteľ sveta,
+            kráľov Kráľ.
+            Boží ľud teš sa,
+            Boha chvál:
+            Haleluja!
+        </section>
+        <section name="v2">
+            Nuž v tento
+            veľkonočný čas,
+            vyčistiac starý
+            hriechu kvas,
+            zasväcuj Bohu
+            srdce, hlas:
+            Haleluja!
+        </section>
+        <section name="v3">
+            Oslavuj
+            Otca, Syna tiež,
+            Svätému Duchu
+            chválu vznes.
+            Kristus vstal slavne
+            z mrtvych dnes:
+            Haleluja!
+        </section>
+    </variant>
+    <repetition name="default">
+        r1 v1 r1 v2 r1 v3
+    </repetition>
+</slide>

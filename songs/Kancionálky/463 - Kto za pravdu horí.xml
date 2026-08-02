@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Kto za pravdu horí">
+    <variant name="čeština">
+        <section name="v1">
+            Kto za pravdu horí v svätej obeti,
+            kto za ľudské práva život posvätí,
+            /:kto nad krivdou biednych slzu vyroní:
+            tomu moja pieseň slávou zazvoní.:/
+        </section>
+        <section name="v2">
+            Kto si stojí slovu, čo priam zhŕkne svet,
+            komu nad statočnosť venca v svete niet,
+            /:koho dar nezvedie, hrozba neskloní:
+            tomu moja pieseň slávou zazvoní.:/
+        </section>
+        <section name="v3">
+            Pán Boh šľachetnosti nebo vystavil,
+            večné On pre podlosť peklo podpálil;
+            /:kto ctí pravdy božské zákony:
+            tomu moja pieseň slávou zazvoní.:/
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3
+    </repetition>
+</slide>

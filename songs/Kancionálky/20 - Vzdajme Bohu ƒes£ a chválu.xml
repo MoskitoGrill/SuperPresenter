@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Vzdajme Bohu česť a chválu">
+    <variant name="čeština">
+        <section name="v1">
+            Vzdajme Bohu česť a chválu
+            za dar jeho milosti.
+            Prišla doba rozvlaženia
+            od prestola svetlosti.
+        </section>
+        <section name="r1">
+            Boh nás v láske objíma,
+            sláva, česť, haleluja!
+        </section>
+        <section name="v2">
+            Nieto moci, nieto sily,
+            prúdom Božím odolať.
+            Milosť, milosť dal Boh svätý
+            celej zemi zvestovať.
+        </section>
+        <section name="v3">
+            Kto si smädný náhli k zdroju:
+            zo skaly prúd pramení,
+            žriedlo čistej, živej vody,
+            Ježiš Kristus vzkriesený.
+        </section>
+        <section name="v4">
+            Hriechy ako červec, šarlát
+            môžu dnes byť zbielené.
+            Odpustenie v Ježišovi
+            hriešnikom je zjavené.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1 v4 r1
+    </repetition>
+</slide>

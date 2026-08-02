@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Tys Pánom, Kriste">
+    <variant name="čeština">
+        <section name="v1">
+            Tys’ Pánom, Kriste, Svetlo si čisté;
+            nebo, zem podnožou Tvojich sú nôh.
+            Ty krásu tvoríš, Ty svety boríš,
+            večnú moc v rukách máš, veď si sám Boh!
+        </section>
+        <section name="v2">
+            Bez Teba, Pane, v nebeskom stane
+            navždy by zavládol pochmúrny tieň;
+            bez Tvojho jasu nemá svet krásu,
+            ba ani života, v Tebe on len.
+        </section>
+        <section name="v3">
+            Chválime Teba, ó Kráľu neba!
+            Smrti aj života vladárstvo máš.
+            Nemôže zhynúť, cieľa sa minúť,
+            komu Ty zmocnenie do boja dáš.
+        </section>
+        <section name="v4">
+            Ku Tebe ľneme, Tebe žiť chceme,
+            v smrti aj v živote pri Tebe raj.
+            Drahý náš Pane, nech sa tak stane:
+            Verným až do konca zostať nám daj!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

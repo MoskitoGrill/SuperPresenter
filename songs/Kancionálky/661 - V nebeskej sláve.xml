@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="V nebeskej sláve">
+    <variant name="čeština">
+        <section name="v1">
+            V nebeskej sláve Spasiteľ môj
+            útechy, síly večný je zdroj.
+            On lieči srdcia poranené,
+            posilní duše unavené.
+            V nebeskej sláve Spasiteľ môj,
+            útechy, sily večný je zdroj.
+        </section>
+        <section name="v2">
+            V nebeskej sláve Spasiteľ môj
+            šťastia i svetla živý je zdroj.
+            V blízkosti jeho nedesí tma,
+            v ňom moja spása, česť, nevina.
+            V nebeskej sláve Spasiteľ môj
+            šťastia i svetla živý je zdroj.
+        </section>
+        <section name="v3">
+            V nebeskej sláve otčinu mám,
+            pôjdem ta, až ma povolá Pán.
+            Zemského tela pozbavený,
+            slobodou nebies obdarený.
+            Radostne zvolám: Spasiteľ môj
+            večného mieru jediný zdroj!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3
+    </repetition>
+</slide>

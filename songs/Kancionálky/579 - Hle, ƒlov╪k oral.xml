@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Hle, člověk oral">
+    <variant name="čeština">
+        <section name="v1">
+            Hle, člověk oral, sázel
+            a plody země vzal,
+            když jeho tvrdé práci
+            Pán žatvy požehnal.
+            On seslal tichý vánek,
+            déšť vlahý v pravý čas
+            a slunci velel vzcházet,
+            by uzrát mohl klas.
+        </section>
+        <section name="v2">
+            Bůh dobrodinec náš je,
+            On tvůrcem všech je krás,
+            On šatí květy v poli
+            i hvězdám dává jas;
+            jej poslouchají bouře,
+            On ptáčky v péči má,
+            On všem svým dětem v světě
+            chléb každodenní dá.
+        </section>
+        <section name="v3">
+            Náš Otče, Bože svatý,
+            dík za Tvou dobrotu!
+            Dík za bohatou sklizeň
+            i sílu k životu
+            a za to, že v svém Synu
+            chléb životas nám dal.
+            Kéž každý z nás by Tobě
+            se cele odevzdal!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3
+    </repetition>
+</slide>

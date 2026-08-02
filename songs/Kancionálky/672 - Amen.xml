@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Amen">
+    <variant name="čeština">
+        <section name="v1">
+            A - - - - men!
+            A - - - - - men!
+            A - - - - - - - - - men!
+            A - - men!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1
+    </repetition>
+</slide>

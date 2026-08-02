@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Já vroucně miluji">
+    <variant name="čeština">
+        <section name="v1">
+            Já vroucně miluji,
+            ó Pane, církev Tvou,
+            Tvé království, jež vydobil
+            jsi vlastní krví svou!
+        </section>
+        <section name="v2">
+            Tvou církev miluji,
+            v níž Ty svou libost máš,
+            již jako zřítelnici
+            svou vždy něžně ostříháš.
+        </section>
+        <section name="v3">
+            Ctím služby její ctné,
+            jsou rozkoší vždy mou,
+            ctím její písně, modlitby
+            i lásku bratrskou.
+        </section>
+        <section name="v4">
+            Své slzy s jejími
+            chci vždycky mísiti,
+            chci věnovat jí služby své,
+            s ní vždy se modliti.
+        </section>
+        <section name="v5">
+            Jest církev Pravdy sloup,
+            jenž všecko přetrvá,
+            ji práce čeká na zemi
+            a v nebi pocta Tvá.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4 v5
+    </repetition>
+</slide>

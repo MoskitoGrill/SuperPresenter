@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Jest noc">
+    <variant name="čeština">
+        <section name="v1">
+            Jest noc a
+            z hvězd ni jediná
+            nezáří s nebe dolů, tam,
+            kde těžký zápas počíná
+            náš Vykupitel sám a sám.
+        </section>
+        <section name="v2">
+            Jest noc, Pán
+            všemi opuštěn
+            se potí potem krvavým,
+            vše spí a z přátel ani ten,
+            jejž miloval tak, nebdí s ním.
+        </section>
+        <section name="v3">
+            Jest noc, však
+            smír všech lidských vin
+            Pán žádá k cíli dovésti.
+            Hle, anděl svítí v smrti stín
+            a sílí Muže bolesti.
+        </section>
+        <section name="v4">
+            Jest noc, však
+            lidmi neslyšen
+            zpěv jemný zdáli zaznívá:
+            již v krátce boj jest dokončen
+            a mine noc ta truchlivá!
+        </section>
+        <section name="v5">
+            Ó, Kriste,
+            jenž jsi tesklivě
+            a v mnohém strachu bojoval,
+            slyš: prosím Tě, bys sílil mne
+            a též mi zvítěziti dal!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4 v5
+    </repetition>
+</slide>

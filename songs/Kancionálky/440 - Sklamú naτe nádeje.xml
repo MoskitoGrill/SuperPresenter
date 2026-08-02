@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Sklamú naše nádeje">
+    <variant name="čeština">
+        <section name="v1">
+            Sklamú naše nádeje, priateľ oklame,
+            avšak jeden Priateľ je, ktorý nesklame.
+        </section>
+        <section name="r1">
+            Ježiš verný je, nikdy nesklame.
+            Zem i nebo pominú, však Ježiš nesklame.
+        </section>
+        <section name="v2">
+            Hoc aj mraky, čierňavy visia nad hlavou,
+            Ježiš pomoc pripraví rukou všemocnou.
+        </section>
+        <section name="v3">
+            Aj keď zblúdim v živote, hriech ma oklame,
+            Ježiš v svojej dobrote verný zostane.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1
+    </repetition>
+</slide>

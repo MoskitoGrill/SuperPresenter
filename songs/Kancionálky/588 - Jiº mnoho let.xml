@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Již mnoho let">
+    <variant name="čeština">
+        <section name="v1">
+            Již mnoho let jako sen uplynulo,
+            v tůň věčnosti zapadlo již.
+            Bůh s námi byl a my dnes pozvedáme
+            svá srdce, kde Kristův je kříž.
+        </section>
+        <section name="r1">
+            On vodil nás k pramenům života vod a
+            lámal nám nebeský chléb, nás miloval,
+            péči své vždycky nás měl,
+            vždy laskavě nad námi bděl,
+            vždy laskavě nad námi bděl.
+        </section>
+        <section name="v2">
+            Jak předobrý pastýř nás laskavě ved,
+            nám pomáhal na každý den.
+            V své lásce byl stále týž včera i dnes,
+            a nezměněn uprostřed změn.
+        </section>
+        <section name="v3">
+            "Já s vámi jsem jsem po všechen života čas!",
+            tu jistotu Ježíš svým dal.
+            On naše je naděje, síla i štít,
+            náš vůdce a Spasitel, Král.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1
+    </repetition>
+</slide>

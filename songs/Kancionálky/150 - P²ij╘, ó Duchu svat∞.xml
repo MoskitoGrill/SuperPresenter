@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Přijď, ó Duchu svatý">
+    <variant name="čeština">
+        <section name="v1">
+            Příď, ó Duchu svatý, přijď z pouště libý ráj si zřiď!
+            Vylej živé vody proud na pustiny, suchý troud.
+            Bez Tebe smrt všude blíží se ke mně, hřbitovem
+            vyprahlých kostí je země. Ty-li nedáš vláhy nám,
+            všecko zničí pekla plam.
+        </section>
+        <section name="v2">
+            Přijď, ó Duchu s větrem svým, zavěj kostí údolím,
+            ať ty kosti oživnou divotvornou mocí Tvou!
+            Země když byla jen pustinou zprahlou, budils’ jí
+            k žití svým světlem, svou vláhou. Tak i nad námi se vznes,
+            probuď, co je mrtvo dnes.
+        </section>
+        <section name="v3">
+            Pak tu obživenou zem rozněcuj svým plápolem.
+            Z milosti nás přepal sám, v srdcích našich svůj měj chrám.
+            Bez Tebe hyneme v neřestí kalu, bez lásky,
+            bez tepla, v zármutku, v žalu. Bez Tebe nám Pán je skryt,
+            jenž nás přišel vykoupit.
+        </section>
+        <section name="v4">
+            A kdo znovu zrozen jest, kdo už znalý Tvých je cest,
+            tomu uděl z moci své, Tvá nechť role okřeje.
+            Nauč ho v bratřích svých milovat Tebe, průlivem
+            čistým jej učiň, by s nebe proudí-li jím vody Tvé
+            na vše, co je vyprahlé.
+        </section>
+        <section name="v5">
+            Přijď, ó Duchu svatý, přijď, ráj si ve své církvi zřiď.
+            Vše, co zvadlo, zalévej, umdlenému sílu dej.
+            Odhaluj pokrytce, vymítej klamy, navždy bys
+            mohl už zůstati s námi. Zjevuj moc svou den co den,
+            aby Pán byl oslaven.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4 v5
+    </repetition>
+</slide>

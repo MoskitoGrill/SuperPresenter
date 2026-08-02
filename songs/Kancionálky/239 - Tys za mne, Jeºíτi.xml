@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Tys za mne, Ježíši">
+    <variant name="čeština">
+        <section name="v1">
+            Tys za mne, Ježíši, vylil svou krev,
+            jaký to na kříži lásky Tvé zjev!
+            Neodloučí mne již od Tebe slast, ni kříž,
+            láskou vždy Tobě blíž chci, Pane, být.
+        </section>
+        <section name="v2">
+            V lásce se, Spáso má, Tobě kořím,
+            do moře lásky Tvé sebe noří.
+            Sliby své vyplním, Tobě se zasvětím
+            životem celým svým ve službě Tvé!
+        </section>
+        <section name="v3">
+            Slabá má víra se k Tobě vine,
+            budeš-li sílit ji, nezahyne.
+            Pomáhej kříž můj nést svatý život vést,
+            zvyšovat Tvoji čest ve službě Tvé!
+        </section>
+        <section name="v4">
+            Kéž jsem Ti podoben, Ježíši můj,
+            pokoru, jíž se skvěl vždycky duch Tvůj!
+            V ní mi dej pracovat, pravdu Tvou
+            zvěstovat, život svůj dokonat výslužbě Tvé!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

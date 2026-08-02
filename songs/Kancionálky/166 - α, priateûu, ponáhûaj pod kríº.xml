@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Ó, priateľu, ponáhľaj pod kríž">
+    <variant name="čeština">
+        <section name="v1">
+            Ó, priateľu, ponáhľaj pod kríž,
+            tvoj Spasiteľ volá ťa dnes.
+            Poď k prameňu milosti Božej
+            a srdce tam ochotne nes.
+        </section>
+        <section name="r1">
+            Ach, ponáhľaj,
+            priateľ môj, pod kríž,
+            poď na horu Golgotu včas
+            a Spasiteľ ešte dnes
+            dá ti svoj nebeský,
+            blažený jas.
+        </section>
+        <section name="v2">
+            Tam pod krížom prameň je spásy,
+            liek pre smutnú, boľavú hruď.
+            Pán Ježiš ti radostne hlási:
+            "Poď ku mne a blažený buď!"
+        </section>
+        <section name="v3">
+            Ó, hľadaj už slobodu z hriechu,
+            tú dáva krv Kristových rán,
+            hľaď oddane v jeho tvár tichú
+            a mocou ťa obdarí Pán.
+        </section>
+        <section name="v4">
+            Už radostná života nádej
+            je v nebesiach schystaná nám.
+            Nie nadarmo prišli sme pod kríž,
+            veď korunu pripravil Pán.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1 v4 r1
+    </repetition>
+</slide>

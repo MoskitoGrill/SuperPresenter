@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Čas mizne, letia hodiny">
+    <variant name="čeština">
+        <section name="v1">
+            Čas mizne, letia hodiny,
+            ktože ich zastaví?
+            Tvoj život krátky, jediný
+            sa skoro odplaví.
+        </section>
+        <section name="r1">
+            Posledný zájde žitia deň
+            a noc sa priblíží.
+            Sťa svetlo večné žari len
+            Spasiteľ na kríži,
+            Spasiteľ na kríži.
+        </section>
+        <section name="v2">
+            O Svet ťa už sklamal, poranil
+            a srdce krváca.
+            Dosť si už hrišnym zvodom žil,
+            späť k Bohu navráť sa!
+        </section>
+        <section name="v3">
+            I teba čaká lásky Kráľ,
+            On zomrel za teba.
+            On všetky tvoje viny vzal,
+            On cesta do neba.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1
+    </repetition>
+</slide>

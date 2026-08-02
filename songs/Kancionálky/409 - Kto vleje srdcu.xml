@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Kto vleje srdcu">
+    <variant name="čeština">
+        <section name="v1">
+            Kto vleje srdcu útechu, kto vloží nádej v hruď?
+            Kto povie duši ustatej: ver, dobrej mysle buď?
+        </section>
+        <section name="v2">
+            Vôkol keď všetko sklamalo, iba ten nesklame,
+            ktorého láskou, dobrotou živí sme, trváme.
+        </section>
+        <section name="v3">
+            Boh, ktorý vtákom nebeským každý deň pokrm dá,
+            o moje denné potreby otcovskú starosť má.
+        </section>
+        <section name="v4">
+            Z nesmiernej lásky, z milosti Syna On v obeť dal.
+            K životu čo je potrebné, všetko v ňom daroval.
+        </section>
+        <section name="v5">
+            Dôveruj Bohu, duchu môj, pomoc je hotová.
+            Cestami skúšok vedie ťa do ríše pokoja.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4 v5
+    </repetition>
+</slide>

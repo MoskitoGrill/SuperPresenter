@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="V svaté době">
+    <variant name="čeština">
+        <section name="v1">
+            V svaté době,
+            Bože, Tobě
+            Haleluja zpíváme,
+            /:s cherubíny,
+            serafíny
+            oběť chvály
+            vzdáváme.:/
+        </section>
+        <section name="v2">
+            S trůnu Tvého
+            nebeského
+            anděl nese novinu,
+            /:žes oblažil
+            a potěšil
+            Kristem lidskou
+            rodinu.:/
+        </section>
+        <section name="v3">
+            Judská země
+            tam v Betlémě
+            slaví první vánoce,
+            /:proto Tebe
+            zem i nebe
+            zvelebují
+            vysoce.:/
+        </section>
+        <section name="v4">
+            I my Tobě
+            v této době
+            Haleluja zpíváme,
+            /:s cherubíny,
+            serafíny
+            oběť chvály
+            vzdáváme.:/
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Pokušení přemoz">
+    <variant name="čeština">
+        <section name="v1">
+            Pokušení přemoz,
+            podvodný je hřích,
+            strhej jeho sítě,
+            sic jsi lapen v nich!
+            Jednej mužně, bratře,
+            vášni odpírej,
+            Ježíš pomoc jistá,
+            k němu zření měj.
+        </section>
+        <section name="r1">
+            Vzývej svého Mistra,
+            On dá  pomoc včas,
+            po vítězném boji
+            slávy vzejde jas.
+        </section>
+        <section name="v2">
+            Straň se špatných přátel,
+            chraň zlé řeči vést,
+            snadno bys byl sveden
+            s úzkých pravdy cest.
+            Miluj jen, co čisté,
+            pravdy pilně dbej,
+            Pán pomůže jistě,
+            k němu zření měj.
+        </section>
+        <section name="v3">
+            Bojuj boj ten dobrý,
+            ke koruně spěj,
+            nepřátel se neboj,
+            aniž hany dbej!
+            Čím je těžší zápas,
+            tím je bližší Pán,
+            vytrvej, jen věrným
+            věnec bude dán.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1
+    </repetition>
+</slide>

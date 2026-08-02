@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Jsem tu jen příchozím">
+    <variant name="čeština">
+        <section name="v1">
+            Jsem tu jen příchožím
+            uprostřed ciziny,
+            mne v dáli nadhvězdné
+            kyne břeh otčiny;
+            služebnost smíření
+            svěřil mi nebes Král,
+            bych nes ji světem
+            dál a dál.
+        </section>
+        <section name="r1">
+            To je můj vzkaz,
+            jejž nesu vám,
+            jejž nes by
+            anděl vděčně sám:
+            Smiřte se s Bohem svým,
+            pro oběť Kristovu,
+            smiřte se s Bohem,
+            Otcem svým!
+        </section>
+        <section name="v2">
+            Toť rozkaz královský,
+            by každý, kde kdo jest,
+            kál se a odstoupil
+            od svodných hříchů cest!
+            Kdo bude poslušným,
+            má věčně vládnout s ním,
+            toť Páně vzkaz všem
+            zbloudilým.
+        </section>
+        <section name="v3">
+            Má vlast je krásnější
+            Sáronské nad háje,
+            tam radost nebeská
+            všech strastí prostá je.
+            Můj Král mi káže zvát
+            hynoucí v žití stan,
+            toť úkol, který
+            dal mi Pán.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1
+    </repetition>
+</slide>

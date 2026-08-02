@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Istotu vzácnu v srdci už mám">
+    <variant name="čeština">
+        <section name="v1">
+            Istotu vzácnu v srdci už mám:
+            spasil ma Ježiš, Boh môj a Pán!
+            Bremeno hriechov z duše mi sňal,
+            dedičom Božím tak som sa stal.
+        </section>
+        <section name="r1">
+            Zazvučí chvály radostný tón,
+            vznáša sa vrúcne pred Boží trón:
+            Sláva Ti Pane, spásu že mám,
+            srdce a dušu v obeť Ti dám!
+        </section>
+        <section name="v2">
+            Aká to sláva, Pánom ho zvať,
+            do služieb jeho navždy sa dať!
+            Priniesol spásu pre celú zem,
+            pravdu tú ľuďom zvestovať chcem.
+        </section>
+        <section name="v3">
+            Oddaný jemu, pokoj už mám,
+            srdce mi zmenil v svätý svoj chrám.
+            V predivnej sláve zjaví sa v ňom,
+            vo všetkom je mi tu On!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1
+    </repetition>
+</slide>

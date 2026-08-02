@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Tak vzácne, slávne spasenie">
+    <variant name="čeština">
+        <section name="v1">
+            Tak vzácne, slávne spasenie
+            dnes ponúka Pán náš.
+            Ó srdce, prijmi zmierenie,
+            v ňom večny život máš!
+        </section>
+        <section name="r1">
+            Neodkladaj,
+            poď len k nemu,
+            hlavu pred ním skloň.
+            Dnes ťa volá,
+            dnes ho prijmi,
+            spásu nájdeš v ňom!
+        </section>
+        <section name="v2">
+            Nie pochybovať, mudrovať
+            o Božom Slove máš;
+            len ver a čakj, Boh ti dá,
+            čo ešte nepoznáš.
+        </section>
+        <section name="v3">
+            Sťa slnko jasne vraví nám
+            Boh, sveta Stvoriteľ,
+            Pán Ježiš že je Pravda sám
+            a hriešnych Spasiteľ.
+        </section>
+        <section name="v4">
+            On preto zomrel, žije zas
+            i svojho Ducha dal,
+            bys s nim žil večne v sláve raz.
+            Nuž spievaj pieseň chvál!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1 v4 r1
+    </repetition>
+</slide>

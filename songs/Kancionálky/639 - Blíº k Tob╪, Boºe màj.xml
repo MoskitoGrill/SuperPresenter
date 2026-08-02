@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Blíž k Tobě, Bože můj">
+    <variant name="čeština">
+        <section name="v1">
+            Blíž k Tobě, Bože můj,
+            jen k Tobě blíž,
+            byť by mne táhnout měl
+            blízko k Tobě kříž.
+            Zaplesá vždy můj duch,
+            blíž k Tobě, jenžs můj Bůh!
+            Blíž k Tobě, Bože můj,
+            jen k Tobě blíž!
+        </section>
+        <section name="v2">
+            Byť mne tma objala,
+            slunka zhas svit,
+            a já na kameni
+            strojil si klid.
+            Můj bude, Pane, sen,
+            blíž k Tobě, Bože jen;
+            blíž k Tobě, Bože jen,
+            jen k Tobě blíž!
+        </section>
+        <section name="v3">
+            Ukaž mi, cesta má
+            k nebe že jde,
+            a vše, co sesíláš,
+            z lásky že je.
+            Andělů pokyn zřím,
+            blíž k Tobě jít že smím,
+            blíž k Tobě, Bože můj,
+            jen k Tobě blíž.
+        </section>
+        <section name="v4">
+            A když pak procitnu
+            pln díků, chval,
+            v Bethel Ti postavím
+            každý svůj žal.
+            Tak by mne každá tíž
+            vedla jen k Tobě blíž,
+            vedla jen k Tobě blíž,
+            jen k Tobě blíž.
+        </section>
+        <section name="v5">
+            A když mne nad slunce
+            v nebeskou výš
+            povznese peruť Tvá
+            ve věčnou říš:
+            můj hlahol uslyšíš:
+            Můj Bože, k Tobě blíž!
+            Můj Bože, k Tobě blíž,
+            jen k Tobě blíž!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4 v5
+    </repetition>
+</slide>

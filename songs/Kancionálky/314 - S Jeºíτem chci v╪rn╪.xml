@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="S Ježíše chci věrně">
+    <variant name="čeština">
+        <section name="v1">
+            S Ježíšem chci věrně
+            v každou chvíli
+            putovati
+            světa údolím.
+            On mne vede
+            k blaženému cíli,
+            v dům i srdce
+            mír se hostí s ním.
+        </section>
+        <section name="v2">
+            S ním chci jíti, nechť se
+            co chce děje,
+            k věčnému On
+            vede pokoji.
+            S ním i v bouři
+            srdce písně pěje,
+            pekelné se
+            zloby nebojí!
+        </section>
+        <section name="v3">
+            Nechať hory, lesy,
+            skály, moře
+            obtížnou mi
+            cestu pusobí:
+            Pán, jenž v rozkoš
+            změnit umí hoře,
+            vítězstvím mne
+            posléz ozdobí.
+        </section>
+        <section name="v4">
+            On když vůdcem mým a
+            rádcem stále,
+            tu se cíle
+            jistě neminu
+            a když strast mne
+            potká nenadále,
+            vroucněji se
+            k němu přivinu.
+        </section>
+        <section name="v5">
+            Ne vždy vonné zdobí
+            cestu kvítí,
+            často bývá
+            trním poseta:
+            budiž, chce-li
+            někdy Pán tak míti:
+            vždyť i v trní
+            růže rozkvétá!
+        </section>
+        <section name="v6">
+            A když přiblíží se
+            posléz doba,
+            kdy i já svůj
+            časný skončím běh,
+            mé když tělo
+            schvátí smrti mdloba,
+            vím, že šťastně
+            uzřím blaha břeh.
+        </section>
+        <section name="v7">
+            Na Tvou milost
+            spoléhám se zcela,
+            Jezu můj, a vím,
+            že nezhynu.
+            Když pak zprostíš
+            duši vazby těla,
+            vejdu blažen
+            v nebes otčinu.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4 v5 v6 v7
+    </repetition>
+</slide>

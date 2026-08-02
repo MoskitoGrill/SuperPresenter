@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Skončili sme prácu">
+    <variant name="čeština">
+        <section name="v1">
+            Skončili sme prácu,
+            Pane láskavý,
+            úrodu sme zviezli
+            šťastne, vo zdraví.
+            Preto Tebe vrelú
+            vďaku vzdávame,
+            piesne chvály ku cti
+            Tvojej spievame.
+        </section>
+        <section name="r1">
+            Bože, Otče drahý,
+            neba, zeme Kráľ,
+            prijmi naše vďaky,
+            prijmi obeť chvál.
+        </section>
+        <section name="v2">
+            Ty si k práci silu
+            dal nám láskave,
+            ako v zime, tak aj
+            v slnka páľave.
+            Pane, v Teba svoju
+            nádej skládame,
+            Tvojmu menu chválu
+            s uctou vzdávame.
+        </section>
+        <section name="v3">
+            Požehnávaj prácu
+            v poli, v továrni,
+            milostive na nás
+            všetkých pohliadni.
+            Daj, by každé dielo
+            usilovných rúk,
+            taktiež dielo ducha
+            malo dobrý zvuk.
+        </section>
+        <section name="v4">
+            Kedže mohli sme sa
+            v Božom stánku zísť,
+            ráč Ty, dobrý Pane,
+            medzi nami byť.
+            Sýť nás Slovom večným,
+            po ňom je náš smäd,
+            veď to Tvoje Slovo
+            sladšie je než med.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1 v4 r1
+    </repetition>
+</slide>

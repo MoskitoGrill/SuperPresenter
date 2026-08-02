@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Ať bouře hučí kolem nás">
+    <variant name="čeština">
+        <section name="v1">
+            Ať bouře hučí kolem nás, my strachem nemřeme!
+            Jen když je s námi v lodi Pán, my neutoneme.
+            Až vyvrcholí bouře ryk, Pán vztáhne paži svou
+            a ztišení se rozestře nad bouřnou hladinou.
+        </section>
+        <section name="v2">
+            I kdyby peklo bouřilo, ty věrné stádce, stůj;
+            věz, boj se skončí vítězstvím, ty pouze důvěřuj!
+            Když srdce trne v bolesti a zdá se spát Pán tvůj,
+            ty na horlivé modlitbě v svém boji pokračuj.
+        </section>
+        <section name="v3">
+            Jdi poslušně a bez bázně, kde Pán tvůj chce tě mít,
+            i na kříž, na dno propasti On slíbil s tebou jít.
+            Vždyť v slávu vede zkoušek stín, jímž vede Pán svůj lid:
+            jdi, lide Boží, neváhej! On slíbil s tebou být.
+        </section>
+        <section name="v4">
+            Nuž, zapuzujme z duší strach a pozvedněme skráň
+            a pokoji se oddejme, jež nese jeho dlaň.
+            Jas proniká už chmurami, zář od Sionských hor.
+            Nuž, rozvesel se nadějí všech Božích verných sbor!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

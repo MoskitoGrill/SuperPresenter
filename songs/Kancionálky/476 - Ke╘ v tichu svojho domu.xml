@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Keď v tichu svojho domu">
+    <variant name="čeština">
+        <section name="v1">
+            Keď v tichu svojho domu dliem,
+            je Kniha kníh môj verný druh,
+            jej rady stále čítať smiem,
+            čo vraví Boh a Svätý Duch,
+            a v srdci radosť, pokoj mám,
+            že svätú Božiu vôľu znám.
+        </section>
+        <section name="v2">
+            Ó, Slovo lásky, rád ťa mám,
+            veď lepšej knihy v svete niet,
+            keď cestou zvádza hriech a klam,
+            len ty máš východisko z bied.
+            Chcem v Božej službe verne stáť
+            a s Tvojím svetlom počítať.
+        </section>
+        <section name="v3">
+            Keď večer už sa chystám spať,
+            ó, drahé Slovo zmierlivé,
+            tak dobre padne teba vziať
+            a čítať deje pravdivé.
+            Keď v Božiu náruč kladiem sa,
+            Pán otvára mi nebesá.
+        </section>
+        <section name="v4">
+            Môj Otče, Tebe chvála, česť
+            za svätú knihu Bibliu;
+            jej pravdy budem ľuďom niesť,
+            by našli cestu k spaseniu.
+            Ty, Pane, blažíš život môj
+            a dávaš silu ťažký boj.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

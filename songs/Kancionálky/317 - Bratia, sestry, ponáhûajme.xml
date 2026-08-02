@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Bratia, sestry, ponáhľajme">
+    <variant name="čeština">
+        <section name="v1">
+            Bratia, sestry, ponáhľajme za Ježišom na Sion,
+            nech z nás nikto nezabudne, čo nám všetko získal On.
+            Že sme z hriechov vyprostení, k večnej sláve predurčení,
+            /:zlatý že nás čaká trón.:/
+        </section>
+        <section name="v2">
+            Kto si Kristom vykúpený, márnosťou čas nemrhaj.
+            Čo ťa ešte k svetu viaže, odhoď, putá pretrhaj.
+            Nezastávaj v ceste spásy, ak chceš uzrieť ríšu krásy,
+            /:v nebeský ak vojsť chceš kraj.:/
+        </section>
+        <section name="v3">
+            No, v tie ríše pre blažené nebeského domova,
+            brat a sestra, nezabudni, vedie cesta krížová.
+            Ležia na nej: pohanenie, zneuznanie, umŕtvenie,
+            /:koruna tiež tŕňová.:/
+        </section>
+        <section name="v4">
+            Napred, brat a sestra drahá, za Ježišom na Sion.
+            Silu k púti, pomoc k boju, víťazstvo nám dáva On.
+            Veď sme z hriechov vyprostení, za dedičov prehlásený,
+            /:čaká na nás večný trón.:/
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

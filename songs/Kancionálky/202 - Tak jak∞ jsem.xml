@@ -1,0 +1,30 @@
+<?xml version="1.0" ?>
+<slide name="Tak jaký jsem">
+    <variant name="čeština">
+        <section name="v1">
+Tak jaký jsem, ač nemám nic, však že mi krev Tvá kyne vstříc
+            a že mě voláš víc a víc, Beránku Boží, k Tobě jdu!
+</section>
+        <section name="v2">
+Tak jaký jsem a nečekám, bych obmyl se neb spasil sám,
+            jen na Tvou milost spoléhám, Beránku Boží, k Tobě jdu!
+</section>
+        <section name="v3">
+Tak jaký jsem, ač mnohý mrak můj kalí mír a víry zrak
+            a ducha  svírá všelijak, Beránku Boží, k Tobě jdu!
+</section>
+        <section name="v4">
+Tak jaký jsem, pln neřestí, však zdraví, světlo radosti,
+            vše v Tobě doufám nalézti, Beránku Boží, k Tobě jdu!
+</section>
+        <section name="v5">
+Tak jaký jsem, ač všecko víš, mne přijmeš, spasíš, potěšíš,
+            vždyť Ty své sliby nerušíš, Beránku Boží k Tobě jdu!
+</section>
+        <section name="v6">
+Tak jaký jsem, hle duše má se milosti Tvé poddává  a
+            již jest Tvá, na věky Tvá, Beránku Boží, k Tobě jdu!
+</section>
+    </variant>
+    <repetition name="default" main="1">v1 v2 v3 v4 v5 v6</repetition>
+</slide>

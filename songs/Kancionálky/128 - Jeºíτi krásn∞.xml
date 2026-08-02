@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Ježíši krásný">
+    <variant name="čeština">
+        <section name="v1">
+            Ježíši krásný, Panovníče jasný, Boží i lidský Synu!
+            Tebe milovat a oslavovat žádám v každou hodinu.
+        </section>
+        <section name="v2">
+            Krásné jsou kraje, pole, luhy, háje, zavítáli jarní čas:
+            nad vše vezdejší Ježíš milejší, utěšuje srdce v nás.
+        </section>
+        <section name="v3">
+            Krásné je slunce, i ten svit měsíce, záře hvězd na obzoru.
+            Jasněji svítí než nebes kvítí Ježíš v andělském sboru!
+        </section>
+        <section name="v4">
+            Veškerá krása, jakou země hlásá, stín je v nebeské říši;
+            žádný však v nebi krásnější není nad Tebe, můj Ježíši!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

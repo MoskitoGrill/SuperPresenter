@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Tvůj milý Král">
+    <variant name="čeština">
+        <section name="v1">
+            Tvůj milý Král již k tobě jde,
+            věčnou tě láskou miluje.
+            Ó, lide Boží, zaplesej,
+            přijmi jej, srdce své mu dej!
+        </section>
+        <section name="v2">
+            Přichází, by tě vykoupil,
+            na srdci svém tě navždy skryl,
+            nese ti všecko jmění své:
+            tělo, krev, duši - vše je tvé.
+        </section>
+        <section name="v3">
+            V něm tvá je všecka dobrota,
+            síla, chléb, voda života,
+            svatební roucho tvé i skvost,
+            pokoj tvůj, sláva blaženost.
+        </section>
+        <section name="v4">
+            Okusil smrti z milosti,
+            krev jeho z hříchů vyprostí,
+            tmou hrobu v světlo provede,
+            v dědictví věčné uvede.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

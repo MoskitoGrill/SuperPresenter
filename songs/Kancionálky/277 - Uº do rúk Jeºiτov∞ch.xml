@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Už do rúk Ježišových">
+    <variant name="čeština">
+        <section name="v1">
+            Už do rúk Ježišových som zveril život svoj.
+            On vodcom snáh je mojich, ma vedie v domov môj.
+            Duch túžbou k nemu letí, s ním kráčam každý čas,
+            na cestu z kríža svieti mi jeho láska jas.
+        </section>
+        <section name="v2">
+            Hoc náplň jeho plánov len z čiastky ešte znám,
+            chcem konať rozkaz Pánov, v tom blaho svoje mám.
+            Môj život patrí jemu, On vládne nado mnou,
+            rád priznávam sa k nemu, vždy dušou slobodnou.
+        </section>
+        <section name="v3">
+            Keď úzkosť, bieda tlačí a obkľúči ma tma,
+            kríž Kristov tým viac žiari a pozdvihne ma z dna.
+            Už skoro dôjdem domov, kde v sláve tróni Pán,
+            tam jemu s dušou vrúcnou, česť, chválu večnú vzdám.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3
+    </repetition>
+</slide>

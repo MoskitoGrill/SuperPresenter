@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Spasitel, Jezu drahý">
+    <variant name="čeština">
+        <section name="v1">
+            Spasiteli, Jezu drahý,
+            slyš náš vroucí hlas:
+            jiné když si k sobě voláš,
+            nepomíjej nás!
+        </section>
+        <section name="r1">
+            Jezu, Jezu,
+            slyš náš vroucí hlas;
+            jiné když si k sobě voláš,
+            nepomíjej nás!
+        </section>
+        <section name="v2">
+            Důvěrně se zrak náš nese
+            k trůnu milosti;
+            pomoz naší nedověře,
+            z hříchů vyprosti!
+        </section>
+        <section name="v3">
+            V zásluhách jen Tvých, ó Pane,
+            naše naděje,
+            zkroušený duch náš se v Tobě
+            světlem oděje.
+        </section>
+        <section name="v4">
+            Koho bychom měli v světě,
+            koho v nebesích?
+            Nad život Ty nám jsi dražší,
+            neopustíš svých.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1 v4 r1
+    </repetition>
+</slide>

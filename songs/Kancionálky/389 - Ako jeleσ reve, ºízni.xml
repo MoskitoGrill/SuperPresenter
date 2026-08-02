@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Ako jeleň reve, žízni">
+    <variant name="čeština">
+        <section name="v1">
+            Ako jeleň reve, žízní za potokmi živých vôd,
+            tak sa duša túžbou trýzni: či ísť k Bohu budem môcť?
+            S veľkým žiaľom v srdci kvílim, slzami svoj kropím chlieb,
+            zlý hlas hučí ako príliv: kde je tvoj Boh, však ho niet!
+        </section>
+        <section name="v2">
+            Chodieval som so zástupom Bohu spievať žalmy chvál,
+            radovať sa s jeho ľudom vstupoval som v svätý chrám.
+            Dušu dnes len smútok týra v priepadliskách Hermona,
+            hrozný príboj vlny dvíha, prevalia sa cezo mňa.
+        </section>
+        <section name="v3">
+            Bože môj, Ty svoju milosť obnov zase nado mnou,
+            novú pieseň v srdce mi vlož, chcem ťa chváliť modlitbou.
+            Rozpomeň sa na mňa, Pane, zármutok môj v radosť zmeň,
+            nepriateľ keď k boju vstane, ochraňuj ma v borby deň.
+        </section>
+        <section name="v4">
+            “Kde je tvoj Boh?” V noci, vo dne čujem toto rúhanie,
+            kosti láme, páli vo mne, podlomí ma zúfanie.
+            Prečo smútiš, dušu moja? Upokoj sa, stíš sa, stíš.
+            Ešte budeš chváliť Boha, jeho tvár keď uvidíš.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

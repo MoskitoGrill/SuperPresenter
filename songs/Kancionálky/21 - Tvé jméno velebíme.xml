@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Tvé jméno velebíme">
+    <variant name="čeština">
+        <section name="v1">
+            Tvé jméno velebíme,
+            ó Vykupiteli,
+            Tě z plna srdce ctíme,
+            ó lidstva příteli!
+            Že vždycky mocně chráníš
+            až podnes církev svou,
+            ji slávou, světlem daříš,
+            zdí bráníš ohnivou.
+        </section>
+        <section name="v2">
+            Tys překážkami, hořem
+            a záštím hněvivým,
+            i zlostí vzdutým mořem
+            a vřením zuřivým
+            vždy ramenem svým silným
+            svůj šťastně vodil lid
+            a slovem neomylným
+            jsi bouře měnil v klid.
+        </section>
+        <section name="v3">
+            Svůj pokoj dávej hlásat
+            zástupem poslů svých,
+            by všude mohl jásat
+            sbor svědků nadšených.
+            Po širém světě záři
+            své spásy rozsvěcuj,
+            ať pravda bludy maří,
+            neb celý svět je Tvůj!
+        </section>
+        <section name="v4">
+            Náš všecky k vyznávání
+            svým Duchem svatým vzbuď
+            a k práci, k vzdělávání
+            své role dávej chuť.
+            Dej prosbami i dary
+            Tvůj chrám ať stavíme,
+            co čilý lid a jarý
+            vždy Tobě sloužíme!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

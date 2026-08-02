@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Neboj se, ni lekej">
+    <variant name="čeština">
+        <section name="v1">
+            Neboj se, ni lekej,
+            tak zní Páně hlas,
+            na cestu mi září
+            jako hvězdy jas.
+            Půlnočními mraky
+            mocně proniká
+            blahé zaslíbení,
+            nikdy mne nezanechá.
+        </section>
+        <section name="r1">
+            Ne, nezanechá,
+            ne, nezanechá.
+            On slíbíl,
+            se mnou že bude,
+            nikdy mne nezanechá.
+        </section>
+        <section name="v2">
+            Květy vadnou v parnu,
+            padá krásný květ,
+            zklamou všechny sliby,
+            které dává svět.
+            Nezvadne však růže,
+            růže sáronská,
+            nezklame můj Ježíš,
+            nikdy mne nezanechá.
+        </section>
+        <section name="v3">
+            Ještě budou šípy
+            mířeny v mou hruď,
+            ale Pán mi šepce:
+            "Dobré mysli buď!"
+            Jako s písní ptáče
+            v háje zalétá,
+            tak v mé srdce radost
+            On že mne nezanechá.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1
+    </repetition>
+</slide>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Ó, Hlavo, plná trýzně">
+    <variant name="čeština">
+        <section name="v1">
+            Ó, Hlavo plná trýzně,
+            běd, ran i soužení.
+            Ty zřídlo večné přízně,
+            z níž spása pramení.
+            Ó, Hlavo ozdobená
+            ctí, slávou s výsosti,
+            jak velká stihla změna
+            Tě lidskou hříšností!
+        </section>
+        <section name="v2">
+            Ta krása obličeje,
+            před níž se koří svět,
+            již k poctě seraf pěje,
+            už zvadla jako květ.
+            Ta záře oka Tvého,
+            ach, kam se poděla?
+            Moc hříchu světa zlého
+            svou tmou ji zastřela.
+        </section>
+        <section name="v3">
+            Již zbledli Tvoji rtové,
+            již za zlé žehnali,
+            a líce purpurové
+            již cele zsinaly.
+            již na kříž přibit zmírá
+            za můj i světa hřích
+            a brány otevírá
+            nám do příbytků svých.
+        </section>
+        <section name="v4">
+            Tvé břímě mé jsou hříchy.
+            Já jsem se provinil,
+            ač, Beránku Ty tichý,
+            jsi za mne trestán byl.
+            Ó, Jezu, blaha zdroji,
+            své milosti mi přej
+            a pro tu lásku svoji
+            i dál se ke mně znej.
+        </section>
+        <section name="v5">
+            Ó, přijmi díky vřelé,
+            můj drahý Ježíši.
+            Má duše, dokud v těle,
+            se v Tobě utiší.
+            A když čas rozdělení
+            i mně se přiblíží,
+            mé mocné potěšení
+            buď smrt Tvá na kříži.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4 v5
+    </repetition>
+</slide>

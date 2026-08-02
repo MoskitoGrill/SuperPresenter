@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Povstali sme tohto rána">
+    <variant name="čeština">
+        <section name="v1">
+            Povstali sme tohto rána,
+            všemohúci Bože náš.
+            Chválime Ťa, svojho Pána,
+            za ochranu v nočný čas.
+            Tebe vďaku vzdávame,
+            úprimne Ťa žiadame,
+            požehnaj nás, myseľ spravuj,
+            v našich srdciach bývaj, kraľuj.
+        </section>
+        <section name="v2">
+            K práci dávaj zdravia, sily,
+            dobrotivý Otče náš,
+            aby sme vždy správne žili,
+            svojou radou obdar nás.
+            V boji s hriechom pomoc daj,
+            od nešťastia zachovaj.
+            Otče večný, darca spásy,
+            vyslyš naše slabé hlasy.
+        </section>
+        <section name="v3">
+            Ešte k Tebe prosbu máme,
+            ľútostivý Pane náš,
+            mnohých ľudí bolesť láme,
+            Ty ich v svojej moci máš.
+            Odstraň nemoc, rany zhoj,
+            poteš ich a upokoj.
+            Akže ich však hriechy tlačia,
+            odpusť, daj im toho šťastia.
+        </section>
+        <section name="v4">
+            Mnohí z lôžok nepovstali,
+            skončili už žitia púť,
+            šťastní, ktorí vieru mali,
+            nenecháš ich zahynúť.
+            Pozostalých navštív krov,
+            utíš bolesť sirôt, vdov.
+            Nauč aj nás s nimi cítiť,
+            službou lásky bolesť tíšiť.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

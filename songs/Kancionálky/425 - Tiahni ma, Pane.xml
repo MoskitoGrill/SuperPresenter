@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Tiahni ma, Pane">
+    <variant name="čeština">
+        <section name="v1">
+            Tiahni ma, Pane, cez radosť, bôľ,
+            aby som ku Tebe vždy bližšie bol.
+            Pre svoju vernosť, milosti prúd,
+            /:Spasiteľ národov somnou vždy buď.:/
+        </section>
+        <section name="v2">
+            Tiahni ma, Pane. Prázdna je dlaň,
+            čože To na oltár položiť mám?
+            Srdce, kde vládne temno a hriech,
+            /:iba krv z Golgoty očistiť vie.:/
+        </section>
+        <section name="v3">
+            Tiahni ma, Pane, nechcem nič mať,
+            Svätému Duchu čo postaví hať.
+            Návnady sveta, vábivý zvod,
+            /:vo viere ukladám v prázdny Tvoj hrob.:/
+        </section>
+        <section name="v4">
+            Tiahni ma, Pane, v slobodný svet,
+            bojov kde s vlastným “ja” viacej už niet.
+            Vtedy sa bude skvieť Tvoja tvár
+            /:v duši sťa v jazierku, bez búrok, chmár.:/
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

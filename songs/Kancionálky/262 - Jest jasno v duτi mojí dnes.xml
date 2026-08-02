@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Jest jasno v duši mojí dnes">
+    <variant name="čeština">
+        <section name="v1">
+            Jest jasno v duši mojí dnes,
+            víc, nežli bývá tam,
+            kam slunko září s blankytu:
+            mně září Ježíš sám!
+        </section>
+        <section name="r1">
+            Ó, jest jasno,
+            krásné jasno,
+            když ty blahé
+            šťastné chvíle jsou,
+            v nichž v Ježíšovu
+            patřím tvář,
+            tu jest jasno
+            v duši mé!
+        </section>
+        <section name="v2">
+            Je píseň v duši mojí dnes,
+            jež Krále hlásá čest.
+            Jen Ježíš smí jí naslouchat,
+            však lidem skryta jest.
+        </section>
+        <section name="v3">
+            Je jaro v duši mojí dnes,
+            vždyť slunce vzešlo tam;
+            tu vůni a ten zpěvný ples
+            můj Ježíš stvořil sám.
+        </section>
+        <section name="v4">
+            Je radost v duši mojí dnes
+            a naděj, chvála, slast!
+            Vždyť vyjasněný pohled mám
+            tam za ním, v nebes vlast.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1 v4 r1
+    </repetition>
+</slide>

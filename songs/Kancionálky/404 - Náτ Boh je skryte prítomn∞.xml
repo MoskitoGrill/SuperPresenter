@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Náš Boh je skryte prítomný">
+    <variant name="čeština">
+        <section name="v1">
+            Náš Boh je skryte prítomný, aj kde ho nezrie zrak,
+            On stopy vrýva do vlny, tvár zastiera mu mrak.
+            Dnes ešte v tajnej hlbine si stvárňuje svoj plán,
+            čo stať sa má, vie jedine náš všemohúci Pán.
+        </section>
+        <section name="v2">
+            Nič neľakaj sa, svätý ľud, keď príde búrka zlá.
+            Hľa, na oblakoch Boží sľub: znak zmieru plápolá.
+            Ver, Boh tvoj riadi žita chod, smer dáva k výšinám!
+            Aj v ohni, lebo v hrôzach vôd On kliesni cestu nám
+        </section>
+        <section name="v3">
+            Raz Božie plány dozrejú a v čas určenom
+            plod prinesú sťa po snehu v kvet oblečený strom.
+            Kto v pochybnostiach trhá taj, si množí bolesť rán;
+            ty s vierou sa mu odovzdaj a zjaví sa ti Pán!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3
+    </repetition>
+</slide>

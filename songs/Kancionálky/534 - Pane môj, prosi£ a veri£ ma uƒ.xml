@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Pane môj, prosiť a veriť ma uč">
+    <variant name="čeština">
+        <section name="v1">
+            Pane, môj, prosiť a
+            veriť ma uč!
+            Detinsky dôverne
+            prosiť ma uč!
+            Ty sám ma požehnaj,
+            otvor mi lásky raj,
+            zachrániť duše daj,
+            prosiť ma uč!
+        </section>
+        <section name="v2">
+            Pane, môj, prosiť a
+            veriť ma uč!
+            Duše mi cenu zjav,
+            prosiť ma uč!
+            Kráľov Kráľ z výsosti,
+            lásky daj, múdrosti,
+            v Duchu a v tichosti
+            prosiť ma uč!
+        </section>
+        <section name="v3">
+            Pane, môj, prosiť a
+            veriť ma uč!
+            Letí čas života,
+            prosiť ma uč!
+            Vidíš, že slabý som;
+            zbabelstva putá zlom,
+            verne a s víťazstvom
+            prosiť ma uč!
+        </section>
+        <section name="v4">
+            Pane, môj, prosiť a
+            veriť ma uč!
+            Skoro už prídeš zas,
+            prosiť ma uč!
+            Málo som vykonal;
+            Ty však, môj dobrý Pán,
+            nebo si sľubom dal,
+            prosiť ma uč!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

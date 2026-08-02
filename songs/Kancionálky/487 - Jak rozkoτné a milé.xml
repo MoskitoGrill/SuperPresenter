@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Jak rozkošné a milé">
+    <variant name="čeština">
+        <section name="v1">
+            Jak rozkošné a milé, když bratři s druhem druh
+            /:jsou svorni při svém díle a v srdcích jeden duch.:/
+        </section>
+        <section name="v2">
+            Jak rosa Hermon splývá na stráně Božích hor,
+            /:tak požehnán též bývá vždy věrných bratří sbor.:/
+        </section>
+        <section name="v3">
+            I Jeruzalém svatý se jimi obnoví,
+            /:kde svobody věk zlatý, kde spadnou okovy.:/
+        </section>
+        <section name="v4">
+            Tam kolem svého vládce lid bude shromážděn,
+            /:tam jedno bude stádce a jeden pastýř jen.:/
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

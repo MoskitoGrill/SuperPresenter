@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Ty malé mesto Betlehem">
+    <variant name="čeština">
+        <section name="v1">
+            Ty malé mesto Betlehem,
+            si ticho spočíváš
+            a nevieš ani netušís,
+            jak blízko Pána máš.
+            Hľa, večné svetlo žiari
+            do tvojej temnoty
+            a človečenstu prináša
+            dar Božej dobroty.
+        </section>
+        <section name="v2">
+            Tu narodil sa Kristus Pán,
+            dnes svedčia anjeli,
+            ich spevy vnoci pastierom
+            tak slávne zazneli.
+            Ó, ranné hviezdy neba,
+            znať dajte drahú zvesť,
+            nech ľudia Bohu za ten dar
+            hneď vzdajú chválu, česť.
+        </section>
+        <section name="v3">
+            Tak tichučko sťa hviezdy svit
+            Pán Ježiš zjavil sa
+            a s požehnaním znížili
+            sa k zemi nebesá.
+            To Božia láska hľadá,
+            chce spasiť človeka
+            a človek čas to nemúdro
+            preč od nej uteká.
+        </section>
+        <section name="v4">
+            Ó, Spasiteľu hriešnikov,
+            Ty príď a pomôž nám"
+            Hriech každý zmy a usídli
+            sa v našich srdciach sám.
+            Nech nový život z Teba
+            sa započne aj v nás,
+            nech anjeli nám spievajú:
+            "Vám prišiel Mesiáš."
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

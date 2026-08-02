@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Já dal jsem život svůj">
+    <variant name="čeština">
+        <section name="v1">
+            Já dal jsem život svůj,
+            svou svatou prolil krev,
+            by blahý byl díl tvůj,
+            bys nebes uzřel zjev.
+            /:Já za tebe jsem život dal,
+            co dal jsi za mne ty?:/
+        </section>
+        <section name="v2">
+            Hle, nebe nechal jsem
+            a Otce jasný stan,
+            bych na zemi tu žil,
+            byl mučen, křižován!
+            /:Já všecko pro tě opustil,
+            co opustil jsi ty?:/
+        </section>
+        <section name="v3">
+            Já mnoho snesl jsem,
+            víc, než lze vyslovit:
+            kříž, bolest v srdci svém,
+            bys mohl spasen být.
+            /:Já všecko pro tě snášel jsem,
+            cos pro mne snesl ty?:/
+        </section>
+        <section name="v4">
+            Od Otce přináším
+            ti odpuštění své,
+            svou spásu s dobrem vším,
+            svou lásku, nebe své.
+            /:Já přinesl ti dary své,
+            cos přinesl mi ty?:/
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

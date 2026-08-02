@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Slož, co srdce tísní">
+    <variant name="čeština">
+        <section name="v1">
+            Slož, co srdce tísní, péči světu nech!
+            Pánu pověz v písni o svých strastech všech.
+            V temné noci žele pospěš k Ježíši,
+            věř a doufej směle, bouř se utiší!
+        </section>
+        <section name="v2">
+            Zná Pán, co tě tíží, zná tvé prosby hlas,
+            s pomocí svou v kříži dostaví se včas;
+            slunce v zlatém lesku vzejde poznovu,
+            ozáří tvou stezku k nebes domovu.
+        </section>
+        <section name="v3">
+            Víš-li pak, kdo kvílí v žalu, jak byl tvůj,
+            jdi, jdi v této chvíli a jej potěšuj!
+            Ať se vzepře zlému, času nemaří,
+            s ním jdi, veď ho k svému duše lékaři!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3
+    </repetition>
+</slide>

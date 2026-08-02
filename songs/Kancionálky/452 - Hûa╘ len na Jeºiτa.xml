@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Hľaď len na Ježiša">
+    <variant name="čeština">
+        <section name="v1">
+            Hľaď len na Ježiša,
+            spása duše v ňom,
+            naplňuje srdce
+            šťastím, pokojom.
+            Niesol bolesť tvoju,
+            trpel za tvoj hriech,
+            hľaď len na Ježiša,
+            On ťa nezaprie.
+        </section>
+        <section name="v2">
+            Hľaď len na Ježiša,
+            v borbe, úzkosti,
+            keď si v ťažkom boji,
+            silu dáva ti.
+            Nepriateľ je mocný,
+            v tebe nieto síl,
+            hľaď len na Ježiša,
+            v ňom si zvíťazil.
+        </section>
+        <section name="v3">
+            Hľaď len na Ježiša,
+            pokiaľ trvá deň,
+            kým sa nazdáš príde
+            pokušenia tieň.
+            Mračná prídu ťažké,
+            zmiznú šťastné dni,
+            hľaď len na Ježiša,
+            On ťa ochráni.
+        </section>
+        <section name="v4">
+            Hľaď len na Ježiša,
+            aj keď pracuješ,
+            čo je odpočinok,
+            u neho až zvieš.
+            Počuj ako volá:
+            Všetko schystal som.
+            Večne budeš živý
+            s Pánom Ježišom.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

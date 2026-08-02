@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Ovečkou že Božou som">
+    <variant name="čeština">
+        <section name="v1">
+            Ovečkou že Božou som, tým sa teším nocou dňom.
+            On môj dobrý Pastier je, do neba ma dovedie.
+            Veď vždy starosť o mňa má. On ma podľa mena zná.
+        </section>
+        <section name="v2">
+            Vodí k pastvám zeleným, k vodám živým, studeným,
+            núdze pri ňom nemávam. A keď často ustávam,
+            na plecia ma berie sám, nesie v slávny neba chrám.
+        </section>
+        <section name="v3">
+            Pán Ježiš je Pastier môj, raz dal za mňa život svoj.
+            Bolestnú smrť postúpil, by ma z hriechov vykúpil.
+            Ó, tak plesám nocou - dňom, ovečkou že Božou som.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3
+    </repetition>
+</slide>

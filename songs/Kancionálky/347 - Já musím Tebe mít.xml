@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Já musím Tebe mít">
+    <variant name="čeština">
+        <section name="v1">
+            Já musím Tebe mít,
+            ó, Pane můj,
+            nic nedá duši klid
+            tak, jak hlas Tvůj!
+        </section>
+        <section name="r1">
+            Ó já Tě musím míti,
+            chci-li šťasten býti,
+            ó, požehnej mi, Pane,
+            já k tobě jdu.
+        </section>
+        <section name="v2">
+            Já musím Tebe mít,
+            buď blízko mi!
+            Snáz v boji vítězit,
+            když u mne jsi.
+        </section>
+        <section name="v3">
+            Já musím Tebe mít,
+            přijď ples či žal,
+            ó, račiž se mnou dlít,
+            bys mír mi dal!
+        </section>
+        <section name="v4">
+            Já musím Tebe mít,
+            Tvá vůle jen
+            když se mnou děje se,
+            jsem spokojen.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1 v4 r1
+    </repetition>
+</slide>

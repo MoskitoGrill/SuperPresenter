@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Ó, Bože, Otče, uč mne sám">
+    <variant name="čeština">
+        <section name="v1">
+            Ó Bože, Otče, uč mne sám, když světa pouští bloudě lkám,
+            jak z hloubi duše volat mám: /:”Buď vůle Tvá!”:/
+        </section>
+        <section name="v2">
+            Když kážeš mi, bych Tobě dal, co nade vše jsem miloval,
+            vím, žes jen své jsi nazpět vzal. /:”Buď vůle Tvá!”:/
+        </section>
+        <section name="v3">
+            Ó, přijmi srdce zkoušené, Tvůj svatý Duch nechť vede mne,
+            vše jiné vkládám v ruce Tvé. /:”Buď vůle Tvá!”:/
+        </section>
+        <section name="v4">
+            Svou milost dej mi den co den, bych od hříchu byl svoboden
+            a vždy byl volat ochoten: /:”Buď vůle Tvá!”:/
+        </section>
+        <section name="v5">
+            Až posléz můj se ztají dech a konec bude bouří všech,
+            pak zvolám s houfem svatých všech: /:”Buď vůle Tvá!”:/
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4 v5
+    </repetition>
+</slide>

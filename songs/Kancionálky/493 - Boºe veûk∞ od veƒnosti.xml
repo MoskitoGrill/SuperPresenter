@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Bože veľký od večnosti">
+    <variant name="čeština">
+        <section name="v1">
+            Bože veľký od večnosti,
+            Ty zem, nebo spravuješ.
+            I mňa láskou od mladosti
+            vedieš, pred zlým varuješ.
+            Tento deň je svätý nám,
+            v ňom Ti vďačnú chválu vzdám.
+        </section>
+        <section name="v2">
+            Aký milý je deň Pánov,
+            lebo sviatkom Božím je;
+            odpočívam pod ochranou
+            toho, ktorý kraľuje.
+            On ma v svojom náručí
+            ceste spásy naučí.
+        </section>
+        <section name="v3">
+            Nenávidí svätý Boh náš
+            rozkoše a záhaľku,
+            pýchu, ktorú v svete poznáš,
+            pokrytectvo, pretvárku.
+            Pane, čo som a čo mám,
+            všetko dnes Ti oddávam.
+        </section>
+        <section name="v4">
+            Za deň Pánov Bohu vďaka,
+            slúži nám ku spaseniu.
+            Pán i teraz duše čaká
+            k úprimnému modleniu.
+            Šťastný, kto mu chválu vzdá
+            v piesni vďaku vyspieva.
+        </section>
+        <section name="v5">
+            Múdry je, kto Bohu slúži,
+            zasvätil mu život svoj;
+            blažený, kto poznať túži
+            v jeho Slove pravdy zdroj.
+            Blažený, kto k nemu len
+            hľadí s vierou každý deň.
+        </section>
+        <section name="v6">
+            Povedz, Bože, na to "amen",
+            však sme Tvojím dedičstvom.
+            Pod ochranou Tvojich ramien
+            vládzem, i keď slabý som,
+            do nebeskej vlasti prejsť,
+            tam Ti večne vzdávať čest.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4 v5 v6
+    </repetition>
+</slide>

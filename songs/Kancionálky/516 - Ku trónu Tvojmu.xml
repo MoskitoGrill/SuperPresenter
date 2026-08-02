@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Ku trónu Tvojmu">
+    <variant name="čeština">
+        <section name="v1a">
+            Ku trónu Tvojmu,
+            ó milý Pane,
+            obriacia zraky
+            verný Tvoj ľud,
+            s pokorou srdca
+            otvára dlane,
+            zmiluj sa nad mím,
+            láskavý buď!
+        </section>
+        <section name="v1b">
+            Prosí dnes zase
+            za cirkev svoju,
+            bys' bol jej strážcom,
+            bys' bol jej hrad,
+            bo svet sa chystá
+            proti nej k boju,
+            zboriť jej hradby
+            dnes chcel by rád.
+        </section>
+        <section name="v2a">
+            Ku trónu Tvojmu,
+            ó milý Pane,
+            obracia zraky
+            verný Tvoj ľud.
+            Zač prosí, vzdychá,
+            to nech sa stane,
+            dľa Tvojej vôle
+            sám sudcom buď.
+        </section>
+        <section name="v2b">
+            Vzhliadni však predsa
+            a podaj ruku,
+            nalej mu sily,
+            dopraj mu žiť,
+            ak ho chceš skúšať,
+            sám mu tíš muky,
+            v milosti krídla
+            daj sa mu skryť.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1a v1b v2a v2b
+    </repetition>
+</slide>

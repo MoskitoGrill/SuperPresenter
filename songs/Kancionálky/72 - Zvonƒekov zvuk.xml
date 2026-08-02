@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Zvončekov zvuk">
+    <variant name="čeština">
+        <section name="v1">
+            Zvončekov zvuk v tichej noci,
+            spevy pastierov,
+            citary a zlate harfy,
+            sbory anjelov,
+            všetko hlása:
+            v Betleheme dnes sa narodil
+            Vykupiteľ sveta, Boží Syn,
+            aby človek večne šťastný žil.
+        </section>
+        <section name="v2">
+            Mudrci šli od východu
+            s chvatom preveľkým,
+            pred dieťaťom pokloniť sa
+            k jasliam betlemským;
+            svoju chválu,
+            dary vzácne obetujú tam.
+            I ja svoje srdiečko mu dám,
+            ochotne ho zložím k jasličkám.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2
+    </repetition>
+</slide>

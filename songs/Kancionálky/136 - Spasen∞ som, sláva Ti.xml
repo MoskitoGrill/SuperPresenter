@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Spasený som, sláva Ti">
+    <variant name="čeština">
+        <section name="v1">
+            Spasený som, sláva Ti,
+            Ježišu môj,
+            v Tvojej krvi záchrany
+            vzácny je zdroj.
+            Hriech môj zmyla Tvoja krv,
+            slobodu mám,
+            jasám plný radosti:
+            Verný je Pán!
+        </section>
+        <section name="r1">
+            Spievam Ti pieseň chvál,
+            večnú že spásu mám,
+            spievam Ti pieseň chvál,
+            navždy som Tvoj!
+        </section>
+        <section name="v2">
+            Spasený som, sláva Ti,
+            Ježišu môj,
+            v Tvojej krvi života
+            sily je zdroj.
+            Svetlo novej milosti
+            svieti aj mne,
+            drahá spásy istota
+            v srdci mi znie.
+        </section>
+        <section name="v3">
+            Spasený som, sláva Ti,
+            Ježišu môj,
+            v Tvojej krvi nevinnej
+            šťastia je zdroj.
+            Starosť v blaho premieňaš,
+            Pán môj a Kráľ,
+            duši hriechom uštvanej
+            pokoj si dal.
+        </section>
+        <section name="v4">
+            Spasený som, sláva Ti,
+            Ježišu môj,
+            za mňa tiež si dokonal
+            na kríži boj.
+            S Tebou noc sa premení
+            na slávny deň,
+            vzkriesený si pri Tebe
+            odpočiniem.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1 v4 r1
+    </repetition>
+</slide>

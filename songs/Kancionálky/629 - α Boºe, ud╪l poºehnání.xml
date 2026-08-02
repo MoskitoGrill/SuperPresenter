@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Ó Bože, uděl požehnání">
+    <variant name="čeština">
+        <section name="v1">
+            Ó Bože, uděl požehnání
+            i této nové rodině.
+            Tvá láska s nebe ať se sklání
+            v jich srdce v každé hodině
+            Tvůj pokoj, vzácný nebes dar,
+            provázej mladý tento pár.
+        </section>
+        <section name="v2">
+            Kde Pane Tys, tam bydlí radost,
+            tam hájí srdce Boží mír;
+            zlo utíká, svár, hněv a starost,
+            i každý vášně zhoubný vír.
+            A vše, co třeba, Ty to znáš,
+            jim podle slova svého dáš.
+        </section>
+        <section name="v3">
+            Váš domov staň se svatostánkem,
+            kde s lidmi Bůh sám přebývá,
+            a mírem svým, jak jarním vánkem,
+            spojená srdce ovívá.
+            Kéž Ježíšův vás pojí Duch
+            v rodinný, pevný, svatý kruh.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3
+    </repetition>
+</slide>

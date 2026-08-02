@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Tu stojím skromne pri jasliach">
+    <variant name="čeština">
+        <section name="v1">
+            Tu stojím skromne pri jasliach,
+            kde zrodil si sa, Kráľ môj,
+            a prinášam, sťa vďaky znak,
+            Ti srdce, plné žalmov.
+        </section>
+        <section name="r1">
+            Ja nemám vzácne poklady,
+            však to, čo mám,
+            hľa dávam Ti:
+            môj život celý prijmi.
+        </section>
+        <section name="v2">
+            Keď ešte ani nežil som,
+            si na zem prišiel pre mňa.
+            Chcem stať sa Tvojím vlastnictvom,
+            viem, vyvedieš ma z temna.
+        </section>
+        <section name="v3">
+            Hriech moju dušu znečistil,
+            je slabá proti zlobe,
+            ju pod ochranu vezmi Ty
+            a bude čistá opäť.
+        </section>
+        <section name="v4">
+            Len jednu prosbu k Tebe mám:
+            ži v mojom srdci, Pane,
+            nech ono ako čistý chrám
+            sa príbytkom Ti stane.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1 v4 r1
+    </repetition>
+</slide>

@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+<slide name="Vzývám a slavím Tvé jméno,">
+    <variant name="čeština">
+        <section name="v1">
+Vzývám a slavím Tvé jméno,
+za Tvou velkou lásku,
+jenž daroval nám.
+</section>
+        <section name="v2">
+Tys slíbil, že se zas k nám vrátíš,
+přijď Pane Ježíši,
+přijď pro církev svou.
+</section>
+    </variant>
+    <repetition name="default" main="1">(v1) (v2)</repetition>
+</slide>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="My náhlime sa">
+    <variant name="čeština">
+        <section name="v1">
+            My náhlime sa
+            k žitia zdroju,
+            čo z kríža vyteká;
+            tam Spasiteľ nám
+            spásu svoju
+            tak milo ponúka.
+        </section>
+        <section name="r1">
+            Ó, poďme k Božej
+            lásky zdroju,
+            poďme k Božej
+            lásky zdroju,
+            poďme k Božej
+            lásky zdroju,
+            Ježiš, On je
+            žitia zdroj.
+        </section>
+        <section name="v2">
+            Po únavnom a
+            dlhom boji
+            je vzácne spočinúť,
+            pri krištáľovom
+            sladkom zdroji
+            si milo oddýchnuť.
+        </section>
+        <section name="v3">
+            Poď z Ježišovho
+            žitia zdroja
+            moci, silu obnoviť.
+            Poď k žriedlu večnej
+            Božej lásky
+            smäd duše uhasiť.
+        </section>
+        <section name="v4">
+            Raz príde deň, keď
+            z žitia zdroja
+            smäd navždy uhasíš,
+            veď z Božieho on
+            plynie trónu,
+            kde Krista uvidíš.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1 v4 r1
+    </repetition>
+</slide>

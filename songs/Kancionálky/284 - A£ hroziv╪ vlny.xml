@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Ať hrozivě vlny">
+    <variant name="čeština">
+        <section name="v1">
+            Ať hrozivě vlny
+            se proti mně dmou,
+            nic neleká v světe mne zlém,
+            když nebeský provívá
+            mír duši mou:
+            šťasten jsem,
+            šťasten jsem v Pánu svém.
+        </section>
+        <section name="r1">
+            Šťasten jsem v Pánu svém,
+            /:šťasten jsem:/
+            v Pánu svém!
+        </section>
+        <section name="v2">
+            Hle, Beránek Boží,
+            On hříchy mé sňal,
+            jak mrákotu zahladil je,
+            a závdavek Ducha
+            mi do srdce dal;
+            duše má
+            jemu prozpěvuje.
+        </section>
+        <section name="v3">
+            Již Kristu je život
+            můj zasvěcený,
+            On povede duši mou dál.
+            Jsem na věky v Něm
+            pevně zakotvený,
+            duše má
+            proto jej vždycky chval!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1
+    </repetition>
+</slide>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Můj Ježíš mé je světlo">
+    <variant name="čeština">
+        <section name="v1">
+            Můj Ježíš mé je světlo,
+            chci k jeho slávě žít,
+            již rozhodnut jsem provždy
+            /:jen za ním všude jít.:/
+        </section>
+        <section name="v2">
+            On přiveď k Otci svému
+            mne, dítě ztracené,
+            jež nyní s jeho stádcem
+            /:spojeno navždy je.:/
+        </section>
+        <section name="v3">
+            A v něj že směle doufám,
+            jdu ve křtu vyznati,
+            ó, nechci, světe, nechci
+            /:už ve tmách tápati.:/
+        </section>
+        <section name="v4">
+            Chci mrtev býti všemu,
+            co Kristu nežije,
+            pro světa rozkoš, slávu
+            /:mé srdce nebije.:/
+        </section>
+        <section name="v5">
+            Jak Kristus sám byl pokřtěn
+            a nám v tom příklad dal,
+            byl s kříže sňat a pohřben
+            /:a zase z hrobu vstal.:/
+        </section>
+        <section name="v6">
+            Chci v pohřbu, ve vzkříšení
+            být jemu podoben
+            a s lidem vyvoleným
+            /:být v jedno zapojen.:/
+        </section>
+        <section name="v7">
+            Chci v těle Páně spojen
+            se sborem bratrským
+            a láskou oděn kráčet
+            /:k výšinám nebeským.:/
+        </section>
+        <section name="v8">
+            Tam duší miliony,
+            jež s Kristem zemřeli,
+            se spojí v jednom sboru,
+            /:by čest mu zapěly!:/
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4 v5 v6 v7 v8
+    </repetition>
+</slide>

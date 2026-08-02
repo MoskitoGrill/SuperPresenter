@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Mně jméno Ježíš drahé jest">
+    <variant name="čeština">
+        <section name="v1">
+            Mně jméno Ježíš drahé jest,
+            chci po světě je celém nést.
+            V něm radost moje plná jest,
+            v tom drahém jménu Ježíš.
+        </section>
+        <section name="r1">
+            Ježíš nejkrásnější z jmen,
+            Ježíš stále tentýž jest.
+            Zástup spasených vzdej čest
+            na věky jeho jménu!
+        </section>
+        <section name="v2">
+            To jméno nad vše miluji,
+            vždyť každou bolest zahojí.
+            Strach, úzkost před ním prchají,
+            jak rád mám jméno Ježíš.
+        </section>
+        <section name="v3">
+            To jméno mi tak mile zní,
+            zvuk jeho vždy mne povzbudí
+            a každou úzkost zapudí,
+            ó chvalte jméno Ježíš!
+        </section>
+        <section name="v4">
+            Kdo v celém světě může znát
+            moc jména, které mám tak rád?
+            Je každý tvor má zvyšovat,
+            to svaté jméno Ježíš.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1 v4 r1
+    </repetition>
+</slide>

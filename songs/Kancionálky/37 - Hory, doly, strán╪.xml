@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Hory, doly, stráně">
+    <variant name="čeština">
+        <section name="v1">
+            Hory, doly, stráně,
+            nebesa i zem,
+            /:zvučte ke cti Páně
+            mocným ohlasem.:/
+        </section>
+        <section name="v2">
+            Jasným písně zvukem,
+            všichni, kde kdo jest,
+            /:vděčným srdce tlukem
+            Pánu vzdejme čest.:/
+        </section>
+        <section name="v3">
+            Cokoliv jen v světě
+            máme dobrého,
+            /:v zimě jako v létě,
+            vše jest od něho.:/
+        </section>
+        <section name="v4">
+            On se nám hned z jitra
+            libě ozývá,
+            /:včera, dnes i zítra
+            láskou oplývá.:/
+        </section>
+        <section name="v5">
+            On nám dozajista
+            také v tento den
+            /:pro Ježíše Krista
+            bude přítomen.:/
+        </section>
+        <section name="v6">
+            Směle tedy spějme
+            k trůnu milosti
+            /:a tam vylévejme
+            vroucí žádosti.:/
+        </section>
+        <section name="v7">
+            Běh svůj počínáme,
+            Pane, v jménu Tvém,
+            /:dejž, ať prospěch máme
+            v díle všelikém.:/
+        </section>
+        <section name="v8">
+            Když pak se přiblíží
+            večerní k nám stín,
+            /:sejmi každou tíži,
+            v svůj nás přijmi klín.:/
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4 v5 v6 v7 v8
+    </repetition>
+</slide>

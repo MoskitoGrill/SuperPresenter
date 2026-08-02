@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Vždy hotový ísť do služby">
+    <variant name="čeština">
+        <section name="v1">
+            Vždy hotový ísť do služby, to mojím heslom je.
+            To v mysli stále mocnejšie mi dňom i nocou znie.
+            Chcem diela zdar, chcem život žiť, čo radosť pôsobí,
+            tak pre česť Božiu pracovať som vždycky hotový.
+        </section>
+        <section name="v2">
+            Vždy hotový. Ja odmietam, čo hatí ducha vzlet.
+            Mňa hriešna vnada natiahne, môj cieľ je vyšší svet.
+            Len bohu duch môj, telo tiež sa k službe hotoví,
+            vzdať jeho menu slávu, česť, som vždycky hotový.
+        </section>
+        <section name="v3">
+            Vždy hotový. Reč pravdivá a vernosť z ocele,
+            a srdce čisté, zmužilé a vždycky veselé.
+            Ó, daj mi silu, Bože môj, nech verne všade,
+            vždy, tak ako dobrý služobník som k práci hotový.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3
+    </repetition>
+</slide>

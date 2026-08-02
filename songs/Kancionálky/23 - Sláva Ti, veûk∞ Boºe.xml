@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Sláva Ti, veľký Bože">
+    <variant name="čeština">
+        <section name="v1">
+            Sláva Ti, veľký Bože! Cirkev Ťa velebí.
+            Chválime Tvoje meno s anjelmi na nebi.
+            Komuže spievať žalmy inému, Pane náš?
+            Len Ty si toho hodný: predivné skutky máš.
+        </section>
+        <section name="v2">
+            Sláva Ti, veľký Bože, že si nás ráčil viesť,
+            chrániac tak svoju Cirkev od zlých a bludných ciest.
+            Cez hrôzy, tmy a noci, cez búrky zúrivé,
+            istou nás cestou vodiť Tvoja len ruka vie.
+        </section>
+        <section name="v3">
+            Sláva Ti, veľký Bože! Spievajú spasení,
+            Tvoju moc vďačne chvália: pokoj z nej pramení.
+            Po šírom svete, Pne, rozlievaj pokoj svoj.
+            Celý svet nech Ťa chváli, veď on je všetok Tvoj.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3
+    </repetition>
+</slide>

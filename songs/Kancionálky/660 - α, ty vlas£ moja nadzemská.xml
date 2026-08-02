@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Ó, ty vlasť moja nadzemská">
+    <variant name="čeština">
+        <section name="v1">
+            Ó, ty vlasť moja nadzemská,
+            ja v srdci radosť mám,
+            že uzriem tváre anjelské
+            až domov zavítam.
+        </section>
+        <section name="r1">
+            V tej slávnej
+            vlasti nebeskej
+            sa zídu spasení
+            a vôkol trônu
+            budú dlieť
+            už navždy blažení,
+            už navždy blažení.
+        </section>
+        <section name="v2">
+            Tam z údolia slz, trápenia
+            ma moja vedie púť,
+            kde bolesti už nebolia,
+            raz túžim spočinúť.
+        </section>
+        <section name="v3">
+            Tam láska všetkých zahreje
+            i radosť tam a slasť,
+            tam mier sa v srdci rozleje
+            mier v tebe, večná vlasť!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1
+    </repetition>
+</slide>

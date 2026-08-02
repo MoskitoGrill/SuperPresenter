@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Ó, ak máš dobrú mamičku">
+    <variant name="čeština">
+        <section name="v1">
+            Ó ak máš dobrú mamičku, tak cti a miluj klenot ten!
+            Ak vzal si dar ten z Božích rúk, tak si ho veľmi, veľmi ceň!
+            /: jej povedz svoje nádeje, veď lepšie nik ti nepraje.:/
+        </section>
+        <section name="v2">
+            Ó ak máš dobrú mamičku, tak cti a miluj klenot ten!
+            A ak ťa všetko sklamalo, ak povieš, bôl keď plní deň,
+            /:že vernosť márne hľadáme, ó matka nikdy nesklame!:/
+        </section>
+        <section name="v3">
+            Ó ak máš dobrú mamičku, tak cti a miluj klenot ten!
+            Ak domov ti už odišla a telo sníva smrti sen,
+            /:ty v žiali pozri do neba, tam matka čaká na teba!:/
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3
+    </repetition>
+</slide>

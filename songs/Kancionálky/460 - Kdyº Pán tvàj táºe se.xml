@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Když Pán tvůj táže se">
+    <variant name="čeština">
+        <section name="v1">
+            Když Pán tvůj táže se, zda máš jej rád,
+            tu k zemi klopíš zrak, chceš zplakat.
+            Zda život celý již jsi Pánu dal,
+            ať jas je v něm, ať tma, ať ples, či žal?
+        </section>
+        <section name="r1">
+            Či klopíš oči své a v srdci lkáš,
+            když Pán tvůj takže se, zda rád jej máš?
+        </section>
+        <section name="v2">
+            Když Pán tvůj táže se, zda máš jej rád,
+            tu k zemi klopíš zrak, chceš zaplakat.
+            Zda směle před světem jej vyznals’ již
+            a pod znak kříže v boj zda nastoupíš?
+        </section>
+        <section name="v3">
+            Když Pán tvůj táže se, zda máš jej rád,
+            tu k zemi klopíš zrak, chceš zaplakat.
+            Zdas’ nikdy necouval, kde stát jsi měl,
+            zda vždy jsi hledal to, co Pán tvůj chtěl?
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1
+    </repetition>
+</slide>

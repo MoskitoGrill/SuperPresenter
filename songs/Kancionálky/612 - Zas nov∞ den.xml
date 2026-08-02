@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Zas nový den">
+    <variant name="čeština">
+        <section name="v1">
+            Zas nový den mne
+            k práci zve,
+            nuž radostně chci jít
+            a s Tebou, Bože
+            síly mé,
+            své dílo započít.
+        </section>
+        <section name="v2">
+            Mne povzbuď, abych
+            pilný byl
+            a rád měl práci svou,
+            jí lidem vůkol
+            posloužil
+            a slávu šířil Tvou.
+        </section>
+        <section name="v3">
+            Vím, daremná má
+            lopota,
+            mým snahám hrozí zmar,
+            když láska Tvá a
+            dobrota
+            mi nedá nutný zdar.
+        </section>
+        <section name="v4">
+            Však co znám Tvojí
+            lásky div
+            a Tobě náležím,
+            zde ptát se mohu,
+            zisku chtiv,
+            "co z práce vytěžím?"
+        </section>
+        <section name="v5">
+            Nač všechen světa
+            zisk je mi,
+            když dlužníkem jsem Tvým,
+            a nikdy ničím
+            na zemi
+            Ti dluh svůj nesplatím?
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4 v5
+    </repetition>
+</slide>

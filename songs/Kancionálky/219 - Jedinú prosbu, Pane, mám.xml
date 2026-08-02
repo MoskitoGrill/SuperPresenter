@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Jedinú prosbu, Pane, mám">
+    <variant name="čeština">
+        <section name="v1">
+            Jedinú prosbu , Pane, mám, keď zmyl si hriechu černotu,
+            veď vodou, ohňom len daj sám mne čistou, mne čistotu.
+        </section>
+        <section name="v2">
+            Keď dáš mi viacej známosti, za to vďak duše vrúci maj.
+            Len srdce čisté z milosti najprv mi daj, najprv mi daj.
+        </section>
+        <section name="v3">
+            Viem, že len čisté srdce smie uzrieť raz Tvoju svätú tvár.
+            Len čisté srdce nezastrie si Boží žiar, si Boží žiar.
+        </section>
+        <section name="v4">
+            Čím väčšmi strážim krok tu svoj, tým väčšmi v mnohej biede lkám:
+            Ó, srdce čisté, Pane môj, Ty stvor mi sám, Ty stvor mi sám!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

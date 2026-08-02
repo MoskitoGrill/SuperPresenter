@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Tak dobre nám je s Tebou dlieť">
+    <variant name="čeština">
+        <section name="v1">
+            Tak dobre nám je s Tebou dlieť
+            a vidieť Tvoju tvár sa skvieť.
+            Vrch premenenia samý lesk,
+            nás prenikne tiež svetla blesk.
+            Tu Mojžiš, strážca zákona,
+            tam Eliáš, s ním obroda,
+            a vprostred nich Ty, slávny Pán!
+            Ach, prosíme Ťa, hovor k nám!
+        </section>
+        <section name="v2">
+            Tak dobre nám je s Tebou dlieť
+            a všetko hriešne z duše zvliecť.
+            Tu stíchne kvíľ ba žalostná,
+            tu srdce pravú radosť má.
+            Nuž, vzlietni môj duch ako vták
+            z tých vied a strastí nad oblak.
+            Keď z výšin pomoc dostaneš,
+            svoj kríž rád ďalej ponesieš.
+        </section>
+        <section name="v3">
+            Tak dobre nám je s Tebou dlieť
+            a do svetla sa preobliecť
+            stáť očistení pred Bohom
+            a skvieť sa Tvojím obrazom.
+            Ty nad sneh belšie rúcho daj
+            a k službe silu požehnaj.
+            My konať chceme v láske tej,
+            nám zhora v Tebe zjavenej.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3
+    </repetition>
+</slide>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Ó, jak bych neměl vesel být">
+    <variant name="čeština">
+        <section name="v1">
+            Ó, jak bych neměl vesel být
+            a vděčným okem k nebi zřít,
+            když pamětliv jsem všech těch cest,
+            po nichž mne Pán můj, po nichž mne Pán můj
+            ráčil vést.
+        </section>
+        <section name="v2">
+            Byl jsem živ kdysi v světě tom
+            jak neúrodný, planý strom.
+            Červ krutě hlodal duši mou
+            a vichr zuřil, a vichr zuřil
+            nade mnou.
+        </section>
+        <section name="v3">
+            Tu přišel Pán a popatřiv
+            dí:"Žel mi tebe, chci, buď živ!"
+            A slitovav se velice
+            mne přijal do své, mne přijal do své
+            štěpnice.
+        </section>
+        <section name="v4">
+            Do Štěpnice té sionské,
+            kde kvete kvítí sáronské,
+            vše, co mne hnětlo, vypudil
+            a k vodám živým, a k vodám živým
+            zasadil.
+        </section>
+        <section name="v5">
+            Tu se mi často přiblíží
+            a s láskou na mne pohlíží,
+            mne čistí zde a pěstuje
+            a rosou s hůry a rosou s hůry
+            svlažuje.
+        </section>
+        <section name="v6">
+            Ó, kéž by mně to navždy dal,
+            bych k jeho cti se zelenal
+            a dobrým svědčil ovocem.
+            Vždy se mu líbit, vždy se mu líbit
+            dychtiv jsem.
+        </section>
+        <section name="v7">
+            Ó Jezu, co jsi započal,
+            to při mně pěstuj dál a dál
+            a doveď v blahý svůj mne ráj,
+            kde k Tvé cti kvete, kde k Tvé cti kvete
+            věčný máj.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4 v5 v6 v7
+    </repetition>
+</slide>

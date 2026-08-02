@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Svätá Božia láska">
+    <variant name="čeština">
+        <section name="v1">
+            Svätá Božia láska,
+            preutešená,
+            nad telesné zväzky
+            slávne vznešená.
+            Srdcia bratov, sestár
+            spája svornosťou,
+            /:naplńuje všetkých
+            Božou milosťou.:/
+        </section>
+        <section name="v2">
+            Kde je naše duša
+            láskou kojená,
+            nemá miesta zloba
+            s pýchou spojená.
+            Brat s bratom tu cíti
+            bôle, žalosti,
+            /:s ním sa spolu teší
+            v čase radosti.:/
+        </section>
+        <section name="v3">
+            Ten, kto poznal Krista,
+            iste miluje,
+            rád sa s bratmi v jeden
+            zväzok spojuje.
+            Veď ho s nimi druží
+            jeden Boh a Pán,
+            /:jeden duch ich vedie
+            v nadpozemský stan.:/
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3
+    </repetition>
+</slide>

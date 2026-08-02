@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Otče v Kristu, Bože môj">
+    <variant name="čeština">
+        <section name="v1">
+            Otče v Kristu, Bože môj,
+            večný prameň mieru,
+            k Tebe s dušou boľavou
+            volám: "Pridaj vieru."
+            V svete tom, žiaľ a ston,
+            stíhajú ma večne,
+            trápia nekonečne.
+        </section>
+        <section name="v2">
+            Otče v Kristu, v Tebe len
+            utíšenie kynie,
+            u Teba si uštvaný
+            vskutku odpočiniem.
+            Táto zem,márnosť len
+            núka mi, keď slabnem,
+            čaká, či už padnem.
+        </section>
+        <section name="v3">
+            Odstráň všetko odo mňa,
+            čo len rmúti Teba.
+            Podľa Tvojej vôle žiť:
+            viem, len to mi treba.
+            V tichosti, radosti,
+            žiadam slúžiť Tebe,
+            odumrieť už sebe.
+        </section>
+        <section name="v4">
+            V pokušeniach života
+            zvíťaziť mi dopraj,
+            aby ma zlo klamlive
+            nezviedlo z ciesť dobra.
+            Žiadosti, márnosti,
+            keď ma začnú zvádzať,
+            Ty jsi moja hrádza.
+        </section>
+        <section name="v5">
+            Daj, nech z Tvojho pokoja
+            nikdy nevypadnem.
+            Poslúchnuť Tvoj tichý hlas
+            chcem vždy neodkladne.
+            V borbe ma podpiera
+            Tvoja ruka mocná,
+            láska nekonečná.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4 v5
+    </repetition>
+</slide>

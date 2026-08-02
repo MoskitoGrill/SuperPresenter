@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Pánu všichni prozpěvujte">
+    <variant name="čeština">
+        <section name="v1">
+            Pánu všichni prozpěvujte,
+            kdežkoli kteří bydlíte.
+            Vstupte před něj s důvěrností,
+            služte mu stále s věrností.
+        </section>
+        <section name="v2">
+            Vězte, že On je sám Bůh náš,
+            ne my sebe, On stvořil nás,
+            a že jsme jím zvoleného
+            ovce pastvy lidu jeho.
+        </section>
+        <section name="v3">
+            Protož to rozvažujíce,
+            do jeho bran vcházejíce,
+            oslavujte v síňcích jeho
+            jej, k nám vždy tak laskavého.
+        </section>
+        <section name="v4">
+            Chválu srdečnou s vděčností
+            vzdejte jeho velebnosti.
+            Jméno jeho vyvyšujte,
+            chvalte, ctěte, vyznávejte.
+        </section>
+        <section name="v5">
+            Nebo dobroty jest plný,
+            od věků v ní neproměnný.
+            Jest i věčná pravda jeho,
+            nikdy nemýlí žádného.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4 v5
+    </repetition>
+</slide>

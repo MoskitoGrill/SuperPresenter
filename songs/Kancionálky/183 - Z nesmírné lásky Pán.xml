@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Z nesmírné lásky Pán">
+    <variant name="čeština">
+        <section name="v1">
+            Z nesmírné lásky Pán
+            opustil slávy stan,
+            aby nás vykoupil
+            ze smrti běd.
+            Již déle nemeškej,
+            hříchů se zbavit dej,
+            na něho břímě své
+            slož, opusť svět.
+        </section>
+        <section name="r1">
+            Ó, jaký lásky div,
+            nesmírné lásky div,
+            z milosti spasen být,
+            na věky s Pánem žít!
+            Ó, jaký lásky div,
+            bezmezné lásky div,
+            za mne že Bůh přišel
+            na kříži mřít!
+        </section>
+        <section name="v2">
+            Když v hříchu mrtev byl,
+            svou Ježíš krev prolil,
+            těžký a potupný
+            za tě kříž nes.
+            Ó lásko bezmezná!
+            Nešťasten, kdo nezná,
+            za něho v smrti tmu
+            Ježíš že kles.
+        </section>
+        <section name="v3">
+            Z temene Golgoty,
+            Syn Boží přesvatý
+            nabízí s Otcem ti
+            usmíření.
+            Poskvrny tvé chce smýt,
+            hříchy ti odpustit,
+            na skálu vyzdvihnout
+            z ponížení.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1
+    </repetition>
+</slide>

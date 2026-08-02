@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Pán Ježiš, Priateľ vzácny">
+    <variant name="čeština">
+        <section name="v1">
+            Pán Ježiš Priateľ vzácny a duši predrahý,
+            vždy pomáha mi bremä niesť a nikdy nezradí.
+            Už nemôžem žiť bez neho, v ňom duša všetko má,
+            tak dlieme spolu stále, môj Pán a ja.
+        </section>
+        <section name="v2">
+            Keď zomdlený som, slabý, keď v skúškach treba stáť.
+            On ponúkne mi rameno a podoprie ma rád.
+            Tou istou cestou vedie ma, kde noha jeho šla,
+            tak putujeme spolu, môj Pán a ja.
+        </section>
+        <section name="v3">
+            Ja milujem ho vrúcne, veď za mňa život dal
+            a z nevýslovnej milosti ma dlho k sebe zval.
+            Tá jeho láska verná je a stále zohrieva.
+            Tak spojení sme stále, môj Pán a ja.
+        </section>
+        <section name="v4">
+            Keď šťastím hruď sa chveje, či smútku mračno zriem,
+            keď zaútočí nepriateľ, to Jemu rozpoviem.
+            On vie, čo kedy konať mám, On dobrú radu dá,
+            tak hovoríme spolu, môj Pán a ja.
+        </section>
+        <section name="v5">
+            Pán vie, že túžim vrelo mdlé duše k nemu viesť
+            a všade smelo vyprávať tú vzácnu spásy zvesť,
+            že jeho obeť na kríži nám život získala.
+            Tak spolu sme aj v práci, môj Pán a ja.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4 v5
+    </repetition>
+</slide>

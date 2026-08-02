@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Do večnosti plynú roky">
+    <variant name="čeština">
+        <section name="v1">
+            Do večnosti plynú roky,
+            svet je starší deň čo deň,
+            život robí rýchle kroky,
+            tíško mizne ako tieň.
+            Iba Ježiš, maják v mori,
+            svieti vekov temnotám.
+            Čo sa rodí, umrie v bôli,
+            nepremmný Boh len sám.
+        </section>
+        <section name="v2">
+            Telo hynie, v prach sa mení,
+            žiadosť, pôvab krátky sen:
+            Strach, keď srdcia vytriezveli,
+            smútok, ľútosť, horký blen.
+            Láska z Ducha narodených,
+            služba Duchom vedenál
+            kresťan vždycky bdelý, verný,
+            hodnota v tom nemenná.
+        </section>
+        <section name="v3">
+            Spasiteľ náš križovaný
+            umrel, aby ty si žil.
+            Veľkú bolesť, tieseň, rany,
+            pre teba On podstúpil.
+            Prijmi, uver spásnej zvesti,
+            nech ju čuje celá zem:
+            Pravý život bez nerestí
+            na každý ti núka deň.
+        </section>
+        <section name="v4">
+            Cez roky, čo večne bežia,
+            cez všetky dni, v každý čas
+            bude tvoja radosť svieža,
+            život plný vďaky, krás.
+            Kto je z Boha narodený,
+            nemení sa v hluku chvíľ.
+            Pán ho nosí život celý,
+            navždy trvá, žije s ním.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

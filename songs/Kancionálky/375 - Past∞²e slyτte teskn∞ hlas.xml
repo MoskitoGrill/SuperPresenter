@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Pastýře slyšte teskný hlas">
+    <variant name="čeština">
+        <section name="v1">
+            Pastýře slyšte teskný hlas, zaznívá pouští zas a zas.
+            Ovečky volá zbloudilé, v neštěstí velkém vidí je.
+        </section>
+        <section name="r1">
+            Hledejte, hledejte! Moje ovečky hledejte!
+            Hledejte, hledejte! Jen jim zhynout nedejte!
+        </section>
+        <section name="v2">
+            Zachráněn kdo jsi, pomáhej, vyzývá Pán tě, neváhej!
+            Upadlé v propast zachraňuj, nebeský konej úkol svůj.
+        </section>
+        <section name="v3">
+            Mnoho je duší nešťastných, svět pro ně má jen pustý smích.
+            Z plnosti Páně kdo jsi vzal, milosti zvěst nes dál a dál.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1
+    </repetition>
+</slide>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Já Otce mám!">
+    <variant name="čeština">
+        <section name="v1">
+            Já Otce mám! Jak plesá srdce moje a buší radostí,
+            že sloužit Bohu svému smím již v své mladosti!
+            Žel, dlouho snil jsem kdy si ten prázdný světa se,
+            však mocným slovem Páně jsem z něho probuzen.
+        </section>
+        <section name="v2">
+            Já Otce mám! Jak rád u jeho nohou si tiše posedím
+            a v oko plné lásky se v touze zahledím!
+            Chvil nad ty neznámi krasších, jež trávím s Bohem svým,
+            a plesám, že ho věrným svým Otcem zváti smím.
+        </section>
+        <section name="v3">
+            Já Otce mám! Já nevěděl to tehdy, když v světě bloudil jsem,
+            a v cizí zemi vzdálen jsem hynul v hříchu zlém.
+            Až když mne Ježíš našel, On zjevil mi to sám,
+            že už jsem dítko Boží, že v nebi Otce mám.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3
+    </repetition>
+</slide>

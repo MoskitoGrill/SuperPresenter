@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Syn Boží stal sa človekom">
+    <variant name="čeština">
+        <section name="v1">
+            Syn Boží stal sa človekom, nám spásu prišiel dať.
+            Sial lásky semä v svete zlom, no svet ho nechcel znať.
+            Len človeka v ňom videli, nie Boh že je a Pán;
+            snáď prorok je, si mysleli, a ostal v svete sám.
+        </section>
+        <section name="v2">
+            Však Svätý Duch raz Petrovi tú pravú zjavil tvár,
+            a vyznať on sa nebojí, i pred ľuďmi keď stál:
+            “Ty Kristus si, ten Boží Syn!” Ty životom si nám.
+            Ty slovom mocným, tvorivým v nás vládni, vekov Pán.
+        </section>
+        <section name="v3">
+            Aj teba dnes sa pýta Pán, čo povieš, kto je On?
+            Nuž nedaj vzniknúť pochybám, veď spása je len v ňom.
+            Skloň pred ním svoje kolená a zmizne hriechu noc;
+            On pozdvihne ťa, požehná, aj dnes má takú moc.
+        </section>
+        <section name="v4">
+            Kde zaznie o ňom blahá zvesť, tam svitne spásy deň.
+            Hlas viery svetom má sa niesť a objať celú zem:
+            Ty Kristu si, ten Mesiáš, Ty slávny Boh a Pán!
+            My vyznávame, že si náš, aj Ty sa priznaj k nám!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Buď Tobě náš dík">
+    <variant name="čeština">
+        <section name="v1">
+            Buď Tobě náš dík,
+            Bože na nebesích,
+            za Ježíše Krista,
+            jenž smazal náš hřích!
+        </section>
+        <section name="r1">
+            Haleluja, Tobě sláva!
+            Haleluja všech nás!
+            Haleluja, Tobě sláva,
+            slyš nás Bože náš.
+        </section>
+        <section name="v2">
+            Buď Tobě náš dík,
+            Bože za světlo Tvé,
+            za zjevení Ducha
+            tak žádostivé!
+        </section>
+        <section name="v3">
+            Buď Tobě náš dík,
+            Bože za lásku Tvou,
+            za milost a péči
+            Tvou nevýslovnou!
+        </section>
+        <section name="v4">
+            Zjev, Bože, moc svou
+            novým rozvlažením,
+            Duch odvahy naplň
+            nás plamenem svým!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1 v4 r1
+    </repetition>
+</slide>

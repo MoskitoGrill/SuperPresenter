@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Útočištné mesto znám">
+    <variant name="čeština">
+        <section name="v1">
+            Útočištné mesto znám,
+            staviteľom Boh je sám.
+            Prechádza sa stredom jeho,
+            svetlo, sláva žiari z neho.
+            Ku cti Pána spevov hlas
+            znie v tom meste večných krás
+        </section>
+        <section name="v2">
+            Útočištné mesto znám,
+            večný pokoj vládne tam.
+            Niet v ňom žiaľov, pokušenia,
+            hriechov, smrti, utrpenia.
+            Vykúpených spev tam znie:
+            Ježiš nám dal spasenie!
+        </section>
+        <section name="v3">
+            Útočištné mesto znám,
+            večná radosť sídli tam.
+            Zničené sú moci zradné,
+            Ježiš Kristus sám tam vládne,
+            verným dává odmeny
+            za boj dobre skončený.
+        </section>
+        <section name="v4">
+            Útočištné mesto znám,
+            voľný prístup doňho mám.
+            Na Golgote krv raz tiekla,
+            porazila zlobu pekla.
+            Do perlových svätých brán
+            vstup je voľný dokorán.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

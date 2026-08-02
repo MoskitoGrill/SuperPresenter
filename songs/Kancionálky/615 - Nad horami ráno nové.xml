@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Nad horami ráno nové">
+    <variant name="čeština">
+        <section name="v1">
+            Nad horami ráno
+            nové, zlaté svitá.
+            Spievaj duša moja,
+            spievaj duša moja,
+            veď si večne živá.
+        </section>
+        <section name="v2">
+            Skovránok, hľa letí
+            pod oblaky hore.
+            K nebesiam tiež upri,
+            k nebesiam tiež upri,
+            vďačne oči svoje.
+        </section>
+        <section name="v3">
+            Zašvitoril pieseň
+            k sláve Stvoriteľa.
+            Nech aj tvoja chvála,
+            nech aj tvoja chvála
+            jemu patrí celá.
+        </section>
+        <section name="v4">
+            Posielajú kvety
+            vonný pozdrav Bohu,
+            poďakuj sa aj ty,
+            poďakuj sa aj ty
+            za lásku tak mnohú.
+        </section>
+        <section name="v5">
+            Zasvietilo slnko,
+            hreje svet lúč zlatý.
+            Tak ťa objal v láske,
+            tak ťa objal v láske
+            otcovskej Boh svätý.
+        </section>
+        <section name="v6">
+            Spievaj, duša moja,
+            Pán Ježiš ťa zvolil,
+            môžeš Kráľa kráľov,
+            môžeš Kráľa kráľov
+            volať bratom svojím.
+        </section>
+        <section name="v7">
+            Vzkriesenia až uzrieš
+            ráno zabronievať,
+            započatú pieseň,
+            započatú pieseň
+            večne budeš spievať.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4 v5 v6 v7
+    </repetition>
+</slide>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Keď kresťana sa pýtam">
+    <variant name="čeština">
+        <section name="v1">
+            Keď kresťana sa pýtam,
+            kde náhliš, kde?
+            /:On vraví, nuž domov,
+            tam v kraje nebeské.:/
+        </section>
+        <section name="v2">
+            Tu nikto nie sme doma,
+            na ceste len
+            /:a skoro sa skončí
+            náš krátky žitia deň.:/
+        </section>
+        <section name="v3">
+            Tak mnohí ešte blúdia
+            vo svete zlom.
+            /:Vlasť večnú im skrýva
+            ten klamný žitia zhon.:/
+        </section>
+        <section name="v4">
+            No, Kristus cesta istá,
+            jeho čuj hlas,
+            /:zvoľ jeho za vodcu,
+            kým Boh ti dáva čas.:/
+        </section>
+        <section name="v5">
+            Aj teba Ježiš volá,
+            poslúchaj, ver!
+            /:On život dá večný,
+            ťa čaká nebies mier.:/
+        </section>
+        <section name="v6">
+            A preto každý pútnik
+            na Krista hľaď!
+            /:Slúž jemu, a budeš
+            s ním domov večný mať.:/
+        </section>
+        <section name="v7">
+            Keď lúčime sa s bratrom,
+            čo skončil púť,
+            /:to vieme, že k Bohu
+            sa vzniesol jeho duch.:/
+        </section>
+        <section name="v8">
+            Keď sestra naša milá
+            skončila púť,
+            /:to vieme, že k Bohu
+            sa vzniesol už jej duch.:/
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4 v5 v6 v7 v8
+    </repetition>
+</slide>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Na nebi žiarili sláva a moc">
+    <variant name="čeština">
+        <section name="v1">
+            Na nebi žiarili
+            sláva a moc,
+            svätý spev anjelov
+            oživil noc.
+            Nadšene spievali,
+            pastierom hlásali:
+            Pán Ježíš zostúpil,
+            nebeský hosť!
+        </section>
+        <section name="v2">
+            V betlemských jasličkách
+            položený
+            spočinul Mesiáš
+            vytúžený.
+            Nebesia opustil,
+            chudobu okúsil,
+            aby svet vykúpil
+            z hriechov a vín.
+        </section>
+        <section name="v3">
+            Pane náš, Ježišu,
+            príďže i k nám,
+            srdcia nám povznášaj
+            ku nebesiam.
+            Nech svet už pozná raz,
+            že si Ty poklad náš,
+            vesmíru, smrti i
+            života Pán!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3
+    </repetition>
+</slide>

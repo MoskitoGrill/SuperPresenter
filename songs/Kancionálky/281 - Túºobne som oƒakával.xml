@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Túžobne som očakával">
+    <variant name="čeština">
+        <section name="v1">
+            Túžobne som očakával Pána svojho vo dňoch zlých.
+            /:On sa priznal k môjmu lkaniu, mocne vytrhol ma z nich.:/
+        </section>
+        <section name="v2">
+            Keď ma priepasť v bahne chcela zbaviť všetkých žitia síl,
+            /:postavil ma na skalu Boh, kroky moje upevnil.:/
+        </section>
+        <section name="v3">
+            Do úst vložil novú pieseň, aby som ho chváliť smel.
+            /:Spieva teraz duša moja, že má v Bohu večný diel.:/
+        </section>
+        <section name="v4">
+            Premnohé sú jeho divy, ktože sa mu rovnať smie?
+            /:Zvestovať chcem vernosť Božiu, jeho slávne spasenie.:/
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

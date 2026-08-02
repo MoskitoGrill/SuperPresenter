@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="My jsme děti jako květy">
+    <variant name="čeština">
+        <section name="v1">
+            My jsme děti jako květy na poli, na poli
+            od starostí hlavička nás, od starostí hlavička
+            nás nebolí, nebolí.
+        </section>
+        <section name="v2">
+            My jsme děti jako prtáci zpěvaví, zpěvaví
+            co je smutné, to nás nikdy, co je smutné to nás nikdy,
+            nebaví, nebaví.
+        </section>
+        <section name="v3">
+            My jsme děti jak andělé na nebi, na nebi,
+            které Boha vždy jen chválí, které Boha vždy jen chválí,
+            velebí, velebí.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3
+    </repetition>
+</slide>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Kto ku Kristu na kríži">
+    <variant name="čeština">
+        <section name="v1">
+            Kto ku Kristu na kríži upiera zrak,
+            je z milosti uzdravený.
+            Poď, ty, koho zahalil zúfalstva mrak,
+            ver Bohu! Si zachránený!
+        </section>
+        <section name="r1">
+            Hľaď, hľaď, brat môj, hľaď!
+            Kto ku Kristu na kríži upiera zrak,
+            je z milosti zachránený.
+        </section>
+        <section name="v2">
+            Či nezničil Pán Ježiš každý tvoj hriech,
+            či nestrpel aj Boží hnev?
+            V tej krvi už všetko je očistené,
+            tam slobody zasvitol deň.
+        </section>
+        <section name="v3">
+            Len viera a modlitby, pokánia
+            plač ťa privedú v otcovský dom.
+            Pán Ježiš ťa spasil, nuž na neho hľaď!
+            Už k Otcovi prístup máš v ňom.
+        </section>
+        <section name="v4">
+            Ver, duša, a v pokore ku krížu príď,
+            už dávno ťa Pán povolal.
+            Ty z Ježiša čerpať smieš, blažene žiť,
+            Boh za teba v obeť ho dal.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1 v4 r1
+    </repetition>
+</slide>

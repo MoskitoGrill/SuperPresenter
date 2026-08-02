@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="S Duchem svým, ó Pane, přijdiž">
+    <variant name="čeština">
+        <section name="v1a">
+            S Duchem svým, ó Pane, přijdiž, srdce naše osvěcuj!
+            Ty, jenž slabost naši vidíš, silou svou nás naplňuj!
+        </section>
+        <section name="v1b">
+            Spasiteli, zůstaň s námi, vrchoviště moudrosti,
+            uč nás pravé zbožnosti, Boží život mezi námi
+            mocí svojí rozněcuj, k službě lásky zasvěcuj!
+        </section>
+        <section name="v2a">
+            Uč nás Tvoji lásku znáti k duším ještě hynoucím,
+            vystroj, ať jsme schopni zváti hodovníky k hodům Tvým.
+        </section>
+        <section name="v2b">
+            Očí, srdce, rtů se dotkni Duchem, jenž vše změňuje,
+            nový život vštěpuje. Božskou mocí probuď duše
+            svody světa zmámené, tíží hříchů ztrápené.
+        </section>
+        <section name="v3a">
+            Vylej na vyprahlou půdu proudy Ducha svatého!
+            Zavlaž srdce svého lidu, k práci probuď každého,
+        </section>
+        <section name="v3b">
+            ať Tě s těmi oslavujem, kdo jsou Tvoje štípení,
+            z Ducha znovu zrození, ať se s nimi obětujem
+            službě lásky s radostí, práci v Božím království!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1a v1b v2a v2b v3a v3b
+    </repetition>
+</slide>

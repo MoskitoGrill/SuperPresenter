@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Dobrý je Bůh">
+    <variant name="čeština">
+        <section name="v1">
+            Dobrý, dobrý,
+            dobrý je Bůh.
+            Radostně pějme,
+            k němu se znejme,
+            dobrý, dobrý,
+            dobrý je Bůh.
+        </section>
+        <section name="v2">
+            Věrný, věrný,
+            věrný je Bůh.
+            Radostně pějme,
+            k němu se znejme,
+            věrný, věrný,
+            věrný je Bůh.
+        </section>
+        <section name="v3">
+            Svatý, svatý,
+            svatý je Bůh.
+            Radostně pějme,
+            k němu se znejme,
+            svatý, svatý,
+            svatý je Bůh.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3
+    </repetition>
+</slide>

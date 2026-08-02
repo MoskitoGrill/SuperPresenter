@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Chcem mlčať">
+    <variant name="čeština">
+        <section name="v1">
+            Chcem mlčať ako Spasiteľ,
+            keď pred sudcami ticho stál.
+            Ó, kiež by verne za ním šiel
+            a v láske sa mu podobal.
+        </section>
+        <section name="v2">
+            Čo činil si Ty s nami, viem,
+            to k blahu musí smerovať.
+            Za žiaľ i radosť Tebe chcem
+            česť, vďaku, Bože svätý, vzdať.
+        </section>
+        <section name="v3">
+            Viem, čistoty že treba kvet,
+            ak k Tebe chcem sa privinúť.
+            Tvoj obraz má sa na mne svkieť,
+            bo k Tebe vedie moja púť.
+        </section>
+        <section name="v4">
+            Tak mlčať chcem, keď na svoj kríž
+            ma berieš, Pane, by som mrel.
+            Len mlčať chcem, veď dovolíš,
+            by s Tebou znova vstať som smel.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

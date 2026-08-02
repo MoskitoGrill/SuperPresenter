@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="V pokoře srdce svého">
+    <variant name="čeština">
+        <section name="v1">
+            V pokoře srdce svého přicházím, Kriste, k Tobě,
+            posilni, prosím, mdlého, by nekles v světa zlobě!
+        </section>
+        <section name="v2">
+            Neumím nésti kříže, slabá jsou bedra moje.
+            Duši mou jen svět víže, plna jest nepokoje.
+        </section>
+        <section name="v3">
+            Kolkolem dobro zmírá, hříšnosti strast se množí.
+            Vůle má též se vzpírá té svaté vůli Boží.
+        </section>
+        <section name="v4">
+            V slabém jsa lidském těle hynu tak, ve dne v noci;
+            musím snad zhynout cele, Tvé, Kriste, bez pomoci?
+        </section>
+        <section name="v5">
+            Pomoz Ty, pomoz, Pane! Pokorně prosím Tebe!
+            Mír Tvůj když duší vane, okouším zde již nebe.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4 v5
+    </repetition>
+</slide>

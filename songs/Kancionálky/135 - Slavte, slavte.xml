@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Slavte, slavte">
+    <variant name="čeština">
+        <section name="v1">
+            Slavte, slavte, Kníže života slavte,
+            vyhašujte poslání jeho všem!
+            Sláva, sláva, plesejte, synové Boží,
+            prozpěvujte, spasení máte v něm!
+            Jako pastýř vodí On ovce svoje,
+            jehňátka svá na rukou nosívá.
+        </section>
+        <section name="r1">
+            Slavte, pějte, Ježíš je Spasitel světa,
+            slavte, pějte, hlaste to s jásáním!
+        </section>
+        <section name="v2">
+            Slavte, slavte, Beránka Božího slavte,
+            On vnes’ hříchy naše na Golgatu.
+            Vyvyšujte hříšníkům jméno tak vzácné:
+            Ježíš, Ježíš, Ježíš, Haleluja!
+            Po vše doby miloval tebe Ježíš,
+            nezapomeň, co má v něm duše tvá!
+        </section>
+        <section name="v3">
+            Slavte, slavte, zástupce hříšníků slavte,
+            plesej, duše z milosti spasená!
+            On je Pánem života, smrti i soudu,
+            jemu patří království veškerá.
+            Maličko a zjeví se v slávě nebes,
+            všemu lidu k soudu a k spasení.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1
+    </repetition>
+</slide>

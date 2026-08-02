@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Blažený dům">
+    <variant name="čeština">
+        <section name="v1">
+            Blažený dům, jenž ze všech vzácných hostí, Ježíši drahý,
+            Tebe s pokorností, s úctou a láskou do svých příjme stěn,
+            nejvíc kde vítán, nadevše jsi ctěn.
+            Všecka kde srdce vroucně Tobě tlukou, každý jen čeká na pokyn Tvých rukou,
+            kde na Tě s plesem patří oči všech, kde každý ptá se po Tvých rozkazech.
+        </section>
+        <section name="v2">
+            Blažený dům, kde svorně muž i žena, obmytí krví tvou, jež jimi ctěna,
+            ve svazku lásky téže víry jsou, společně kráčet chtějí za Tebou.
+            Po Tobě touhou v hloubi srdce nosí, ať v srdci jas, ať slza oko rosí,
+            zdar je či nezdar bude stíhati; v blízkosti Tvé vždy chějí zůstati.
+        </section>
+        <section name="v3">
+            Bažený dům, kde svorně otec, matka, jisti, že jejich drobná nemluvňátka
+            naleznou plnot lásky v loktech Tvých, nosí je k Tobě na modlitbách svých.
+            U  nohou Tvých kde naslouchá vše rádo Tobě a vůli Tvoji, dosud mládo,
+            učí se znát, jí vůkol zvěstovat, z celého srdce Tebe milovat.
+        </section>
+        <section name="v4">
+            Blažený dům, kde radost s lidmi sdílíš, v zármutku těšíš, pozdvihuješ,
+            sílíš, podáváš lék, když nemoc začíná, s vděčností kde Tě každý vzpomíná.
+            Po konečné pak denní práci každý tam, odkud přišel, navrátí se navždy,
+            blaženě patří v nebes výšiny, do veliké, krásné, volné otčiny!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

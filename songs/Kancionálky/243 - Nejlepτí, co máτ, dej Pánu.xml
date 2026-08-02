@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Nejlepší, co máš, dej Pánu">
+    <variant name="čeština">
+        <section name="v1">
+            Nejlepší, co máš, dej Pánu, mladosti květ jemu dej,
+            do boje za pravdu svatou, nadšením vyzbrojen spěj.
+            Následuj Ježíše věrně, Boží se vůli uč znát,
+            miluj ho velikou láskou, nelepší, co máš, dej rád!
+        </section>
+        <section name="r1">
+            Nejlepší, co máš, dej Pánu, mladosti květ jemu dej,
+            do boje za pravdu svatou, nadšením vyzbrojen spěj!
+        </section>
+        <section name="v2">
+            Nejlepší, co máš, dej Pánu, zbuduj mu trůn v srdci svém,
+            život svůj zasvěť mu v službu v horlení opravdivém.
+            Dáš-li ty, bude ti dáno, únavy nedbej, ni ztrát.
+            Služ Pánu Ježíši z lásky, nejlepší, co máš, dej rád!
+        </section>
+        <section name="v3">
+            Vše, co máš, svému dej Pánu; méně přec nemožno dát
+            lásce, jež hotova byla pro tebe všeho se vzdát.
+            Z nebeské slávy Pán přišel vykoupit ztracený svět.
+            Srdce i vůli dej jemu, dej svého žití mu květ!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1
+    </repetition>
+</slide>

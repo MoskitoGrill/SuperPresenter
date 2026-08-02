@@ -1,0 +1,24 @@
+Optimalizace
+ - občasné zalomení na prvním řádku slidu (výstřižek na ploše, to je to co to dělá) když je nějaké dlouhé slovo tak se musí v textovém poli posunout čímž vznikne hromada místa a text ji vyhodnotí jako enter
+Vytvořit vyjímku u čísel veršů, tam se : nesmí počítat do přenesení textu
+enter v textu nefunguje
+
+
+Bylo by fajn ale teď to nejde (verze 2.0)
+tlačítko pro více řádků nic nedělá, kvůly logice dělení textu na více slidů
+
+logika obrázků se rozbila
+ovládání pro zěmnu velikost(resize) obrázek
+více obrázků, obrázek a text
+zaškrtávací pole s pohledem na stream (toto podl etoho jak to bude s obrázky)
+Pravidelné aktivity
+
+
+klávesové zkratky pro přepínání na streamu (možná později klávesa pro přepnutí zkratky třeba vypnutí ukázaní textu na stream )
+(checkbox pro zapnutí)
+
+duplikace snímku
+
+
+
+logika pro slidy jako u uper prezenteru: více textu na projektor méně na stream

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Pokračuj, pokračuj">
+    <variant name="čeština">
+        <section name="v1">
+            Pokračuj, pokračuj, Sion, v svetle nebeskom!
+            Nech sa zaskvie svieca tvoja prvej lásky plameňom,
+            zo živého čerpaj zdroja, úzkou cestou verne napreduj!
+            Pokračuj, pokračuj!
+        </section>
+        <section name="v2">
+            Neváhaj, neváhaj, Sion kríž svoj verne neisť!
+            Bieda, žiale, úzkosť, hana od pravdy ťa nesmú zviesť!
+            Vzhliadaj ku korune Pána! Do smrti mu vernosť zachovaj!
+            Neváhaj, neváhaj!
+        </section>
+        <section name="v3">
+            Vyhýbaj, vyhýbaj, Sion zvodom sveta včas!
+            On ťa k pýche priviesť hľadí, nepočúvaj zvodcov hlas!
+            Never diablovi! On zradí práve, keď ti núka samý raj!
+            Vyhýbaj, vyhýbaj!
+        </section>
+        <section name="v4">
+            Preskúmaj, preskúmaj, Sion, duchov neznámych!
+            Neprijímaj hneď ich slovo, skúmaj, či je pravda v nich!
+            Večné slovo Ježišovo vždy a všade vďačne poslúchaj.
+            Preskúmaj, preskúmaj!
+        </section>
+        <section name="v5">
+            Dokáž moc, dokáž moc, Sion, milovať sa uč!
+            V noci hriechu nech vždy žiari tvojej lásky jasný lúč!
+            Ježiš dá ti k tomu dary, vždycky príde v bojoch na pomoc!
+            Dokáž moc, dokáž moc!
+        </section>
+        <section name="v6">
+            Vytrvaj, vytrvaj, Sion, vernosť zachovaj!
+            Nebuď zbabelým, ni zradným! Korunu a večný raj
+            dá Pán bojovníkom chrabrým! Na to, Sion, stále pamätaj!
+            Vytrvaj, vytrvaj!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4 v5 v6
+    </repetition>
+</slide>

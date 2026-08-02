@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Ó, Kriste, naše Hlava">
+    <variant name="čeština">
+        <section name="v1">
+            Ó Kriste, naša Hlava,
+            náš Vodca vzkriesený,
+            sme údmi Tvojho tela,
+            ty Pán náš jediný.
+            Ty Cesta, Pravda, Život,
+            dals' seba v obetu
+            a prosil Otca za nás,
+            za všetkých jednotu.
+        </section>
+        <section name="r1">
+            My Tvoje, Pane, stádo,
+            Ty Pastier jediný.
+        </section>
+        <section name="v2">
+            Je mnoho rôznych darov
+            i rôzny ducha vzlet,
+            i rôzne služby dávaš
+            Ty, svojej cirkvi stred.
+            My jedno telo spolu,
+            duch jeden, jeden Pán,
+            krst jeden, jedna viera,
+            Boh jeden Otcom nám.
+        </section>
+        <section name="v3">
+            Keď známe cenu lásky,
+            dar zväzku pokoja,
+            daj nám ju zachovávať,
+            sa chrániť rozbroja,
+            ísť svorne v každej službe,
+            niesť bremä blížnych rád.
+            Svet pozná Božiu lásku,
+            keď našu bude znať.
+        </section>
+        <section name="v4">
+            Nás viaže jedna láska,
+            my máme jeden stôl,
+            kde delíš chlieb a víno,
+            kde tíšis mnohý bôl,
+            kde vďačne spomíname
+            vždy na Tvoj kríž a skon,
+            kde bratrská láska spája
+            nás v duchovný Tvoj dom.
+        </section>
+        <section name="v5">
+            Nuž bystro k práci, k službe,
+            čas rýchlo zaletí,
+            svoj plňme verne úkol
+            i v láske, v obeti.
+            Tam, kde si nás Pán zvolá,
+            kde čaká koruna,
+            s ním budeme žiť všetci,
+            sťa Božia rodina.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1 v4 r1 v5 r1
+    </repetition>
+</slide>

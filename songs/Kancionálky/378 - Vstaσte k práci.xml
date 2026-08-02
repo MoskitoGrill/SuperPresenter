@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Vstaňte k práci">
+    <variant name="čeština">
+        <section name="v1">
+            Vstaňte k práci, vstaňte k dielu!
+            Spasiteľov volá hlas.
+            Bez zastatia napred k cieľu,
+            krátky je už k práci čas!
+        </section>
+        <section name="r1">
+            Deň sa kráti, noc sa blíži,
+            zobuďte sa, nespite!
+            Beda tým, čo driemať budú,
+            keď hlas zaznie: “Vyjdite!”
+        </section>
+        <section name="v2">
+            Vstaňte k práci, vstaňte k dielu!
+            Pred nami púť ďaleká:
+            s pravdou Božou prejsť zem celú.
+            Milosti čas uteká.
+        </section>
+        <section name="v3">
+            Vstaňte k práci, vstaňte dielu!
+            Tak znie Pánov vážny hlas.
+            Do srdca dám lásku vrelú,
+            k bojom vystojí si vás.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1
+    </repetition>
+</slide>

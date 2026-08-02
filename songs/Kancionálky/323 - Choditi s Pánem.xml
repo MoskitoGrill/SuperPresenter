@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Choditi s Pánem">
+    <variant name="čeština">
+        <section name="v1">
+            Choditi s Pánem, to je slast,
+            On vede v blahou nebes vlast,
+            On sám mír dává, ó, to vím,
+            šťasten jsem, s ním-li chodit smím!
+        </section>
+        <section name="r1">
+            Nauč mne Tobě sloužit víc,
+            nauč mne míti jasnou líc!
+            Nauč mne pravdu Tvoji znát,
+            nauč mne bližní milovat!
+        </section>
+        <section name="v2">
+            Choditi s Pánem, to je mír,
+            byť kolem zuřil zhoubný vír.
+            Těžkostí více nechci dbát,
+            když Pán mi pokoj svůj chce dát.
+        </section>
+        <section name="v3">
+            Choditi s Pánem, to je slast!
+            Čeká mne krásná věčná vlast,
+            v slávě, kde stále zřít jej smím
+            a zůstati tam navždy s ním.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1
+    </repetition>
+</slide>

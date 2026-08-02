@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Jezu Kriste, štědrý kněže">
+    <variant name="čeština">
+        <section name="v1">
+            Jezu Kriste, štědrý kněže,
+            S Otcem, Duchem jeden Bože
+            štědrost Tvá jest naše zboží,
+            z Tvé milosti.
+        </section>
+        <section name="v2">
+            Ty jsi v světě bydlil s námi,
+            Tvé tělo trpělo rány,
+            za nás, za hříšné křesťany,
+            z Tvé milosti.
+        </section>
+        <section name="v3">
+            Ó, Tvá dobroto důstojná
+            a k nám milosti přehojná!
+            Dáváš nám bohatství mnohá
+            z Tvé milosti.
+        </section>
+        <section name="v4">
+            Ráčils nás sám zastoupiti,
+            život za nás položiti,
+            tak smrt věčnou zahladiti,
+            z Tvé milosti.
+        </section>
+        <section name="v5">
+            Ó, křesťané, z bludů vstaňme,
+            dané dobro nám poznejme,
+            k Synu Božímu chvátejme,
+            k té milosti!
+        </section>
+        <section name="v6">
+            Chvála budiž Bohu Otci,
+            Synu jeho téže moci,
+            Duchu jeho rovné moci,
+            z též milosti!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4 v5 v6
+    </repetition>
+</slide>

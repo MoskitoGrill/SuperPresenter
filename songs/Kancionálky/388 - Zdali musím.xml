@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Zdali musím">
+    <variant name="čeština">
+        <section name="v1">
+            Zdali musím s prázdnou rukou Spasiteli jíti vstříc,
+            nedav ani dne mu služby, nepřinášejte mu nic?
+        </section>
+        <section name="r1">
+            Zda-li musím s prázdnou rukou Spasiteli jíti vstříc,
+            neveda ni jedné duše, nepřinášeje mu nic?
+        </section>
+        <section name="v2">
+            Ne tak smrti já se lekám, neboť v Kristu spasen jsem,
+            že však mám jej prázdný vítat, to mne plní zármutkem.
+        </section>
+        <section name="v3">
+            Ó jak mnohé léta drahé v hříchu jsem zde promarnil!
+            Kéž by se mi vrátit mohla, vše bych Pánu nahradil.
+        </section>
+        <section name="v4">
+            Dřív než smrti moc tě schvátí, snaž se duše k Pánu vést!
+            Každý pracuj, pokud k dílu milost tobě dána jest!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1 v4 r1
+    </repetition>
+</slide>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Daj Pán, by sme verní zostali">
+    <variant name="čeština">
+        <section name="v1">
+            Daj Pán, by sme verní zostali,
+            pred trónom raz jeho zlatým,
+            pred rytierstvom Božím,
+            svätým veniec víťazov sme dostali.
+        </section>
+        <section name="r1">
+            Verne zotrvaj! Verne zostaň!
+            Bratu, sestro, verne zotrvaj!
+            Verne zotrvaj! Verný zostaň!
+            Na odmenu večnú pamätaj!
+        </section>
+        <section name="v2">
+            Úzka je tá cesta spasenia,
+            šťastný, kto z nej nevykročí,
+            k nebu upiera vždy oči,
+            nezablúdi v noci súženia.
+        </section>
+        <section name="v3">
+            Nech ťa zloba sveta neľaká,
+            bolesť z cesty nevyrazí.
+            Kto sa bojí, nezvíťazí.
+            Sláva zbabelého nečaká.
+        </section>
+        <section name="v4">
+            Vzhliadni k slávnym nebies výšinám.
+            Hľa, tam Otec mocný býva,
+            s láskou na teba sa díva.
+            Pomocníkom verným On je nám.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1 v4 r1
+    </repetition>
+</slide>

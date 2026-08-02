@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Ide noc">
+    <variant name="čeština">
+        <section name="v1">
+            Ide noc, strašná noc,
+            vládne hriechu moc.
+            K spánku zvádza Božích ľudí,
+            ktože ich len z neho vzbudí,
+            /:kto tu príde napomoc?:/
+        </section>
+        <section name="v2">
+            Smutný čas, vážny čas.
+            Chválospevov tíchne hlas.
+            Detí Božie sebe žijú,
+            pokušenia vody pijú,
+            /:v hriech sa zapletajú zas.:/
+        </section>
+        <section name="v3">
+            Stíchol ston, ľudstva zhon,
+            Ježiš opustil už trón.
+            Cherubíni pochod hrajú,
+            k svadbe hosťov zvolávajú,
+            /:rýchlo, rýchlo na Sion!:/
+        </section>
+        <section name="v4">
+            Pane môj, Jezu môj,
+            zobuď z driemot Sion svoj!
+            Satanovi z rúk ho vymaň,
+            Duchom svätým mocne zavaň,
+            /:znovu zažni svetla zdroj!:/
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

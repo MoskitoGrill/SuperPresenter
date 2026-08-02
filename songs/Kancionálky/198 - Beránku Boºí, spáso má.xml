@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Beránku Boží, spáso má">
+    <variant name="čeština">
+        <section name="v1a">
+            Beránku Boží, spáso má,
+            k Tobě se vírou blížím,
+            tak, jak jsem hříchy obtížen,
+            ku kříži Tvému vzhlížím.
+            Smiluj se, ó Pane,
+            pro své slovo dané,
+        </section>
+        <section name="v1b">
+            přijmi mne jen,
+            dnes v spásy den,
+            Spasiteli můj drahý,
+            přijmi mne jen,
+            dnes, v spásy den
+            a posvěť moje snahy!
+        </section>
+        <section name="v2a">
+            Beránku Boží, slávo má,
+            oslavovat chci Tebe!
+            Vždyť jsi mne spasil, obživil,
+            v Tobě mám nyní nebe.
+            Žít Ti chci i mříti,
+            Tvým chci věčně býti,
+        </section>
+        <section name="v2b">
+            přijmi mne jen,
+            dnes v spásy den,
+            Spasiteli můj drahý,
+            přijmi mne jen,
+            dnes, v spásy den
+            a posvěť moje snahy!
+        </section>
+        <section name="v3a">
+            Beránku Boží, králi můj,
+            ó kéž to lidé vědí,
+            jak velmi všechny miluješ,
+            ó kéž jen k tobě hledí!
+            Chci též pomáhati,
+            všechny k Tobě zváti
+        </section>
+        <section name="v3b">
+            přijmi mne jen,
+            dnes v spásy den,
+            Spasiteli můj drahý,
+            přijmi mne jen,
+            dnes, v spásy den
+            a posvěť moje snahy!
+        </section>
+        <section name="v4a">
+            Beránku Boží, Pane můj,
+            oslav se ještě jednou
+            v té naší vlasti milené!
+            Nechť se tu mrtví zvednou
+            k hlasu Tvého slova,
+            když tak milost mnohá
+        </section>
+        <section name="v4b">
+            na všech stranách,
+            v smrti branách,
+            k životu dopomáhá,
+            na všech stranách,
+            v smrti branách,
+            k životu dopomáhá!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1a v1b v2a v2b v3a v3b v4a v4b
+    </repetition>
+</slide>

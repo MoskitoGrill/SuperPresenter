@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Sláva Ti, Bože">
+    <variant name="čeština">
+        <section name="v1">
+            Sláva Ti, Bože,
+            Tvoja sila
+            zvlažuje pôdu
+            vyschnutú,
+            Ty pôsobíš,
+            by urodila
+            chlieb, potrebný
+            nám k životu.
+        </section>
+        <section name="v2">
+            Mračnému nebu
+            prikazuješ,
+            aby dážď na zem
+            dávalo,
+            a slncu svojmu
+            denne kážeš,
+            by dobrým
+            i zlým svietilo.
+        </section>
+        <section name="v3">
+            Bez Tvojho, Bože,
+            požehnania
+            prestal by život
+            na svete.
+            Duch náš sa Tebe
+            s úctou klania,
+            vždy vďačný
+            Tvojej dobrote.
+        </section>
+        <section name="v4">
+            Velebí Teba
+            duch náš vrúci
+            za Tvoje múdre
+            vedenie.
+            Čuj prosby, Bože
+            všemohúci:
+            daj nové
+            Ducha zvlaženie.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

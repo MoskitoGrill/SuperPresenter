@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Kto dá mi silu">
+    <variant name="čeština">
+        <section name="v1">
+            Kto dá mi silu k púti v ďaleký blaha svet?
+            Kto osvieti mi cestu, úskalie, zradnú sieť?
+            Kto nahradí mi svojeť v mrazivej cudzine?
+            Môj Pán a môj Boh, Ježiš. On svetlo jediné.
+        </section>
+        <section name="v2">
+            Kto postaví sa k boku v hrozivých búrok čas?
+            Kto útechu dá srdcu, keď šťastie spílil  mráz?
+            A v chvíľach tvrdej skúšky na koho zavolám?
+            Kto privinie ma k sebe? Môj ženích Ježiš sám!
+        </section>
+        <section name="v3">
+            Kto posilní ma k práci, keď nieto uznania?
+            Kto zotrie horké slzy bolesti, sklamania?
+            Kto naučí am veriť, kde nezrieť pomoci?
+            Môj Spasiteľ, Pán Ježiš, mocný i v nemoci.
+        </section>
+        <section name="v4">
+            Kto otvorí mi bránu, až púť raz skončená?
+            V čích rukách leží vzácna vernosti odmena?
+            Kto položí ma s láskou ta v náruč Otcovu?
+            Pán Ježiš, cesta jasná k večnému domovu.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

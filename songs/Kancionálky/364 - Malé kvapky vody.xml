@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Malé kvapky vody">
+    <variant name="čeština">
+        <section name="v1">
+            Malé kvapky vody, zrnká piesku len,
+            oceány tvoria, celú našu zem, celú našu zem.
+        </section>
+        <section name="v2">
+            Okamžiky malé, krátke ako dych,
+            tvoria dlhé roky, vekov bezodných, vekov bezodných.
+        </section>
+        <section name="v3">
+            Tak aj chyby drobné majú sily dosť rozboľavieť
+            srdcia, množiť neprávosť, množiť neprávosť.
+        </section>
+        <section name="v4">
+            Ak čin lásky koná hoc len detská dlaň,
+            k požehnaniu sveta rozhojní ho Pán, rozhojní ho Pán.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

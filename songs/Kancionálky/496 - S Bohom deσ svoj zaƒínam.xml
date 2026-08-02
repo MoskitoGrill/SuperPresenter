@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="S Bohom deň svoj začínam">
+    <variant name="čeština">
+        <section name="v1">
+            S Bohom deň svoj začínam,
+            k nemu zrak vždy upínam.
+            Dnes som vošiel v Boží chrám,
+            tu rád Bohu chválu vzdám.
+            Týždňa deň to najväčší,
+            v ktorom Pán ma poteší.
+            V svätom nedeľňajšom dni
+            vidím večný, posledný.
+        </section>
+        <section name="v2">
+            Slávny, dobrý Otče môj,
+            bolesť môjho srdca zhoj.
+            Svoju zmierenú zjav tvár,
+            odpusť hriech môj, hanu zmar.
+            Zbav ma všetkých starostí,
+            popraj kľudu, radosti,
+            aby v tento svätý deň
+            mohol som žiť s Tebou len.
+        </section>
+        <section name="v3">
+            Prišiel som Ti poctu vzdať,
+            z duše vďaku vyspievať.
+            Daj, by som ťa uvidieť
+            mohol v sláve, s Tebeou dlieť!
+            Už tu daj mi okúsiť,
+            ako budem v nebi žiť.
+            v Tvojom odpočinku raz,
+            keď Ty určíš na to čas.
+        </section>
+        <section name="v4">
+            Ty mi pomôž spásy zvesť
+            všetkým ľuďom verne niesť.
+            Ty ma k tomu uschopni,
+            svojou láskou obopni,
+            v dobrom by som mohol rásť,
+            vždy sa Tebe v obeť klásť.
+            A keď príde tela skon,
+            ducha prijmi pred svoj trón.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

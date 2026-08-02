@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Ó, veď ma sám">
+    <variant name="čeština">
+        <section name="v1">
+            Ó, veď ma sám, ja nemám síl, bo svetla pravdy vo mne niet.
+            Hoc ku cti rád by som Ti žil, vždy v hriech ma zvádza mysle let.
+        </section>
+        <section name="v2">
+            Ó, veď ma cestou pokory, nech zomrie moje pyšné “ja”,
+            nech srdce vďakou zahorí a slávi, zvelebuje Ťa.
+        </section>
+        <section name="v3">
+            Ó, vyveď za stany ma tam, ja ešte príliš na svet zriem,
+            ach zoškliv jeho zvody, klam, nech Tebe žijem, Tebe mriem.
+        </section>
+        <section name="v4">
+            Ó, Pene môj, niet nad Tvoj kríž, veď žertvy, krvi v ňom je moc,
+            tou mocou moje srdce stíš a zažeň žiaľu, hriechu moc.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

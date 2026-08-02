@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Zda křesťanem chceš býti">
+    <variant name="čeština">
+        <section name="v1">
+            /:Zda křesťanem chceš
+            býti v mladosti?:/
+            Což myslíš, že tu štěstí
+            bez Boha ti bude kvésti?
+            Nedej se tím klamem
+            svésti v mladosti!
+        </section>
+        <section name="v2">
+            /:Zda milovat chceš
+            Pána v mladosti?:/
+            On pro tě vzdal se všeho,
+            nelitoval kříže svého,
+            a ty nedbal bys na
+            něho v mladosti?
+        </section>
+        <section name="v3">
+            /:Buď bedliv! Nešetří
+            smrt mladosti!:/
+            Jak často žalem chřadne
+            matka, jejíž dítko vnadné
+            náhle mrazem smrti
+            vadne v mladosti.
+        </section>
+        <section name="v4">
+            /:Nu, zvol si cestu
+            služby v mladosti!:/
+            Když Pán tě bude vodit,
+            jako přítel s tebou chodit,
+            kdo ti bude moci
+            škodit v mladosti?
+        </section>
+        <section name="v5">
+            /:Ó, proč bys tedy
+            váhal v mladosti?:/
+            Hle, po vší kráse světa
+            v okamžení bude veta.
+            Pánu tedy věnuj
+            léta mladosti!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4 v5
+    </repetition>
+</slide>

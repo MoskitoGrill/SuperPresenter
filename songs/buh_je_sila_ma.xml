@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<slide name="Bůh je síla má">
+    <variant name="čeština">
+        <section name="v1">
+Bůh je síla má i vojska mého,
+On způsobí volnou cestu mou.
+Neboť dal mi štít spasení svého
+a dobrotivost Jeho zvelebila mne.
+</section>
+        <section name="r1">
+Neboť kdo je Bohem, kromě Hospodina,
+a kdo je skálou kromě Boha našeho!
+</section>
+        <section name="r2">
+Nikdo není Bohem, kromě Hospodina,
+nikdo není skálou kromě Boha našeho!
+</section>
+    </variant>
+    <repetition name="default" main="1">v1 r1 r2</repetition>
+</slide>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Buď žehnán svazek ten">
+    <variant name="čeština">
+        <section name="v1">
+            Buď žehnán svazek ten,
+            jenž v Kristu víže nás,
+            a kruh náš zůstaň sjednocen,
+            jak v nebi bude zas!
+        </section>
+        <section name="v2">
+            Spojených proseb hlas
+            chcem před trůn Otcův vznést,
+            vždyť jedna snaha vede nás
+            a cíl náš jeden jest.
+        </section>
+        <section name="v3">
+            Též svorně chceme nést
+            společné břímě, žal,
+            soucitu slzu vyronit
+            s bratrem, jenž zaplakal.
+        </section>
+        <section name="v4">
+            Když rozchod nastává,
+            nám v srdci teskno je,
+            však nelkáme, neb zůstává
+            shledání naděje!
+        </section>
+        <section name="v5">
+            Ta naděj sílí nás
+            na cestách života,
+            neb víme, že se blíží čas,
+            kdy Pán nás uvítá.
+        </section>
+        <section name="v6">
+            Tam vysvobozen z bíd,
+            únav i hříchů prost,
+            kruh náš i všechen Boží lid
+            se spojí na věčnost.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4 v5 v6
+    </repetition>
+</slide>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Ježiš Kristus z hrobu povstal">
+    <variant name="čeština">
+        <section name="v1">
+            Ježiš Kristus
+            z hrobu povstal,
+            haleluja!
+            Smrť a peklo
+            slávne zdolal,
+            haleluja!
+        </section>
+        <section name="v2">
+            Kameň je už
+            odvalený,
+            haleluja!
+            Božia moc smrť
+            v život mení,
+            haleluja!
+        </section>
+        <section name="v3">
+            Zbrane sveta
+            polámané,
+            haleluja!
+            Kristovi je
+            panstvo dané,
+            halejuja!
+        </section>
+        <section name="v4">
+            Meno má nad
+            všetky mená,
+            haleluja!
+            V ňom nám brána
+            otvorená,
+            haleluja!
+        </section>
+        <section name="v5">
+            Nebudeme
+            v smrti večne,
+            haleluja!
+            Aj nás vzkriesi,
+            k sebe vezme,
+            haleluja!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4 v5
+    </repetition>
+</slide>

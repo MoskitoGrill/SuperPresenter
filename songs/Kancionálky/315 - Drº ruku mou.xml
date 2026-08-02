@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Drž ruku mou">
+    <variant name="čeština">
+        <section name="v1">
+            Drž ruku mou!
+            Ó, Pane, já jsem slabý,
+            nemohu ani
+            krok jít bez Tebe!
+            Drž ruku mou
+            a pak, ó Jezu drahý,
+            za Tebou směle
+            půjdu do nebe.
+        </section>
+        <section name="v2">
+            Drž ruku mou,
+            mne k sobě blíže přiviň,
+            jen v blízkosti
+            Tvé pravé blaho jest!
+            Drž ruku mou,
+            sic jinak zbloudím jistě
+            s Tvých požehnaných,
+            Spasiteli, cest!
+        </section>
+        <section name="v3">
+            Drž ruku mou!
+            Chci Tebou dát se vésti,
+            nechť předchází
+            vždy Tvá mne jasná tvář!
+            Vždyť blaze mi,
+            když na všecky mé cesty
+            Tvá milost, Jezu,
+            vrhá svoji zář.
+        </section>
+        <section name="v4">
+            Drž ruku mou,
+            a když mi bude státi,
+            na prahu smrti,
+            kterouž i Tys nes,
+            nech oheň lásky
+            své mi jasně pláti
+            a v říši svou mne
+            milostivě vnes!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

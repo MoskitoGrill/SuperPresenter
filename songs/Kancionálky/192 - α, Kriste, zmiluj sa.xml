@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Ó, Kriste, zmiluj sa">
+    <variant name="čeština">
+        <section name="v1">
+            Ó, Kriste, zmiluj sa!
+            Ty večný Boží Syn!
+            Len v Tebe nájdem spasenie,
+            Ty zbav ma mojich vín.
+        </section>
+        <section name="v2">
+            Ó, Kriste, zmiluj sa!
+            Mňa desí krutý boj.
+            V zlom vlnobití života
+            Ty srdce upokoj.
+        </section>
+        <section name="v3">
+            Ó, Kriste, zmiluj sa!
+            Tma vôkol mňa a blud.
+            Ty pomôž v púti do neba
+            a svetlo mojím buď.
+        </section>
+        <section name="v4">
+            Ó, Kriste, zmiluj sa!
+            Smrť halí slnka jas.
+            Ach, nedaj duši zahynúť,
+            môj Pane, Ty ma spas.
+        </section>
+        <section name="v5">
+            Ó, Kriste, zmiluj sa!
+            Daj, nech raz v slávny deň
+            sa v život večný premení
+            môj tmavý smrti sen.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4 v5
+    </repetition>
+</slide>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="566a - U stolu Tvého">
+    <variant name="čeština">
+        <section name="v1a">
+            My sešli jsme se, církev Tvá,
+            ó Pane, s vděčností,
+            a vzpomínáme, jak jsi nás
+            vyvedl z temností.
+            Ó Pastýři, Tys hledal nás
+            a našed, neopustils nás.
+        </section>
+        <section name="v1b">
+            My poznali
+            Tě, Ježíši,
+            Ó klenote náš
+            nejvyšší,
+            my známe Tě,
+            my, Jezu známe Tě.
+        </section>
+        <section name="v2a">
+            Chléb, který tady lámeme,
+            náš Pane, svědčí nám,
+            že jistotně jsi tělo své
+            dal v oběť za nás sám.
+            My těšíme se z toho již,
+            žes, Jezu, strpěl za nás kříž.
+        </section>
+        <section name="v2b">
+            Tvé rány, Tvoje
+            zsinalost,
+            jsou lék náš, zdraví,
+            sláva, skvost,
+            ó, manno Ty,
+            ó, nebes manno Ty!
+        </section>
+        <section name="v3a">
+            A kalich, z něhož pijeme,
+            je odznak krve Tvé,
+            jižs vylil za nás, Ježíši,
+            z převelké lásky své.
+            Náš hřích je smyt a smířen Bůh,
+            to stvrzuje nám svatý Duch.
+        </section>
+        <section name="v3b">
+            My jednota
+            jsme dítek Tvých,
+            ó Otče, jenž jsi
+            v nebesích,
+            ó Otče náš,
+            ó Bože, Otče náš.
+        </section>
+        <section name="v4a">
+            Při stolu Tvém se těšíme,
+            že brzo přijdeš již.
+            Ó Hlavo církve, nemeškej,
+            a prosbu naši slyš:
+            My s touhou denně víc a víc
+            patříme Tvému přístí vstříc,
+        </section>
+        <section name="v4b">
+            přijď brzo, církev
+            seber svou
+            na Večeři tu
+            nebeskou!
+            Ó nemeškej,
+            ó Jezu, nemeškej!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1a v1b v2a v2b v3a v3b v4a v4b
+    </repetition>
+</slide>

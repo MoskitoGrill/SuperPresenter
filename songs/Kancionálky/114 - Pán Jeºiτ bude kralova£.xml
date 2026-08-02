@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Pán Ježiš bude kraľovať">
+    <variant name="čeština">
+        <section name="v1">
+            Pán Ježiš bude kraľovať,
+            od mora k moru panovať.
+            Všade, kde svitne slnka lúč,
+            má všetku moc i pekla kľúč.
+        </section>
+        <section name="v2">
+            Ostrovy s kráľmi, kde len sú,
+            obetný dar mu prinesú.
+            Na svete všetci vládcovia
+            pred ním sa s úctou pokoria.
+        </section>
+        <section name="v3">
+            Modlitby, žalmy, zaznejú,
+            vence sa krásne zaskvejú,
+            rozkošná vôňa obetí
+            každý deň vesmír obletí.
+        </section>
+        <section name="v4">
+            Západ a východ, sever, juh
+            združia sa v bratrský,
+            veľký kruh
+            zaspievať pieseň najkrajšiu
+            za lásku svätú, najdrahšiu.
+        </section>
+        <section name="v5">
+            Rozkvitne šťastie slávnym dňom,
+            sloboda svitne otrokom.
+            Ustatý večne spočinie
+            v Kristovej slávnej otčine.
+        </section>
+        <section name="v6">
+            Stvorenie oddá zvláštny dar
+            Kráľovi svojmu na oltár.
+            Anjeli s piesňou zídu zas,
+            zem zvolá "Amen" mnoho ráz.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4 v5 v6
+    </repetition>
+</slide>

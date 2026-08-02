@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Ako tie hviezdičky">
+    <variant name="čeština">
+        <section name="v1">
+            Ako tie hviezdičky blednú a hasnú,
+            zrána keď na nebi slnka jas vzplál,
+            podobne stratíš raz krásu tú časnú,
+            ostatne len, čo si Kristovi dal.
+        </section>
+        <section name="r1">
+            Kto dušu svoju pre Krista stratí,
+            znášať vie pre neho bolesť i žiaľ,
+            Boh mu ju iste raz v nebesiach vráti,
+            nezhynie to, čo si Kristovi dal.
+        </section>
+        <section name="v2">
+            Iný raz prevezme rúk tvojich prácu,
+            nebudeš roľu žať, v ktorú si sial.
+            Boh ti len za to dá odmenu, plácu,
+            čo si tu do služieb Kristových dal.
+        </section>
+        <section name="v3">
+            Len ten, kto ochotne pre svojho Pána
+            seba i život svoj obetoval,
+            uvidí svetlo raz večného rána,
+            všetko tam nájde, čo Kristovi dal.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1
+    </repetition>
+</slide>

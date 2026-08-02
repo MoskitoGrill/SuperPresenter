@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Slovo plné nádeje a lásky">
+    <variant name="čeština">
+        <section name="v1">
+            Slovo plné nádeje a lásky
+            mierni bolesť, uhládza nám vrásky.
+            /:Bratom dáva v rozlúčení kľud,
+            navždy spája vykúpený ľud.:/
+        </section>
+        <section name="v2">
+            Božia vôľa s najbližším ak delí,
+            úzkou cestou Pán ti kráčať velí.
+            /:Nechaj tieseň, zlož svoj ťažký žiaľ,
+            všetko správne riadi lásky Kráľ.:/
+        </section>
+        <section name="v3">
+            Keď sa žitia rozchádzajú cesty,
+            bolestná smrť drahé trhá zväzky,
+            /:dúfaj, večne nerozlúči nás,
+            v nebi stretneme sa všetci zas.:/
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3
+    </repetition>
+</slide>

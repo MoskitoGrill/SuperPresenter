@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Rád bych, Jezu, chválu Tvoji">
+    <variant name="čeština">
+        <section name="v1">
+            Rád bych, Jezu, chválu Tvoji
+            celou duší vyzpíval,
+            rád bych, aby lásky zdroji,
+            Tebe každý miloval.
+        </section>
+        <section name="r1">
+            Pějte, pějte Spasiteli,
+            všechněm  On se vydal nám,
+            volá: “Pojďte, kdo jste koli,
+            já vám život věčný dám!”
+        </section>
+        <section name="v2">
+            V nemoci a bolu mnohém,
+            v sobectví a rozruchu
+            byl jsem, když šel Ježíš kolem
+            a mne ujal za ruku.
+        </section>
+        <section name="v3">
+            S Otcem opět syna spojil,
+            hrozné hříchů jho mi sňal,
+            neduhy a rány zhojil,
+            svůj mi pokoj daroval.
+        </section>
+        <section name="v4">
+            Všem bych rád to vypravoval,
+            jaký Spasitel můj jest,
+            všechny lidi k němu volal,
+            aby  jemu vzdali čest.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1 v4 r1
+    </repetition>
+</slide>

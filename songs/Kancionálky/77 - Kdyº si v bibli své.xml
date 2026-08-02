@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Když si v bibli své">
+    <variant name="čeština">
+        <section name="v1">
+            Když si v bibli své vždy znovu
+            sbírám sílu k životu.
+            krásu vidím Ježíšovu,
+            bezelstnost a dobrotu.
+        </section>
+        <section name="v2">
+            Vlídnými a laskavými
+            slovy k sobě děti zval,
+            mluvil o nich, mluvil s nimi,
+            do náruče své je bral.
+        </section>
+        <section name="v3">
+            Léčil choré, hladné sytil,
+            navracoval slepým zrak,
+            jako jasné světlo svítil,
+            prozařoval žalů mrak.
+        </section>
+        <section name="v4">
+            Kdo ho v tísni hříchu hledal,
+            srdce když si zkrvavil,
+            toho odpuštěním zvedal,
+            hrůzy smrti pozbavil.
+        </section>
+        <section name="v5">
+            On je tentýž dnes i vždycky,
+            úzkostem tvým rozumí:
+            pravý Bůh, a přec tak lidský,
+            zdvihá k světlu z hrobu tmy.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4 v5
+    </repetition>
+</slide>

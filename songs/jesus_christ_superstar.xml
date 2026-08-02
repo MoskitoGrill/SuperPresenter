@@ -1,0 +1,24 @@
+<?xml version="1.0" ?>
+<slide name="Jesus Christ Superstar">
+    <variant name="čeština">
+        <section name="v1">
+Prosíme tě dej nám pane sílu,
+Chceme začítpodle slov tvých žít,
+věříme žejednou budem v míru
+u tvého stolu společně víno pít.
+</section>
+        <section name="v2">
+Dívej se na všechny naše zkoušky, 
+jak se utápíme v starostech, 
+bez tebe by svět byl jenom pouští, 
+bez tebe by život neměl vůbec žádnej cíl.
+</section>
+        <section name="v3">
+Děkujem za velikou Tvou lásku,
+za ten úžasný kříž oběti.
+Za kříž, který přinesl nám spásu, chceme, Pane,
+jméno Tvoje chválit na věky
+</section>
+    </variant>
+    <repetition name="default" main="1">v1 v2 v3</repetition>
+</slide>

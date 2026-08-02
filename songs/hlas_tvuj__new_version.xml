@@ -1,0 +1,28 @@
+<?xml version="1.0" ?>
+<slide name="Hlas Tvůj - new version">
+    <variant name="čeština">
+        <section name="v1">
+Hlas Tvůj když volá mne,
+            jdu, Pane, Tobě vstříc
+            a hledám spásu duše své
+            pod křížem v ranách Tvých.
+</section>
+        <section name="r1">
+Ó, Hospodine, jen v Tebe důvěru mám.
+            Ó, Hospodine,jen v Tebe důvěru mám.
+</section>
+        <section name="v2">
+Když mračna stahují se nad mou hlavou,
+            jen v Tebe důvěru mám,
+            pak místo deště slzy z očí kanou,
+            jen v Tebe důvěru mám.
+</section>
+        <section name="v3">
+Když do mysli se vkrádá porážky stín,
+            jen v Tebe důvěru mám,
+            zas k Tobě přijdu s prostou vírou, 
+            že smím, když v Tebe důvěru mám.
+</section>
+    </variant>
+    <repetition name="default" main="1">v1 r1 v2 v3 r1</repetition>
+</slide>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Své svaté, Pane, žehnej roli">
+    <variant name="čeština">
+        <section name="v1">
+            Své svaté, Pane, žehnej roli
+            a těm, již vedou lásky pluh
+            sněhových pláni po vůkolí
+            i tam, kde v poušti oas kruh!
+            Svých sluhů vůli naplň vírou,
+            by osili zem širo-širou
+            Tvým poselstvím,
+            Tvým poselstvím!
+        </section>
+        <section name="v2">
+            Šli na Tvůj pokyn v nebezpečí
+            a opustili rodný práh,
+            by skutkem svědčili i řečí
+            těm, kteří v nevěry jsou tmách,
+            a nesli zvěsti Beránkovy
+            pod smutkem nachýlené krovy.
+            Ó, žehnej jim,
+            ó žehnej jim!
+        </section>
+        <section name="v3">
+            Ty, Bože, znáš jich lásky snahy,
+            jak Tebe milují a lid,
+            jejž k Tobě vedou, Pane drahý,
+            a jenž Tě za Boha chce mít.
+            Jim po práci a odříkání
+            jít domů dopusť z třesku zbraní
+            v ráj blažený,
+            v ráj blažený!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3
+    </repetition>
+</slide>

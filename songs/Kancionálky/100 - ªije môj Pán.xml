@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Žije môj Pán">
+    <variant name="čeština">
+        <section name="v1a">
+            Žije môj Pán!
+            Už pominula noc,
+            den slávny svitol nám.
+            Zvíťazil On!
+            Boh dal mu každú moc,
+            i ja mu poctu vzdám.
+        </section>
+        <section name="v1b">
+            Smrť nemohla ho spútať,
+            ó, radosť všetkých dôb!
+            Nás naučil tiež dúfať
+            ten prázdný jeho hrob.
+        </section>
+        <section name="v2a">
+            Žije môj Pán!
+            On kráča predo mnou,
+            ja spolieham sa naň.
+            Prevedie ma
+            i smrti, pekla tmou
+            v ten nebeský svoj stan.
+        </section>
+        <section name="v2b">
+            Hoc život v biede plynie
+            a dušu raní boj,
+            kto verí, nezahynie,
+            v ňom nájde spásy zdroj.
+        </section>
+        <section name="v3a">
+            Žije môj Pán!
+            On Vládca je a Kráľ,
+            má v nebi slávny trón.
+            Hriešny ten svet
+            mu potupný kríž dal
+            a čakal jeho skon.
+        </section>
+        <section name="v3b">
+            Však Ježiš, Víťaz slávny,
+            vstal z mŕtvych v treti deň!
+            On zlomil smrti brány,
+            aj mňa raz vzkriesi, viem!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1a v1b v2a v2b v3a v3b
+    </repetition>
+</slide>

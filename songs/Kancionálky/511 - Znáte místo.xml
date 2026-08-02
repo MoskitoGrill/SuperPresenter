@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Znáte místo">
+    <variant name="čeština">
+        <section name="v1">
+            Znáte místo tiché, milé,
+            v svatém veselí,
+            kde ty krásné blahé chvíle
+            každou neděli?
+            Známe, známe všichni spolu,
+            dobře známe ji,
+            nedělní tu naši školu,
+            naši naději.
+        </section>
+        <section name="v2">
+            Znáte úkol, cíl těch schůzí?
+            Důvěrně se ptám:
+            Smíme my a mohou druzí
+            s námi v ten váš chrám?
+            Od dětinství Slovo Boží
+            učíme se znát,
+            a kdo řady naše zmnoží,
+            vítán tisíckrát.
+        </section>
+        <section name="v3">
+            Tak již pojďte, kdož jste koli,
+            malí, dospělí,
+            pojďte s námi do té školy
+            každou neděli!
+            Dva neb tři kde v Páně jménu,
+            chce vždy být i On,
+            v něm pak máme připravenu
+            cestu na Sion.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3
+    </repetition>
+</slide>

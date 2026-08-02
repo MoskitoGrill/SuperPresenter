@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Dobrořeč, duše má, Hospodinu">
+    <variant name="čeština">
+        <section name="v1a">
+            Dobrořeč, duše má, Hospodinu,
+            dobrota jeho věčná jest.
+            Vydej se, duše má, cele jemu,
+            životem celým vzdej mu čest.
+        </section>
+        <section name="v1b">
+            Dobrota jeho věčná jest;
+            životem celým vzdej mu čest.
+            Haleluja, Haleluja!
+        </section>
+        <section name="v2a">
+            Navěky Hospodin hněvu nemá,
+            v lásce mu není rovného.
+            Věčné jen otcovsky s dítkem jedná,
+            netrápí tvora žádného.
+        </section>
+        <section name="v2b">
+            V lásce mu není rovného,
+            netrápí tvora žádného.
+            Haleluja, Haleluja!
+        </section>
+        <section name="v3a">
+            Dobré jest chváliti Hospodina,
+            oslavuj tvor jej všeliký!
+            Hospodin kraluje,
+            Haleluja, v milosrdenství na věky!
+        </section>
+        <section name="v3b">
+            Hospodin Král je veliký,
+            oslavuj tvor jej všelíký!
+            Haleluja, Haleluja!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1a v1b v2a v2b v3a v3b
+    </repetition>
+</slide>

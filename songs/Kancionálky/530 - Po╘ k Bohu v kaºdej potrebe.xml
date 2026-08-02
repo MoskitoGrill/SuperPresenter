@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Poď k Bohu v každej potrebe">
+    <variant name="čeština">
+        <section name="v1">
+            Poď k Bohu v každej potrebe,
+            a ako s Otcom hovor s ním,
+            veď pristup k Božej velebe
+            ti získal Ježiš, Boží Syn.
+        </section>
+        <section name="v2">
+            Poď, volaj k Bohu v súžení,
+            keď nepriateľa vôkol zrieš,
+            On smútok v radosť premení,
+            len modlitbou sa k nemu nes.
+        </section>
+        <section name="v3">
+            Poď, Otec tvoj je bohatý,
+            On vzácne dary chce ti dať,
+            tie veci, ktoré nemáš ty,
+            od neho môžeš zdarma brať.
+        </section>
+        <section name="v4">
+            Poď, ach poď, túžby nezataj,
+            poď, nezbavuj sa radosti,
+            čo potrebuješ, predkladaj
+            vždy pred trón Božej milosti.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

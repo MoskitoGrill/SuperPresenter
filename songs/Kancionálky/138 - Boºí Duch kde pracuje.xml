@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Boží Duch kde pracuje">
+    <variant name="čeština">
+        <section name="v1">
+            Boží Duch kde pracuje,
+            tam se srdce změňuje:
+            probouzí se žádost čistá,
+            svět a ďábel nemá místa.
+            Boží Duch kde pracuje,
+            tam se srdce změňuje.
+        </section>
+        <section name="v2">
+            Dítko, vněmž On přebývá,
+            vůli Otce činívá.
+            Do vody neb ohně jíti
+            nezdráhá se ve svém žití.
+            Boží Duch kde pracuje,
+            tam se srdce změňuje.
+        </section>
+        <section name="v3">
+            Duch kde staví Boží stan,
+            tam je každý milován.
+            Nepříteli láska žehná,
+            po bratrsku s bratrem jedná.
+            Boží Duch kde pracuje,
+            tam se srdce změňuje.
+        </section>
+        <section name="v4">
+            Duch kde trůn si postaví,
+            nejistoty pozbaví.
+            Duchem obrozené plémě
+            spatří krásy nové země.
+            Boží Duch kde pracuje,
+            tam se srdce změňuje.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

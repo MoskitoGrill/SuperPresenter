@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Má Pán Ježíš, má mne rád">
+    <variant name="čeština">
+        <section name="v1">
+            Má Pán Ježíš, má mne rád,
+            praví písmo nastokrát:
+            všecky děti jak jen jsou,
+            srdce jeho zálibou!
+            Má Pán Ježíš, má mne rád,
+            praví písmo nastokrát!
+        </section>
+        <section name="v2">
+            Má mne rád, neb krví svou
+            vykoupil též duši mou.
+            Odpustí mi každý hřích,
+            když se v pravdě daji z nich.
+            Má Pán Ježíš, má mne rád,
+            praví písmo nastokrát!
+        </section>
+        <section name="v3">
+            Má mne rád a v nemoci,
+            když již nikde pomoci,
+            jako strážce při mně dlí,
+            praví: "Já tě miluji!"
+            Má Pán Ježíš, má mne rád,
+            praví písmo nastokrát!
+        </section>
+        <section name="v4">
+            Má mne rád! On, Pastýř můj,
+            se mne nespustí zrak svůj;
+            jestli jeho zůstanu,
+            do nebe se dostanu.
+            Má Pán Ježíš, má mne rád,
+            praví písmo nastokrát!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

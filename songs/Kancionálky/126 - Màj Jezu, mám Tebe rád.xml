@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Můj Jezu, mám Tebe rád">
+    <variant name="čeština">
+        <section name="v1">
+            Můj Jezu, mám Tebe rád,
+            vím, že jsi mým
+            a rozkošem světa
+            zde výhost dám zlým.
+            Ó, nejdražší Pane, jen
+            k sobě mne vznes;
+            ach, víc nežli dříve
+            Tě miluji dnes!
+        </section>
+        <section name="v2">
+            Já miluji Tě, neb tys
+            dřív mne měl rád
+            a na dřevě kříže
+            jsi život svůj klad.
+            Tys korunu z trní za
+            hříchy mé nes,
+            ach, víc nežli dříve
+            Tě miluji dnes!
+        </section>
+        <section name="v3">
+            chci milovat Tebe zde
+            v života dnech
+            a chváliti vděčně,
+            co stačí mi dech!
+            A kdybych již na smrti
+            lože zde kles,
+            vím, víc nežli dříve
+            Tě miluji dnes!
+        </section>
+        <section name="v4">
+            Tam v příbytcích slávy,
+            kde věčný den jest,
+            tam budu Tě slavit
+            a vzdávat ti čest
+            a zpívati budu v ten
+            nebeský ples:
+            ach, víc nežli dříve
+            Tě miluji dnes!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

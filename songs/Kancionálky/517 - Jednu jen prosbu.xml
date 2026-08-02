@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Jednu jen prosbu">
+    <variant name="čeština">
+        <section name="v1">
+            Jednu jen prosbu
+            k Tobě mám,
+            že mi ji splníš,
+            Otče, znám:
+            po celý den, ó,
+            Bože můj,
+            blízkostí svou mne
+            posiluj!
+        </section>
+        <section name="r1">
+            Za sílu konat dílo Tvé
+            Tě prosí srdce pokorné.
+            Na každý den mi sílu dej,
+            v slabostech mých mne
+            podpířej!
+        </section>
+        <section name="v2">
+            Za žití sladké
+            pohodlí
+            srdce se moje
+            nemodlí:
+            za to jen, abys
+            odvahou
+            k zápasu sílil
+            duši mou.
+        </section>
+        <section name="v3">
+            Sílu dej, Bože,
+            abych dnes
+            svou dělnou lásku
+            bližním nes,
+            ze srdce vyhnal
+            pýchy hřích,
+            věrný Ti byl i
+            v souženích.
+        </section>
+        <section name="v4">
+            Pomoc Tvá, Bože,
+            slavná jest,
+            jako ta stálá
+            záře hvězd;
+            každičký projev
+            moci Tvé
+            oporou pevnou
+            duši je.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1 v4 r1
+    </repetition>
+</slide>

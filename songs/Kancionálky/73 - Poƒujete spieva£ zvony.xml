@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Počujete spievať zvony">
+    <variant name="čeština">
+        <section name="v1">
+            Počujete spievať zvony vianočné?
+            Počuje, ako znejú radostne?
+            Rozprávajú sväté zvesti dojemné,
+            že Pán Ježiš narodil sa v Betleme.
+        </section>
+        <section name="r1">
+            Haleluja! Radostne zvon zneje,
+            Haleluja, až sa srdce chveje.
+            Pieseň mieru hlaholí do dedín i do polí.
+            Počujete spievať zvony vianočné?
+        </section>
+        <section name="v2">
+            Zvesti letia, pieseň stúpa k výšinám,
+            veríme, že Ježiš prišiel taktiež k nám.
+            Spomíname na pastierov pri piesni,
+            múdrych ľudí, čo mu dary priniesli.
+        </section>
+        <section name="v3">
+            Uchvátení krásnou piesňou anjelskou,
+            čo sa chvela nad krajinou betlemskou,
+            aj my Bohu zaspievame z plných síl,
+            veď aj pre nás Kristus Pán sa narodil!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1
+    </repetition>
+</slide>

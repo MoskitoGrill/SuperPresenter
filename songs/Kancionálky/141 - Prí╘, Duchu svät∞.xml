@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Príď, Duchu svätý">
+    <variant name="čeština">
+        <section name="v1a">
+            Príď, Duchu svätý, medzi nás
+            a z darov svojich rozdeľ zas,
+            i lásku v srdciach rozlej.
+            Nech cesty Tvoje poznáme
+            a po nich verne kráčame,
+            vždy plní sily Božej.
+        </section>
+        <section name="v1b">
+            Osvieť, roznieť,
+            aby v pravde srdce každé
+            verne stálo,
+            bludných ciest sa varovalo.
+        </section>
+        <section name="v2a">
+            Kde chýba Tvoja prítomnosť,
+            tam rastie ľudská bezmocnosť
+            a starosť, bieda samá.
+            Nuž prídi k nám a vládni v nás,
+            tak život bude samý jas
+            a cesta istá, snadná.
+        </section>
+        <section name="v2b">
+            Chceme večne Tebe,
+            Duchu nebeskému,
+            vzdávať chválu
+            čistú, vrúcnu, neskonalú.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1a v1b v2a v2b
+    </repetition>
+</slide>

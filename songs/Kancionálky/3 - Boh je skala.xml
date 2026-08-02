@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Boh je skala">
+    <variant name="čeština">
+        <section name="v1">
+            Boh je skaola, hrad a štít náš,
+            úkryt pevný máme v ňom.
+            Nič nám škodiť nesmie v svete
+            keď je naša nádej On.
+        </section>
+        <section name="v2">
+            Skryje nás pod svoje krídla,
+            tam sa stíši srdce, duch.
+            Mocou svojej božskej lásky
+            spája ľud svoj v jeden kruh.
+        </section>
+        <section name="v3">
+            Z tmavej noci strachu nemaj,
+            škodiť nesmie mor a hlad.
+            On je darcom žitia nášho,
+            svoje deti má tak rád.
+        </section>
+        <section name="v4">
+            Boha, Otca nášho slávme,
+            vzdajme jemu chválu, česť.
+            Z jeho lásky všetko máme
+            ako včera, tak i dnes.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

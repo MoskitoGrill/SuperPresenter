@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Ježiš Kristus, Kráľ náš tróni">
+    <variant name="čeština">
+        <section name="v1">
+            Ježiš Kristus, Kráľ náš, tróni,
+            celý svet sa pred  ním skloní,
+            v sláve má svoj večný stan.
+            Každý jazyk vyzná iste,
+            že si Kráľom kráľov, Kriste
+            /:všemohúci Boh a Pán.:/
+        </section>
+        <section name="v2">
+            Hospodin, Boh trojjediný,
+            vládcom je a nikto iný;
+            Boží Syn je ako On,
+            jeho prestol pevne stojí,
+            nech svet proti nemu brojí,
+            /:zvíťazí Boh napokon!:/
+        </section>
+        <section name="v3">
+            Hriešni, dajte srdcia jemu!
+            Núdzni, chorí, poďte k nemu!
+            Všetkých volá nebies Kráľ.
+            Jeho rany hoja bôle,
+            nebeský má pre vás olej,
+            /:všetkým slávu prichystal.:/
+        </section>
+        <section name="v4">
+            Prečo ešte odkladáte,
+            milosť Božiu nehľadáte?
+            Dnes je vácny spásy čas.
+            Spasenie vám Božia ruka
+            zadarmo a z lásky núka:
+            /:Čujte, čujte Boží hlas!:/
+        </section>
+        <section name="v5">
+            I ja, bárs som najbiednejší,
+            veriť chcem Ti, Najsvätejší,
+            svetu hlásať spásy zvesť:
+            Ježiš Kristus, Kráľ náš, tróni,
+            celý svet sa pred ním skloní.
+            /:Vzdajte jemu slávu, česť!:/
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4 v5
+    </repetition>
+</slide>

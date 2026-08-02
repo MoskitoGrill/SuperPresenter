@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Bože Otče, láska večná">
+    <variant name="čeština">
+        <section name="v1">
+            Bože, Otče, láska večná,
+            buď Ti vďaka presrdečná,
+            že si v naplnenom čase,
+            poslal Syna k našej spáse.
+        </section>
+        <section name="v2">
+            Pominula už noc tmavá,
+            na nebi, hľa, slnko vstáva!
+            Slnko našej večnej spásy,
+            Kristus, náš hosť, plný krásy.
+        </section>
+        <section name="v3">
+            Príď k nám s požehnáním hojným,
+            s panstvom svojím predôstojným,
+            aby kvitlo medzi nami,
+            vládlo sveta končinami.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3
+    </repetition>
+</slide>

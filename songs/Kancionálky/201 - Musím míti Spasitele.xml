@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Musím míti Spasitele">
+    <variant name="čeština">
+        <section name="v1">
+            Musím míti Spasitele,
+            kam bych došel, jdu-li sám?
+            Nevede-li ruka jeho,
+            v hříšném světě hynu, lkám.
+        </section>
+        <section name="r1">
+            Čeho bych se báti měl,
+            když je při mně Spasitel?
+            Boží Syn, On z pouhé lásky
+            na Golgotě za mne mřel!
+        </section>
+        <section name="v2">
+            Musím míti Spasitele,
+            ve zlém leží celá zem,
+            nemá klidu, nemá blaha,
+            jež já v Kristu našel jsem!
+        </section>
+        <section name="v3">
+            Musím míti Spasitele,
+            v něm je síly, blaha zdroj.
+            S ním jen zdolám pekla zlobu,
+            skončím dobrý víry boj.
+        </section>
+        <section name="v4">
+            Spasitel i mne chce míti
+            svého nebe občanem,
+            dal mi znáti, že i já jím
+            za dědice uznán jsem.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1 v4 r1
+    </repetition>
+</slide>

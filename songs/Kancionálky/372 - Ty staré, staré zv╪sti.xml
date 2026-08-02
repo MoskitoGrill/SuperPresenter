@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Ty staré, staré zvěsti">
+    <variant name="čeština">
+        <section name="v1">
+            Ty staré, staré zvěsti již vypravujte všem,
+            o Ježíši a štěstí, jež světu vzešlo v něm!
+            Nehledanými slovy, jak dítkám prostě jen;
+            kdo ví, nechť dále poví, jak laskav Pán jest všem.
+        </section>
+        <section name="r1">
+            Ty staré, staré zvěsti chci dál a dále nésti,
+            o radosti a štěstí, jež v Kristu vzešlo nám.
+        </section>
+        <section name="v2">
+            Jen jasně každé rčení o svatých věcech těch,
+            o Božím vykoupení, o léku hříchů všech.
+            Nejednou jen, vždy znovu chci slyšet věci ty,
+            ať od slova jsou k slovu mi v srdce vyryty.
+        </section>
+        <section name="v3">
+            Mluv něžně, bez vší zloby buď slovům důraz dán,
+            jsem člověk plný mdloby, jejž spasit přišel Pán.
+            Mluv ke mně bez přestání, že prost jsem hříchů,
+            bíd, v té svaté krvi Páně že spasen mohu být.
+        </section>
+        <section name="v4">
+            Mluv mi ty staré zvěsti, kdy bude zdát se ti,
+            že světa klam na scestí mne hrozí sváděti;
+            kdy marná světa sláva  mne vábí s pravdy cest,
+            nechť zníti nepřestává ta stará, stará, zvěst!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1 v4 r1
+    </repetition>
+</slide>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Brat môj, len veriť neprestaň">
+    <variant name="čeština">
+        <section name="v1">
+            Brat môj, len veriť neprestaň!
+            Prv než sa nezdáš, príde Pán,
+            ako blesk svitne jeho čas,
+            zotrie nám slzy bôľu z rias,
+            prenesie svojich v neba stan.
+            Brat môj, len veriť neprestaň!
+        </section>
+        <section name="v2">
+            Brat môj, len ľúbiť neprestaň!
+            Prv než sa nazdáš, príde Pán.
+            Kdeže sú hrivny? Zaznie hlas,
+            ako si vykupoval čas?
+            Koľko si láskou zhojil rán?
+            Brat môj, len ľúbiť neprestaň!
+        </section>
+        <section name="v3">
+            Brat môj, len dúfať neprestaň!
+            Prv než sa nazdáš, príde Pán.
+            Uvidíš sľuby splnené.
+            Pre dieťa svoje blažené
+            otvorí slávy neba stan.
+            Brat môj, len dúfať neprestaň!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3
+    </repetition>
+</slide>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Pán Bůh je síla má">
+    <variant name="čeština">
+        <section name="v1">
+            Pán Bůh je síla má, všecka obrana má!
+            Bezpečně má státi, aniž se lekati duše má.
+        </section>
+        <section name="v2">
+            Byť vojsko povstalo, proti mně se bralo,
+            byť jich bylo mnoho, nebojím se toho za málo.
+        </section>
+        <section name="v3">
+            Neboť při sobě mám, v něhož silně doufám,
+            bojovníka toho, jenž jest mocen všeho, nezoufám.
+        </section>
+        <section name="v4">
+            Jedné věci žádám a té vždycky hledám,
+            abych domě Páně přebýval v ochraně věčně tam.
+        </section>
+        <section name="v5">
+            Uslyšiž mne, Pane, ohlédniž se na mne,
+            utíkám se k Tobě, rád Tě mám při sobě, můj Pane!
+        </section>
+        <section name="v6">
+            Tváře své přede mnou neskrývej, buď se mnou;
+            Tys mé zpomožení, i vysvobození, Bože můj!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4 v5 v6
+    </repetition>
+</slide>

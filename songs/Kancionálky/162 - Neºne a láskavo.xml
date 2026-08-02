@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Nežne a láskavo">
+    <variant name="čeština">
+        <section name="v1">
+            Nežne a láskavo Ježíš nás volá, pozýva i mňa.
+            Pozri len: pri bráne túžobne čaká, spasiť chce teba i mňa.
+        </section>
+        <section name="r1">
+            Už poď, už poď, zomdlený pútnik, už poď.
+            Nežne a láskavo Ježíš ťa volá, z bludných ciest domov sa vráť.
+        </section>
+        <section name="v2">
+            Neváhaj ďalej, hlas milosti jemný pozýva teba i mňa.
+            Nezhŕdaj láskou, náš Spasiteľ verný zachráni teba i mňa.
+        </section>
+        <section name="v3">
+            Závratnou rýchlosťou uletia roky, zhasne deň tebe i mne.
+            Pri hrobe čoskoro doznejú kroky, skončí čas tebe i mne.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1
+    </repetition>
+</slide>

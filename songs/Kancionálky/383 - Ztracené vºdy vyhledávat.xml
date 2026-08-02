@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Ztracené vždy vyhledávat">
+    <variant name="čeština">
+        <section name="v1">
+            Ztracené vždy vyhledávat pospěš, bratře, dokud čas!
+            Pouta vězňů rozvazovat hleď, než mine dnešek zas.
+            Světlem buď jim v temnotách, dřív než den tvůj zmizí v tmách;
+            rychlý je ten času let,nelze chvilky zadržet!
+        </section>
+        <section name="r1">
+            Nemeškej, nemeškej, bratře můj, nemeškej!
+            Páce mnoho zbývá nám a čas nelze zadržet.
+        </section>
+        <section name="v2">
+            Neslož ani okamžení nečinně svou ruku v klín!
+            Volej spící k probouzení, než je schvátí smrti stín!
+            Hlasem buď, jenž radí všem spojiti se s Ježíšem;
+            ve zlém všechen leží svět, nelze chvilky zadržet!
+        </section>
+        <section name="v3">
+            Velí Pán tvůj lidstvu všemu nabídnouti spasení;
+            velí všecky zváti k němu: “Ať se dům můj naplní!”
+            Svědkem buď a vypravuj, jak je dobrý Ježíš tvůj!
+            Žeň se blíží, zraje svět, nelze chvilky zadržet!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1
+    </repetition>
+</slide>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Ó Bože, Otče náš">
+    <variant name="čeština">
+        <section name="v1">
+            Ó Bože, Otče
+            náš, jenž štědrou rukou
+            jsi požehnal a
+            zdar dal práci naší.
+            Z dobroty Tvé dnes
+            srdce vděčně tlukou,
+            oslavy, chvály ples se
+            k Tobě vznáší.
+        </section>
+        <section name="v2">
+            Tvá milost svět náš
+            dobrodiním plní,
+            Tvá láska nevy-
+            stihlá zdobí luhy,
+            krajina bujným
+            osením se vlní,
+            kyprou kde zemi zryly
+            ostré pluhy.
+        </section>
+        <section name="v3">
+            Marně však ryly
+            by, kdybys Ty, Pane,
+            sám nebyl vzrůst dal
+            zemi ze své moci,
+            nedával dny, kdy
+            slunce jasně plane,
+            nezaléval ji deštěm,
+            rosou v noci.
+        </section>
+        <section name="v4">
+            Odpouštěl jsi nám
+            hříchy naše četné,
+            déšt chladivý i
+            teplo slunce dával,
+            na bezbožné že
+            také krůpěj slétne,
+            Tys věděl, Otče, a přec
+            požehnával.
+        </section>
+        <section name="v5">
+            Nedallis všechno
+            podle naších přání,
+            jež chovali jsme
+            skrytě ve své hrudi,
+            v tom také je Tvé
+            věčné slitování,
+            které jen dobro pro Tvé
+            dítky budí.
+        </section>
+        <section name="v6">
+            Ó přijmi díky,
+            Bože všemohoucí!
+            Tys dárce, všechno
+            nejlepší jenž dává.
+            Stvoření všecko
+            kéž Ti v lásce vroucí
+            zapěje dnes: "Buď Tobě
+            dík a sláva!"
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4 v5 v6
+    </repetition>
+</slide>

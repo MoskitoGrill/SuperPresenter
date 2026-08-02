@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Zaplesaj, zajasaj">
+    <variant name="čeština">
+        <section name="v1">
+            Zaplesaj, zajasaj
+            v mne, môj duch,
+            čoskoro uzrieš už
+            splnenie túh.
+        </section>
+        <section name="r1">
+            Ježiš, Kráľ večný
+            pridchádza k nám,
+            haleluja!
+            Víťazom chystá
+            koruny sám.
+            Haleluja!
+            Zaplesaj, zajasaj
+            vo mne, môj duch.
+        </section>
+        <section name="v2">
+            Zaplesaj, zajasaj,
+            veriacich zbor!
+            K oslave nalaď hlas,
+            spasených chór!
+        </section>
+        <section name="v3">
+            Skoro už skončí sa
+            pozemský boj,
+            v radosť sa premení
+            zármutok tvoj.
+        </section>
+        <section name="v4">
+            Svitne, oj, zasvitne
+            nádherný deň!
+            Naveky pominie
+            bolesť a tieň.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1 v4 r1
+    </repetition>
+</slide>

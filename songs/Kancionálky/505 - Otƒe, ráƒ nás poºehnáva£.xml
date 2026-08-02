@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Otče, ráč nás požehnávať">
+    <variant name="čeština">
+        <section name="v1a">
+            Otče, ráč nás požehnávať
+            dôverne Ťa vzývame.
+            Kriste, ráč sa prihovárať
+            za nás hriešnych, žiadame.
+        </section>
+        <section name="v1b">
+            Duchu svätý spravuj nás
+            svetlom pravdy v každý čas,
+            aby sme Ti vždy a celí
+            dušou, telom patriť smeli.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1a v1b
+    </repetition>
+</slide>

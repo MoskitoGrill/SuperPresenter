@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Pán Ježiš zbavil ma hriechov">
+    <variant name="čeština">
+        <section name="v1">
+            Pán Ježiš zbavil ma hriechov, ťažký keď strpel kríž.
+            Večne ma vykúpil, spasil, jemu len náležím.
+        </section>
+        <section name="r1">
+            Pane drahý, do seba hlbšie ma vnor. Priateľ môj
+            láskavý, vzácny, naveky ostať chcem Tvoj.
+        </section>
+        <section name="v2">
+            Zápasil, potil sa krvou, zmučený v bôľoch mrel.
+            V nádeji, že ma raz nájde, tŕnistou cestou šiel.
+        </section>
+        <section name="v3">
+            Odkedy rozprestrel ku mne dlane tie zranené,
+            zo srdca, z úst mojich nová, nadšená pieseň znie.
+        </section>
+        <section name="v4">
+            Volanie Božie keď zaznie, uzriem svoj nový dom.
+            V blízkosti drahého Pána prebývať budem v ňom.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1 v4 r1
+    </repetition>
+</slide>

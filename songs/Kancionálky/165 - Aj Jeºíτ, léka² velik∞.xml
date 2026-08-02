@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Aj Ježíš, lékař veliký">
+    <variant name="čeština">
+        <section name="v1">
+            Aj, Ježíš, lékař veliký,
+            vzal na se nemoc moji!
+            A proto vím, že všeliký
+            On neduh jistě zhojí.
+        </section>
+        <section name="r1">
+            Z hříchů všech a nemocí
+            přišel na zem vymoci
+            Lidstvo bídně hynoucí
+            Spasitel náš, Ježíš.
+        </section>
+        <section name="v2">
+            Proč jinde hledáš pomoci,
+            když lékařem je Ježíš?
+            Proč trápíš svou se nemocí,
+            v moc Kristovu-li věříš?
+        </section>
+        <section name="v3">
+            Slyš slovo Pána života:
+            “Buď zdráv a nehřeš více!”
+            Zda nechceš z jeho dobroty
+            v své duši dobře mít se?
+        </section>
+        <section name="v4">
+            Hle, Ježíš, lékař veliký,
+            je Pánem těla mého.
+            On zhojí neduh všeliký,
+            neb síla proudí z něho.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1 v4 r1
+    </repetition>
+</slide>

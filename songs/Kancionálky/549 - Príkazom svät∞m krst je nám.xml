@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Príkazom svätým krst je nám">
+    <variant name="čeština">
+        <section name="v1">
+            Príkazom svätým krst je nám,
+            Kristovou pečaťou.
+            Rozumieť, Pane, uč nás sám,
+            čo jeho podstatou.
+            Byť mŕtvy pre svet, jeho zvod,
+            pre vášeň, hriech a zlosť,
+            vstať z mŕtvych ako nový rod,
+            žiť s Kristom na večnosť.
+        </section>
+        <section name="v2">
+            Vnorený v meno Otcovo
+            som Božím dieťaťom.
+            Vnorený v meno Synovo
+            obmytý krvou som.
+            Vnorený v Ducha svätého,
+            do jeho plnosti,
+            som členom ľudu nového,
+            mám podiel v milosti.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2
+    </repetition>
+</slide>

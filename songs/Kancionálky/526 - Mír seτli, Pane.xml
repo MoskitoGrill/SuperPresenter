@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Mír sešli, Pane">
+    <variant name="čeština">
+        <section name="v1a">
+            Mír sešli, Pane,
+            v to srdce mé,
+            jež po něm touží,
+            jež Tebe zve!
+            S darem svým vzácným,
+            Pane můj, přijď,
+        </section>
+        <section name="v1b">
+            všeliký nelad,
+            nepokoj skliď,
+            celý můj život
+            z lásky své řiď!
+        </section>
+        <section name="v2a">
+            Spasitel když mi
+            pokoj svůj dal,
+            blaženým jsem se
+            dítětem stal,
+            vždyť pro mne, abych
+            já pokoj měl
+        </section>
+        <section name="v2b">
+            z veliké lásky
+            za mne On mřel,
+            v přehrozných mukách
+            na kříži pněl.
+        </section>
+        <section name="v3a">
+            Spáso má, dej, bych
+            v míru Tvém stál,
+            cele se Tobě
+            navždycky dal,
+            se všemi lidmi
+            v pokoji žil
+        </section>
+        <section name="v3b">
+            a službě míru
+            se zasvětil,
+            a službě míru
+            se zasvětil.
+        </section>
+        <section name="v4a">
+            Života moře
+            bouří-li zle,
+            posiluj mírem
+            svým srdce mdlé.
+            Co ruší mír,
+            to ode mne vzdal,
+        </section>
+        <section name="v4b">
+            dej, bych mír vůkol
+            rozšiřoval,
+            ozdoben spásou
+            k Tobě se bral!
+        </section>
+        <section name="v5a">
+            Pokoje Kníže,
+            dej, aby mír
+            přemohl v světě
+            rozbrojů vír.
+            V pokoji svém
+            dej dítkám svým dlít,
+        </section>
+        <section name="v5b">
+            milovat mír a
+            vůkol jej sít,
+            v pokoji k Tobě
+            do slávy vjít.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1a v1b v2a v2b v3a v3b v4a v4b v5a v5b
+    </repetition>
+</slide>

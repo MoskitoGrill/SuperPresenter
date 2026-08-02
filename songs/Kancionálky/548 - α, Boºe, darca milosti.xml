@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Ó, Bože, darca milosti">
+    <variant name="čeština">
+        <section name="v1">
+            Ó, Bože, darca milosti,
+            náš duch sa nesie k výsosti
+            a v tichej prosbe v tento čas,
+            znie k Tebe Tvojich detí hlas.
+            Vo Tvojom mieri spočinie,
+            kto zrak svoj zdvíha k otčine
+            a pokušeniam uniká,
+            kto duchom k Tebe preniká.
+        </section>
+        <section name="v2">
+            Ó, svätý Bože, posväť nás
+            a nebeskou nás rosou zvlaž.
+            Vzdiaľ od nás bázeň, zlosť a hnev,
+            zmeň žiale v radosť, plače v spev.
+            Tu vrúcim duchom spievame
+            a Tvoje meno vzývame,
+            kým naša duša príde ta,
+            kde zástup verných chváli Ťa.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2
+    </repetition>
+</slide>

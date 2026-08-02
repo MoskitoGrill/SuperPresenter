@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Radujme se, veselme se">
+    <variant name="čeština">
+        <section name="v1">
+            Radujme se, veselme se,
+            Bůh nám práva synů dal,
+            radujme se, veselme se,
+            Bohu pějme žalmy chvál!
+        </section>
+        <section name="r1">
+            V plesání a radování
+            spojme srdce v lásky chrám,
+            V němž by chvály tisícery zněly,
+            v němž by trůnil Bůh náš sám.
+        </section>
+        <section name="v2">
+            Nevýslovná láska Boží
+            v bratrství nás sbližuje,
+            chrání, brání v každé době,
+            mdloby v sílu změňuje.
+        </section>
+        <section name="v3">
+            Ale kdo jde vzdorně dále
+            cestou vlastních žádostí,
+            nedbaje vší lásky jeho,
+            zbavuje se radostí.
+        </section>
+        <section name="v4">
+            Stezkou světlou k cíli spějí
+            duše Pánu oddané,
+            proto Pánu žijme, mřeme,
+            Pán se nás vždy zastane.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1 v4 r1
+    </repetition>
+</slide>

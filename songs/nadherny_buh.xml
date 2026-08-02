@@ -1,0 +1,54 @@
+<?xml version="1.0" ?>
+<slide name="Nádherný Bůh">
+    <variant name="čeština">
+        <section name="v1">
+JSI KRÁLEM NÁDHERNÝM,
+JSI VŠÍM V CO DOUFAT SMÍM
+TAK JÁSEJ CELÁ ZEM, JÁSEJ CELÁ ZEM
+</section>
+        <section name="v2">
+TY SÁM JSI JAS A ZÁŘ,
+TMA ZTRÁCÍ SVOJI TVÁŘ A NOC SE MĚNÍ V DEN,
+NOC SE MĚNÍ V DEN
+</section>
+        <section name="v3">
+JSI BŮH, JSI NÁŠ PÁN, ZPÍVÁM JSI BŮH, JSI NÁŠ PÁN,
+AŤ KAŽDÝ VÍ, JAK NÁDHERNÝ JSI PÁN
+GADOL ELOHAI, SHIRU KI GADOL ELOHAI,
+</section>
+        <section name="v4">
+KOL ECHAD
+YIREI, GADOL
+ELOHAI
+</section>
+        <section name="v5">
+MÁŠ ČAS V RUKOU SVÝCH,
+JSI PÁNEM NAD SMRTÍ PRVNÍ- POSLEDNÍ,
+PRVNÍ - POSLEDNÍ,
+</section>
+        <section name="v6">
+DUCH SVATÝ, OTEC,
+SYN, JEN TY JSI PÁNEM
+MÝM JSI LVEM I BERÁNKEM,
+LVEM I BERÁNKEM
+</section>
+        <section name="v7">
+JSI BŮH, JSI NÁŠ PÁN,
+ZPÍVÁM JSI BŮH, JSI NÁŠ PÁN,
+</section>
+        <section name="v8">
+AŤ KAŽDÝ VÍ, JAK NÁDHERNÝ JSI PÁN
+GADOL ELOHAI, SHIRU KI GADOL ELOHAI,
+KOL ECHAD YIREI, GADOL ELOHAI
+</section>
+        <section name="v9">
+JMÉNO KRÁSNÉ MÁŠ, V MÉ CHVÁLE PŘEBÝVAS,
+JAK NÁDHERNÝ JSI BŮH, NÁŠ PÁN
+</section>
+        <section name="v10">
+GADOL ELOHAI, SHIRU KI GADOL ELOHAI,
+KOL ECHAD YIREI, GADOL ELOHAI
+</section>
+    </variant>
+    <repetition name="default" main="1">v1 v2 v3 v4 v5 v6 v7 v8 v9 v10</repetition>
+</slide>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Mohutné milosti proudy">
+    <variant name="čeština">
+        <section name="v1">
+            Mohutné milosti proudy,
+            rač jimi zavlažit svět,
+            napojit vyprahlou půdu,
+            občerstvit prahnoucí ret!
+        </section>
+        <section name="r1">
+            Mohutné, mohutné proudy,
+            plnost jsi zaslíbil dát;
+            jak už ta rosička blaží,
+            z plnosti Tvé chceme brát.
+        </section>
+        <section name="v2">
+            Mohutné milosti proudy,
+            slyšte, jak valí se blíž,
+            Duch Boží hříšné jak budí,
+            zjevuje Kristův jim kříž!
+        </section>
+        <section name="v3">
+            Mohutné milosti proudy
+            s hukotem blíží se k nám!
+            Pán Ježíš zvítězí všudy,
+            všem bude hlas jeho znám.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1
+    </repetition>
+</slide>

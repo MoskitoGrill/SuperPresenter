@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Ó, mášli dobrou matičku">
+    <variant name="čeština">
+        <section name="v1">
+            Ó máš-li dobrou matičku, pak cti a miluj klenot ten!
+            A jsi-li štěstím pozemským od Pána Boha obdařen,
+            /: sděl proto vše to také jí; chtěj se vším sní se rozdělit.:/
+        </section>
+        <section name="v2">
+            Ó máš-li dobrou matičku, pak cti a miluj klenot ten!
+            A jestli vše tě zklamalo a díš-li, bolem uhněten,
+            že věrnost marně hledáme, věz, matka nikdy nezklame;
+            a jsi-li bolem uhněten, věz: matka nikdy nezklame.
+        </section>
+        <section name="v3">
+            Ó máš-li dobrou matičku, pak cti a miluj klenot ten!
+            A byť i byla odešla a v hrobě sní už smrti sen,
+            /:ty v žalu pomni na nebe: tam matka čeká na tebe.:/
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3
+    </repetition>
+</slide>

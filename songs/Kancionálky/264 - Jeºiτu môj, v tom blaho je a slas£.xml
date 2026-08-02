@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Ježišu môj, v tom blaho je a slasť">
+    <variant name="čeština">
+        <section name="v1">
+            Ježišu môj, v tom blaho je a slasť,
+            život svoj smieť Ti denne k nohám klásť.
+            Teba len, čos' mi v srdci zvíťazil,
+            zvelebovať, ctiť zo všetkých smieť síl.
+        </section>
+        <section name="r1">
+            Do Tvojich rúk sa kladiem zas,
+            radosti slzy kanú z mojich rias.
+            Cez radosť, strasť i boj naďalej veď krok môj,
+            slávne ma domov doveď vo vlasti jas.
+        </section>
+        <section name="v2">
+            Zdalo sa mi, že zhyniem v hriechu tmách,
+            v náručí Tvojom rozplynul sa strach,
+            keď lkal som, objals ma a odpustil,
+            z objatia svojho nikdy nepustil.
+        </section>
+        <section name="v3">
+            Na scestie chcel ma zlákať tento svet,
+            vyrvať chcel radosť, zničiť blaha kvet.
+            No, Tys mi šepkal, vinúc si ma blíž:
+            Moje si dieťa, zaň som niesol kríž.
+        </section>
+        <section name="v4">
+            Na svojom kríži, krvácajúc z rán,
+            za mňa si trpel, Priateľ môj a Pán.
+            Dal si mi spásu, v srdci si mi žil,
+            prosby si moje mnohé naplnil.
+        </section>
+        <section name="v5">
+            Života cestu drsnú pred nami vystlal
+            si pre mňa blaha ružami.
+            A keď mi na nej dochádzal už dych,
+            na krídlach si ma niesol orličích.
+        </section>
+        <section name="v6">
+            Ľúbať smiem nielen rúcha Tvojho lem,
+            Priateľom, Kráľom srdca zvať Ťa smiem.
+            Zvať smiem Ťa šťastím, v svete najdrahším,
+            Pane môj, nikdy sa Ťa nespustím.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1 v4 r1 v5 r1 v6 r1
+    </repetition>
+</slide>

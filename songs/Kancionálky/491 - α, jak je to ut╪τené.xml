@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Ó, jak je to utěšené">
+    <variant name="čeština">
+        <section name="v1a">
+            Ó, jak je to utěšené, v lásce bratří žijíli,
+            Duchem spjati v jednom těle, v Kristu, drahém Příteli.
+        </section>
+        <section name="v1b">
+            Hojnost svého požehnání udílí jim slávy Pán,
+            příkladem je v milování cestou v slavný nebe stan.
+        </section>
+        <section name="v2a">
+            V srdcích cele milujících chrám si staví Spasitel;
+            těší ducha zarmoucených, vypuzuje všechen žel.
+        </section>
+        <section name="v2b">
+            Rosu svého smilování, žití chléb též daruje
+            tomu, kdo zde bez pokrytství bratry svoje miluje.
+        </section>
+        <section name="v3a">
+            Hlad i žízeň jejich kojí věčným slovem života,
+            které v mocném, silném zdroji skýtá jeho dobrota.
+        </section>
+        <section name="v3b">
+            Ten, kdo slovo jeho slyší, vždy je věrně ostříhá,
+            v Boží lásce odpočívá a v ní život věčný má.
+        </section>
+        <section name="v4a">
+            Ó, Ty dobrý, mocný Pane, lásku v srdce naše vlij,
+            ať i nám kdys hlas tvůj zazní: "Ke mně pojď a věčně žij!"
+        </section>
+        <section name="v4b">
+            Všťepuj v naše srdce stále víru, lásku, naději,
+            ať se k cíli ubíráme vždy jen ve tvé šlépěji.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1a v1b v2a v2b v3a v3b v4a v4b
+    </repetition>
+</slide>

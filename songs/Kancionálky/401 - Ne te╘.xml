@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Ne teď">
+    <variant name="čeština">
+        <section name="v1">
+            Ne teď, však přijde jednou čas, až stánek těla opustím,
+            pak bol a srdce teskný hlas a smysl žalu pochopím.
+        </section>
+        <section name="r1">
+            Věř Bohu svému den co den a statečně nes žití kříž!
+            Jej vždycky chval i v dobách změn, však jednou všecko pochopíš!
+        </section>
+        <section name="v2">
+            Proč mraky, bída, tma a mráz mne často jaly smutkem zlým,
+            že plamének mé víry hasne zde, však v nebi pochopím.
+        </section>
+        <section name="v3">
+            Bůh dobře zní tvých kroků cíl a vede je ve slávy říš,
+            kde v tichém blahu milých chvil svá utrpení pochopíš.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1
+    </repetition>
+</slide>

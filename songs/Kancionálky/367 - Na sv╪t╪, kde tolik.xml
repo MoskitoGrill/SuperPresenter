@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Na světě, kde tolik">
+    <variant name="čeština">
+        <section name="v1">
+            Na světe, kde tolik žalu všude je,
+            kde jsou duše, které smutek skličuje,
+            mnoho požehnaní lidem můžeš dát,
+            když kol sebe radost budeš rozsévat.
+        </section>
+        <section name="r1">
+            /:Sej zrna štěstí, jak jdeš podle cesty,
+            radostí a mírem naplň každý den!:/
+        </section>
+        <section name="v2">
+            Často malý skutek sejme velkou tíž,
+            malým slovem lásky bolest zahojíš.
+            Ó, jak mnohým srdcím může ulevit
+            tvoje víra v Pána, píseň, lásky cit!
+        </section>
+        <section name="v3">
+            Když se kolem mračí, zpívej vesele,
+            když svět naděj’ ztrácí, měj se zmužile!
+            Pevně drž se víry v čase dobrém, zlém,
+            na trampoty žití patří s úsměvem!
+        </section>
+        <section name="v4">
+            Komu odpuštěno, ten se raduje,
+            pramen jeho blaha v Spasiteli je.
+            O svou radost rád se s lidmi rozdělí,
+            čím víc dá jí, tím víc Pán jí udělí.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1 v4 r1
+    </repetition>
+</slide>

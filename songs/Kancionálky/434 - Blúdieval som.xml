@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Blúdieval som">
+    <variant name="čeština">
+        <section name="v1">
+            Blúdieval som v hriechu noci, v neznalosti, bez pomoci,
+            do záhuby ponáhľal som, v srdci vládol smútok a ston.
+        </section>
+        <section name="v2">
+            Rád by som bol v pokoji žil, márne som však po ňom túžil.
+            Hrozná cesta vzdorovania priviedla ma do zúfania.
+        </section>
+        <section name="v3">
+            Biedne by som bol tam zhynul, večný život navždy minul,
+            ale Kristus, svetlo jasné, rozplašil tmy hriechu strašné.
+        </section>
+        <section name="v4">
+            S Kristom žijem život nový, za ním kráčam ku Otcovi.
+            On ma vedie v ríšu neba, v ňom mám všetko, čo mi treba
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

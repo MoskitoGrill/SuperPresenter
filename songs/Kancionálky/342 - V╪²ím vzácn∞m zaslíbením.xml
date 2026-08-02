@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Věřím vzácným zaslíbením">
+    <variant name="čeština">
+        <section name="v1">
+            Věřím vzácným zaslíbením Kristovym,
+            chválu chci mu vzdávat celým srdcem svým.
+            Sláva jemu, jenž je Spasitelem mým!
+            Věřím zaslíbením jeho ctným.
+        </section>
+        <section name="r1">
+            Věřím, věřím,
+            věřím věrným zaslíbením Spasitele;
+            věřím, věřím,
+            já věřím zaslíbením jeho ctným!
+        </section>
+        <section name="v2">
+            Věřím zaslíbením, jež se nemění,
+            i když hlasy pochybnosti kolem zní.
+            Nezklame on ani v chvíli poslední:
+            věřím zaslíbením jeho ctným!
+        </section>
+        <section name="v3">
+            Věře jeho zaslíbením neklesám,
+            přijímaje Ducha jeho, sílu mám;
+            v něm mám vše a jiných pánů nehledám,
+            věřím zaslíbením jeho ctným!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1
+    </repetition>
+</slide>

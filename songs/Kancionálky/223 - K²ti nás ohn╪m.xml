@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Křti nás ohněm">
+    <variant name="čeština">
+        <section name="v1">
+            Křti nás ohněm svaté láky svojí, ať nám srdce hoří plápolem!
+            Přepaš naše bedra horlivostí k boji, navštěv zase, Pane, naši zem!
+        </section>
+        <section name="v2">
+            Viz tu chladnost! My už neumíme dát Ti všechno, i tu duši svou,
+            my jen o Tvé lásce stále hovoříme, ale naše srdce tvrdá jsou.
+        </section>
+        <section name="v3">
+            Naše slza též je slzou pouhou, Pne, síla k činu chybí nám: proto
+            k Tobě přicházíme, Otče, s touhou? Křti nás ohněm svaté lásky sám!
+        </section>
+        <section name="v4">
+            Křti nás ohněm svaté lásky svojí, křti nás Duchem svatým s výsosti!
+            Dej nám svatou sílu, odvahu dej k boji, slova mocná, život svatosti!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

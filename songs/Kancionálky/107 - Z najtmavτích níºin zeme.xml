@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Z najtmavších nížin zeme">
+    <variant name="čeština">
+        <section name="v1">
+            Z najtmavších nížin
+            zeme v slávne nebe
+            vstupuje Kristus
+            v moci, v prevelebe.
+            Nebesá i zem
+            hlásia jeho slávu.
+            Zaujal svoj trón,
+            vedie sveta správu.
+        </section>
+        <section name="v2">
+            Vládneš už, Kriste,
+            slávy večnej Kráľu!
+            Tvoj ľud Ti vzdáva
+            slávu, česť i chválu.
+            Tvoj ľud vzýva Ťa,
+            prosí v lkaní vrelom:
+            Svoju Cirkev bráň
+            proti nepriateľom!
+        </section>
+        <section name="v3">
+            Pozdvihni ruku,
+            vztiahni žezlo svoje,
+            k víťazstvu doveď
+            proti diablu boje!
+            Zažeň tmu a vzbuď
+            dušu, ktorá drieme!
+            Slávu svoju šír
+            až do končín zeme!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3
+    </repetition>
+</slide>

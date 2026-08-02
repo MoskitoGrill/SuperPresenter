@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Vrať sa, dieťa">
+    <variant name="čeština">
+        <section name="v1">
+            Vráť sa, dieťa, z cesty bludnej,
+            hriech ťa zničí skôr, než zvieš.
+            Svet je nebezpečnou púšťou,
+            bez vodcu v ňom zahynieš.
+        </section>
+        <section name="r1">
+            Vráť sa domov!
+            Vráť sa domov!
+            Otec volá: Dieťa,
+            poď______ do---mov!
+        </section>
+        <section name="v2">
+            Odpustené sú už hriechy,
+            vyčitka ťa nečaká.
+            Nech sa srdce tvoje biedne
+            trestu smrti neľaká!
+        </section>
+        <section name="v3">
+            Nad priepasťou hroznou chodíš;
+            snáď len krok a zahynieš!
+            Padneš do tmy nekonečnej,
+            nikdy svetla neuzrieš!
+        </section>
+        <section name="v4">
+            Obávaš sa k Ježišovi
+            s ťarchou hriechu pristúpiť?
+            Ku krížu sa priviň s vierou,
+            s Kristom budeč večne žiť!
+        </section>
+        <section name="v5">
+            Vráť sa! Raz hlas Otcov stíchne,
+            klesne náruč rozpätá,
+            brána nebies bude navždy
+            pred tebou už zavretá.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1 v4 r1 v5 r1
+    </repetition>
+</slide>

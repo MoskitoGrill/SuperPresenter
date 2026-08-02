@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Vstalť jest z mrtvých">
+    <variant name="čeština">
+        <section name="v1">
+            V1]
+            Vstalť jest z mrtvých
+            Kristu Pán!
+            S jásotem zní
+            se všech stran.
+            Plesá nebe,
+            zvučí zem,
+            vítězství že
+            máme v něm.
+        </section>
+        <section name="v2">
+            Dílo lásky
+            dokonal,
+            trpěl, mřel a
+            z hrobu vstal.
+            Slunce z mrákot
+            vzešlo zas,
+            obléká zem
+            ve svůj jas.
+        </section>
+        <section name="v3">
+            Mohly balvan,
+            pečeť, stráž
+            zdržet Krista,
+            život náš?
+            Zdali smrt? On
+            pekla noc
+            obrátil nám
+            v světla moc.
+        </section>
+        <section name="v4">
+            Živ jest Král!
+            Nuž, prokřikuj:
+            kde, ó smrti
+            osten tvůj?
+            Krví s kříže
+            duši skrop,
+            nezdrží tě
+            ani hrob!
+        </section>
+        <section name="v5">
+            Spěšme, kudy
+            vede Pán,
+            třeba cestou
+            strastí, ran,
+            skrze kříž
+            a hrobu chlad
+            ve vzkříšení
+            čest mu vzdát!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4 v5
+    </repetition>
+</slide>

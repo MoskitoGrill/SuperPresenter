@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Duchu svatý, pravdou svou">
+    <variant name="čeština">
+        <section name="v1">
+            Duchu svatý,
+            pravdou svou
+            osvěť duši
+            moji mdlou!
+            Pravdy žhavý
+            plameni,
+            zbav mne bludu
+            mámení!
+        </section>
+        <section name="v2">
+            Duchu svatý,
+            nebeskou
+            láskou zapal
+            duši mou,
+            aby velkých
+            cílů žár
+            životu dal
+            nový tvar.
+        </section>
+        <section name="v3">
+            Duchu svatý,
+            s výsosti,
+            zbav mou mysl
+            slabosti!
+            V síle Tvé chci
+            směle jít,
+            v boji s hříchem
+            vítězit.
+        </section>
+        <section name="v4">
+            Duchu Boží,
+            soudce můj,
+            vpiš mi v srdce
+            zákon svůj!
+            Vládni stále
+            v srdci mém,
+            provázej mne
+            životem.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

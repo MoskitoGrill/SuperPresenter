@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Chcel by som, Bože, tichý byť">
+    <variant name="čeština">
+        <section name="v1">
+            Chcel by som, Bože tichý byť,
+            Ty ma ráč stíšiť, upokojiť.
+            Rád na kríž ústa chcem vždy dať,
+            za podnož byť, nič znamenať,
+            ticho, len ticho, ticho byť.
+        </section>
+        <section name="v2">
+            Bože môj, vždy chcem tichým byť,
+            mlčať chcem ako hviezdy svit.
+            Nech kríž až k zemi znižuje,
+            nech jas, či slza v oku je,
+            chcem vždy len ticho, ticho byť.
+        </section>
+        <section name="v3">
+            Bože môj, pomôž ticho byť,
+            Tvojej sa vôli podrobiť.
+            Ach, ticho keď ma čistiť chceš,
+            vo mne kým seba neuzrieš.
+            Pomôž, ó, pomôž ticho byť.
+        </section>
+        <section name="v4">
+            Bohu česť! Smiem už ticho byť,
+            V tichosti s mojím Pánom žiť.
+            On stíšil srdce, pokoj dal,
+            víťazom keď sa vo mne stal.
+            Skrytý v ňom, môžem ticho byť.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

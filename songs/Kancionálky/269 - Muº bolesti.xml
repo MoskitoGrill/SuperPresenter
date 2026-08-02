@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Muž bolesti">
+    <variant name="čeština">
+        <section name="v1">
+            Muž bolesti meno má, Boží Syn, On spasil ma.
+            Padlých ľudí záchrana. Zmizla hriechu desná tma.
+        </section>
+        <section name="v2">
+            Odsúdený za mňa bol, znášal hanbu, posmech bôľ.
+            Smrťou diabla premohol, nový život priniesol.
+        </section>
+        <section name="v3">
+            Na kríži bol pribitý, “Dokonané” riekli rty.
+            Teraz slávou odiaty vychádza nám v ústrety.
+        </section>
+        <section name="v4">
+            Až raz príde slávny Kráľ, aby vykúpených vzal,
+            zaznie nová pieseň chvál jemu, že nám spásu dal.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

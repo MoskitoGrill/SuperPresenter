@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Pošli, Pane, svojho Ducha">
+    <variant name="čeština">
+        <section name="v1">
+            Pošli, Pane, svojho Ducha,
+            lebo dietky Božie spia;
+            noc že skazy vládne hluchá,
+            nebadajú, netušia.
+            Satan zúri, štve a búri,
+            seje semä nevery,
+            nieto zváčov opravdivých
+            k Baránkovej večeri.
+        </section>
+        <section name="v2">
+            Zatrúb v trúbu, svätý Strážny,
+            nech sa cirkev prebudí!
+            Uniká deň, čas je vážny,
+            treba nechať preludy.
+            Satan zúri, štve a búri,
+            odpad nutia sadí strom.
+            Pošli, Pane svojho Ducha,
+            zastav diabla v diele zlom!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2
+    </repetition>
+</slide>

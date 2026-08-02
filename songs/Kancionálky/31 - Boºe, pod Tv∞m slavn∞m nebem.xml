@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Bože, pod Tvým slavným nebem">
+    <variant name="čeština">
+        <section name="v1">
+            Bože, pod Tvým slavným nebem stojím,
+            tisíc světů Tvých je nade mnou.
+            Hluku světa vzdálen srdce kojím
+            písní tichou, Tobě příjemnou.
+            Tvéť jsou ony skvoucí nebe stany,
+            Tvojím "Staň se!" vznikla obloha;
+            Tys' mne, bratry mé i nebešťany
+            stvořil, k tomu díla přemnohá.
+        </section>
+        <section name="v2">
+            Tobě, předůstojný, Tobě pěji,
+            jehož ruka hvězdy rozsílá,
+            které se tam v prostranství tom chvějí
+            během, jejžto ona měřila,
+            vodíc je v něm všechny vůkol stále
+            jako přítel věrný přítele,
+            sbory nebes, které k tvůrci k chvále
+            tiché plesy vedou vesele.
+        </section>
+        <section name="v3">
+            Kdo by sčítal tvory všechněch světů,
+            z jejichž úst chvála Tvá zní široce,
+            až tam k chrámu slávy, kdež Tě v letu
+            prudkém vzývá seraf vysoce,
+            jehož zlatá harfa libým zvukem
+            přede trůnem Tvým se rozlíhá
+            a zpěv žalmů svatých volným hlukem
+            ode skunce k slunci obíhá!
+        </section>
+        <section name="v4">
+            I mně z prachu velels' živu býti
+            v této nízké světa krajině,
+            ale duchu ráčils' darů příti:
+            k moudrosti um, srdce k nevině.
+            Nuže, duše, vzdej mu city vděčné,
+            že tě zvolil k výšší bytosti;
+            z prachu někdy přeletět má k věčné
+            do lepšího světa radosti.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

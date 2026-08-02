@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Bloudil jsem po horách">
+    <variant name="čeština">
+        <section name="v1a">
+            Bloudil jsem po horách,
+            bloudil jsem ve tmě,
+            Spasitel volal mne
+            nechtěl jsem jít.
+            Žádosti marné jen
+            vířily ve mně,
+            Kristovu království
+            nechtěl jsem žít.
+        </section>
+        <section name="v1b">
+            Marně jsem vzdoroval,
+            marně se vzpíral:
+            Spasitel zvítězil,
+            nemohu dál!
+        </section>
+        <section name="v2a">
+            Nechci již, nebudu
+            bez něho žíti,
+            nechci již, nebudu
+            milovat svět.
+            Spatřil jsem hvězdu, jež
+            na cestu svítí,
+            našel jsem Pastýře,
+            za ním chci spět.
+        </section>
+        <section name="v2b">
+            Hlas jeho tichounký
+            pobízí dále,
+            budu ho poslušen,
+            On je můj Pán.
+        </section>
+        <section name="v3a">
+            Našel jsem konečně
+            rodinu Boží,
+            bratry a sestry mám,
+            milují mne.
+            Otce mám, domov mám,
+            co mi je zboží?
+            Ku chvále, k plesání
+            všechno mne zve!
+        </section>
+        <section name="v3b">
+            S lidem svým zvítězí
+            Spasitel všude,
+            celý svět vzdávati
+            bude mu čest.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1a v1b v2a v2b v3a v3b
+    </repetition>
+</slide>

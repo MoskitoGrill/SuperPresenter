@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Já nevím, proč Bůh milost svou">
+    <variant name="čeština">
+        <section name="v1">
+            Já nevím, proč Bůh milost svou
+            mi ráčil zjeviti,
+            ni kterak za mne bídného
+            moh' Kristus zemříti.
+        </section>
+        <section name="r1">
+            Ale vím, komu jsem uvěřil
+            a On je mocen i zachovati
+            to, co jsem já u něho složil,
+            až do onoho dne.
+        </section>
+        <section name="v2">
+            Já nevím, proč mne, hříšného,
+            Pán v světě vyhledal,
+            jak k sobě si mne povolal,
+            mně spásnou vírou dal.
+        </section>
+        <section name="v3">
+            Já nevím, jak Duch viní lid,
+            jak hříchy zjevuje,
+            jak víra v oběť Kristovu
+            nám pokoj daruje.
+        </section>
+        <section name="v4">
+            Já nevím, co mne čeká dál,
+            zda tma, neb světla zář,
+            zda štěstí, nebo neštěstí,
+            než spatřím Boží tvář.
+        </section>
+        <section name="v5">
+            Já nevím, kdy můj přijde Pán,
+            za dne, či v soumraku,
+            zda v údolí se setkám s ním,
+            aneb na oblaku.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1 v4 r1 v5 r1
+    </repetition>
+</slide>

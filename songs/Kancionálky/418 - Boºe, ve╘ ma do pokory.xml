@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Bože, veď ma do pokory">
+    <variant name="čeština">
+        <section name="v1">
+            Bože, veď ma do pokory,
+            stále hlbšie každý deň,
+            zažeň pýchu, hneď nech zhorí,
+            nech zná srdce Teba len.
+        </section>
+        <section name="v2">
+            Pokorní len milosť majú,
+            pyšným vždy sa protivíš.
+            Daj mi čerpať z toho taju,
+            svoju svätosť v srdce vpíš.
+        </section>
+        <section name="v3">
+            Očisť srdce, ústa, údy,
+            ohňom žiadosť tela spáľ!
+            Potom k svojej viň ma hrudi,
+            abys’ všetkým sa mi stal.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3
+    </repetition>
+</slide>

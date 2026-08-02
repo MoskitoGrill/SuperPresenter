@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Ó, Hospodine, přioděj">
+    <variant name="čeština">
+        <section name="v1">
+            Ó, Hospodine, přioděj
+            nás mocí s výsosti!
+            Přijď Duchu svatý, přijď a dej
+            nám dar své milosti.
+        </section>
+        <section name="v2">
+            Ač neplá oheň nad námi,
+            jak nad dvanácti plál,
+            kéž nad našimi snahami
+            by aspoň plápolal!
+        </section>
+        <section name="v3">
+            Ó Duchu světla, života
+            a lásky nezměrné,
+            kéž Tvoje svatá dobrota
+            vždy hřeje srdce mé.
+        </section>
+        <section name="v4">
+            Dej živé víry vzácný skvost,
+            dej svatý život žít,
+            dej jistou naděj pro věčnost,
+            dej v míru odejít.
+        </section>
+        <section name="v5">
+            Až přijdou smrti hrůzné tmy,
+            Ty sám mne potěšuj
+            a převeď z časné mrákoty
+            v své světlo, Bože můj!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4 v5
+    </repetition>
+</slide>

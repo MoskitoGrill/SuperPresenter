@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Již se blíží">
+    <variant name="čeština">
+        <section name="v1">
+            Již se blíží čas ten blahý,
+            v kterém evangelium
+            hlasem mocným všude zazní
+            všechněm světa národům.
+            země zplesá, pouště vzkvetou,
+            život nový vypučí,
+            i to moře plesat bude,
+            zvukem hromu zazvučí.
+        </section>
+        <section name="r1">
+            Mizí noční mrákota,
+            již se jitřní hvězda skví;
+            lide Boží vstaň a hotov se,
+            blízko již den vítězství!
+        </section>
+        <section name="v2">
+            Již se blíží čas ten blahý,
+            v kterém ztichnou rozbroje
+            a pod vlajkou Beránkovou
+            vzkvete palma pokoje.
+            Klidně pod svým vinným kmenem
+            každý bude bydliti,
+            a v té skrýši žádný škůdce
+            nesmí nás už děsiti.
+        </section>
+        <section name="v3">
+            Již se blíží čas ten blahý,
+            po němž lkali otcové,
+            o němž vyprávěli zdávna
+            svatí Boží sluhové.
+            Všemu lidstvu v stínu smrti
+            vzejde světlo života,
+            Boží milostivé léto
+            všemu světu zavítá.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1
+    </repetition>
+</slide>

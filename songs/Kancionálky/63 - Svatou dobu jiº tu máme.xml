@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Svatou dobu již tu máme">
+    <variant name="čeština">
+        <section name="v1">
+            Svatou dobu již tu máme
+            z nejmilejších svátků,
+            proto rádi zazpíváme:
+            sláva buď Děťátku!
+            Sláva buď Děťátku!
+        </section>
+        <section name="v2">
+            Ve městě i ve vůkolí
+            všichni lidé spali;
+            pastýřové v širém poli
+            o své ovce dbali,
+            o své ovce dbali.
+        </section>
+        <section name="v3">
+            Znenadání o půlnoci
+            divné slyšet hlasy,
+            nebe skví se Božskou mocí,
+            radujte se s námi,
+            radujte se s námi!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3
+    </repetition>
+</slide>

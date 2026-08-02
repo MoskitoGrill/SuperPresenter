@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Náhli pod kríž">
+    <variant name="čeština">
+        <section name="v1">
+            Náhli pod kríž
+            ťarchu zložiť,
+            unavený syn,
+            obdarí ťa Otec
+            plným spasením.
+        </section>
+        <section name="v2">
+            Svätý Duch ťa
+            viní, súdi,
+            na kríž s vierou hlaď!
+            Miesto teba
+            Ježiš išiel
+            umierať.
+        </section>
+        <section name="v3">
+            Pán tam splní
+            sväté túžby,
+            z duše vezme žiaľ;
+            veď i takým
+            biednym, slabým
+            život dal.
+        </section>
+        <section name="v4">
+            Milosť, láska
+            z Krista plynie,
+            odpustenia prúd.
+            Šťastný, kto už
+            pri ňom mohol
+            spočinúť.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

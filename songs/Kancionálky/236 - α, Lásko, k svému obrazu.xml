@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Ó, Lásko, k svému obrazu">
+    <variant name="čeština">
+        <section name="v1">
+            Ó, Lásko, k svému obrazu jsi proměnila bídný prach
+            a do ohně i do mrazu mnes hledat šla, když rdousil strach.
+        </section>
+        <section name="r1">
+            Ó, Lásko, vše, co jsem , co mám,
+            již navždy Tobě oddávám!
+        </section>
+        <section name="v2">
+            Ó, Lásko, pro mne ztýraná a na kříži z mne přibitá,
+            by duše smrti vyrvána, Tys byla za ni zabita.
+        </section>
+        <section name="v3">
+            Ó, Bože lásky, na Tvůj hlas můj navždy zmlkne sten
+            a kvil temnem hrobu vejdu v jas, kde místo i mněs připravil.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1
+    </repetition>
+</slide>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Kdo jsou bratři moji">
+    <variant name="čeština">
+        <section name="v1">
+            Kdo jsou bratři moji?
+            Kdo jsou sestry mé?
+            Ti, jež Kristus pojí
+            láskou v tělo své.
+        </section>
+        <section name="v2">
+            Boží stádce malé
+            k pastýři se zná;
+            poslušno i v mále,
+            k němu láskou plá.
+        </section>
+        <section name="v3">
+            Těmto dítkám Božím,
+            jež svět nemá rád,
+            jest nade vše zboží
+            Boha milovat.
+        </section>
+        <section name="v4">
+            To jsou bratři moji,
+            to jsou sestry mé,
+            znám se k nim, jsme svoji
+            v lásce upřímné!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

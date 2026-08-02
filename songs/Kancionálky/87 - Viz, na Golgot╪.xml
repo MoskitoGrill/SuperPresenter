@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Viz, na Golgotě">
+    <variant name="čeština">
+        <section name="v1">
+            Viz, na Golgotě vztyčen kříž,
+            je Kristus přibit naň.
+            To pro hřích světa krvácí
+            mu ruce, nohy, skráň.
+        </section>
+        <section name="v2">
+            Jej láska na kříž přivedla.
+            To za mne zmírá tam
+            Král slávy, Ježíš, Boží Syn,
+            tak opuštěn a sám.
+        </section>
+        <section name="v3">
+            Hle, pod trnovou korunou
+            mu z čela tryská krev.
+            Ó Kriste, jaké nesmírné
+            to lásky Božské zjev!
+        </section>
+        <section name="v4">
+            Tam pod křížem krev Kristova
+            mne očišťuje z vin.
+            Je dílo spásy skončeno.
+            Mne s Otcem smířil Syn.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

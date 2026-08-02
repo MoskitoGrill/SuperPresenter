@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Bože, který krásou zdobíš">
+    <variant name="čeština">
+        <section name="v1">
+            Bože, který krásou zdobíš celou naši zem,
+            ozdob i to srdce moje krásy paprskem!
+        </section>
+        <section name="v2">
+            Učiň, aby bylo čisté jako pramen vod,
+            duši smělost dej a sílu přemáhati svod!
+        </section>
+        <section name="v3">
+            Vanutím pak vděčných písní rozvlň život můj,
+            přímý duch vždy neochvějně v službách lásky stůj!
+        </section>
+        <section name="v4">
+            Moji mysl povznes k sobě posvěť její cíl,
+            dej, bych lásku prokazoval, nejen o ní snil!
+        </section>
+        <section name="v5">
+            Bože, který krásou zdobíš celou naši zem,
+            pravou pokorou mne ozdob, Tvým ať sluhou jsem!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4 v5
+    </repetition>
+</slide>

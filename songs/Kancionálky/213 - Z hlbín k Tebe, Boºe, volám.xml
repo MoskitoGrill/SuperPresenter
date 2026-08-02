@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Z hlbín k Tebe, Bože, volám">
+    <variant name="čeština">
+        <section name="v1">
+            Z hlbín k Tebe, Bože volám, počuj moje vzdychanie!
+            Nakloň uši k mojim prosbám, vyslyš moje volanie!
+            Keby si bral na hriech zreteľ, na neprávosť
+            našu hľadel, kto by obstál pred Tebou?
+        </section>
+        <section name="v2">
+            U Teba je odpustenie, a to z púhej milosti.
+            Márne skutkov chlúbenie je, ich moc hriechov nesprostí.
+            Len ten, kto sa Bohu zverí, nesie plody živej
+            viery sťa strom dobrý v hojnosti.
+        </section>
+        <section name="v3">
+            Každé bremä v žitia boji uvalím len na Pána.
+            Všetky strasti, bôle zhojí z večera i za rána.
+            Ten, kto z Ducha narodil sa a vždy Bohu
+            podrobí sa, v ňom svoj pokoj nachádza.
+        </section>
+        <section name="v4">
+            I ja už len v svojom Bohu skladám všetky nádeje.
+            On mi činí milosť mnohú v utrpení, keď zle je.
+            Verím sľubom jeho slova, tak mi láska
+            Božia znova chladné srdce zahreje.
+        </section>
+        <section name="v5">
+            I keď vo mne hriechu mnoho, u Boha viac milosti.
+            Veď nám poslal Syna svojho z veľkej svojej ľútosti.
+            On aj k hriešnym láskou horí, čisté srdcia
+            znovu stvorí, z moci hriechu vyprostí.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4 v5
+    </repetition>
+</slide>

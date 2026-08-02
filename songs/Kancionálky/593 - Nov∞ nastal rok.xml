@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Nový nastal rok">
+    <variant name="čeština">
+        <section name="v1">
+            Nový nastal rok, spravuj sám náš krok.
+            Spasiteli, Jezu drahý, řiď i všecky naše snahy,
+            uchraň v přístích dnech od zlých nehod všech.
+        </section>
+        <section name="v2">
+            Přijmi chválu, čest, ze všech divných cest,
+            jimiž vedla Tvoje ruka, buď, že k plesu, buď, že v muka;
+            bylyť oboje cesty pokoje.
+        </section>
+        <section name="v3">
+            Tak vždy veď nás dál, Vůdce náš a Král,
+            jehož oči vše to znají, před námi co skryto v taji;
+            spolehněme naň, staň se pak, co staň!
+        </section>
+        <section name="v4">
+            Korunuj i svým milosrdenstvím,
+            Hospodine, Bože svatý, z milosti Tvé započatý
+            Nový tento rok, v něm náš každý krok!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Rozsvěť záři světla svého">
+    <variant name="čeština">
+        <section name="v1">
+            Rozsvěť záři světla svého
+            ve mně, Pane Ježíši,
+            ať se, zproštěn strachu zlého,
+            duch můj v Tobě utiší.
+            Zapudiž svou jasností
+            ze mne všechny temnosti,
+            u víře ať srdcem pravým
+            před trůn milosti se stavím.
+        </section>
+        <section name="v2">
+            Dejž, ať vstana z hříchu noci,
+            novým životem se skvím
+            a v Tvé velké Božské moci
+            nad žádostmi vítězím!
+            V pokoji svém, Pane můj,
+            srdce mé vždy ustavuj,
+            ať má ústa v každém čase
+            čest Tvou množí zvučným hlasem.
+        </section>
+        <section name="v3">
+            Dej, ať nic už v světě celém
+            od Tebe mne neloučí,
+            Tobě ať jen duší, tělem,
+            věrně se vždy poroučím.
+            Za Tebou, ó Jezu můj,
+            ducha mého pozdvihuj,
+            po pouti ať nebezpečné
+            bydlení mám s Tebou věčné.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3
+    </repetition>
+</slide>

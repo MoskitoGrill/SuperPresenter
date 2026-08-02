@@ -1,0 +1,32 @@
+<?xml version="1.0" ?>
+<slide name="Hoden je Beránek">
+    <variant name="čeština">
+        <section name="v1">
+Hoden je Beránek, nejvyšší chvály,
+            On nás vykoupil, Svou krví
+            Hoden je Beránek, nejvyšší chvály,
+            On nás vykoupil, Svou krví.
+</section>
+        <section name="r1">
+Ref. Jenom Ty jsi navěky Král,
+            Jenom Tobě, patří chvála Pane náš!
+            Ref. Jenom Ty jsi navěky Král,
+            Jenom Tobě, patří chvála Pane náš!
+</section>
+    </variant>
+    <variant name="український - auto">
+        <section name="v1">
+Гідний ягня, найвища похвала,
+            Він купив нам, його кров
+            Гідний ягня, найвища похвала,
+            Він купив нас своєю кров’ю.
+</section>
+        <section name="r1">
+Реф.Тільки ти назавжди король,
+            Тільки ти, належить містеру нашому!
+            Реф.Тільки ти назавжди король,
+            Тільки ти, належить містеру нашому!
+</section>
+    </variant>
+    <repetition name="JancaDada" main="1">v1 r1 v1 r1.1:2 r1 v1</repetition>
+</slide>

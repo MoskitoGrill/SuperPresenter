@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Z Biblie svätej">
+    <variant name="čeština">
+        <section name="v1">
+            Z Biblie svätej
+            nech znie slovo drahé,
+            poteší srdcia
+            smutné, strápené.
+            Slovo to večné,
+            ľudom z neba dané
+            po celom svete
+            má byť hlásané.
+        </section>
+        <section name="r1">
+            Biblia svätá
+            slávnym žiari svetlom,
+            nájdeme v nej vždy
+            vzácne poklady,
+            s ňou chceme verne
+            kráčať týmto svetom,
+            pravdou nás riadi,
+            láskou pohladí.
+        </section>
+        <section name="v2">
+            Z Biblie svätej nech
+            znie slovo drahé,
+            zjavuje Krista,
+            jeho lásky moc.
+            Porazil diabla,
+            hriechu sily dravé,
+            premenil v život
+            temnú smrti noc.
+        </section>
+        <section name="v3">
+            Z Biblie svätej
+            nech znie slovo drahé,
+            Otcov hlas z nebies,
+            ktorý volá nás.
+            Otvára náruč,
+            dieťa milované
+            pozdvihne k sebe,
+            do nebeských krás.
+        </section>
+        <section name="v4">
+            Z Biblie svätej
+            nech znie slovo drahé,
+            prúd živej vody
+            nech nás zaplaví!
+            Obmyté duše,
+            znovu požehnané,
+            chváliť Ťa budú,
+            Bože láskavý!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1 v4 r1
+    </repetition>
+</slide>

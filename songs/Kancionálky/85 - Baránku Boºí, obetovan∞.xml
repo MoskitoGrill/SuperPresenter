@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Beránku Boží, obetovaný">
+    <variant name="čeština">
+        <section name="v1">
+            Beránku Boží,
+            obetovaný,
+            za moje viny
+            ukrižovaný!
+            Chválim Ťa vrúcne,
+            Synu Boží, svätý,
+            za mňa zabitý.
+        </section>
+        <section name="v2">
+            Nemohol nikto
+            vykúpiť brata,
+            za hriechy tiekla
+            Tvoja krv svätá.
+            Beránku, niesol
+            si aj moje viny,
+            zmieral nevinný.
+        </section>
+        <section name="v3">
+            Baránku Boží,
+            nepoškvrnený,
+            na večné veky
+            oslavovaný,
+            hoden jsi prijať
+            vďaku, slávu, česť, moc
+            za Velikú noc.
+        </section>
+        <section name="v4">
+            V nebeskej sláve
+            až Ťa raz uzriem,
+            ku Tvojim nohám
+            presvätým padnem.
+            Vtedy len spoznám
+            Tvoju obeť svätu,
+            slávnu Golgotu.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

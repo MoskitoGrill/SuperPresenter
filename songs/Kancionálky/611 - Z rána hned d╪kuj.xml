@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Z rána hned děkuj">
+    <variant name="čeština">
+        <section name="v1">
+            Z rána hned děkuj,
+            duchu můj,
+            blízký že tobě
+            Otec tvůj!
+            Nad celým vládne
+            vesmírem,
+            stánek však chce mít
+            v srdci tvém.
+        </section>
+        <section name="v2">
+            Z rána hned k Tobě
+            mysl svou,
+            Otče můj vznáším
+            modlitbou.
+            Z rána hned ze Tvé
+            plnosti
+            pospíchám nabrat
+            milosti.
+        </section>
+        <section name="v3">
+            Z rána hned na Tvé
+            vinici
+            dej mi tu mannu
+            sílící,
+            celý den bych v Tvé
+            službě stál,
+            láskou Tvou, Pane,
+            oplýval!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3
+    </repetition>
+</slide>

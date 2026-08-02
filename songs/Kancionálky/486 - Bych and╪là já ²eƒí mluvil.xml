@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Bych andělů já řečí mluvil">
+    <variant name="čeština">
+        <section name="v1">
+            Bych andělů já řečí mluvil,
+            bych proroctví měl, umění,
+            bych věrou hory v moře nosil
+            a tělo vydal k spálení:
+            to vše mne činí zvučným kovem
+            a neprospívá k ničemu,
+            když srdce svatým lásky ohněm
+            vstříc bratřím neplá k dobrému!
+        </section>
+        <section name="v2">
+            Ta láska pravá z víry plyne,
+            je ve všem Kristu podobná,
+            neb trpí, přeje, dobrým slyne,
+            je pokorná a povolná.
+            V nic nedává se neslušného,
+            jen dobro myslí, rozdává,
+            dbá pravdy, neobmýšlí zlého,
+            vše snáší, věří, čekává.
+        </section>
+        <section name="v3">
+            Ó, lide Boží, znej ta slova,
+            že jako vadne země květ,
+            i proroků všech zajdou slova,
+            i jazyků všech ztichne vzlet,
+            že učení všech směrů různá
+            jak v moři kámen zapadnou:
+            a jenom lásky kvítka luzná
+            že nikdy, nikdy nezvadnou!
+        </section>
+        <section name="v4">
+            Co nyní víme, na čem lpíme
+            z těch Slova Páně výkladů,
+            co nyní máme nebo známe
+            z těch proroctví všech základů:
+            to vše je částka toho malá,
+            co Pravda, sláva nebeská,
+            a zmizí, jak jen dokonalá
+            se zjeví láska kristovská.
+        </section>
+        <section name="v5">
+            Nuž, milí v Pánu, nepracujme
+            jen při učení základech,
+            již dětská léta opouštějme,
+            tužíc se v lásky úkolech!
+            Je ovšem drahý klenot víry
+            a rovněž pevná naděje,
+            leč není v světě pro to míry,
+            jak láska k bratřím drahá je!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4 v5
+    </repetition>
+</slide>

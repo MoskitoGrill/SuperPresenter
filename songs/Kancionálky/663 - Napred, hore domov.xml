@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Napred, hore domov">
+    <variant name="čeština">
+        <section name="v1">
+            Napred, hore domov,
+            otčinu kde mám,
+            vedie cesta úzka,
+            ktorú určil Pán.
+            Nedá oddych, pokoj
+            sveta klamná púšť,
+            dedičstvo mám v nebi,
+            tam sa skončí púť.
+        </section>
+        <section name="r1">
+            Napred, za ním domov,
+            do nebeských brán,
+            slávne miesto
+            pripravuje
+            pre nás Pán!
+        </section>
+        <section name="v2">
+            Napred, hore domov,
+            za Pánom ísť chcem,
+            On ma drží v rukách,
+            chráni každý deň.
+            Vprostred ťažkých skúšok
+            slávny vidím cieľ,
+            vždy chcem k nemu kráčať,
+            ako Pán môj šiel.
+        </section>
+        <section name="v3">
+            Napred, hore domov,
+            letí ducha let,
+            tiahne srca túžba
+            v nadpozemský svet.
+            Aj keď na zemi už
+            radosti mám dosť,
+            až tam v nebi uzriem
+            plnej krásy skvost.
+        </section>
+        <section name="v4">
+            Napred, hore domov,
+            smeruje môj krok,
+            Boh nás v láske čaká,
+            brat a sestra, poď!
+            Baránkovi znie tam
+            večnej slávy hlas,
+            koruna tam čaká
+            za víťazstvo nás.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1 v4 r1
+    </repetition>
+</slide>

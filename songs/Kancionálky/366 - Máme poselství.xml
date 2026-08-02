@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Máme poselství">
+    <variant name="čeština">
+        <section name="v1">
+            Máme poselství
+            pro všechno lidstvo,
+            které k spáse
+            přivedlo nás,
+            to poselství
+            pravdy, lásky,
+            /:vzkaz pokoje,
+            štěstí jas!:/
+        </section>
+        <section name="r1">
+            Temnou noc ono
+            změní v jitro,
+            jitro v poledne
+            jasnou zář
+            a království Boží
+            přijde k nám,
+            nám zaskví se
+            Boží tvář!
+        </section>
+        <section name="v2">
+            Máme vzkaz, který
+            všem chceme nésti:
+            že náš Bůh, Pán
+            všeho a Král,
+            nám daroval
+            svého Syna
+            /:a s ním věčný
+            život dal:/
+        </section>
+        <section name="v3">
+            Máme Krista jejž
+            chcem kázat lidstvu,
+            který cestou
+            zde kříže šel,
+            by národům
+            všeho světa
+            /:svá nebesa
+            otevřel.:/
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1
+    </repetition>
+</slide>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="My hyneme a mřeme">
+    <variant name="čeština">
+        <section name="v1">
+            My hyneme a mřeme
+            zde všichni pro svůj hřích.
+            Dřív než se nadějeme,
+            smrt stojí ve dveřích!
+            Vše bude tobě vzato,
+            v čem měl jsi poklad svůj;
+            ó, člověče, vždy na to,
+            že umřeš, pamatuj!
+        </section>
+        <section name="v2">
+            Vždy mysli na svůj konec
+            a na poslední soud,
+            kde každý soudci svému
+            v tvář musí pohlédnout,
+            kam bez rozdílu každý
+            se dostaví, kdo žil,
+            a z Božích rukou vezme
+            mzdu, jakou zasloužil.
+        </section>
+        <section name="v3">
+            Ó, mysli na to denně,
+            že krátký život náš,
+            a pros, ať v zlý den svodům
+            své mysli odoláš!
+            Žij tak, jak by den každý
+            byl dnem tvým posledním,
+            vždy blízko svého Mistra,
+            vždy v rozhovoru s ním!
+        </section>
+        <section name="v4">
+            Dej, Pane, abych klidně
+            své smrti čekal den,
+            čist od svědomí zlého,
+            klást počet připraven.
+            A s plesem chvala díků,
+            až zavoláš, se bral
+            vstříc Tobě, Slitovníku,
+            jenžs za mne život dal!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

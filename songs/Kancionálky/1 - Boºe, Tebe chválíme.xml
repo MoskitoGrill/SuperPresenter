@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Bože, Tebe chválíme">
+    <variant name="čeština">
+        <section name="v1">
+            Bože, Tebe chválíme,
+            Pane, Tvoji ctíme sílu,
+            Před Tebou se skláníme,
+            Tvému divíce se dílu,
+            od věků až na  věky,
+            Bože mocný, veliký!
+        </section>
+        <section name="v2">
+            Andělů Tě chválí sbor
+            serafů a cherubínů,
+            každý v světě vzdává tvor
+            slávu Tobě, Hospodinu;
+            ze všech zní to světa stran:
+            svatý, svatý, svatý Pán!
+        </section>
+        <section name="v3">
+            Ctí tě, Otče, na zemi
+            všichni, velicí i malí,
+            sbor Tvůj s lidmi se všemi
+            uctívá Tě, vroucně chválí,
+            čest a chválu přináší
+            Synu Tvému Ježíši.
+        </section>
+        <section name="v4">
+            Pane, mocný Bože náš,
+            ve svém skloň se slitování!
+            Dle svých slibů, víme, dáš
+            všem nám svoje požehnání,
+            všecka pomoc v Tobě je,
+            Ty jsi naše naděje!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

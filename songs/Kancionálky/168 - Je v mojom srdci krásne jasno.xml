@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Je v mojom srdci krásne jasno">
+    <variant name="čeština">
+        <section name="v1">
+            Je v mojom srdci krásne jasno,
+            bo zmizol z nebo hrôzy des.
+            Ja oslavujem, spievam hlasno,
+            mne učinil Boh milosť dnes.
+            Ó, mojím srdcom pokoj prúdi
+            a vnútrom plynie blaha jas,
+            a radosť vlieva v údy:
+            ja šťastný som, ó, šťastný zas.
+        </section>
+        <section name="v2">
+            Už zmizli tiene, padli putá,
+            hriech zmyla Baránkova krv.
+            Pred slnkom lásky zima krutá
+            sa skryla, niet jej ako prv,
+            keď ubiedený vlastným žialom
+            som v mukách duše zomdlieval
+            a poškvrnený hriecha kalom
+            o milosť s plačom prosieval.
+        </section>
+        <section name="v3">
+            Ja pocítil som blízkosť Pána,
+            ó, aká radosť nebeská!
+            Mne bolo ako rose zrána,
+            keď slniečko ju pobozká,
+            a ona, premenená, k nemu
+            sa vznesie ponad tmavý svet.
+            Ja patrím Bohu, iba jemu,
+            a prinášam mu lásky kvet.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3
+    </repetition>
+</slide>

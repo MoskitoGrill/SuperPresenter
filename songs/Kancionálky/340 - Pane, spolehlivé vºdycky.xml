@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Pane, spolehlivé vždycky">
+    <variant name="čeština">
+        <section name="v1">
+            Pane, spolehlivé vždycky
+            Tvoje slovo je,
+            pevně důvěřuji Tvojí
+            smlouvě pokoje.
+        </section>
+        <section name="r1">
+            Důvěřuji lásce Tvé,
+            v noci žití bouřlivé.
+            Důvěřuji, neb Ty bdíš,
+            co se děje, víš.
+        </section>
+        <section name="v2">
+            Pevně věřím, že jsi z lásky
+            zmíral za můj hřích,
+            nic že nevyrve mne z rukou
+            pro mne zbodených.
+        </section>
+        <section name="v3">
+            Pevně věřím, Tvou že smrtí
+            s Bohem smířen jsem,
+            dítětem se jeho stávám,
+            slávy dědicem.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1
+    </repetition>
+</slide>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="S dôverou vlož ruku svoju">
+    <variant name="čeština">
+        <section name="v1">
+            S dôverou vlož ruku svoju
+            v svätú Ježišovu dlaň,
+            prv než hriech ťa na smrť stýra,
+            bo má satan taký plán.
+        </section>
+        <section name="r1">
+            Vykúpil ťa Ježiš, ver,
+            milosť z jeho ruky ber!
+            Dielo spásy dokonal,
+            na veky ho za to chváľ.
+        </section>
+        <section name="v2">
+            Polovičné vykúpenie
+            tvojej duši nestačí!
+            Úplne ťa vyslobodil
+            Spasiteľ tvoj najdrahší.
+        </section>
+        <section name="v3">
+            Nepýtaj sa, či je možné
+            už teraz bez hriechu žiť.
+            Zanechaj tie márne boje,
+            k Ježišovi s vierou príď.
+        </section>
+        <section name="v4">
+            Všetko zlož, čo nie je z Boha,
+            čo si ešte v srdci mal!
+            Pán je verný zasľúbeniam,
+            ktoré v svojom slove dal.
+        </section>
+        <section name="v5">
+            Haleluja! Pane drahý,
+            prijmi ma, Tvoj navždy som.
+            Nechcem Ti len sčásti patriť,
+            vládni celým životom.
+        </section>
+        <section name="r2">
+            Pán Ježiš ma v láske má,
+            hriech môj prevzal na seba.
+            Dielo spásy dokonal,
+            duša moja, vždy ho chváľ!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1 v4 r1 v5 r2
+    </repetition>
+</slide>

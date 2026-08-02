@@ -1,0 +1,12 @@
+<?xml version="1.0" ?>
+<slide name="pokus new">
+    <variant name="čeština">
+        <section name="v1">
+fsdfsdfsdfsd
+</section>
+        <section name="r1">
+fdsfsdfsd
+</section>
+    </variant>
+    <repetition name="default" main="1">v1 r1</repetition>
+</slide>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Čuj, kto meno Krista nosíš">
+    <variant name="čeština">
+        <section name="v1">
+            Čuj, kto meno Krista nosíš, kresťanom sa menuješ,
+            skúmaj seba: komu súžiš, koho najviac miluješ?
+            To je kresťan opravdivý, smie to drahé meno mať,
+            kto má za cieľ Ježišovi vo všetkom sa podobať.
+        </section>
+        <section name="v2">
+            Pán tých učil, čo šli za ním; ak chcú s ním aj do neba,
+            musia s sebazapieraním kríž brať denne na seba.
+            Utrpenie, posmech, hanu znáša kresťan s radosťou,
+            povďačný je za to Pánu, zve to Božou milosťou.
+        </section>
+        <section name="v3">
+            Kto je z Boha narodený, vládne v ňom duch Ježišov,
+            prejaví to v milovaní bratstva, aj nepriateľov.
+            Čistá láska kresťanovi najväčšia je ozdoba,
+            v tom nech sa náš život nový Ježišovi podobá.
+        </section>
+        <section name="v4">
+            Vždy sa snažme prejavovať život hodný kresťana,
+            Kristovu tvár zobrazovať, v obeť dať sa pre Pána,
+            nedúfajme v žiadnom mene, nový život žiada Pán,
+            tým bude v nás spečatené: meno kresťan patrí nám.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

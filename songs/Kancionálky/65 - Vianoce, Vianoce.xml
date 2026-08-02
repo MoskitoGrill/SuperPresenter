@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Vianoce, Vianoce">
+    <variant name="čeština">
+        <section name="v1a">
+            Vianoce, Vianoce,
+            milé tiché sviatky
+            pokoja radosti,
+            štedrosti a lásky!
+            Koľko požehnania,
+            blaha prežívame,
+            /:keď si na Dar Boží
+            vďačne spomíname!:/
+        </section>
+        <section name="v2">
+            Pán Boh nám Syna dal
+            svojho jediného,
+            aby nás vykúpil
+            z hriechu prehrozného.
+            Drahú slobodu dal
+            na smrť odsúdeným,
+            /:zástupcom sa On stal
+            všetkým ľuďom hriešnym.:/
+        </section>
+        <section name="v3">
+            Vianoce, Vianoce,
+            mnoho znamenáte,
+            každého núdzneho
+            darmi obsýpate,
+            predobrými darmi
+            Otca nebeského!
+            /:Ó, nech ľudia plnia
+            svätú vôľu Jeho!:/
+        </section>
+        <section name="v4">
+            Za dary nesmierne
+            patrí vďaka Bohu.
+            Otcovi spievajme
+            za tú lásku mnohú,
+            ktorú v Ježišovi
+            prijali sme zdarma,
+            /:keď nás navždy zbavil
+            otrockého jarma.:/
+        </section>
+    </variant>
+    <repetition name="default">
+        v1a v2 v3 v4
+    </repetition>
+</slide>

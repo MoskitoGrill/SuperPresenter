@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Ježíš volá tebe, duše">
+    <variant name="čeština">
+        <section name="v1">
+            Ježíš volá
+            tebe, duše,
+            volá z tvých tě vin:
+            viz tu náruč,
+            chce tě vzíti
+            na svůj klín!
+        </section>
+        <section name="v2">
+            Byť nad počet
+            hvězd nebeských
+            větší byl tvůj hřích,
+            přece On tě
+            ukrýti chce
+            v ranách svých.
+        </section>
+        <section name="v3">
+            Věř, ó, věř již
+            Spasiteli,
+            srdce své mu dej,
+            hned uslyšíš
+            jeho slovo:
+            "Pokoj měj!"
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3
+    </repetition>
+</slide>

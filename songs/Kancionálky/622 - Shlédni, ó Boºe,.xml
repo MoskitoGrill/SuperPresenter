@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Shlédni, ó Bože,">
+    <variant name="čeština">
+        <section name="v1">
+            Shlédni, ó Bože,
+            s trůnu jasné výše
+            v podvečer, když vše
+            svatým mírem dýše,
+            pohlédni na nás,
+            uděl požehnání
+            dítek svých zástupu!
+        </section>
+        <section name="v2">
+            Zůstávej s námi,
+            když se připozdívá,
+            slune když hasne,
+            země v tmu se skrývá;
+            chraň duše naše,
+            satan když se blíží,
+            škůdce když obchází!
+        </section>
+        <section name="v3">
+            Posvěť se jméno Tvé,
+            ó nebes Králi,
+            Tvá děj se vůle
+            po všem světa kraji!
+            Od zlého zbav nás,
+            odpusť naše viny
+            nyní i na věky!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3
+    </repetition>
+</slide>

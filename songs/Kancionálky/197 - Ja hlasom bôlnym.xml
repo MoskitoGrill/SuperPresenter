@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Ja hlasom bôlnym">
+    <variant name="čeština">
+        <section name="v1">
+            Ja hlasom bôlnym
+            k Tebe lkám,
+            žiaľ duše v pláči
+            vylievam
+            a prosím v vojej
+            bezmoci,
+            /:ó poskytni mi
+            pomoci.:/
+        </section>
+        <section name="v2">
+            Zlí nástrahy
+            mi ukryli,
+            by na ceste ma
+            zničili
+            a premáha ma
+            nepokoj.
+            /:ty najlepšie stav
+            poznáš môj.:/
+        </section>
+        <section name="v3">
+            Môj rozborili
+            pevný hrad,
+            mňa priateľ blízky
+            nechce znať,
+            niet toho kto by
+            pri mne stál
+            /:a na dušu
+            sa opýtal.:/
+        </section>
+        <section name="v4">
+            Len ku Tebe sa
+            utiekam,
+            veď Ty si pri mne
+            zostal sám,
+            ty držíš vždycky
+            nad mnou stráž
+            /:a v zemi živých
+            diel mi dáš.:/
+        </section>
+        <section name="v5">
+            Keď vyvedieš ma
+            z väzenia,
+            sa žiale v spevy
+            premenia
+            a ľud Tvoj hneď ma
+            obstúpi,
+            /:keď zahanbíš zlých
+            zástupy.:/
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4 v5
+    </repetition>
+</slide>

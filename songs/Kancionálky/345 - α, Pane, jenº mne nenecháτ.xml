@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Ó, Pane, jenž mne nenecháš">
+    <variant name="čeština">
+        <section name="v1">
+            Ó, Pane, jenž mne nenecháš, svůj mír vlej v duši zraněnou!
+            Co dal jsi mi, Ti vracím již, můj pramen ve svém moři ztiš a rozviň v plnost svou!
+        </section>
+        <section name="v2">
+            Ó, Světlo, jež mou řídíš pouť, jen Tvým je odleskem můj plam;
+            mé Slunce, rač mne prošlehnout, a znovu srdce rozžehnout, ať čistěj’ plápolá!
+        </section>
+        <section name="v3">
+            Ó, Radosti, za trudem vším Ty čekáš! Co bych neměl snést,
+            když v mraku jasnou duhu zřím a s jitrem slzy setřít smím! Co slíbils’, pravda jest.
+        </section>
+        <section name="v4">
+            Ó kříži, což se mám tě bát, když k tobě zrak se vzhůru pne?
+            A byť bych vše zde ve hrob klad, zřím nový život rozkvétat, jenž nikdy nezvadne.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

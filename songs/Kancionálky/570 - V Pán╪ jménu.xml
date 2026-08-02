@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="V Páně jměnu">
+    <variant name="čeština">
+        <section name="v1a">
+            V Páně jménu
+            shromážděni jsouce
+            ruce sobě dáváme.
+            Jedni k druhým
+            svorně se vinouce,
+            upřímně si žádáme,
+        </section>
+        <section name="v1b">
+            aby pevné byly
+            naše svazky,
+            bychom plápolali
+            ohněm lásky,
+            Pán by věrných
+            přidával,
+            pokoj srdce ovládal.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1a v1b
+    </repetition>
+</slide>

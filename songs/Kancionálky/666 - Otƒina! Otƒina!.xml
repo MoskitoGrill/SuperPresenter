@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Otčina! Otčina!">
+    <variant name="čeština">
+        <section name="v1">
+            Otčina! Otčina!
+            Nebies výšiny!
+            Ó, túžim čím skôr vnoriť sa
+            ja v tvoje tíšiny.
+            Svet nieje pre mňa vlasťou už,
+            bo srdce nedlie tam,
+            len v Tebe, ó vlasť nebeská,
+            len v tebe domov mám.
+        </section>
+        <section name="v2">
+            K nebesiam, k nebesiam
+            s túžbou pozerám.
+            Tak mnohí drahí sú už tam,
+            ja za nimi ísť mám.
+            Tu často skúšok čierny mrak
+            a nikde svetla svit,
+            no nikto pohľad k nebesam
+            mi nemôž zatieniť.
+        </section>
+        <section name="v3">
+            Skoro už, skoro už
+            skončí skúšok čas,
+            a vo večnosti okúsim
+            ten pravý blaha jas.
+            Tam čaká radosť bez premien,
+            aj bez bôľov a múk;
+            čo ľudské srdce netuší,
+            to prijmem z jeho rúk.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3
+    </repetition>
+</slide>

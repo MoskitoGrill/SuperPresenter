@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Když tmavá noc">
+    <variant name="čeština">
+        <section name="v1">
+            Když tmavá noc a černý mrak
+            ti visí nad hlavou
+            a nesnáz svírá všelijak,
+            až klesáš únavou,
+            když zmáhá tebe žal,
+            ty přece kráčej dál:
+            jen promluv o tom s Pánem,
+            bude dobře zas!
+        </section>
+        <section name="r1">
+            Jen promluv o tom s Pánem,
+            bude dobře zas,
+            jen promluv o tom s Pánem,
+            bude dobře zas!
+            Čím větší neseš tíž,
+            viň k Ježíši se blíž
+            a promluv o všem s Pánem,
+            bude dobře zas!
+        </section>
+        <section name="v2">
+            Když ti, kdo srdci drazí jsou,
+            tak zchladli, zklamali,
+            vše, co Ti bylo útěchou,
+            když prchlo do dáli,
+            když všecko svět ti vzal,
+            proč už bys na to dbal?
+            Jen promluv o tom s Pánem,
+            bude dobře zas!
+        </section>
+        <section name="v3">
+            Jen častý hovor s Pánem měj,
+            to srdce posílí!
+            Jak učedníci pozvi jej,
+            když den se nachýlí.
+            Byť před smrtí jsi stál,
+            proč příliš by ses bál?
+            Jen promluv opět s Pánem,
+            bude dobře zas!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1
+    </repetition>
+</slide>

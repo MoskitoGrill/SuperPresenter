@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Můj Ježíš mé jest žití">
+    <variant name="čeština">
+        <section name="v1">
+            Můj Ježíš mé je žití,
+            můj díl a zisk můj jest;
+            chci stále při něm dlíti
+            /:a vzdávati mu čest!:/
+        </section>
+        <section name="v2">
+            On nejvýšší jest dání,
+            jež Otec můj mi dal,
+            když On se ke mně sklání,
+            /:tu prchá bol a žal.:/
+        </section>
+        <section name="v3">
+            Jen když On v duši mojí
+            s svou láskou přebývá,
+            v tom, co jí ku pokoji,
+            /:pak nouzi nemívá.:/
+        </section>
+        <section name="v4">
+            On moje rány hojí
+            svým vínem, olejem
+            a v jeho krve zdroji
+            /:čist od všech hříchů jsem.:/
+        </section>
+        <section name="v5">
+            On pokrm můj, mé zřídlo,
+            On ve tmách světlem mým,
+            On vůdcem v nebes sídlo
+            /:a v boji vítězstvím.:/
+        </section>
+        <section name="v6">
+            Co bych jen mohl chtíti,
+            by v něm mým nebylo?
+            V něm blaha rajské kvítí
+            /:mně zde se rozvilo.:/
+        </section>
+        <section name="v7">
+            V něm nebe mi je dáno,
+            kde věčně budu s ním:
+            ó Ty, mé duše schráno,
+            /:Tě víc se nespustím!:/
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4 v5 v6 v7
+    </repetition>
+</slide>

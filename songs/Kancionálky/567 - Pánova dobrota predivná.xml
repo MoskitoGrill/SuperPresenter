@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Pánova dobrota predivná">
+    <variant name="čeština">
+        <section name="v1">
+            Pánova dobrota predivá
+            prevýši naše viny a hriech.
+            Kristova svätá krv nevinná
+            dušu mi zbielila ako sneh.
+        </section>
+        <section name="r1">
+            Láska, láska Božia láska
+            väčšia je nad každý sveta hriech;
+            milosť, milosť Božia milosť
+            dušu mi zbielila ako sneh.
+        </section>
+        <section name="v2">
+            Zúfalstvo je ako bitie vĺn,
+            dušu čo ničí sťa búrka čln.
+            Uteč sa k milosti, srdce stíš,
+            skytá ti záchranu Kristov kríž.
+        </section>
+        <section name="v3">
+            Láska tá predivná, nezmerná!
+            Každý, kto verí k nej prístup má.
+            Ak túžiš Ježiša uvidieť,
+            poddaj sa milosti Božej hneď.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1
+    </repetition>
+</slide>

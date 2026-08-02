@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Ježišu drahý, nadovšetko">
+    <variant name="čeština">
+        <section name="v1">
+            Ježišu drahý, nadovšetko mám ťa rád!
+            Priateľ si verný, najpevnejší hrad.
+            Hrôza búrlivých vĺn nedesí ma, nie som sám,
+            veď Ty riadiš môj čln, v Tebe úkryt mám,
+            chráň ma, Ježišu drahý, v krutých búrkach pri mne stoj,
+            keď je život aj dravý, daj mi pokoj svoj.
+        </section>
+        <section name="v2">
+            Zúrivé more, raz Ty skrotíš, iste viem,
+            po vlnách skúšok s Tebou kráčať smiem.
+            Keby v bezhviezdnej tme na dno stiahnuť chcel ma prúd,
+            vystri ruku po mne, spásou mojou buď.
+            Chráň ma, Ježišu mocný, Ty mi k bojom silu daj,
+            padnúť do víru hriechov ma už nenechaj.
+        </section>
+        <section name="v3">
+            Príde svit rána, prístav svoj keď vítať mám,
+            spasenú dušu Tebe odovzdám.
+            Stíchne života zhon, zhojíš bolesť všetkých rán,
+            padnem pred zlatý trón: Boh si môj a Pán!
+            Ty ma, Ježišu slávny, v svoju radosť povoláš,
+            aj mne útechu, spásu, večný život dáš.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3
+    </repetition>
+</slide>

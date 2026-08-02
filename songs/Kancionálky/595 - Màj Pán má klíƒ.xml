@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Můj Pán má klíč">
+    <variant name="čeština">
+        <section name="v1">
+            Můj Pán má klíč mých dalších dnů,
+            ó, jak jsem rád!
+            Neb kdyby jiný vládl jím,
+            či Pán jej svěřil rukám mým,
+            mně hrozí pád, mně hrozí pád.
+        </section>
+        <section name="v2">
+            Co zítřek nese, nevím dnes;
+            přec pokoj mám!
+            Když vzejde nám den nový zas,
+            hned v branách jitra slyším hlas:
+            "Vždyť nejdeš sám! Vždyť nejdeš sám!"
+        </section>
+        <section name="v3">
+            Ač mdlý zrak nezří budoucnost,
+            přec klid mám svůj;
+            vždyť cítím ruku vodící
+            a slyším hlas mne těšící:
+            "Jen důvěřuj! Jen důvěřuj!"
+        </section>
+        <section name="v4">
+            Já nevím, jak mne provede;
+            však tolik vím,
+            že pečlivě bdí nade mnou
+            a jemu všechnu starost svou
+            že svěřit smím, že svěřit smím.
+        </section>
+        <section name="v5">
+            Ó, Jezu, to mi postačí
+            a šťasten jsem,
+            že klíče všeho máš Ty sám:
+            vždyť proto se tak dobře mám
+            na srdci Tvém, na srdci Tvém!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4 v5
+    </repetition>
+</slide>

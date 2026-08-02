@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Ó, Bože, Tvoj Duch">
+    <variant name="čeština">
+        <section name="v1">
+            Ó, Bože, Tvoj Duch,
+            nech obživí nás.
+            Príď do hlbín k nám
+            Ty, Záchranca náš.
+            Z pút osloboď dušu,
+            ó, daruj jej vzlet,
+            nech k Tebe sa vinie
+            a opustí svet.
+        </section>
+        <section name="v2">
+            Kde vládne Tvoj Duch,
+            tam radosť je žiť.
+            Dá do boja moc
+            a k ochrane štít.
+            Ó, rozhojni dary,
+            Ťa prosí Tvoj ľud,
+            a vyschnuté kosti
+            zas k životu vzbuď!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2
+    </repetition>
+</slide>

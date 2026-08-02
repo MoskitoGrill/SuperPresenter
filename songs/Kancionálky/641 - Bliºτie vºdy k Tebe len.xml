@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Bližšie vždy k Tebe len">
+    <variant name="čeština">
+        <section name="v1">
+            Bližšie vždy k Tebe len,
+            ó Bože môj,
+            hoc by ma tlačil kríž,
+            unavil boj.
+            V najtmavších chvíľach dňa
+            srdca spev dvíha ma
+            bližšie vždy k Tebe len,
+            ó Bože môj!
+        </section>
+        <section name="v2">
+            Na púšti života
+            desí ma noc,
+            poklesnem na kameň,
+            nemám už moc.
+            Jakobov sen mi daj,
+            v nebeský povznes kraj,
+            bližšie vždy k Tebe len,
+            ó Bože môj!
+        </section>
+        <section name="v3">
+            Úskalím vedie ma
+            k Tebe môj krok
+            ako sa prediera
+            k moru vôd tok.
+            Tvojej nech lásky prúd
+            usmerní moju púť
+            bližšie vždy k Tebe len,
+            ó Bože môj!
+        </section>
+        <section name="v4">
+            Nádherný svitne deň,
+            koniec už tmám,
+            z tvrdých skál skúšok Ti
+            postavím chrám.
+            S plameňom obetí
+            duch môj rád zaletí
+            bližšie vždy k Tebe len,
+            ó Bože môj!
+        </section>
+        <section name="v5">
+            Keď raz púť ukončím,
+            posledný ston
+            túžobne zašepká:
+            ku mne sa skloň.
+            Pomôž mi v smrti dni,
+            k sebe ma pozdvihni,
+            bližšie vždy k Tebe len,
+            ó Bože môj!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4 v5
+    </repetition>
+</slide>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Viem o zvláštnej rieke">
+    <variant name="čeština">
+        <section name="v1">
+            Viem o zvláštnej rieke, jej
+            nádherný prúd, tak
+            tichúčko zvlažuje kraj;
+            v jej blízkosti pútnik smie
+            odpočinúť,
+            jej okolie mení sa v raj.
+        </section>
+        <section name="r1">
+            Ach, priateľ môj,
+            prosím ťa poď,
+            poď do svätých
+            vnoriť sa vôd.
+            Či počuješ šumieť
+            ten mohutný prúd?
+            Poď, nájdeš v ňom
+            radosť a kľud!
+        </section>
+        <section name="v2">
+            Kde mohutnej rieky tej
+            šumenie znie, tam
+            zavládol pokoj a jas,
+            tam srdce je z otroctva
+            vymanene
+            a blažený prežíva čas.
+        </section>
+        <section name="v3">
+            Tá rieka tak mnohým zrak
+            navrátila i
+            zblúdilých priviedla spät,
+            a koľké už choroby
+            vyliečila,
+            aj najtmavší obmyje hriech.
+        </section>
+        <section name="v4">
+            Tou nádhernou riekou je
+            Slovo, čo dal Boh
+            prorokom o spasení,
+            krv, ktorá raz vytiekla
+            z Kristových rán,
+            v nej čistý si, uzdravený.
+        </section>
+        <section name="v5">
+            Kto smädný si, napi sa,
+            koľko len chceš, tak
+            hovoria nevesta, Duch;
+            a umy sa v prúde tom,
+            iba tak smieš
+            raz v nebesiach odpočinúť.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1 v4 r1 v5 r1
+    </repetition>
+</slide>

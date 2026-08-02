@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Zvelebuj Pána">
+    <variant name="čeština">
+        <section name="v1">
+            Zvelebuj Pána, ó srdce moje,
+            miluje ma On, iste viem.
+            Preto kým v svete mám sídlo svoje,
+            jemu vždy ku cti spievať chcem.
+            Bože, Tys´ telo, dušu dal,
+            zo srdca prijmi hymnu chvál.
+            Haleluja! Haleluja!
+        </section>
+        <section name="v2">
+            Blažený každý, kto očakáva
+            od Boha pomoc jedine,
+            v náporoch víchrov zlých odoláva,
+            v ničivej búrke nezhynie.
+            Spasiteľ komu vodcom je,
+            ten vždy si dobre radiť vie.
+            Haleluja! Haleluja!
+        </section>
+        <section name="v3">
+            A keď je pútnik aj unavený,
+            ranený v žitia zápasoch,
+            krivda sa každá raz v radosť zmení,
+            spravodlivý je jeho Boh.
+            Väznených putá rozviaže,
+            predivnú milosť dokáže!
+            Haleluja! Haleluja!
+        </section>
+        <section name="v4">
+            Vyvýšte, spasení, divov prameň!
+            Chváľte ho zvučne, radostne.
+            Všetko, čo život má, zvolaj: Amen!
+            Spievajme piesne slávnostné.
+            Pánove dietky plesajte,
+            Božiu česť, slávu hlásajte!
+            Haleluja! Haleluja!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

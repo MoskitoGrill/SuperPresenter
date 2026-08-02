@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Plesaj, Božia rodina">
+    <variant name="čeština">
+        <section name="v1">
+            Plesaj, Božia rodina, haleluja, amen!
+            Ide slávna hodina, haleluja amen!
+            Príde Ježiš v krátky čas, zanesie tam sebou nás,
+            anjelský kde zvučí hlas, haleluja amen!
+        </section>
+        <section name="v2">
+            Vážme si čas prípravy, haleluja, amen!
+            Nech sa v nás Pán oslávi, haleluja, amen!
+            Olej viery schytajme, v svätých cnostiach vzrastajme,
+            Pána svojho čakajme, haleluja, amen!
+        </section>
+        <section name="v3">
+            Blažený to bude čas, haleluja, amen!
+            Keď On príde vziať si nás, haleluja, amen!
+            Svätý bubú zmenení, spravodliví vzkriesení,
+            pred Boží trón nesení, haleluja, amen!
+        </section>
+        <section name="v4">
+            Ježišovej tváre jas, haleluja, amen!
+            Zaskveje sa i nám raz, haleluja, amen!
+            Budúcnosť, ty blažená, príď už tvoja hodina,
+            túži Božia rodina, haleluja, amen!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

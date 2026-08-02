@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Mladosti ľúby deň">
+    <variant name="čeština">
+        <section name="v1">
+            Mladosti ľúby deň zaniká ako sen, v mladistvej radostnej hrudi, túžby a nadšenie budí.
+            Rýchlo však odletia čas, mladosť sanevráti zas, mladosť sa nevrati zas.
+        </section>
+        <section name="v2">
+            Pomôž mi verným byť, život Ti zasvätiť, Teba len milovať cele, hriechu sa sprotiviť smele.
+            Mladosti krásny to skvost, Ježiš kde drahý je hosť, Ježiš kde drahý je hosť.
+        </section>
+        <section name="v3">
+            Opatruj Ty ma sám, v Tebe nech zostávam, spravuj a veď kroky moje, posilňuj jahniatko svoje.
+            Krásny je mladosti čas, keď svieti Ježišov jas, keď svieti Ježišov jas.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3
+    </repetition>
+</slide>

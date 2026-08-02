@@ -1,0 +1,42 @@
+<?xml version="1.0" ?>
+<slide name="Oceán">
+    <variant name="čeština">
+        <section name="v1">
+Když už svět neměl co dát 
+a já to chtěl vzdát,
+Tys přišel jak Král, 
+do rukou mě vzal.
+Tvá milost je víc, 
+než dokážu říct,
+až na kolenou rozumím.
+</section>
+        <section name="b1">
+Tak svým životem 
+naplním Tvůj sen,
+toužím říci všem, 
+že jsi tu každý den.
+</section>
+        <section name="r1">
+Tvoje láska, 
+ona uzdraví a vysvobodí,
+Tvoje náruč je to, 
+kde chci být a neodejít.
+Budu zpívat a chválit tě
+dál za všechno, cos dal.
+Proč bych se bál,
+vždyť se mnou je Král,
+tak nekonečný Pán, 
+můj oceán.
+</section>
+        <section name="v2">
+Do života dal 
+jsi radost a vzal jsi
+minulost mou, 
+už nebloudím tmou.
+Tvá milost je víc, 
+než dokážu říct,
+až na kolenou rozumím.
+</section>
+    </variant>
+    <repetition name="default" main="1">v1 b1 r1 v2 b1 r1 b1</repetition>
+</slide>

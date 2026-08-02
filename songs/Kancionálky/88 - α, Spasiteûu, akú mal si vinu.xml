@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Ó, Spasiteľu, akú mal si vinu">
+    <variant name="čeština">
+        <section name="v1">
+            Ó Spasiteľu,
+            akú mal si vinu,
+            že trest tak krutý
+            Teba musel stihnuť?
+            Veď nespravil si
+            nikdy zlého činu!
+            Viem, bol to môj hriech.
+        </section>
+        <section name="v2">
+            Oj, veniec z tŕnia
+            na hlavu Ti dali,
+            v tvár Tvoju pľuli,
+            hanili Ťa, štvali.
+            Žlč s octom dali,
+            bili, posmievali!
+            Aj križovali!
+        </section>
+        <section name="v3">
+            Ty Boží Syn,
+            si za mňa smrťou platil,
+            svoj svätý život
+            pre mňa Ty si ztratil,
+            tak mňa si svojou
+            krvou obmyl, spasil.
+            Môj predrahý Pán!
+        </section>
+        <section name="v4">
+            O všemocný Kráľ,
+            večná Tvoja sláva!
+            Viem, kto sa podľa
+            Tvojej vôle správa,
+            ten slúži Ti a
+            najväčší dar dáva.
+            Som služobník Tvoj!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

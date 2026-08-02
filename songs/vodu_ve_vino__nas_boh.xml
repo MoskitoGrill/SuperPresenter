@@ -1,0 +1,28 @@
+<?xml version="1.0" ?>
+<slide name="Vodu ve vino - Náš Boh">
+    <variant name="čeština">
+        <section name="v1">
+Vodu na víno meníš
+otváraš oči slepým
+Nikto nie je ako Ty
+</section>
+        <section name="v2">
+Zasvietiš v tmách životom
+z prachu nás dvíhaš slovom
+Nikto nie je ako Ty
+</section>
+        <section name="r1">
+Náš Boh je väčší, on je silnejší.
+Pane, si viac než čo tento svet dáva.
+Rany nám liečiš, mocný a slávny
+náš Boh, si náš Pán
+</section>
+        <section name="b1">
+Veď keď náš Boh je za nás
+nemôže vládnuť strach
+keď náš Boh je s nami,
+kto môže stáť proti nám?
+</section>
+    </variant>
+    <repetition name="default" main="1">v1 v2 r1 b1</repetition>
+</slide>

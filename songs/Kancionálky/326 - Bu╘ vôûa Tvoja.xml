@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Buď vôľa Tvoja">
+    <variant name="čeština">
+        <section name="v1">
+            Buď vôľa Tvoja, ó, Pane môj,
+            Ty si ma stvoril a ja som Tvoj.
+            Učiň ma takým, akým byť mám,
+            rád svojej vôle navždy sa vzdám.
+        </section>
+        <section name="v2">
+            Buď vôľa Tvoja, ó, Pane môj,
+            skús ma a poznaj, že som len Tvoj.
+            Očisť ma, by som belší než sneh
+            slávil Ťa cestou na večný breh.
+        </section>
+        <section name="v3">
+            Buď vôľa Tvoja, ó, Pane môj,
+            premocný Lekár, pri mne vždy stoj!
+            Ranený som ach, udeľ mi síl,
+            ku Tvojej sláve aby som žil.
+        </section>
+        <section name="v4">
+            Buď vôľa Tvoja, ó, Pane môj,
+            zverujem na vždy život Ti svoj.
+            Plnosť mi Ducha svätého daj,
+            po žitia bojoch uveď ma v raj.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Přijď, Králi věčný náš">
+    <variant name="čeština">
+        <section name="v1">
+            Přijď, Králi věčný náš,
+            jenž vše v své moci máš,
+            a žehnej nám.
+            Uč nás dle pravdy cest
+            Ti oběť chvály nést
+            a jakž Ti libé jest,
+            v nás kraluj sám.
+        </section>
+        <section name="v2">
+            Přijď, slovo věčnosti
+            a moc své milosti
+            zjev lidem všem.
+            Ať všemu stvoření
+            Tvé vzkazy mocně zní
+            a všecka ku Tvé žni
+            se chystá zem.
+        </section>
+        <section name="v3">
+            Přijď, Duchu milosti
+            a mocí s výsosti
+            nás přioděj.
+            Máš moc i smrti sen
+            proměnit v slávy den,
+            ó, vzbuď v nás život ten,
+            posilni jej.
+        </section>
+        <section name="v4">
+            Ó Bože veliký!
+            Od věků na věky
+            jest sláva Tvá.
+            Dejž, bychom s anděly
+            ve věčnou neděli
+            nové Ti zapěli:
+            Haleluja!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

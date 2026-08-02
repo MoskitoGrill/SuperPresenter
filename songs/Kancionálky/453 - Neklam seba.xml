@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Neklam seba">
+    <variant name="čeština">
+        <section name="v1">
+            Neklam seba, neklam seba!
+            Ľudí klamať môžeš, Boha neoklameš.
+            On zná vnútro tvoje, neklam seba!
+        </section>
+        <section name="v2">
+            Neživ pýchu, neživ pýchu!
+            K závisti ťa zvodí, sváry, hnevy splodí.
+            Pre Krista odumrieš, neživ pýchu!
+        </section>
+        <section name="v3">
+            Nesúď krivo, nesúď krivo!
+            Akým súdom súdiš, takým trpieť musíš,
+            keď Pán Ježiš príde, nesúď krivo!
+        </section>
+        <section name="v4">
+            Neutekaj, neutekaj!
+            Za more hoc zájdeš, Boh ťa o tam nájde.
+            Jemu nemôžeš ujsť, neutekaj!
+        </section>
+        <section name="v5">
+            Zmier sa s Bohom, zmier sa s Bohom!
+            Podobný si tráve, môžeš skonať náhle.
+            Zakosí smrť, zhynieš, zmier sa s Bohom!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4 v5
+    </repetition>
+</slide>

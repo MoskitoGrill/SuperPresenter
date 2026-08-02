@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Čas radosti, veselosti">
+    <variant name="čeština">
+        <section name="v1">
+            Čas radosti, veselosti
+            světu nastal nyní,
+            neb Bůh věčný nekonečný
+            narodil se z panny
+            V městečku Betlémě,
+            v jesličkách na slámě,
+            /:leží malé pacholátko
+            na zimě.:/
+        </section>
+        <section name="v2">
+            To jsme všichni lidé hříšní
+            radostně čekali,
+            co andělé dnes vesele
+            nám jsou zvěstovali.
+            A protož plesejme,
+            všichni se radujme,
+            /:pacholátku nemluvňátku
+            zpívejme!:/
+        </section>
+        <section name="v3">
+            Spasiteli, kvítku milý,
+            Pane náš Ježíši,
+            z čisté panny narozený,
+            poklade nejdražší!
+            Králi náš, Pane náš,
+            skloň se k nám jako Pán,
+            /:dej z milosti Tvé radosti
+            dojít nám!:/
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3
+    </repetition>
+</slide>

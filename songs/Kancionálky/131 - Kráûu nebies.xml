@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Kráľu nebies">
+    <variant name="čeština">
+        <section name="v1">
+            Kráľu nebies, ktože pozná
+            mena Tvojho moc?
+            Kdo Ti k dielu, ktoré konáš,
+            príde na pomoc?
+            Len ten žije, koho svojou
+            láskou obživíš.
+            Svety vstali, svety padnú,
+            keď Ty zavelíš.
+        </section>
+        <section name="v2">
+            Panovníku milovaný,
+            kto Ťa pochopí?
+            Ty si stál raz nad hrôzami
+            sveta potopy.
+            Ty raz ešte pohneš nebo,
+            zeme základy;
+            dych úst Tvojich bezbožníka
+            razom zahladí.
+        </section>
+        <section name="v3">
+            Kráľu slávny, nezmerná je
+            mena Tvojho moc!
+            Predsa vytrpel si bolesť,
+            smrti strašnú noc.
+            Pohanením dietok Tvojich
+            zas Ťa tupí svet;
+            všetko stvorils', na zemi však
+            miesta Tebe niet.
+        </section>
+        <section name="v4">
+            Kriste, Kráľu vyvýšený,
+            Teba vzývame,
+            celé srdce v obeť vďaky
+            Tebe dávame.
+            Za nás mrel si. Tebe slúžiť
+            na zemi náš diel,
+            s Tebou večne v sláve trónit
+            žitia nášho cieľ.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

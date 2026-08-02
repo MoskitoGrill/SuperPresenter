@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Sejme záhy símě">
+    <variant name="čeština">
+        <section name="v1">
+            Sejme záhy símě,
+            dobré símě lásky,
+            símě vůle Boží
+            sejme v každý čas!
+            Pán dá požehnání,
+            símě Boží vzklíčí,
+            o žni budem jásat:
+            “Rychle zraje klas!”
+        </section>
+        <section name="r1">
+            /:Rychle zraje klas,
+            rychle zraje klas!
+            O žni budem jásat,
+            rychle zraje klas!:/
+        </section>
+        <section name="v2">
+            Sejme, kde jsou stíny,
+            i kde slunce svítí,
+            kde je půda skalná,
+            sejme zas a zas!
+            Práce všude mnoho,
+            času málo máme,
+            o žni budem jásat:
+            “Rychle zraje klas!”
+        </section>
+        <section name="v3">
+            Sejme vždycky věrně,
+            bez bázně a strachu,
+            byť i bylo z dálky
+            slyšet bouře hlas!
+            Až se práce skončí,
+            budem uvítáni,
+            o žni budem jásat:
+            “Rychle zraje klas!”
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1
+    </repetition>
+</slide>

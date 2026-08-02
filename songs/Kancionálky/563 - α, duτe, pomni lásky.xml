@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Ó, duše, pomni lásky">
+    <variant name="čeština">
+        <section name="v1">
+            Ó, duše, pomni lásky,
+            na kříži zjevené
+            a z mysli nepusť nikdy
+            to tělo zbodené.
+            Ty, podrobená hříchu
+            zde žilas ve strachu,
+            však v oběti té drahé
+            svou našlas útěchu.
+        </section>
+        <section name="v2">
+            A nyní zvěstuj spásu,
+            jež v Kristu zjevena
+            a rci, proč hlava svatá
+            tak byla zraněna,
+            proč vtělená ta láska
+            tak mřela v bolestech!
+            Jdi, pověz, že Syn Boží
+            to nesl hříchy všech.
+        </section>
+        <section name="v3">
+            A zkoumej srdce svoje,
+            zda k bratru, sestře lne?
+            Zda za ně v oběť dát se
+            jsi hotov upřímně?
+            Pak vezmi chléb i kalich,
+            smrt Páně vyznávej
+            a za věčný díl v Kristu
+            své díky Otci vzdej.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3
+    </repetition>
+</slide>

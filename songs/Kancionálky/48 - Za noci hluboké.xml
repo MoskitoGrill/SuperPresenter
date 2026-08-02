@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Za noci hluboké">
+    <variant name="čeština">
+        <section name="v1">
+            Za noci hluboké,
+            kdy spal kraj celý,
+            na horách betlémských
+            pastýři bděli.
+            U nohou ovečky,
+            tmu kolem sebe,
+            o čem as dumali,
+            hledíce v nebe?
+        </section>
+        <section name="r1">
+            Nebojte se, radujte se,
+            Kristus se dnes narodil!
+            Pán Bůh poslal Syna svého,
+            aby člověk spasen byl.
+            "Sláva Bohu na výsostech!"
+            sborem pějí andělé
+            a pastýři do Betléma
+            pospíchají vesele.
+        </section>
+        <section name="v2">
+            "Pastýři nebeský,"
+            šeptali tiše,
+            "skloň se k nám v milosti
+            z nebeské říše!
+            Zhoj naše bolesti,
+            ztiš světa boje,
+            uveď nás, ztracené,
+            v království svoje!"
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1
+    </repetition>
+</slide>

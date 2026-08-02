@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Až potud nám pomáhal">
+    <variant name="čeština">
+        <section name="v1">
+            Až potud nám pomáhal Hospodin z milosti,
+            pročež k nebes výšinám hleďme s důvěrností,
+            odkud pomoc přichází nám vždy v pravé době,
+            tam, kde duše nachází nové síly v mdlobě.
+        </section>
+        <section name="v2">
+            Posud není zkrácena ruka Hospodina;
+            a když z lásky k spasení dal nám svého Syna,
+            kterak s ním by neměl nám, čeho třeba, dáti,
+            k nám jak Otec laskavý k dítkám svým se znáti?
+        </section>
+        <section name="v3">
+            Bůh nám dosud pomáhal, pomůže i dále,
+            pročež v něj jen skládejme doufání své stále!
+            Ví Pán, čeho potřebí, prv než my oč lkáme -
+            a že rád nám pomáhá, z jeho slova známe.
+        </section>
+        <section name="v4">
+            Nám se ovšem někdy zdá, Pán že obmeškává
+            právě snad, když laskavě na lokty nás brává,
+            chtě nás nazpět dovésti do ovčince svého,
+            odkud nás byl vylákal úskok škůdce zlého.
+        </section>
+        <section name="v5">
+            Hospodin, jenž s námi byl, vždycky s námi bude,
+            rámě jeho otcovské provází nás všude.
+            On nás cestou života podpírá a sílí
+            a nás posléz přivede k blaženému cíli.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4 v5
+    </repetition>
+</slide>

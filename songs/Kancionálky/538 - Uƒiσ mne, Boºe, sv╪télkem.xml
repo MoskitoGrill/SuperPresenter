@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Učiň mne, Bože, světélkem">
+    <variant name="čeština">
+        <section name="v1">
+            Učiň mne, Bože, světélkem,
+            jež kolem ve tmy říš
+            svým jasným svítí plaménkem,
+            kam Ty je postavíš!
+        </section>
+        <section name="v2">
+            Učiň mne, Bože, květinkou,
+            jež šíří vůni kol,
+            mou snahou ať jest jedinkou
+            ztišovat lidský bol.
+        </section>
+        <section name="v3">
+            Učiň mne, Bože, ptáčetem,
+            jež k nebi smí se vznést,
+            radostnou písní nad světem
+            zvyšovat Tvoji čest.
+        </section>
+        <section name="v4">
+            Učiň mne, Bože, hvězdičkou,
+            jež vodí zbloudilé,
+            sám veď mne cestou celičkou,
+            až stanu u cíle.
+        </section>
+        <section name="v5">
+            Učiň mne, Bože, čím chceš sám,
+            jen když vím, že jsem Tvůj,
+            a že mně září láska Tvá
+            a vodí vždy Duch Tvůj!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4 v5
+    </repetition>
+</slide>

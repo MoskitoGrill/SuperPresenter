@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Ach, krev že svoji proléval">
+    <variant name="čeština">
+        <section name="v1">
+            Ach, krev že svoji proléval,
+            že Král a Pán můj mřel,
+            že svatý On svůj život dal,
+            bych já v něm život měl?
+        </section>
+        <section name="v2">
+            Že pro hřích, jejž jsem spáchal já,
+            On sténal v bolesti?
+            Ó, soustrasti ty nestihlá,
+            ó lásko, milosti!
+        </section>
+        <section name="v3">
+            Ó, jak by slunce neskrylo
+            svou slávu, světla zář,
+            by umučenou nezřelo
+            Tvou, Pána svého tvář!
+        </section>
+        <section name="v4">
+            Tak měl bych já tvář zakrýti,
+            když muky Tvoje zřím,
+            své srdce smutkem plniti
+            a ranit žalem svým.
+        </section>
+        <section name="v5">
+            Však žal můj nikdy nesplatí,
+            co Tobě dluhuji:
+            ó, Pane, sebe dávám Ti,
+            i vše, co miluji!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4 v5
+    </repetition>
+</slide>

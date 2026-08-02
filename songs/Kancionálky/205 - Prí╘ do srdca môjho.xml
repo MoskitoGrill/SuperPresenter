@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Príď do srdca môjho">
+    <variant name="čeština">
+        <section name="v1">
+            Príď do srdca môjho, Kráľ lásky,
+            som zomdlený, biedy, hľaď,
+            a bremeno hriechov tak ťažkých
+            Ty môžeš len zo mňa sňať.
+        </section>
+        <section name="r1">
+            Ku mne dnes príď, ku mne dnes príď!
+            Ó, Ježišu, príď aj ku mne. Hľa,
+            srdca chrám Ti otváram,
+            ó, Ježišu, príď aj ku mne.
+        </section>
+        <section name="v2">
+            Príď do srdca môjho, Kráľ slávy,
+            a úplne život zmeň,
+            nech bez strachu, ľútosti sláviť smiem
+            príchodu Tvojho deň.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1
+    </repetition>
+</slide>

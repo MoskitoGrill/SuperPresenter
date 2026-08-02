@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Jak milé jsou, ó Bože">
+    <variant name="čeština">
+        <section name="v1">
+            Jak milé jsou, ó Bože,
+            tvé stany v nebesích,
+            jak krásné přebývati je,
+            Pane, v síňcích tvých:
+            po domě Hospodina
+            plá touha v srdci mém,
+            má celá bytost volá
+            po Otci nebeském.
+        </section>
+        <section name="v2">
+            Při oltářích tvých, Pane,
+            i vrabec našel skrýš,
+            a hnízdo vlaštovice svou
+            péčí ochráníš:
+            ó dopřej, Hospodine,
+            i mně v tvém domě dlít,
+            bych na věky tvé slavné
+            směl jméno velebit.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2
+    </repetition>
+</slide>

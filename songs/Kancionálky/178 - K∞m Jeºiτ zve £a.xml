@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Kým Ježiš zve ťa">
+    <variant name="čeština">
+        <section name="v1">
+            Kým Ježiš zve ťa k sebe,
+            poď, priateľ, poď.
+            Kým otvára ti nebe,
+            poď, priateľ, poď.
+            Dnes čas je obrátiť sa,
+            poď, priateľ, poď.
+            čas vierou prijať Krista,
+            poď, priateľ, poď.
+        </section>
+        <section name="v2">
+            Hriech spútal tvoje sily?
+            Poď, priateľ, poď.
+            Pán sníme bremä viny,
+            poď, priateľ, poď.
+            On všetka tvoja pomoc,
+            poď, priateľ, poď.
+            len vyznaj hriecha nemoc,
+            poď, priateľ, poď.
+        </section>
+        <section name="v3">
+            Dbaj nežnej lásky hlasu,
+            poď, priateľ, poď.
+            Poď, uver, prijmi spásu,
+            poď, priateľ, poď.
+            Krv drahá Pána Krista,
+            poď, priateľ, poď.
+            je tvoja spása istá,
+            poď, priateľ, poď.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3
+    </repetition>
+</slide>

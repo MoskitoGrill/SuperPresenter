@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Vzdajte poctu Bohu">
+    <variant name="čeština">
+        <section name="v1">
+            Vzdajte poctu Bohu
+            piesňou vrúcich chvál
+            za to, že nám mnohú
+            milosť poznať dal!
+            Nech sa k chvále spoja
+            moci na nebi!
+            S nimi duša moja
+            Pána velebí.
+        </section>
+        <section name="v2">
+            Vesmír nekonečný,
+            plný svetiel, hviezd,
+            hlásá, Bože večný,
+            Tvoju moc a česť.
+            I tá kvapka rosy,
+            kvietok na stráni
+            Teba chváli, prosí:
+            zjav sa v žehnaní.
+        </section>
+        <section name="v3">
+            I to dieťa malé
+            chce Ti poctu vzdať,
+            k Tvojej cti a chvále
+            pieseň zaspievať.
+            O čo viac my, Pane,
+            Teba máme ctiť,
+            za spasenie dané
+            Teba velebiť.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3
+    </repetition>
+</slide>

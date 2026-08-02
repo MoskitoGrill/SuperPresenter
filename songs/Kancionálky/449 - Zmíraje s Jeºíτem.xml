@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Zmíraje s Ježíšem">
+    <variant name="čeština">
+        <section name="v1">
+            Zmíraje s Ježíšem, s ním budu žít,
+            kráčeje s Ježíšem, jdu v Otcův byt.
+            Vzhlížeje k Ježíši, zřím slávy svit,
+            v každičkou chvíli chci Tvým, Pane, být.
+        </section>
+        <section name="r1">
+            V každičkou chvíli chci v lásce Tvé stát,
+            v každičkou chvíli chci život Ti dát,
+            v každičkou chvíli chci na Tebe zřít,
+            v každičkou chvíli chci Tvým, Pane, být!
+        </section>
+        <section name="v2">
+            Spomáhat v nesnázích toť jeho čest,
+            On každé břemeno pomůže nést.
+            Když přijdu bolest, lékařem jest,
+            v každičkou chvíli chce jen On mne vést.
+        </section>
+        <section name="v3">
+            Není mu lhostejný žádný můj žal,
+            slzy mé počítá proč bych už lkal?
+            On si mne povede bezpečně dál,
+            v každičké chvíli je při mně můj Král.
+        </section>
+        <section name="v4">
+            Kráčím-li temnotu, On světlem sám,
+            jsem-li já slaboučký, v něm sílu mám.
+            Ó, já se jemu vždy rád vésti dám
+            v každičko chvíli, až do nebes bran!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1 v4 r1
+    </repetition>
+</slide>

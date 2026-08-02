@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Tebe jen, můj Spasiteli">
+    <variant name="čeština">
+        <section name="v1">
+            Tebe jen, můj Spasiteli,
+            Tebe jen chci za Pána,
+            za Tebou již v tomto žití
+            cesta má je blažená.
+        </section>
+        <section name="r1">
+            Tebe jen, Tebe jen,
+            Spasiteli, Tebe jen!
+        </section>
+        <section name="v2">
+            Ty jediný v duši mojí
+            pramenem jsi radosti,
+            mám-li Tebe, Synu Boží,
+            pevně stojím v milosti.
+        </section>
+        <section name="v3">
+            Budiž, Jezu, po vše věky
+            přítelem mi nejbližším;
+            pro Tvou lásku všecko jiné
+            rád a směle opustím.
+        </section>
+        <section name="v4">
+            Vzhůru spěchej, duše moje,
+            až jej spatříš tváří v tvář.
+            až se tobě místo slunce
+            zaskví trůnu jeho zář.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1 v4 r1
+    </repetition>
+</slide>

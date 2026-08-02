@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Doma, doma, u tých mojich">
+    <variant name="čeština">
+        <section name="v1">
+            Doma, doma, u tých mojich,
+            každý kútik vzácny je.
+            Tu mi srdce ináč zvoní,
+            bratrskou láskou ožije.
+        </section>
+        <section name="r1">
+            Neteším sa
+            v slávnych zámkoch,
+            v cudzom kraji
+            nechcem žiť,
+            mojich milých
+            ľúbe hlasy
+            viac ma vedia
+            oblažiť.
+        </section>
+        <section name="v2">
+            Domov, domov keď sa vraciam,
+            každý krok je pesničkou,
+            všetký struny v duši zvučia
+            melódiou nebeskou.
+        </section>
+        <section name="v3">
+            Domov, k Otcovi keď pôjdem,
+            k výšinám až zaletím,
+            Pane, daj, nech všetky tváre
+            mojich milých uvidím.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1
+    </repetition>
+</slide>

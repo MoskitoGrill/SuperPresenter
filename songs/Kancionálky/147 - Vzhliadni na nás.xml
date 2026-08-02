@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Vzhliadni na nás">
+    <variant name="čeština">
+        <section name="v1">
+            Vzhliadni na nás, Spasiteľu,
+            pošli oheň z neba zas!
+            Obživ svoju cirkev celú,
+            Duchom svätým naplň nás!
+            Pred Tebou tu ticho dlieme,
+            pokorný náš vyslyš hlas.
+            Spôsob nové prebudenie,
+            pošli oheň z neba zas!
+        </section>
+        <section name="v2">
+            Pane, žehnaj svoje dielo,
+            pošli oheň z neba zas,
+            aby srdce chválou znelo,
+            povzbuď k svojej práci nás!
+            Zmocni vieru, pridaj lásky,
+            zažni hviezdu nádeje.
+            Upevni sám naše zväzky,
+            nech mier v srdci nájdeme.
+        </section>
+        <section name="v3">
+            Zomdlenému ľudu svojmu
+            pošli oheň z neba zas.
+            Pokánia daj rosu hojnú,
+            dálšie duše z hriechov spas!
+            Daj im svoje odpustenie,
+            vzbuď ich k žitia novému.
+            Pane, počuj naše prianie,
+            uzdrav dušu zlomenú!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3
+    </repetition>
+</slide>

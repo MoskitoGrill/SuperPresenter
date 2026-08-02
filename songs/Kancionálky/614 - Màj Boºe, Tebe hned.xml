@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Můj Bože, Tebe hned">
+    <variant name="čeština">
+        <section name="v1">
+            Můj Bože, Tebe hned
+            v jitře hledám.
+            Ve jménu Tvém k nebi
+            ruce zvedám.
+            /:Táhni mne k sobě blíž,
+            ztiš moje srdce ztiš,
+            kraluj v něm sám!:/
+        </section>
+        <section name="v2">
+            Byť srdce zkrušila
+            bolest dravá,
+            má duše zraněná
+            do krvava,
+            /:od Tebe s výsosti
+            svou pomoc v tichosti
+            očekává.:/
+        </section>
+        <section name="v3">
+            Před Tebou prchají
+            nepokoje.
+            Na srdci Tvém tichnou
+            všecky boje.
+            /:V jekotu bouře zlém
+            chrániž mne v stínu svém
+            křídlo Tvoje.:/
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3
+    </repetition>
+</slide>

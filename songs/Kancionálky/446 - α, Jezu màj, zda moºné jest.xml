@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Ó, Jezu můj, zda možné jest">
+    <variant name="čeština">
+        <section name="v1">
+            Ó, Jezu můj, zda možné jest se stydět za Tě,
+            loupit čest, jíž v slávě skvíš se od věků?
+            Zda možné jest to člověku?
+        </section>
+        <section name="v2">
+            Zaň styděti se, před nímž v stín své líce
+            skrývá cherubín, před nímž se koří andělé
+            a lid se znakem na čele?
+        </section>
+        <section name="v3">
+            Zaň styděti se? Já raději v něm celu složím naději!
+            Bych pak se rděl, buď můj to stud,
+            že v chválách jeho jsem tak chud.
+        </section>
+        <section name="v4">
+            Já nestydím se, nestydím! Hle, Ježíšem se chlubím svým.
+            A ze všeho jen to bych chtěl,
+            by On se za mne nestyděl!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

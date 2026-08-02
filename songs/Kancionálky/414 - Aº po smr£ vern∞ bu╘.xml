@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Až po smrť verný buď">
+    <variant name="čeština">
+        <section name="v1">
+            Až po smrť verný buď,
+            tak ako Ježiš tvoj
+            a pevne v pravej viere vždy
+            i v ťažkých skúškach stoj.
+        </section>
+        <section name="v2">
+            Pán splní každý sľub,
+            čo v svojom slove dal.
+            Dbaj, by si jeho svätú reč
+            vždy na pamäti mal.
+        </section>
+        <section name="v3">
+            Vždy dobrý bojuj boj
+            a v službách Krista stoj.
+            On slávou svojou poctí ťa,
+            v nej dá ti podiel tvoj.
+        </section>
+        <section name="v4">
+            Tam verní budú stáť,
+            kde kvitne žitia strom,
+            kde prúdi voda života,
+            kde Boh má slávny trón.
+        </section>
+        <section name="v5">
+            Tam skrytú mannu dá
+            On všetkým víťazom
+            a novým menom obdarí
+            ich v jase nebeskom.
+        </section>
+        <section name="v6">
+            Až po smrť verný buď
+            a v Kristu pevne stoj.
+            On korunou ťa ozdobí,
+            keď skončíš viery boj.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4 v5 v6
+    </repetition>
+</slide>

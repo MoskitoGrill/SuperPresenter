@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Nenaříkej, nelkej">
+    <variant name="čeština">
+        <section name="v1">
+            Nenaříkej, nelekej v strasti, potěšení v Pánu měj;
+            hořkosti On mění v slasti, jen mu celé srdce dej!
+        </section>
+        <section name="r1">
+            Slzy všecky s oka tvého setře jednou Pán Bůh sám,
+            až Pán Ježíš přivede tě tam, kde místo chystá nám.
+        </section>
+        <section name="v2">
+            Nestěžuj si na tíž svoji v světě nikdy nikomu;
+            k Pánu jdi, On bolest hojí svému dítku každému.
+        </section>
+        <section name="v3">
+            I když za své dobré snahy potupu zde sklízíš jen,
+            korunu ti Pán tvůj drahý udělí přec v onen den.
+        </section>
+        <section name="v4">
+            Života až tvého zazní hodina už poslední,
+            nelekej se! V smrti strázni vírou k nebi pohlédni.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1 v4 r1
+    </repetition>
+</slide>

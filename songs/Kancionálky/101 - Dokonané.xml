@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Dokonané">
+    <variant name="čeština">
+        <section name="v1">
+            Dokonané! Ježiš Kristus
+            spasenie nám vydobyl.
+            Splatené sú dlhy hriechu.
+            Zo svätyne najsvätejšej
+            záclonu Boh odstranil.
+        </section>
+        <section name="v2">
+            Voľný prístup k trónu slávy
+            svätá krv nám získala.
+            Ajhľa, Otec volá z neba:
+            "Milujem vás! Spravodlivosť
+            obeť svoju dostala!"
+        </section>
+        <section name="v3">
+            Dokonané, dokonané
+            Božie dielo zmierenia.
+            Milosť, pravda, odpustenie
+            srdciam hriešnym na Golgote
+            z krvi Krista pramenia.
+        </section>
+        <section name="v4">
+            Dokonané! Kor sa, duša,
+            jasaj, vzdávaj Bohu česť!
+            Ježiš Kristus z kríža volá:
+            "Dokonané!" Prijmi vierou
+            podávanú spásy zvesť!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

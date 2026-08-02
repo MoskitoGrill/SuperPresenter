@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Tam k nebes výši">
+    <variant name="čeština">
+        <section name="v1">
+            Tam k nebes výši povznes zraky,
+            tam k Bohu zaleť, duchu můj,
+            tam vzhůru, vzhůru nad oblaky,
+            kde pomoc tvá, kde díl je tvůj!
+            Viz ony věčné blaha stany,
+            pro věrné jež jsou uchystány!
+        </section>
+        <section name="v2">
+            Viz zástupy pře tváří Páně,
+            jsou rouchem bílým oděny
+            a věnce zdobí jejich skráně,
+            zpívají v svatém nadšení.
+            Bůh sám ji náruč otevírá,
+            každou jim slzu s očí stírá.
+        </section>
+        <section name="v3">
+            Viz slávu, kterou Pán Bůh zdobí
+            ty, kdož svůj tiše nesli kříž;
+            ni světa zášť, ni pekla zloby
+            jim neškodí zde více již.
+            Tuť žití strom a voda živá,
+            tu smrt již více nepřebývá!
+        </section>
+        <section name="v4">
+            Viz, jaká radost tebe čeká,
+            již Krista krev ti dobyla;
+            kde cherub před svým Tvůrcem kleká,
+            se tobě palma rozvila.
+            I tebe Kristus k svatbě zove,
+            nuž, stroj se k svatbě Beránkově!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Předivný zrodil se">
+    <variant name="čeština">
+        <section name="v1">
+            Předivný zrodil se
+            člověka Syn.
+            Světlem svých rozptýlil
+            pozemský stín.
+            Do světa hříchů a
+            bezedných běd
+            přišel Syn Boží,
+            by vykoupil svět.
+        </section>
+        <section name="r1">
+            Předivné jméno má,
+            předivně pomáhá;
+            provází poutníka
+            i cestou zlou.
+            Předivná Golgata,
+            tam náruč rozpjatá
+            láskou mne objala
+            přepodivnou!
+        </section>
+        <section name="v2">
+            Předivnou pěšinou
+            života šel,
+            hříšným byl přítelem,
+            lék na bol měl.
+            Každému radostnou
+            přinášel zvěst,
+            břemeno zemdlených
+            pomáhal nést.
+        </section>
+        <section name="v3">
+            Předivně umíral,
+            by ožil zas,
+            v jaro nám proměnil
+            hrobový mráz.
+            Moc smrti zlomil a
+            přemohl hřích
+            příbytek připravil
+            na nebesích.
+        </section>
+        <section name="v4">
+            Předivná plní se
+            zaslíbení,
+            kraje se bělejí
+            k poslední žni.
+            Přeslavná naděje,
+            setkám se s ním,
+            s nebeským Králem a
+            přítelem svým.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1 v4 r1
+    </repetition>
+</slide>

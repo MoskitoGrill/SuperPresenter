@@ -1,0 +1,30 @@
+<?xml version="1.0" ?>
+<slide name="Naveky svatý (opravit)">
+    <variant name="čeština">
+        <section name="v1">
+Tisíc pokolení pred Tebou se skláňá,
+a chválí písňou večnou Baránka.
+Ti, čo predešli nás, a ti čo uveňa,
+nech chvália piesňou večnou Baránka
+</section>
+        <section name="b1">
+Ty máš meno slávne, Ty máš meno vzácné,
+Ty máš meno víťazné.
+Je viac, než každá vláda, moc má putá zlámať,
+Ty máš meno víťazné.
+</section>
+        <section name="r1">
+Anjelský spev znie: Svatý!
+Volá stvorenie: Svatý!
+Najvyšší Boh je svaty, naveky svatý.
+</section>
+        <section name="v2">
+Ak tvoj hriech Boh smazal, ak v Ňom spásu máš,
+chvál tiež piesňou večnou Baránka.
+Ak dnes Jemu patríš, ak si slobodný,
+chvál tiež piesňou večnou Baránka,
+chvalme piesňou večnou Baránka.
+</section>
+    </variant>
+    <repetition name="default" main="1">v1 b1 r1 v2 (r1) (b1) (r1)</repetition>
+</slide>

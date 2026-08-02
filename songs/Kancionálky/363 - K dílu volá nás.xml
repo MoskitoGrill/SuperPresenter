@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="K dílu volá nás">
+    <variant name="čeština">
+        <section name="v1">
+            K dílu volá nás
+            Páně milý hlas,
+            volá všechny v šíř i dál:
+            bude za chvíli
+            zralé obilí,
+            napnem k práci každý sval!
+        </section>
+        <section name="r1">
+            Nuž pojď, nuž pojď,
+            k dílu již se měj,
+            i tebe zve tvůj Pán!
+            Nuže neváhej,
+            k žni se přichystej,
+            jeť pole velký lán!
+        </section>
+        <section name="v2">
+            Duším chceme nést
+            Páně blahou zvěst,
+            snad jen na nás čekají;
+            chceme světlem být,
+            věrností se skvít
+            širém světa po kraji.
+        </section>
+        <section name="v3">
+            Volnost vězněným,
+            sílu nesmělým,
+            bědným slovo radosti:
+            Pán dá spasení,
+            život promění,
+            v duši ráj se uhostí.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1
+    </repetition>
+</slide>

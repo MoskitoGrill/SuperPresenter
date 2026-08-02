@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Buď slaven, lásky zdroji">
+    <variant name="čeština">
+        <section name="v1">
+            Buď slaven, lásky zdroji,
+            Ty Bože nekonečný!
+            Tě chválí sbor
+            Tvých výkoupených vděčný.
+        </section>
+        <section name="r1">
+            Haleluja!
+            Haleluja!
+        </section>
+        <section name="v2">
+            Žes poslal svého Syna k nám,
+            na zem zbědovanou,
+            by zachránil
+            mou duši hříchem štvanou.
+        </section>
+        <section name="v3">
+            A v hruď mou, kdys tak tesknou,
+            se radost proudem leje,
+            mně v srdci hrá
+            a každou žilkou chvěje.
+        </section>
+        <section name="v4">
+            To Kristus, který zmíral,
+            by daroval mi žití,
+            mé břímě sňal
+            a jeho tvář mi svítí.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1 v4 r1
+    </repetition>
+</slide>

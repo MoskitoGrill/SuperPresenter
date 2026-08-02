@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Tvá, Pane Kriste, věc to jest">
+    <variant name="čeština">
+        <section name="v1a">
+            Tvá, Pane Kriste, věc to jest,
+            jež nám zde svěřena;
+            a že jest Tvá a pro Tvou čest,
+            nemůž být zmařena.
+        </section>
+        <section name="v1b">
+            Však nežli símě ujme se
+            a užitek svůj přinese,
+            dřív umírá, však v Boží čas
+            přec vstává slavně z hrobu zas;
+            přec z hrobu zas
+            povstává v Boží čas.
+        </section>
+        <section name="v2a">
+            Ty cestou kříže, Pane náš,
+            jsi kráčel k oslavě
+            a touže cestou vodíváš
+            i učedníky své.
+        </section>
+        <section name="v2b">
+            Ó, dejž, ať při nás též se skví
+            Tvůj kříž i tvoje výtězství
+            a také nám se promění
+            hrob v slavnou bránu vzkříšení,
+            hrob promění
+            se v bránu vzkříšení!
+        </section>
+        <section name="v3a">
+            Ty sám, co zrno obilné,
+            jsi zemřev, ožil zas;
+            ó, dejž, ať z Tebe vyplyne
+            proud žití také v nás!
+        </section>
+        <section name="v3b">
+            Své mocné evangelium
+            k všem vyslati rač národům,
+            ať vzejde den a všecka zem
+            již zplesá novým životem,
+            a všecka zem
+            ať zplesá životem!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1a v1b v2a v2b v3a v3b
+    </repetition>
+</slide>

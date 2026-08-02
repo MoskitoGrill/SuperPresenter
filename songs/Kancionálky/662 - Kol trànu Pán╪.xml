@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Kol trůnu Páně">
+    <variant name="čeština">
+        <section name="v1">
+            Kol trůnu Páně v nebesích
+            tisíce dítek dlí;
+            je netísní už žádný hřích
+            v tom rajském obydlí.
+        </section>
+        <section name="r1">
+            Pějí sláva, sláva,
+            sláva haleluja,
+            pějí sláva, sláva,
+            sláva, haleluja!
+        </section>
+        <section name="v2">
+            Jak v ona místa pokoje
+            a věčné jasnoty,
+            kde ctnost a láska kraluje,
+            jak přišly dítky ty?
+        </section>
+        <section name="v3">
+            Že zemřel za ně Spasitel,
+            je obmyl krví svou
+            a rouchem svým je přioděl,
+            již čisty, svaty jsou.
+        </section>
+        <section name="v4">
+            Hledaly Pána v mladosti
+            a milovaly jej.
+            Teď ve věčné již radosti
+            zří jeho obličej.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1 v4 r1
+    </repetition>
+</slide>

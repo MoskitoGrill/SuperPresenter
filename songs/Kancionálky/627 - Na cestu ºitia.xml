@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Na cestu žitia">
+    <variant name="čeština">
+        <section name="v1">
+            Na cestu žitia
+            prijmite prianie,
+            láska nech ako
+            vôňa ruží vanie
+            /:z príbytku vášho
+            v celý šíry kraj,
+            aby svet ľahšie
+            našiel raj.:/
+        </section>
+        <section name="v2">
+            S Ježišom všetko,
+            všetko je možné,
+            nezláka chvála,
+            neporania ostne.
+            /:Bremeno jeho
+            užitočné je,
+            srdce keď plné
+            nádeje.:/
+        </section>
+        <section name="v3">
+            Pán Ježiš nech že
+            v srdci tróni,
+            dajte sa vďačne
+            viesť len jeho vôli.
+            /:Bohu ste krvou
+            draho kúpení
+            buďte s ním navždy
+            spojení.:/
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3
+    </repetition>
+</slide>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Ó, lide můj">
+    <variant name="čeština">
+        <section name="v1">
+            Ó lide můj, ta zvěst ať světem letí:
+            Bůh světlo je a světlo náš je díl!
+            On péči má, by nikdo z jeho dětí
+            po cestách tmy a hříchu nebloudil.
+        </section>
+        <section name="r1">
+            Hlásejte spásy radostnou zvěst,
+            vzdávejte Ježíši chválu, dík a čest!
+        </section>
+        <section name="v2">
+            Vizte, jak hřích zlým poutem mnohé svírá,
+            v otroctví jak se svíjí umdlení!
+            Neste jim zvěst, že volnost neumírá,
+            Pán otevřel již dveře vězení.
+        </section>
+        <section name="v3">
+            Hlásejte všem, že Ten, jenž život řídí,
+            má všecky rád,neb svatá láska jest;
+            k pokorným že se sklání duším lidí
+            a smrtí svou je do nebe chce vést.
+        </section>
+        <section name="v4">
+            Nechť Boží lid na brány světa tluče,
+            nechť pracuje na tvrdé souvrati!
+            Nechť k spásy dílu všichni spojí
+            ruce a Pán svým věrným štědře odplatí.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1 v4 r1
+    </repetition>
+</slide>

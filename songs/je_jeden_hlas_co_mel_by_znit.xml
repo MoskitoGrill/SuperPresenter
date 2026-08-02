@@ -1,0 +1,31 @@
+<?xml version="1.0" ?>
+<slide name="Je jeden hlas, co měl by znít">
+    <variant name="čeština">
+        <section name="v1">
+Je jeden hlas, co měl by znít, je jedna píseň
+k zpívání, je jedno jméno hodné vzývání.
+Nad zlato poklad vzácnější, Král na trůnu
+nejvyšším,
+jemu chvála celým nebem zní.
+Má Jméno Ježíš, přítel hříšných, Ježíš, Ježíš,
+přítel můj.
+</section>
+        <section name="v2">
+Je pokoj, jenž strach zahání,
+láska, co roste dáváním,
+naděje, která smrtí nekončí.
+</section>
+        <section name="v3">
+Bůh, který nám rozumí,
+přítel, co nikdy nezradí,
+má jediné jméno, v němž je spasení.
+</section>
+        <section name="v4">
+Vešel do mého vězení,
+řekl: Jsi volný, můžeš jít.
+Jsi svobodný!
+</section>
+    </variant>
+    <repetition name="default" main="1">v1 v2 v3</repetition>
+    <repetition name="JančaDada">v1 v2 r1 v1 v2 r1 r1</repetition>
+</slide>

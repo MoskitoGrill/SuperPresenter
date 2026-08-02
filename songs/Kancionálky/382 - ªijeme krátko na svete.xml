@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Žijeme krátko na svete">
+    <variant name="čeština">
+        <section name="v1">
+            Žijeme krátko na svete, ako tá rosa na kvete,
+            na ktorú slnko posvieti, rosa hneď zmizne,
+            uletí, rosa hneď zmizne uletí.
+        </section>
+        <section name="v2">
+            Život je ako ruže kvet, uvädne, uschne, už ho niet.
+            Ako tá tráva zelená podťatá kosou usychá,
+            podťatá kosou usychá.
+        </section>
+        <section name="v3">
+            Život je ako letný čas. Len čo sa rozvil, a už mráz
+            kazí mu krásu deň čo deň, život je krehký ako sen,
+            život je krehký ako sen.
+        </section>
+        <section name="v4">
+            Nuž, ak je život jak rosa, nech láskou Božou skveje sa.
+            A keď je život ako kvet, nech milou vôňou teší svet,
+            nech milou vôňou teší svet.
+        </section>
+        <section name="v5">
+            Ak život je sťa letný čas, nech je v ňom plno pestrých krás,
+            nimi nech vďačne velebí Tvorcu a Pána na nebi,
+            Tvorcu a Pána na nebi.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4 v5
+    </repetition>
+</slide>

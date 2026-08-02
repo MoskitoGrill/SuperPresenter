@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Bůh kráčí cestou tajemnou">
+    <variant name="čeština">
+        <section name="v1">
+            Bůh kráčí cestou tajemnou
+            a k divu pojí div:
+            ráj světla tvoří mocí svou,
+            kde temno vládlo dřív.
+        </section>
+        <section name="v2">
+            Kraj z jara mladou zelení
+            a květy odívá,
+            a v modré dáli, v plameni,
+            prach hvězdný rozsívá.
+        </section>
+        <section name="v3">
+            U choré duše, znavené,
+            se vlídně zastaví
+            a z nitra bolest zažene
+            a mysl uzdraví.
+        </section>
+        <section name="v4">
+            Ó, na své pouti tajemné
+            i na mne pohlédní!
+            Můj Bože, uzdrav také mne,
+            své dítě poslední!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

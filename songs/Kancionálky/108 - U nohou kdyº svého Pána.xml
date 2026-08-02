@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="U nohou když svého Pána">
+    <variant name="čeština">
+        <section name="v1">
+            U nohou když svého Pána tiše sedávám,
+            těšívám se z jeho slibu: “Přijdu k vám!”
+        </section>
+        <section name="v2">
+            V bouřích, trudu, v žalném stesku, v srdci teskno-li,
+            ptám se Mistra v touze vroucí: “Brzo-li?”
+        </section>
+        <section name="v3">
+            Ježíš rozumí mé touze, slyší bolu hlas,
+            odpovídá srdci mému: “Přijdu včas!”
+        </section>
+        <section name="v4">
+            Tiše čekám, jistě přijde Ježíš pro svůj lid!
+            Spoléhám na jeho slovo a mám klid.
+        </section>
+        <section name="v5">
+            Přijď, můj Pane, kdy se líbí, já se hotovím!
+            Čekám, prosím, neotálej s příštím svým!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4 v5
+    </repetition>
+</slide>

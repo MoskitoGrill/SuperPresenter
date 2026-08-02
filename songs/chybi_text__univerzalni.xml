@@ -1,0 +1,15 @@
+<?xml version="1.0" ?>
+<slide name="chybí text - univerzální">
+    <variant name="čeština">
+        <section name="v1">
+Beňa asi nedodal text
+Ale nejspíš za to může Čeněk
+nebo něco nefunguje
+ale pokud to vidíte tak to funguje
+divný no prostě:
+Může za to Čeněk
+a Sorry jako
+</section>
+    </variant>
+    <repetition name="default" main="1">v1</repetition>
+</slide>

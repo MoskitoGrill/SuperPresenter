@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Oblak svedkov Pána chváli">
+    <variant name="čeština">
+        <section name="v1">
+            Oblak svedkov Pána chváli
+            v svätej nebies radosti,
+            palmy víťazstva už vzali
+            za odmenu v stálosti.
+            Povedz, chceš sa pridať k nim,
+            k zástupom tým nebeským?
+        </section>
+        <section name="v2">
+            Vierou ten svet premáhali,
+            svet však nebol hoden ich.
+            Spasiteľa vyznávali,
+            On má zaľúbenie v nich.
+            Povedz, chceš sa pridať k nim,
+            k zástupom tým víťazným?
+        </section>
+        <section name="v3">
+            Teraz žijú v neba stane
+            Božou láskou poctení,
+            hoci putovali v hane,
+            pokorení, v trápení.
+            Povedz, chceš sa pridať k nim,
+            k zástupom tým pocteným?
+        </section>
+        <section name="v4">
+            Svetom aj dnes pohanený
+            zástup svedkov putuje,
+            zrak má k Bohu obrátený,
+            vediac, že ho miluje.
+            Povedz, chceš sa pridať k nim,
+            k zástupom tým haneným?
+        </section>
+        <section name="v5">
+            Ale večné blaho majú,
+            odpustený je im hriech.
+            Božiu lásku poznávajú.
+            Ó, spoj s nimi žitia beh!
+            Rozhodni sa, pristúp k nim,
+            k svedkom v Kristu blaženým!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4 v5
+    </repetition>
+</slide>

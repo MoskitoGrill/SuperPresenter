@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Keď opustia Ťa mnohí">
+    <variant name="čeština">
+        <section name="v1">
+            Keď opustia Ťa mnohí, ja verný chcem Ti byť,
+            nech nevyhasne vo mne už vrúcnej vďaky cit.
+            Ty na smrť šiel si za mňa, môj slávy Kráľ a Pán,
+            ja s radosťou Ti za to svoj život v obeť dám.
+        </section>
+        <section name="v2">
+            Ach často horko plačem, že tak si musel mrieť
+            a mnohí z Tvojich ľahko Ťa zradil, ľúbia svet.
+            Ty, láskou naplnený, si všetko pre nás dal,
+            a čo máš za odmenu? Kríž, tŕnie, bolesť, žiaľ.
+        </section>
+        <section name="v3">
+            Ty, dosiaľ plný lásky, nám verne pomáhaš
+            a zabudnutie, nevďak len láskou premáhaš.
+            Raz svojou vernou láskou nás predsa podmaníš
+            a v rozohriatych srdciach svoj trón si postavíš.
+        </section>
+        <section name="v4">
+            Ja som Ťa prijal, Pane, ja navždy chcem byť Tvoj,
+            ó, drž ma pevne v rukách, z nich nepusť, Pane môj!
+            Nech mnohé duše vznesú sa v túžbe k Tebe raz
+            a plné vernej lásky Ti padnú k nohám zas.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Ó, my už nie sme svoji">
+    <variant name="čeština">
+        <section name="v1">
+            Ó, my už nie sme svoji,
+            patríme Pánovi.
+            On očistil nás z hriechov,
+            z rúk vyrval diablovi.
+            On na seba vzal naše
+            zlé hriechy, neresti,
+            súc opustený, niesol
+            sám naše bolesti.
+        </section>
+        <section name="v2">
+            To pre neprávosť našu
+            bol taký strápený,
+            tak zbitý za nás hriešnych
+            a na smrť zranený.
+            On hrozný kalich smrti
+            pil za nás, nevinný,
+            a vylial svoju dušu,
+            Syn Boží jediný.
+        </section>
+        <section name="v3">
+            Ó, Pane, my len Tvoji
+            už večne chceme byť,
+            až po smrť verní Tebe
+            tu v svätej bázni žiť.
+            Veď ty si z lásky za nás
+            smrť kríža podstúpil.
+            Česť, vďaka Tebe, chvála,
+            že si nás vykúpil.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3
+    </repetition>
+</slide>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Zvonia zvony vianočné">
+    <variant name="čeština">
+        <section name="v1">
+            Zvonia zvony vianočné
+            bim, bam, bom,
+            nesú zvesti radostné
+            v každý dom.
+            K tmavým srdciam
+            svetla lúč preniká:
+            prišiel Ježiš
+            vukúpiť hriešnika.
+        </section>
+        <section name="r1">
+            Zvoňte, zvony zvoňte
+            len radostnú zvesť nám:
+            Bim, bam, bim, bam,
+            narodil sa Pán,
+            narodil sa Spasiteľ,
+            plesejte,
+            priesne chvály,
+            vďačnosti spievajte.
+        </section>
+        <section name="v2">
+            Hviezdička to hviezdičke
+            rozpráva:
+            prišiel už deň čekaný
+            oddávna,
+            ľudstvo voľnosť,
+            nový rod našlo v ňom,
+            srdcia bijú
+            radostne, ako zvon
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1
+    </repetition>
+</slide>

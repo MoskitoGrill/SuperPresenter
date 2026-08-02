@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Má duše, nic se nelekej">
+    <variant name="čeština">
+        <section name="v1">
+            Má duše, nic se nelekej, Bůh v péči své tě má!
+            V stín jeho křídel vždy se skrej, On v péči své tě má.
+        </section>
+        <section name="r1">
+            Bůh v péči své tě má, po celý den, na cestách všech.
+            On v péči své tě má, Bůh v péči své tě má!
+        </section>
+        <section name="v2">
+            Když se všech stran ti hrozí boj, Bůh v péči své tě má;
+            zná každý ztišit nepokoj, On v péči své tě má!
+        </section>
+        <section name="v3">
+            Dá, čeho třeba, v pravý čas, Bůh v péči své tě má;
+            tvé tužby zná, tvůj slyší hlas, On v péči své tě má!
+        </section>
+        <section name="v4">
+            Přijď co přijď, třeba smrti stín, Bůh v péči své tě má;
+            slož hlavu svou jen v jeho klín, On v péči své tě má!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1 v4 r1
+    </repetition>
+</slide>

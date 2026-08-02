@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Ó, aká prednosť poslom byť">
+    <variant name="čeština">
+        <section name="v1">
+            Ó, aká prednosť poslom byť a spásy svätú zvesť
+            až k šírym sveta končinám smieť, šťastný, ľuďom niesť.
+        </section>
+        <section name="r1">
+            Haleluja! Tak vďačne spievame. Tebe, Bože, česť,
+            chválu vzdávame, že Sion svoj si buduješ;
+            Ty pomôž poslom v tom, by verne niesli spásy zvesť,
+            Tvoj naplnili dom!
+        </section>
+        <section name="v2">
+            Ó, vyšli žencov ochotných, veď, Pane, žatvu sám!
+            Dosť miesta ešte v dome je, čo prichystal si nám.
+        </section>
+        <section name="v3">
+            Hoc ne bezpečia hrozia nám a desí búrky hlas,
+            však cirkev Tvoja na skale stáť bude v každý čas.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1
+    </repetition>
+</slide>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Znáš to more milovania">
+    <variant name="čeština">
+        <section name="v1">
+            Znáš to more milovania,
+            hĺbku Božej milosti?
+            Čie ťa ruky v búrke chránia,
+            vedú k nebies výsosti?
+            Komu patrí česť a sláva,
+            že ťa smrti nevydal,
+            že ťa denne požehnáva,
+            /:že ti spásu daroval?:/
+        </section>
+        <section name="v2">
+            A či vieš, kto na výšine
+            Golgoty mrel za teba,
+            až sa život časný minie,
+            by si prišiel do neba?
+            Či znáš Kráľa nebeského,
+            Pána, Vládcu nad svetom?
+            Ó poď k nemu, dúfaj v neho,
+            /:večné šťastie nájdeš v ňom!:/
+        </section>
+        <section name="v3">
+            Chváľ ho, miluj bez prestania!
+            Hoden toho Boží Syn.
+            A to more milovania?
+            Vnor sa jeho do hlbín!
+            Nakoniec On pokynie ti,
+            nad mraky sa vznesieš s ním,
+            so zástupmi jeho detí
+            /:k branám slávy perlovým.:/
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3
+    </repetition>
+</slide>

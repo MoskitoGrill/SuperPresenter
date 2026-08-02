@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Dnes výzva letí">
+    <variant name="čeština">
+        <section name="v1">
+            Dnes výzva celým svetom letí,
+            nás k dielu volá Kristus Kráľ!
+            Nuž hor sa, bratia, Božie deti!
+            Je spásy čas. Ja by som stál?
+        </section>
+        <section name="r1">
+            Zomknite rad, vpred smelý krok!
+            Poď každý rád, nás vedie Boh,
+            nás vedie Boh!
+        </section>
+        <section name="v2">
+            Náš Boh má všetkých svetov vládu,
+            On riadi nebesia i zem.
+            Smer pravý udá svojmu stádu,
+            On dobre vedie deň čo deň.
+        </section>
+        <section name="v3">
+            Tam nesme zvesti mieru, lásky,
+            kde vládne hriech, zlosť, bolesť, žiaľ,
+            a všetkým smelo osvedčujme,
+            čo Boh nám v Kristu daroval.
+        </section>
+        <section name="v4">
+            Čin dokazuje vernú lásku,
+            strom dobrý rodí lásky plod.
+            Nuž, slávme službou Kráľa kráľov,
+            nech celý svet mu vzdá hold.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1 v4 r1
+    </repetition>
+</slide>

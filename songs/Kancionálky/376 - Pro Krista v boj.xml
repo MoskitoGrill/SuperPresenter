@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Pro Krista v boj">
+    <variant name="čeština">
+        <section name="v1">
+            Pro Krista v boj znovu stráži ctné Boží rytíře;
+            jsou dnové zlí a vážní, v boj, věrní u víře!
+            Lev z Judy sám nás vodí a vodit bude dál,
+            až svět se znovuzrodí a vyzná: “Kristus Král!”
+        </section>
+        <section name="v2">
+            Pro Krista, lide Boží, spěj k praporu a v zbroj!
+            Ať tam se reci množí, kde nejvíc zuří boj.
+            Hněv nepřátel ať vzpruží mdlé rámě silou lví,
+            ať na vzdor škůdce muži udatně odpoví.
+        </section>
+        <section name="v3">
+            Pro Krista, bratři, směle, ne v síle člověka!
+            Odmění Boží celé nechť každý obléká!
+            To v lidské moci není, Bůh síla naše jest.
+            Na modlitbách a v bdění nás k vítězství chce. Vést.
+        </section>
+        <section name="v4">
+            Pro Krista v boj v čas boje! Den míru blízko již.
+            Král Kristus věrné voje uvede v slávy říš.
+            Kdo s ním zde zvítězili, na trůnu budou s ním.
+            Pro Krista, bratři milí, v boj s bázní, s třesením!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

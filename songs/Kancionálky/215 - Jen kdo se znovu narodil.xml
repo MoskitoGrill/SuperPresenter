@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Jen kdo se znovu narodil">
+    <variant name="čeština">
+        <section name="v1">
+            Jen kdo se znovu narodil, ví jak má Otce ctíti.
+            On nejdražší jest jeho díl, chce jemu k slávě žiti
+            a za největší radost má, když Ježíš se podobá, jak jasné světlo svítí.
+        </section>
+        <section name="v2">
+            Jen ten, kdo znovu zrozen je, se s bratry o vše sdílím
+            je jako Kristus miluje, jsou pro něho mu milí.
+            Ó, tato láska silná jest, vždy hotova je slabé nést a k pokleslým se schýlí.
+        </section>
+        <section name="v3">
+            Jen kdo se znovu narodil, boj s hříchem vede stálý,
+            ví, že sám v sobě nemá sil, však on
+            o Krista se opírá, jej vítězného chválí.
+        </section>
+        <section name="v4">
+            Jen ten, kdo znovuzrozen jest, se podrobuje kázni
+            Otce svého zvyšuje, byť vedl jej i strázní.
+            Vždyť milost pouhá to, ne trest Bohu z toho vzejde čest, když sloužíš jemu s bázní.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

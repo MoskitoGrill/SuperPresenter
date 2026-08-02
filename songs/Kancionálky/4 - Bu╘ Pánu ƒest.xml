@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Buď Pánu čest">
+    <variant name="čeština">
+        <section name="v1">
+            Buď Pánu čest!
+            Ó, pějte písně chvály,
+            ať slávu jména
+            jeho slyší svět!
+            On dobrý jest,
+            to do blízka i dáli
+            po země
+            tváři má se rozeznět!
+        </section>
+        <section name="r1">
+            Ano, chceme k oslavení
+            Krále svého sloužit dál,
+            svědky býti o spasení,
+            jak On nám to přikázal.
+        </section>
+        <section name="v2">
+            Buď Pánu čest!
+            Se svatou uctivostí
+            své city vložme
+            v žalmy vroucích chval;
+            On dobrý jest,
+            vždyť z pouhé laskavosti
+            nezdolným
+            hradem spasených se stal.
+        </section>
+        <section name="v3">
+            Buď Pánu čest!
+            Toť nejkrásnější úkol,
+            o jeho lásky
+            činech vyprávět.
+            On dobrý jest!
+            To rozhlašujte vůkol,
+            ať k němu
+            obrátí se celý svět.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1
+    </repetition>
+</slide>

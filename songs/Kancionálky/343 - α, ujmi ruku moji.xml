@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Ó, ujmi ruku moji">
+    <variant name="čeština">
+        <section name="v1">
+            Ó ujmi ruku moji a veď mne sám
+            na cestě zde a v boji ať neklesám.
+            Já nevím sobě rady, ó Pane můj,
+            Ty sám mne proveď všady,
+            vždy při mně stůj!
+        </section>
+        <section name="v2">
+            Na milost Tvou se spouští mé srdce již,
+            Ty rájem veď neb pouští, je spokojíš.
+            U nohou Tvých, ó Pane, dlít každý den,
+            nechť stane se co stane,
+            chci věřit jen.
+        </section>
+        <section name="v3">
+            Bychť pak i nezřel rámě, jímž Pán mne ved,
+            vím přec, že nenechá mne, že kráčím vpřed.
+            Ó, veď mne tedy, Pane, ó, veď mne sám,
+            až tam má noha stane, kde zaplesám.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3
+    </repetition>
+</slide>

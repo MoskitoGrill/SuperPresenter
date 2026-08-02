@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Poutníčkové, kam kráčíte">
+    <variant name="čeština">
+        <section name="v1">
+            Poutníčkové, kam kráčíte, v ruce hůl a proč ten spěch?
+            Kázal Pán a my poslušně vydali jsme se v ten běh.
+            Přes hory širé pláně putujeme k městu Páně,
+            /:putujeme k městu Páně, tam do lepších krajů těch!:/
+        </section>
+        <section name="v2">
+            Málo vás; i což nedbáte přístrachů a škůdců všech?
+            Proč se bát? Hle, mnoho přátel hledí s nebe na náš běh!
+            Chutě vpřed, neb nejsme sami, Ježíš, Pán náš, kráčí s námi,
+            /:Ježíš, Pán náš, kráčí s námi až do lepších krajů těch.:/
+        </section>
+        <section name="v3">
+            Poutníčkové, co vás vábí do daleké vlasti jít?
+            Věčný život, plný život bez hříchů a svodů žít!
+            Ž potoka vod živých píti, v městě svatém Boha zříti,
+            /:v městě svatém Boha zříti a tak v nebi domov mít!:/
+        </section>
+        <section name="v4">
+            Poutníčkové, smíme s vámi jít do lepších krajů těch?
+            Ó, jen pojďte, pro nás všechny místo jest na výsostech!
+            Pojďte všichni, nemeškejte, volá Pán, nuž, k němu spějte!
+            /:Volá Pán, nuž, k němu spějte tam do lepších krajů těch!:/
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

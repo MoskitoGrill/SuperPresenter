@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Nikdy se báti">
+    <variant name="čeština">
+        <section name="v1">
+            Nikdy se báti nebudu již zlého,
+            vždyť zmizí jako mlhy na horách.
+            Když vím, že život můj je v rukou jeho,
+            když chrání mne, proč má mne soužit strach?
+        </section>
+        <section name="r1">
+            Já věřím v něj a vytrvám v svém díle
+            a splním úkol, jenž mi svěřen byl.
+            Vždyť vím, že v Boží vyplním jej síle,
+            ve snaze, aby Pán se spokojil.
+        </section>
+        <section name="v2">
+            Nebudu míti v ničem nedostatku,
+            neb pro mne Bůh má mnohý štědrý dar.
+            Proč měl bych dlíti v pochybách a v zmatku,
+            že lhostejný mu žití mého zdar?
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1
+    </repetition>
+</slide>

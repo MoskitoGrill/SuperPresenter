@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Pane, Tys nám svěřil">
+    <variant name="čeština">
+        <section name="v1">
+            Pane, Tys’ nám svěřil naše dítky,
+            my je kladem do Tvých rukou zpět.
+            Dej, ať v Tobě rostou jako snítky,
+            rozvíjí se v Tobě libý květ.
+        </section>
+        <section name="v2">
+            Jezu Kriste, jenž jsi těchou naší,
+            Ty i naše dítky přijímáš.
+            Tvoje péče o ně strachy plaší,
+            neb se dítek s láskou ujímáš.
+        </section>
+        <section name="v3">
+            I když člověk v hříchů svět se rodil,
+            Ty přec chystáš dítkám v nebi díl.
+            Dej, ať každé z nich se znovuzrodí
+            pro Tvé království, kde je náš cíl.
+        </section>
+        <section name="v4">
+            Ty je chovej ve svých pevných rukou,
+            zahoj každý jejich ranný bol.
+            Nechť jich srdce pro Tebe jen tlukou,
+            hříchu do nich vstoupit nedovol.
+        </section>
+        <section name="v5">
+            V knihu žití vepiš jejich jména,
+            krásou ctnosti oděj jako květ.
+            Veď je cestou ruka Tvoje věrná,
+            posléz uveď je v svůj rajský svět.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4 v5
+    </repetition>
+</slide>

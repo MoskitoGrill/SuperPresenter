@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Neopustím Ježiša">
+    <variant name="čeština">
+        <section name="v1">
+            Neopustím Ježiša,
+            veď sa On dal za mňa cele,
+            ako by som nemal tiež
+            pre neho žiť v tomto tele?
+            Duch môj pred ním korí sa.
+            Neopustím Ježiša.
+        </section>
+        <section name="v2">
+            Neopustím Ježiša,
+            dokiaľ žijem tu na zemi.
+            Jemu som sa so všetkým,
+            čo som, čo mám, cele zveril.
+            Jeho láskou teším sa!
+            Neopustím Ježiša.
+        </section>
+        <section name="v3">
+            Svetlo očí vyhasne,
+            prestanem čuť sveta zvuky,
+            odumrie mi chuť i cit,
+            vypadne i dielo z ruky,
+            žitia niť keď prerve sa.
+            Neopustím Ježiša.
+        </section>
+        <section name="v4">
+            Neopustím Ježiša
+            ani na tom druhom brehu.
+            V jeho tvár tam pohliadnem,
+            pojmem ruku prebodenú.
+            Ó, tá chvíľa blíži sa!
+            Neopustím Ježiša.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

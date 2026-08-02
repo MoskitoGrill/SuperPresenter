@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Milujte se">
+    <variant name="čeština">
+        <section name="v1">
+            "Milujte se!" v každé době
+            věrným sluhům velí Pán.
+            "Jedni druhých břímě neste,
+            vstup vám k nebi dokořán."
+            Láskou viň se k druhu druh,
+            to chce po nás svatý Bůh.
+        </section>
+        <section name="v2">
+            "Milujte se!" to je odkaz
+            Božích reků v plamenech,
+            "láskou jev se víra vaše
+            beze lstí a klamů všech."
+            Vždyť to káže Boží Syn:
+            "Nepříteli dobře čiň!"
+        </section>
+        <section name="v3">
+            "Milujte se!" Odkaz Páně
+            zapaluj vždy srdce nám;
+            v lásce tedy svorně spějme
+            k ráje věčným výšinám.
+            Láskou viň se k druhu druh,
+            neb to na nás žádá Bůh!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3
+    </repetition>
+</slide>

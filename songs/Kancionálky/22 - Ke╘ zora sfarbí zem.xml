@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Keď zora sfarbí zem">
+    <variant name="čeština">
+        <section name="v1">
+            Keď zora sfarbí zem,
+            spev srdca počujem:
+            Buď Bohu v Kristu česť!
+            Tiež v práci, modlitbe
+            vzdych vrúci zazneje:
+            Buď Bohu chvála, česť!
+        </section>
+        <section name="v2">
+            Môj Bože, k Tebe zriem,
+            len Teba milujem.
+            Buď Tebe v Kristu česť!
+            Nech pieseň radosti
+            Ťa chváli z vďačnosti:
+            Buď Bohu sláva, česť!
+        </section>
+        <section name="v3">
+            Keď srdce trápi žiaľ,
+            v čom by som radosť mal?
+            Buď Bohu v Kristu česť!
+            V ňom potešenie mám,
+            keď vládne klam a mam:
+            Buď Bohu chvála, česť!
+        </section>
+        <section name="v4">
+            Kým budem v tele žiť,
+            chcem Pána velebiť:
+            Buď Bohu v Kristu česť!
+            A potom v nebesiach
+            znieť bude chvála zas:
+            Bohu v Kristu česť!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

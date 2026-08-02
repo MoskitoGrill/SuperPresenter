@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Aj, jak jsou milí">
+    <variant name="čeština">
+        <section name="v1">
+            Aj, jak jsou milí,
+            Tvoji příbytkové,
+            jak rozkošní
+            křesťanští sborové,
+            Pane,
+            v nichž Tvé jméno slavné!
+        </section>
+        <section name="v2">
+            Neb tu přebýváš,
+            Pane přežádoucí,
+            rozkoš svou máš,
+            Pane všemohoucí
+            v věrných
+            a Tobě důvěrných.
+        </section>
+        <section name="v3">
+            K těm se tu místům
+            věrní shromažďují,
+            tak jak k hnízdům
+            ptáci se sletují
+            rádi,
+            staří jako mladí.
+        </section>
+        <section name="v4">
+            Jáť potom toužím,
+            můj jediný Bože,
+            i žalostím
+            a mám nad tím hoře,
+            když jsem
+            těch věcí kdy vzdálen.
+        </section>
+        <section name="v5">
+            Ó, vzhlédni na nás
+            i v nynější časy,
+            ó, náš Bože,
+            uslyš naše hlasy,
+            pro Tě
+            chovej v své jednotě!
+        </section>
+        <section name="v6">
+            Ó, dejž bydliti
+            nám v těch příbytcích svých,
+            dej choditi,
+            do sborů svatých Tvých,
+            Kriste,
+            k Tvé pravdě přečisté!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4 v5 v6
+    </repetition>
+</slide>

@@ -1,0 +1,31 @@
+<?xml version="1.0" ?>
+<slide name="Domov">
+    <variant name="čeština">
+        <section name="v1">
+Když dochází mi síla
+Strach v mém srdci místo má
+Tvá dlaň mě podepírá
+Věrnost jistotu mi dá
+Vím nikdy mě nepustíš
+Když utíkám dál a dál
+Pryč od věčné lásky
+Do tvé náruče dobíhám
+</section>
+        <section name="r1">
+Stojíš tam přede mnou
+Očekáváš návrat můj
+Světlem jsi co svítí tmou
+</section>
+        <section name="r2">
+Jsi domov můj
+Moje spása
+Bezpečné místo
+Kde už nikdy nejsem sám
+Jsi věrný Bůh
+A tvoje láska
+Dává mi poznat to, co světu chybí
+Nikde nenajdu, co Ty mi dáváš
+</section>
+    </variant>
+    <repetition name="default" main="1">v1 r1 r2 v1 (r1 r2)</repetition>
+</slide>

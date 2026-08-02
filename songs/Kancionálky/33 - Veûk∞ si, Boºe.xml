@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Veľký si, Bože">
+    <variant name="čeština">
+        <section name="v1a">
+            Velký si, Bože,
+            hrozná Tvoja sila,
+            slovom si stvoril
+            nebesia i zem.
+            Velil si: Staň sa!
+            A z ničoty pustej
+            vytrysklo svetlo,
+            nastal prvý deň.
+        </section>
+        <section name="v1b">
+            Tisíce slncí,
+            myriády svetov,
+            celý ten vesmír
+            plní rozkaz Tvoj.
+            Chvejúcim srdcom
+            obdivujem, chvalim
+            nesmiernu moc
+            a silu, Tvorca môj.
+        </section>
+        <section name="v2a">
+            Veľký si, Bože,
+            veľká Tvoja múdrost,
+            všetko si krásne,
+            múdro vykonal.
+            Syn zeme ziskal
+            Božích deti hodnosť,
+            zo svojho Ducha
+            si mu ducha dal.
+        </section>
+        <section name="v2b">
+            Kvetinky nežné,
+            vekovité duby,
+            každý tvor svedčí,
+            akýs múdry Boh!
+            Pokorne slávim,
+            osvietenou mysľou
+            najväčšiu mudrosť,
+            plnú zázrakov.
+        </section>
+        <section name="v3a">
+            Veľký si, Bože,
+            veľká Tvoja láska,
+            kterou ma Syn Tvoj
+            blaží každý čas.
+            Tlejúci knôt On
+            novým ohňom kriesi,
+            chabú trsť rovná,
+            napravuje zas.
+        </section>
+        <section name="v3b">
+            Keď mrel som v hrôze,
+            ubíjaný hriechom,
+            s lútosťou si ma
+            k sebe privinul.
+            S vďakou a chválou
+            na kolenách žehnám
+            otcovskú lásku,
+            v nej som spočinul.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1a v1b v2a v2b v3a v3b
+    </repetition>
+</slide>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Zvesť spásy preradostná">
+    <variant name="čeština">
+        <section name="v1">
+            Zvesť spásy preradostná
+            znie po sveta končinách:
+            Vykúpenie dokonané
+            je na kríža výšinách.
+            Tak miloval Boh svet,
+            že až na smrť Syna dal,
+            aby ten kto v neho verí,
+            život večný iste mal.
+        </section>
+        <section name="r1">
+            Spasenie Ježiš dá.
+            Nech to čuje celý svet.
+            Poď a ber, kto len chceš,
+            spásy bez kríža však niet.
+        </section>
+        <section name="v2">
+            Hlas Spasitelôv volá
+            k slávnej nebies večeri.
+            Nezavrhuj lásku svätu.
+            Šťastný, kto jej uverí.
+            Ja som chlieb života,
+            hladu trpieť nebude,
+            kto je mojím, kto mi verí,
+            obstojí aj na súde.
+        </section>
+        <section name="v3">
+            Čuj výstražný hlas Boží,
+            nepohŕdaj milosťou.
+            Rýchlo letí čas, ty musíš
+            rátať s hroznou večnosťou.
+            Ó, zachráň, zachráň sa.
+            Nepozeraj nikdy späť.
+            Sudca ti je za pätami,
+            zľutovania uňho niet.
+        </section>
+        <section name="v4">
+            Tak vážne priateľ večný
+            privoláva z výšin nám:
+            v ranách mojích odpustenie
+            duše drahé kynie vám.
+            Kto sluch máš, počúvaj,
+            v Ježišovi nájdeš mier,
+            pokoj srdcu, spásu duši.
+            K nemu poď len, jemu ver.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1 v4 r1
+    </repetition>
+</slide>

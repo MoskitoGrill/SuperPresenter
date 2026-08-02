@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="V Krista věřím">
+    <variant name="čeština">
+        <section name="v1">
+            V Krista věřím, s ním můj díl,
+            On je pramen všech mých sil.
+            V bojích je mou záštitou,
+            v bolu mocnou útěchou.
+        </section>
+        <section name="v2">
+            On mou vinu na se vzal,
+            pro něj Bůh mi milost dal.
+            On je základ víry mé,
+            proto jásám vítězně.
+        </section>
+        <section name="v3">
+            Vím to, že mne miluje,
+            láskou ve mně vzbuzuje.
+            Vím to, že je přítel můj;
+            vydal za mne život svůj.
+        </section>
+        <section name="v4">
+            K cíli patřím s radostí,
+            Ježíš zve mne k plnosti,
+            chce, bych vždy jen více bral,
+            jeho lásku oplýval.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

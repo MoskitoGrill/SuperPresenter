@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Po temnu světla jas">
+    <variant name="čeština">
+        <section name="v1">
+            Po temnu světla jas,
+            po noci den,
+            po slzách chvalozpěv
+            radosti jen.
+            Po dešti slunéčko,
+            po mraku jas,
+            po těžké únavě
+            oddechu čas.
+        </section>
+        <section name="v2">
+            Po žalu radosti,
+            na boli lék,
+            po ztrátě útěchy
+            radostný vděk.
+            Po mdlobě posila,
+            po haně čest,
+            pokojné skončení
+            bouřlivých cest.
+        </section>
+        <section name="v3">
+            Pokoj po námaze,
+            po práci klid,
+            uchystán u Boha
+            pro jeho lid.
+            Únava, soužení,
+            těžkosti, kříž,
+            vedou mne k domovu
+            k nebesům blíž.
+        </section>
+        <section name="v4">
+            Hojnost po chudobě,
+            svobody jas,
+            z vyhnanství návratu
+            blažený čas.
+            Po smrti o žití,
+            toť spásy cíl,
+            Božích to věrných všech
+            slavný je díl.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

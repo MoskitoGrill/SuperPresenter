@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Deň v službe môjho Pána">
+    <variant name="čeština">
+        <section name="v1">
+            Deň v službe môjho Pána, smieť prežiť, to je slasť!
+            Hluk sveta stíchne, mier v dušu vnikne, tak Pán vie odmieňať.
+            On Ducha dal a slúžiť rozkázal.
+        </section>
+        <section name="r1">
+            Deň v službe môjho Pána, deň v službe môjho Pána,
+            deň v službe môjho Pána smieť prežiť, to je slasť!
+        </section>
+        <section name="v2">
+            Deň v službe môjho Pána, to krásna práca je.
+            Zvesť spásy hlásať a s bratmi jasať, v tom šťastie ozajstné.
+            Už na zemi Boh dáva odmeny.
+        </section>
+        <section name="v3">
+            Deň v službe môjho Pána to neraz unaví.
+            Ale On k dielu dá pomoc, vieru i radu pripraví.
+            Je verný Pán, On svojim silu dá.
+        </section>
+        <section name="v4">
+            Deň v službe môjho Pána, poď k práci, On ťa zve!
+            Vzdor všetkým bojom i nepokojom tu radosť nehasne.
+            A Vodca náš ťa iste požehná.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1 v4 r1
+    </repetition>
+</slide>

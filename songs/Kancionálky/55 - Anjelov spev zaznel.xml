@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Anjelov spev zaznel">
+    <variant name="čeština">
+        <section name="v1">
+            Anjelov spev zaznel slávny,
+            keď sa zrodil mieru Kráľ.
+            Pastieri a mudrci tiež
+            pridali k nim slová chvál.
+            Vzácny poklad, vzácny poklad
+            uložil Boh v jasličkách.
+        </section>
+        <section name="v2">
+            Ježiš prišiel pre stratených,
+            bolesť chorých vyliečil,
+            potešuje zarmútených,
+            kajúcim hriech odpustil.
+            Oslavujte, oslavujte
+            Pána požehnaného.
+        </section>
+        <section name="v3">
+            Zaspievaj, sbor vykúpených,
+            hlasom jasným, víťazným!
+            Radostná zvesť o spasení
+            preleť svetom strateným.
+            Celý vesmír, celý vesmír
+            nech sa chveje spevom chvál.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3
+    </repetition>
+</slide>

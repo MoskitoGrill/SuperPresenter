@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Keď som vo svete žil">
+    <variant name="čeština">
+        <section name="v1">
+            Keď som vo svete žil, dobre nepochopil dielo to, ktoré Pán vykonal.
+            Popri kríži som šiel tam pochopiť sme, z hriechov že aj mne vykúpenie dal.
+        </section>
+        <section name="r1">
+            Aj mne pod krížom Pán života svetlo dal,
+            bremeno hriechov zrak, môj život sa radostným stal.
+        </section>
+        <section name="v2">
+            V slepote myslel som, žiadnym že zázrakom nemožno život môj premeniť.
+            Udial sa zázrak ten, prchla tma, svitol deň, v Pána Ježiša smel som uveriť.
+        </section>
+        <section name="v3">
+            Stratil sa smútok, žiaľ, každý deň pieseň chvál plní už srdce vyliečené.
+            Lebo ma vedie Pán, ktorý rád umieral, aby pre mňa vydobyl spasenie.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1
+    </repetition>
+</slide>

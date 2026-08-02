@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Žije zavrhnutý Ježiš">
+    <variant name="čeština">
+        <section name="v1">
+            Žije zavrhnutý Ježiš,
+            žije najslávnejší Kráľ!
+            Trpel za slobodu ľudí,
+            spásu smrťou dokonal.
+            Ĺudstvo, vzdávaj jemu chválu,
+            On ťa zbavil ťarchy vín.
+            Spasiteľom hriešnych je On:
+            Ježíš Kristus, Boží Syn.
+        </section>
+        <section name="v2">
+            Bohom pripravená obeť,
+            z neba prišlý drahý Pán,
+            niesol ťarchu našich hriechov
+            na Golgote sám a sám.
+            Hriechy ľudí obmyl krvou,
+            vedie nás do nebies brán.
+            V Kristu zmierení sme s Bohom,
+            vďaka Jeho zásluhám.
+        </section>
+        <section name="v3">
+            Sláva tróniacemu v nebi!
+            Zmľkli hany, potupy,
+            Syn už vedľa Otca sedí,
+            velebia ho zástupy.
+            Hlasy preblažených znejú:
+            Pán Ježiš je hoden vziať
+            moc, česť, ďakovanie, slávu!
+            Daj nám, Pane, tam diel mať!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3
+    </repetition>
+</slide>

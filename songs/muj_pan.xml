@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<slide name="Můj Pán">
+    <variant name="čeština">
+        <section name="v1">
+Můj Pán kvůli mě přišel, nepůsobil jako král.
+On dal vše, co měl, abych já mohl žít.
+Můj Pán dal sám sebe, prý jsem mu za to stál.
+On dal vše, co měl, abych já mohl žít.
+</section>
+        <section name="r1">
+Já vím, já vím. Bez Tebe neměl bych nic.
+Já vím, já vím. Tys mi dal všechno já chci Tebe víc.
+Já vím, já vím. Bez Tebe nemůžu žít. Nemůžu žít.
+</section>
+        <section name="v2">
+Haleluja, On je vítěz.
+Ježíš žije, pro něj mé srdce bije.
+On je Pánem vší země a teď žije ve mně.
+Nic nezastaví slávu Tvou.
+</section>
+    </variant>
+    <repetition name="default" main="1">(v1 r1) v2 r1</repetition>
+</slide>

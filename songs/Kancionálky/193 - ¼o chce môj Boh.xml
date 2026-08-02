@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Čo chce môj Boh">
+    <variant name="čeština">
+        <section name="v1">
+            Čo chce môj Boh, nech sa stane!
+            Jeho vôla svätá je.
+            On dá tomu pomoc pravú,
+            kto v ňom zložil dúfanie.
+            Pán aj z núdze vyviesť môže,
+            tresty z lásky dáva len.
+            V neho dúfam a nezúfam,
+            On je so mnou deň čo deň.
+        </section>
+        <section name="v2">
+            V ňom je moje potešenie,
+            život môj, i nádeje.
+            Ako On chce, tak nech činí,
+            krivda sa mi nedeje.
+            Jeho slovo pravda istá;
+            prečo sa mám strachovať?
+            O svojich sa On vždy stará,
+            od zlého ich zachová.
+        </section>
+        <section name="v3">
+            Preto vďačne opustím svet,
+            k svojmu Bohu zaletím,
+            až to bude jeho vôľa;
+            veď tam večne budem s ním.
+            Moja duša pôjde k nemu,
+            keď sa s telom rozlúči.
+            Večný pokoj čaká na ňu
+            v jeho svätej náruči.
+        </section>
+        <section name="v4">
+            Zatiaľ len to jedno žiadam:
+            s láskou na mňa pohliadni.
+            Keď ma k zrade satan zvádza,
+            nedaj hynúť v zúfaní.
+            Braň ma, silu k víťazstvu daj,
+            Ty si najmocnejší Pán.
+            Tým, čo v Tebe nádej majú,
+            pomoc kynie z Tvojich rán.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

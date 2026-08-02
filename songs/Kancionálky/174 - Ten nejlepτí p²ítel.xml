@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Ten nejlepší přítel">
+    <variant name="čeština">
+        <section name="v1">
+            Ten nejlepší přítel
+            jest Ježíš,
+            tu převzácnou
+            zkušenost mám
+            a tobě chci,
+            kdo o tom nevíš,
+            jen radit:
+            ó zkus jej sám!
+        </section>
+        <section name="r1">
+            Pojď každý, zkus jej sám,
+            pojď každý, zkus jej sám,
+            že nejlepší přítel
+            jest Ježíš,
+            pojď každý zkusit jej sám!
+        </section>
+        <section name="v2">
+            On na cestu
+            uveď mne k sobě
+            a krok co krok
+            se mnou jde dál.
+            On strážcem mým
+            je proti zlobě,
+            jsem šťasten,
+            proč bych se bál?
+        </section>
+        <section name="v3">
+            On hotov byl
+            dát za mne sebe,
+            když za můj hřích
+            měl přijít trest,
+            On hotov je
+            spasit i tebe,
+            pojď k Němu,
+            jím dej se vést!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1
+    </repetition>
+</slide>

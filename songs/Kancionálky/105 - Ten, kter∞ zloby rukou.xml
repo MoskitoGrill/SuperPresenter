@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Ten, který zloby rukou">
+    <variant name="čeština">
+        <section name="v1">
+            Ten, který zloby rukou
+            kdys na kříž přibit byl,
+            své hořké smrti mukou
+            smrt moji zahladil,
+            ten vznešený, pln slávy,
+            teď v nebe vyzdvižen,
+            kde s Otcem, sám Bůh pravý,
+            už věčně bude ctěn.
+        </section>
+        <section name="v2">
+            Na svahu hory Oliv
+            kruh učedníků stál,
+            žal plnil je i podiv,
+            když oblak jim jej bral.
+            Však žalost rozplývá se
+            jim v slibu přejistém:
+            "Jen věřte, přijdu zase
+            a vždycky s vámi jsem!"
+        </section>
+        <section name="v3">
+            On, slavně vítězící
+            v svém boji přetěžkém,
+            jenž Bohu po pravici
+            dlí v světle nebeském,
+            On v moci Bohem dané
+            svůj přijde soudit lid.
+            Uč nás, než přijdeš, Pane,
+            zde k libosti Tvé žít!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3
+    </repetition>
+</slide>

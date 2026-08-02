@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Ó, Pane, Tobě cele chci sloužit">
+    <variant name="čeština">
+        <section name="v1">
+            Ó, Pane, Tobě cele chci sloužit z všech sil svých,
+            jen rozněť Duchem svatým sám vděčnost v citech mých.
+        </section>
+        <section name="r1">
+            Své srdce v oběť díků rád Tobě vydávám
+            a toužím, prosím, věřím, že zapálíš ji sám.
+        </section>
+        <section name="v2">
+            Dej plnost Ducha svého, by k Tobě vedl mne,
+            ať učí s Tebou chodit mne vždycky upřímně.
+        </section>
+        <section name="v3">
+            Svlaž proudem Ducha svého mou duši zas a zas,
+            ať pln jsem svaté síly i v parný sucha čas.
+        </section>
+        <section name="v4">
+            A hlasem slova svého mne stále ujišťuj,
+            ať znovu nad tím plesám, že můj jsi a já Tvůj.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1 v4 r1
+    </repetition>
+</slide>

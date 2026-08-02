@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Neboj sa, dcéra Siona">
+    <variant name="čeština">
+        <section name="v1">
+            Neboj sa, dcéra Siona,
+            hľa, prichádza tvoj Kráľ!
+            Privolaj slávne hosana!
+            On spásou sa ti stal,
+            On spásou sa ti stal.
+        </section>
+        <section name="v2">
+            Pokorne ide, nemá zbraň,
+            však pred ním padá ľud.
+            Zaveje jeho lásky van,
+            On šťastím plní hruď,
+            On šťastím plní hruď.
+        </section>
+        <section name="v3">
+            Palmy a rúcho na cestu
+            mu ponáhľaj sa stlať.
+            Božie nás ruky netrescú:
+            Kráľ ide milosť dať,
+            Kráľ ide milosť dať.
+        </section>
+        <section name="v4">
+            Ježiš je ten náš slávny Kráľ.
+            Skloň pred ním kolená!
+            Prines mu kvety svojich chvál,
+            On ľud svoj požehná,
+            On žud svoj požehná.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

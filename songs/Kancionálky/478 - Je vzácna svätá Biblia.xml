@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Je vzácna svätá Biblia">
+    <variant name="čeština">
+        <section name="v1">
+            Je vzácna svätá Biblia, čo k spáse vedie nás.
+            Jej rady jasom ožiaria nás z vlasti večných krás.
+        </section>
+        <section name="v2">
+            Len lúče Pásma vedú z bied a zlátia Golgotu,
+            by v Kristu milosť prijal svet a získal obrodu.
+        </section>
+        <section name="v3">
+            Lúč Písma skleslých povzbudí v tme sĺz a bolestí
+            a život nový zobudí; strach, úzkosť odletí.
+        </section>
+        <section name="v4">
+            To svetlo Božích svätých právd aj z temnôt vyviesť vie
+            a do nebeských večných krás nás iste dovedie.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

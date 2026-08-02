@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Ó, pripravuj sa, Boží ľud">
+    <variant name="čeština">
+        <section name="v1">
+            Ó, pripravuj sa, Boží ľud,
+            Pán blízko, čakaj, bdelý buď.
+            Tvoj ženích, cirkev - nevesta,
+            svoj príchod nezmešká.
+        </section>
+        <section name="r1">
+            Slávny deň to bude raz,
+            keď sa Ježiš zjaví zas.
+            Tvoj ľud Ťa čaká, Pane náš,
+            príď, slávny Mesiáš!
+        </section>
+        <section name="v2">
+            Ó, Sion, vstaň a nedriemaj,
+            hneď do pilnej sa práce daj,
+            by v diele tvoj ťa našiel Pán,
+            keď príde v sláve k nám.
+        </section>
+        <section name="v3">
+            Ó, Božia cirkev, pamätaj,
+            vždy na hlas Pánov pozor daj.
+            Bdej, modli sa a pracuj len,
+            kým príde Pánov deň.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1
+    </repetition>
+</slide>

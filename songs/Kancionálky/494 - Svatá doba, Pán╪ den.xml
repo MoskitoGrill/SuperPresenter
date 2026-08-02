@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Svatá doba, Páně den">
+    <variant name="čeština">
+        <section name="v1">
+            Svatá doba, Páně den,
+            Hospodin buď veleben!
+            On sám den ten oddělil,
+            požehnal a posvětil.
+            I já práci odkládám,
+            duši Pánu oddávám.
+        </section>
+        <section name="v2">
+            Ticho vůkol, svatý čas,
+            z nebe volá Páně hlas:
+            "Pojďte, lační, žízniví,
+            já, váš Otec pečlivý,
+            bídu vaši dobře znám,
+            mannu z nebe sešlu vám!"
+        </section>
+        <section name="v3">
+            Něžně volá Boží Syn:
+            "Pojď, kdo lkáš pod tíží vin!
+            Hříchy tvé i bídu tvou
+            obmyl jsem již krví svou,
+            spasení ti vydobyl,
+            v nebi se mnou tvůj je díl!"
+        </section>
+        <section name="v4">
+            Nemeškej, ó duše má,
+            Bůh i tobě požehná,
+            pospěš blaha ke zdroji,
+            Pán tvé touhy ukojí!
+            V srdci prostém starostí
+            svatý mír se uhostí.
+        </section>
+        <section name="v5">
+            Přijď, ó Duchu svatý, přijď,
+            sám jen kroky moje řiď,
+            srdce moje osvěcuj,
+            s mocí svou vždy při mně stůj,
+            abych jednou s anděly
+            věčnou slavil neděli.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4 v5
+    </repetition>
+</slide>

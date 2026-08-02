@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Požehnání Boží">
+    <variant name="čeština">
+        <section name="v1">
+            Požehnání Boží
+            zdobí naši zem,
+            úrodu nám dává,
+            hojnost lidem všem.
+        </section>
+        <section name="v2">
+            Od Boha jsme vzali
+            darů na tisíc,
+            z vděčnosti mu nesme
+            celé srdce vstříc.
+        </section>
+        <section name="v3">
+            Duše ke žni věčné
+            chystejme už dnes,
+            aby jednou směly
+            k Bohu do nebes.
+        </section>
+        <section name="v4">
+            Lidem k spáse žijme,
+            práce zbývá dost,
+            sbírejme včas klasy
+            zralé pro věčnost.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="V temné noci">
+    <variant name="čeština">
+        <section name="v1">
+            V temné noci Božskou mocí
+            blesk se zaskvěl nad hrobem,
+            světlem jasným, divukrásným,
+            osvěcuje celou zem.
+        </section>
+        <section name="v2">
+            Kdo tu milou, ušlechtilou
+            v stínu smrti rozlil zář'?
+            Tys' to, Pane, Tvá tak plane,
+            Králi slávy, jasná tvář!
+        </section>
+        <section name="v3">
+            V tmavém hrobě dal jsi sobě
+            pro nás tvrdě ustlati,
+            chtě pak zase v plné kráse
+            pro nás znovu povstati.
+        </section>
+        <section name="v4">
+            V těžkém boji hlavu svoji,
+            Beránku náš, nakloniv,
+            již zas nově, po svém slově
+            přišels' k nám, jsa věčně živ.
+        </section>
+        <section name="v5">
+            Zdola-shůry steré kůry
+            radostně Tě vítají,
+            svému Králi píseň chvály
+            přelíbeznou zpívají.
+        </section>
+        <section name="v6">
+            I my z Tvého velikého
+            vítězství se těšíme,
+            pokornými hlasy svými
+            věčně Tebe slavíme.
+        </section>
+        <section name="v7">
+            Slunce skvoucí, nehasnoucí,
+            nikdy již se nevzdaluj!
+            Sviť nám stále, ať k Tvé chvále
+            dojdem' šťastně před trůn Tvůj.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4 v5 v6 v7
+    </repetition>
+</slide>

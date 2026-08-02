@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Chvalme Boha">
+    <variant name="čeština">
+        <section name="v1">
+            Chvalme Boha,
+            neb jest dobrotivý,
+            s díkem vroucím,
+            vzdejme jemu čest!
+            Jeho láska
+            dodnes koná divy,
+            jeho láska
+            nevýmluvná jest.
+        </section>
+        <section name="v2">
+            Chvalme Boha,
+            že nám v Synu milém
+            cestu zjevil
+            do nebeských měst.
+            Vyhlašujme
+            v zpěvu ušlechtilém:
+            Jeho láska
+            nevýmluvná jest.
+        </section>
+        <section name="v3">
+            Chvalme Boha,
+            kdo jsme z lidu jeho,
+            nesme světu
+            onu blahou zvěst,
+            že je v Kristu
+            milost pro každého:
+            Boží láska
+            nevýmluvná jest.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3
+    </repetition>
+</slide>

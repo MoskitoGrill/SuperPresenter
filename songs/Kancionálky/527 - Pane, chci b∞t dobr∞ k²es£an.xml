@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Pane, chci být dobrý křesťan">
+    <variant name="čeština">
+        <section name="v1">
+            /:Pane, chci být dobrý křesťan
+            v srdci svém, v srdci svém.:/
+            V srdci svém, v srdci svém,
+            Pane, chci být dobrý křesťan
+            v srdci svém.
+        </section>
+        <section name="v2">
+            /:Pane, chci mít více lásky
+            v srdci svém, v srdci svém.:/
+            V srdci svém, v srdci svém,
+            Pane chci mít více lásky
+            v srdci svém.
+        </section>
+        <section name="v3">
+            /:Pane, chci být upřímnější
+            v srdci svém, v srdci svém.:/
+            V srdci svém, v srdci svém,
+            Pane, chci být upřímnější
+            v srdci svém.
+        </section>
+        <section name="v4">
+            /:Pane, nechci být jak Jidáš
+            v srdci svém, v srdci svém.:/
+            v srdci svém, v srdci svém,
+            Pane, nechci být jak Jidáš
+            v srdci svém.
+        </section>
+        <section name="v5">
+            /:Pane, chci být jako Ježíš
+            v srdci svém, v srdci svém.:/
+            V srdci svém, v srdci svém,
+            Pane, chci být jako Ježíš
+            v srdci svém.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4 v5
+    </repetition>
+</slide>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="V nadhviezdnej výšine">
+    <variant name="čeština">
+        <section name="v1">
+            V nadhviezdnej výšine,
+            v presvätej tíšine
+            anjelov plesania
+            zhlaholil hlas.
+            Prišiel Pán čakaný,
+            prorokmi hlásaný.
+            Hospodin naplnil
+            milosti čas.
+        </section>
+        <section name="v2">
+            Z kráľovstva večnosti
+            do stanu zemskosti
+            Boží Syn, Mesiáš,
+            obrátil krok.
+            On ľudské telo vzal,
+            aby svet zaplesal.
+            Večitej slobody
+            vyhlásil rok.
+        </section>
+        <section name="v3">
+            Zrodenie spasenia,
+            Božieho zmierenia
+            velebne hlásala
+            presvätá noc.
+            V jasličkách spočinul,
+            k ľudstvu sa privinul
+            Spasiteľ, ktorý má
+            slávu i moc.
+        </section>
+        <section name="v4">
+            Zmiluj sa, Pane náš,
+            vypočuj prosieb hlas,
+            Ježiš, Emanuel,
+            príď skoro k nám!
+            Ty, Knieža pokoja,
+            vo svete rozbroja
+            nenávisť láskou daj
+            premáhať nám.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Až po smrť, Ježišu">
+    <variant name="čeština">
+        <section name="v1">
+            Až po smrť, Ježišu chceme byť Tvoji,
+            až po smrť v pokore v Tebe mať dosť,
+            až po smrť zotrvať v udatnom boji,
+            napokon víťazne do slávy vojsť.
+        </section>
+        <section name="v2">
+            Až po smrť, Ježišu, chceme byť Tvoji,
+            až po smrť ako Ty, chceme kríž niesť,
+            až po smrť zotrvať pri svetla zdroji,
+            z priamych ciest za Tebou nedať sa zviesť.
+        </section>
+        <section name="v3">
+            Až po smrť chceme byť verní, ó Pane,
+            dodržať príkaz Tvoj: “Zapri sa sám!”
+            Až po smrť vytrvať v posmechu, hane.
+            Tú milosť, Ježišu, všetkým daj nám.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3
+    </repetition>
+</slide>

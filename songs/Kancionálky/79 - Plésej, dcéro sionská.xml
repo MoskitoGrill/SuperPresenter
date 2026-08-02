@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Plesej, dcéro sionská">
+    <variant name="čeština">
+        <section name="v1">
+            Plesej dcéro Sionská,
+            jásej Jeruzaléme.
+            Král tvůj tobě přichází,
+            spravedlivý, Bůh pokoje.
+            Vítej Krále slavného,
+            jménem Páně z výsosti.
+        </section>
+        <section name="v2">
+            Vítej krále slavného,
+            Jemu s láskou vyjdi vstříc.
+            Zapěj Jemu hosana,
+            On je kníže, Bůh pokoje.
+            Palmy zdobí cestu Tvou,
+            Kníže míru vládni v nás!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2
+    </repetition>
+</slide>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Byť i horstva mocné valy">
+    <variant name="čeština">
+        <section name="v1">
+            Byť i horstva mocné valy ustoupily se svých míst,
+            Bůh mi bude v slovu stálý, jeho láskou jsem si jist.
+            Smlouva jeho pokoje nepohne se, věčná je!
+        </section>
+        <section name="v2">
+            Řeč to hodná oblíbení, potěcha všem sklíčeným,
+            že když vše se vůkol mění, Bůh je věrný slibům svým.
+            Pevná smlouva milosti dodává mi smělosti.
+        </section>
+        <section name="v3">
+            Toho, kdo se těžce sklání pod života břemenem,
+            vzpruží zvěst, že smilování u Boha i pokoj v něm.
+            V soužení mne, Bože můj, slovem tímto povzbuzuj!
+        </section>
+        <section name="v4">
+            Uč mne Tvoje slovo bráti radostně a bez pochyb!
+            Pak ni smrt mi neuchvátí, co Tvůj zaručuje slib.
+            Pekla moc mi nevyrve, cos mi dobyl z lásky své.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

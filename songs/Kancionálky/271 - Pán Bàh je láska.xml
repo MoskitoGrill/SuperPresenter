@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Pán Bůh je láska">
+    <variant name="čeština">
+        <section name="v1">
+            Pán Bůh je láska, dal svého syna,
+            Pán Bůh je láska, miluje mne.
+        </section>
+        <section name="r1">
+            Ó, jak mne blaží zvěst:
+            Pán Bůh je láska,
+            Pán Bůh je láska,
+            miluje mne.
+        </section>
+        <section name="v2">
+            Vězel jsem v poutech strašného hřícha,
+            z vězení svého nemoha ven.
+        </section>
+        <section name="v3">
+            Spasitel Ježíš v oběť dal sebe,
+            za hřích můj zmíral, vykoupil mne.
+        </section>
+        <section name="v4">
+            Pozval mne k sobě milosti slovem,
+            Duchem svým svatým přivinul mne.
+        </section>
+        <section name="v5">
+            Lásko ty svatá, prameni spásy,
+            útěcho duší, lékem jsi mým.
+        </section>
+        <section name="v6">
+            Lásko ty věčná, tebe chci chválit
+            tobě čest vzdávat, dokud jsem živ.
+        </section>
+        <section name="v7">
+            Lásko ty Boží, předmětem budeš
+            jásání mého na věčnosti.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1 v4 r1 v5 r1 v6 r1 v7 r1
+    </repetition>
+</slide>

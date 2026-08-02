@@ -1,0 +1,9 @@
+<?xml version="1.0" ?>
+<slide name="fds">
+    <variant name="čeština">
+        <section name="v1">
+fsdfsd
+</section>
+    </variant>
+    <repetition name="default" main="1">v1</repetition>
+</slide>

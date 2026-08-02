@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Až pomine tento svět">
+    <variant name="čeština">
+        <section name="v1">
+            Až pomine tento svět,
+            až i slunce zhasne vznět,
+            a já stanu
+            s Kristem tam,
+            kde vše zjevné bude nám:
+            pak zvím, Pane, teprve,
+            co jsem dlužen lásce Tvé!
+        </section>
+        <section name="v2">
+            Až před trůnem milosti,
+            oděn rouchem svatosti,
+            spatřím, zemských
+            poskvrn prost,
+            slávu Tvou a velebnost:
+            pak zvím, Pane, teprve,
+            co jsem dlužen lásce Tvé!
+        </section>
+        <section name="v3">
+            S harfami až Božími
+            andělský zpěv zazní mi
+            jako hromů
+            dunění,
+            jako ráje šumění:
+            pak zvím, Pane, teprve,
+            co jsem dlužen lásce Tvé!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3
+    </repetition>
+</slide>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Obnov nás, ó svetlo večné">
+    <variant name="čeština">
+        <section name="v1">
+            /:Obnov nás, ó svetlo večné,
+            aby srdcia naše hriešne
+            boli celé ožiarené,
+            očistené, posvätené.:/
+        </section>
+        <section name="v2">
+            /:Planných túžob ráč nás zbaviť,
+            zlému nedaj triumf sláviť.
+            Úskaliami žitia bojov
+            chráň nás, Pane, rukou svojou.:/
+        </section>
+        <section name="v3">
+            /:Daj nám ducha ochotnosti
+            Tebe slúžiť v poslušnosti.
+            Túžime len to vždy spraviť,
+            čo Ty, Pane, môžeš schváliť.:/
+        </section>
+        <section name="v4">
+            /:S Tebou byť je naša žiadosť,
+            čo je večné, naša radosť:
+            bývať stále v Tvojom stane,
+            ktorý svojim chystáš, Pane.:/
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

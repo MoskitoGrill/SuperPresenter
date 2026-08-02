@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Nuž pějme všichni s plesáním">
+    <variant name="čeština">
+        <section name="v1">
+            Nuž, pějme všichni s plesáním,
+            Bůh láska je!
+            Nuž, pějme zvučně, s jásáním.
+            Bůh láska je!
+            Z hříchů kdo jste probuzení,
+            v něm hledejte spomožení,
+            z bázně smrti vykoupení,
+            Bůh láska je.
+        </section>
+        <section name="r1">
+            Bůh láska je, Bůh láska je.
+            Nuž pějme všichni s plesáním:
+            Bůh láska je!
+        </section>
+        <section name="v2">
+            Aj, přestupníkům pravme všem:
+            Bůh láska je!
+            Neb s nebe sstoupil v hříchů zem,
+            Bůh láska je!
+            Tam, hle pod tvých hříchů tíží
+            v oběť sebe dal na kříží,
+            bys byl spasen bez obtíží.
+            Bůh láska je.
+        </section>
+        <section name="v3">
+            Tu pravdu všude vyznávej:
+            Bůh láska je.
+            A k Němu v lásce vytrvej,
+            Bůh láska je.
+            Láska jeho rozraduje,
+            duši blahem naplňuje,
+            v pláči, bědách potěšuje.
+            Bůh láska je.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1
+    </repetition>
+</slide>

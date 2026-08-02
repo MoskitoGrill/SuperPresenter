@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="K nebesiam, len k nebesiam">
+    <variant name="čeština">
+        <section name="v1">
+            K nebesiam, len k nebesiam túžby upri let!
+            Po čom svätí vzdychajú, nemôže dať svet.
+            To nájdu tam, kde ich čaká odmena.
+            Náhli, duša zomdlená, spej k nebesiam!
+        </section>
+        <section name="v2">
+            K nebesiam, hľa pri tebe kráča Boží ľud.
+            Znáša v pravej nádeji úzkosti i trud.
+            Ó, spoj sa s ním! Cez boje a mrákavy Pán
+            ťa vedie do slávy, hor k nebesiam!
+        </section>
+        <section name="v3">
+            V nebesiach, len v nebesiach hľadaj žita cieľ!
+            Nestaraj sa priveľa o pozemský diel!
+            To márnosť je. Len čos’ v nebi uložil,
+            nakoľko si Bohu žil, v tom cena je.
+        </section>
+        <section name="v4">
+            K nebesiam ťa predišiel Ježiš Kristus, Kráľ.
+            Mlčky znášal pohanu, tak ti príklad dal.
+            Ó, za ním choď! Drž sa Boha ako On,
+            kráčaj s vierou na Sion! Vždy verný buď!
+        </section>
+        <section name="v5">
+            K nebesiam ťa napokon vznesie smrti let,
+            hoci teraz môžeš sa pred ňou ešte chvieť.
+            Ó, neboj sa! Svitne deň a v svetle tom
+            otcovský si uzrieš dom, v ňom večný diel.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4 v5
+    </repetition>
+</slide>

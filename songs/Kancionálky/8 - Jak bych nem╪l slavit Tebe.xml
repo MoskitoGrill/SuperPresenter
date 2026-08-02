@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Jak bych neměl slavit Tebe">
+    <variant name="čeština">
+        <section name="v1a">
+            Jak bych neměl slavit Tebe,
+            Tobě, Bože, vděčen být?
+            Vždyť tu ve všem kolem sebe
+            Tvoji lásku mohu zřít!
+        </section>
+        <section name="v1b">
+            Nesmírná jen láska je to,
+            která plane v srdci Tvém,
+            dotýká se duše mé
+            a ji chválou naplňuje.
+            Na věky mi láska Tvá
+            nevystihlou zůstává.
+        </section>
+        <section name="v2a">
+            Kdy si jsem byl ztracen v světě,
+            v hříších svých jsem umíral,
+            Tys však z lásky svého Syna,
+            Otče, pro mne v oběť dal.
+        </section>
+        <section name="v2b">
+            Kdo na celém tomto světě
+            pochopí, co činíš Ty?
+            Kdo z andělských tvorů Tvých
+            zakouší tak lásku Tvoji?
+            Na světě mi láska Tvá
+            nevystihlou zůstává.
+        </section>
+        <section name="v3a">
+            Kdo by mohl vystihnouti
+            lásku Tvoji, milost Tvou?
+            Na celé mé zemské pouti
+            žehnáš mi, jdeš přede mnou.
+        </section>
+        <section name="v3b">
+            Dej mi, Pane, tuto milost,
+            abych se Ti zasvětil,
+            zapálený láskou Tvou,
+            Tebe jen chtěl zvyšovati!
+            Na věky mi láska Tvá
+            nevystihlou zůstává.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1a v1b v2a v2b v3a v3b
+    </repetition>
+</slide>

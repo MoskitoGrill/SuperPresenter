@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Pojď k Spasiteli">
+    <variant name="čeština">
+        <section name="v1">
+            Pojď k Spasiteli,
+            pojď ještě dnes,
+            své srdce jemu
+            k oběti nes.
+            On s trůnu svého,
+            kde věčný ples,
+            laskavě volá:
+            "Pojď!"
+        </section>
+        <section name="r1">
+            Sláva, sláva!
+            duše zaplesá,
+            až ta krásná
+            uzří nebesa,
+            pod tíží vin
+            kde již neklesá.
+            Můj Pane,
+            vstříc mi pojď!
+        </section>
+        <section name="v2">
+            Pojď, dítko milé
+            Ježíšův hlas
+            volá i tebe.
+            Pojď, dokud čas!
+            Kdo ví, zda ozve
+            se zítra zas?
+            Ó, nemeškej a
+            pojď!
+        </section>
+        <section name="v3">
+            Pojď, kdo jsi koli,
+            hle, blízko Pán,
+            On za nás všechny
+            byl v oběť dán.
+            Nás všecky volá,
+            zve ze všech stran:
+            Ó, slyš a věř a
+            pojď!
+        </section>
+        <section name="v4">
+            Nuž, nechci déle,
+            již nechci dlít,
+            Tobě chci žíti,
+            Tvým vždycky být.
+            Ty má jsi skála,
+            Ty můj jsi štít,
+            Ty můj jsi Bůh a
+            Pán.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1 v4 r1
+    </repetition>
+</slide>

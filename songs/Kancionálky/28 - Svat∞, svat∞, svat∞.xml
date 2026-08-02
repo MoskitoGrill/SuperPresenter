@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Svatý, svatý, svatý">
+    <variant name="čeština">
+        <section name="v1">
+            Svatý, svatý, svatý,
+            Pán Bůh všemohoucí!
+            Z jitra hned náš chvalozpěv se
+            vznáší v jeho chrám:
+            Svatý, svatý, svatý,
+            v milosti i moci,
+            Trojjediný náš
+            svatý Bůh a Pán.
+        </section>
+        <section name="v2">
+            Svatý, svatý, svatý!
+            Tebe v každé době
+            vykoupených zástup v nebi
+            ctí a velebí.
+            Cherubín a seraf
+            klanějí se Tobě,
+            jenžs tentýž včera,
+            dnes i na věky.
+        </section>
+        <section name="v3">
+            Svatý, svatý, svatý,
+            Tebe skrývá nebe,
+            Tvoji slávu hříšné oko
+            naše nevidí;
+            jenom Ty jsi svatý,
+            žádný mimo Tebe,
+            Ty, plný lásky,
+            moci, čistoty!
+        </section>
+        <section name="v4">
+            Svatý, svatý, svatý
+            Bože všemohoucí,
+            všecky Tvoje skutky slaví
+            svaté jméno Tvé!
+            Svatý, svatý, svatý
+            v milosti a moci,
+            Tys naším Bohem,
+            svatá Trojice!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

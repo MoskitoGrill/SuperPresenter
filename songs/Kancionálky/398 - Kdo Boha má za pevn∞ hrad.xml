@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Kdo Boha má za pevný hrad">
+    <variant name="čeština">
+        <section name="v1">
+            Kdo Boha má za pevný hrad,
+            nic nemusí se zlého bát.
+            I v bouři může kliden být,
+            neb nad ním Bůh svůj drží štít.
+        </section>
+        <section name="v2">
+            On zná i naši každou tíž,
+            čím přítel dál tím On je blíž!
+            On setře každou slzu s řas
+            a promění noc v jitřní čas.
+        </section>
+        <section name="v3">
+            Nad vrchy, doly vodami
+            je ruka Páně nad námi,
+            jen spoléhejme pevně naň
+            a dál se jeho vůle staň!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3
+    </repetition>
+</slide>

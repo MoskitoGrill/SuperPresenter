@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Mně dostalo se slitování">
+    <variant name="čeština">
+        <section name="v1">
+            Mně dostalo se slitování,
+            ač lásky nehoden jsem byl!
+            Je div to, po němž v pyšném přání
+            jsem dříve nikdy netoužil.
+            Teď šťasten jsem a div ten ctím
+            /:a Slitovníka velebím!:/
+        </section>
+        <section name="v2">
+            Já hněvu zasloužil a trestu,
+            však Otec na milost mne vzal
+            a jeho Syn mi přines zvěst tu,
+            když za mne sebe v oběť dal.
+            Odkud a proč dar drahý ten?
+            /:Toť pouhé slitování jen!:/
+        </section>
+        <section name="v3">
+            O tom mé srdce vděčně pěje,
+            o tom chci svědčit každému:
+            všecko, co jsem, jen milost že je,
+            jižs udělil mně hříšnému.
+            Kořím se a Tvou milost ctím,
+            /:Tě, Slitovníka velebím!:/
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3
+    </repetition>
+</slide>

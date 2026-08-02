@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="V zajatí hriechu">
+    <variant name="čeština">
+        <section name="v1">
+            V zajatí hriechu tisíce ľudí bez Krista žijú okolo nás.
+            Dobrotu jeho, golgotskú obeť ktože mi bude zvestovať včas?
+        </section>
+        <section name="r1">
+            Svedčíme skutkom, svedčíme láskou: Kristus je spásy jediný zdroj!
+            Naplní srdcia pokojom, šťastím, keď mu dáme život svoj.
+        </section>
+        <section name="v2">
+            Pozri sa vôkol, úbohých ľudí v zúfalstve vidíš bezradne stáť.
+            Čuješ aj vzdychy ubitých žitím, bremeno z duší treba mi vziať.
+        </section>
+        <section name="v3">
+            Ľudia kde trpia, biedny kde stráda, slzy kde vlhčia strápenú tvár,
+            tam zažiar ohňom, tam pomôž láskou, požehná ťa náš nebeský Kráľ.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1
+    </repetition>
+</slide>

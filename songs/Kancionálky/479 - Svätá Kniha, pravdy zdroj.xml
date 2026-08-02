@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Svätá Kniha, pravdy zdroj">
+    <variant name="čeština">
+        <section name="v1">
+            Svätá Kniha, pravdy zdroj, prevzácny si poklad môj.
+            Kade ísť mám, poradíš, učíš, vo tme posvietiš.
+        </section>
+        <section name="v2">
+            Utešuješ v úzkostiach, dvíhaš, keď ma gniavi strach.
+            Ukazuješ, ako žiť, v pokušení víťaziť.
+        </section>
+        <section name="v3">
+            Srdce blahom napĺňaš a keď treba, pokarháš.
+            Svätá Kniha, pravdy zdroj, prevzácny si poklad môj.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3
+    </repetition>
+</slide>

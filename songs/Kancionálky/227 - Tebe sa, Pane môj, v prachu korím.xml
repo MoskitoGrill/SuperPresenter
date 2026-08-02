@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Tebe sa, Pane môj, v prachu korím">
+    <variant name="čeština">
+        <section name="v1">
+            Tebe sa, Pane môj, v prachu korím, pokorne v Teba sa cele norím.
+            Bez Teba mal som len biedu a žiaľ, až si ma, Baránok, za ruku vzal.
+        </section>
+        <section name="r1">
+            Tebe vždy bližšie, bližšie chcem stáť, nešťastné duše k Tebe chcem zvať.
+            K svätému zápasu vystroj ma sám, urob si vo mne dôstojný chrám.
+        </section>
+        <section name="v2">
+            Na Teba spolieham, nesiem svoj kríž. Poteš ma, pozdvihni, srdce mi stíš.
+            Ty mi vždy rozumieš, dobre ma znáš, keby som zomdleival, víťazstvo dáš.
+        </section>
+        <section name="v3">
+            Nevzďaľuj odo mňa útechy žiar, slzy keď zmáčajú strápenú tvár.
+            Ruku mi podaj a posilni včas, doveď ma v nebeský domova jas.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1
+    </repetition>
+</slide>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Pane Kriste, spása moja">
+    <variant name="čeština">
+        <section name="v1">
+            Pane Kriste, spása moja, v náruč svätú priviň ma,
+            vzdutých vôd keď prúdy hučia, srdce mi chce schvátiť tma.
+        </section>
+        <section name="v2">
+            Skry ma v ťažkých búrkach žitia, kým svoj nedosiahnem cieľ,
+            v bezpečný ma uveď prístav, s Tebou večný daj mi diel.
+        </section>
+        <section name="v3">
+            Zacloň štítom krídel svojich dieťa bezbranné Ty sám.
+            Keď ma prízrak strachu desí, v Tebe záchranu nech mám.
+        </section>
+        <section name="v4">
+            Milosť, plné odpustenie v Tebe sú, ó, Pane môj.
+            Utíš, uzdrav dušu, srdce, daj mi uzrieť domov svoj.
+        </section>
+        <section name="v5">
+            Dobre je Ti dôverovať! Ó, ja chcem vždy Tvojím byť,
+            v nebi chcem Ťa vidieť večne, tu i tam len s Tebou žiť.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4 v5
+    </repetition>
+</slide>

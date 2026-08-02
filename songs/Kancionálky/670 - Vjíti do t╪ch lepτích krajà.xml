@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Vjíti do těch lepších krajů">
+    <variant name="čeština">
+        <section name="v1">
+            Vjíti do těch lepších krajů
+            z pozemského domova,
+            do té země věčných tajů,
+            duše má je hotova.
+            Ó, jak toužím zaletěti
+            vzhůru, k hvězdám zářivým,
+            dál a dál za Pánem spěti,
+            za ním jen, toť heslem mým.
+        </section>
+        <section name="v2">
+            Ach, to bylo požehnání,
+            když tu s učedníky dlel,
+            jeho hlas jak rosa ranní
+            občerstvil, kde v srdci zněl.
+            Ač je v slávu povýšený,
+            přec své dílo koná dál,
+            Ježíš, tnto pohaněný,
+            celé země bude král.
+        </section>
+        <section name="v3">
+            Vroucí dík, že započal jsi
+            též v mém srdci, Mistře můj,
+            konat svoje dílo spásy,
+            vzdělávati stánek svůj.
+            Budiž tedy život celý
+            službě Tvé zde věnován,
+            ó, by rty mé vždycky pěly:
+            Jenom Ježíš, On je Pán!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3
+    </repetition>
+</slide>

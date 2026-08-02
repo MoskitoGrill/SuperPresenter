@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Do smrti chladných, dravých vod">
+    <variant name="čeština">
+        <section name="v1">
+            Do smrti chladných
+            dravých vod
+            byl vnořen Ježíš,
+            žití Pán,
+            pro naši spásu,
+            nový zrod,
+            byl v tmavém hrobě
+            pochován.
+        </section>
+        <section name="v2">
+            Se srdcem cele
+            poslušným
+            chci v jeho stopě
+            věrně jít
+            a životem svým
+            oddaným
+            jej v světě též chci
+            oslavit.
+        </section>
+        <section name="v3">
+            Na Tobě, Pane,
+            jedině
+            má víra cele
+            spočívá,
+            jenžs trpěl, zemřel
+            nevinně.
+            Tě slaví denně
+            duše má.
+        </section>
+        <section name="v4">
+            Tvá oběť a Tvůj
+            těžký kříž
+            jsou moje pevná,
+            jistá skrýš.
+            Chci zemřít světu,
+            sobě již
+            a tam žít věčně,
+            kde Ty dlíš!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

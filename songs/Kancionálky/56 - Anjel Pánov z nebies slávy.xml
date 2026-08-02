@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Anjel Pánov z nebies slávy">
+    <variant name="čeština">
+        <section name="v1">
+            Anjel Pánov z nebies slávy
+            pastierom tam bdelým vraví:
+            Dieťa krásne, utešené
+            leží v jasliach položené.
+        </section>
+        <section name="v2">
+            Betlém, mesto Dávidovo,
+            o ňom dal vám prorok slovo,
+            tam je východ Mesiáša,
+            tam, hľa, všetka vaša spása.
+        </section>
+        <section name="v3">
+            Tým sa tešte v každom čase,
+            Pán že stojí pri nás zase.
+            Podľa tela stal sa bratom
+            veriacich v tom diele svätom.
+        </section>
+        <section name="v4">
+            Hriech vám už nič neublíží,
+            máte istú pomoc v kžíži.
+            Nech lev-diabol vôkol chodí,
+            Boží Syn vás všade vodí.
+        </section>
+        <section name="v5">
+            Zvelebuj ho cirkev celá:
+            Boh ti poslal Spasiteľa,
+            Syna jednorodeného
+            v ľudskom tele zjaveného.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4 v5
+    </repetition>
+</slide>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Vzhůru, bratři, k boji">
+    <variant name="čeština">
+        <section name="v1">
+            Vzhůru, bratři, k boji kráčej každý vpřed,
+            hleď na vůdce Krista, následuj ho hned!
+            V boji proti hříchu povede nás Pán,
+            proč bys jeho cestou za ním jít se bál?
+        </section>
+        <section name="r1">
+            Vzhůru, bratři, k boji, kráčej každý vpřed,
+            hleď ne vůdce Krista, následuj ho hned!
+        </section>
+        <section name="v2">
+            Jako Boží vojsko církev kráčí dál,
+            válčíc proti hříchu proč bys ty jen stál?
+            Jako jedno tělo, jako jeden duch
+            ve víře se spojme, jeden je náš Bůh.
+        </section>
+        <section name="v3">
+            Říše, trůn když mizí, nový povstává;
+            Kristova však církev stále zůstává!
+            Nikdy brány pekla církev nezmohou,
+            Ježíšova slova klamat nemohou.
+        </section>
+        <section name="v4">
+            Vzhůru tedy, bratři, připojte se k nám,
+            přidejte hlas, ruce k jeho oslavám!
+            Sláva, čest a chvála, Kriste, Králi náš,
+            vzdávána buď Tobě tam, kde věrné máš!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1 v4 r1
+    </repetition>
+</slide>

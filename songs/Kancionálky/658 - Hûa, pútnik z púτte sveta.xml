@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Hľa, pútnik z púšte sveta">
+    <variant name="čeština">
+        <section name="v1">
+            Hľa, pútnik z púšte sveta
+            sa náhli k domovu,
+            je v diaľke jeho méta:
+            dôjsť v náruč Kristovu.
+        </section>
+        <section name="v2">
+            Kto okúsil len kvapku
+            z tej čaše večnosti,
+            ten zanechá svet zmätku
+            a jeho márnosti.
+        </section>
+        <section name="v3">
+            Ó, šťastný pútnik zeme,
+            čo Krista miloval.
+            Tu, hľa, len telo zrieme,
+            však ducha Pán si vzal.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3
+    </repetition>
+</slide>

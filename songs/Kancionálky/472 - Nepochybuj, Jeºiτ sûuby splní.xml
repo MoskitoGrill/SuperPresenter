@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Nepochybuj, Ježiš sľuby splní">
+    <variant name="čeština">
+        <section name="v1">
+            Nepochybuj, Ježiš sľuby splní,
+            ver len ďalej, keď aj búrne vlny
+            znenazdania proti tebe vstali.
+            Hore hlavu, spievaj hymnu chvály!
+        </section>
+        <section name="v2">
+            Ku cti Božej, k sláve Baránkovej,
+            On je blízko, On dá sily novej.
+            Nech sa srdce chveje, nech sa trasie,
+            Ježíš v tebe oslávi sa zase.
+        </section>
+        <section name="v3">
+            Nepochybuj, brat môj. Ver len ďalej,
+            na kolenách vypros sily stálej.
+            Vytrvaj vždy verne. Svitne ráno,
+            k večnému dňu vzkriesi ťa hlas Pánov.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3
+    </repetition>
+</slide>

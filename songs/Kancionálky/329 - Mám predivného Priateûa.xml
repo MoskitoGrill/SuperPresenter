@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Mám predivného Priateľa">
+    <variant name="čeština">
+        <section name="v1">
+            Mám predivného Priateľa, je Pánom sveta, slávy,
+            a predsa za mňa život dal, vzor vernosti to krásny.
+            Čo vzácne je, čo dobré mám, mi láska Božia dal,
+            aj za najmenší jeho dar mu patrí vďaka, chvála.
+        </section>
+        <section name="v2">
+            Mám predivného Priateľa, ma vedie púšťou sveta.
+            Tá jeho láska nesmierna mi v ceste zhynúť nedá.
+            Môj viery zrak už jasne zrie tie slávne neba kraje.
+            Tu sčasti iba poznať smiem, tam poznám dokonale.
+        </section>
+        <section name="v3">
+            Mám predivného Priateľa, On celý vesmír riadi,
+            On ochráni aj podpiera, On pomáha i radí.
+            Ja v pokore vždy vyznávam, čo v duši mojej zvučí:
+            mňa od neho už žiaden klam, moc žiadna neodlúči.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3
+    </repetition>
+</slide>

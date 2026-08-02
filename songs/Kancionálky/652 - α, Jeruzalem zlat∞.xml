@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Ó, Jeruzalem zlatý">
+    <variant name="čeština">
+        <section name="v1">
+            Ó Jeruzalem zlatý,
+            ty krásna moja vlasť,
+            keď na teba len myslím,
+            hneď naplní ma slasť.
+            Viem, nebies radosť, slávu
+            tu nepochopí duch
+            a nevládze ju vnímať
+            zrak pozemský a sluch.
+        </section>
+        <section name="v2">
+            Ten s anjelmi sa teší,
+            kto Bohu žil a mrel,
+            z úst mučeníkov svätých
+            vždy zvučí chválospev.
+            Hľa, Baránok sám k živým
+            ich vodí prameňom,
+            nič nechýba im viacej,
+            už všetko majú v ňom.
+        </section>
+        <section name="v3">
+            Len tomu jasot v duši
+            sťa vatra zahorí,
+            kto ako víťaz kráčal
+            aj plaču údolím.
+            Tí, ktorí Svätým Duchom
+            tu boli vodení,
+            tam snehobielym rúchom
+            sú navždy odení.
+        </section>
+        <section name="v4">
+            Ó mesto plné šťastia
+            a nevýslovných krás,
+            ó Jeruzalem zlatý,
+            ó krásna moja vlasť!
+            Kdo za mňa krv a život
+            si v obeť svätú dal,
+            Ty veď ma v kraj ten krásny,
+            môj Spasiteľ a kráľ.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

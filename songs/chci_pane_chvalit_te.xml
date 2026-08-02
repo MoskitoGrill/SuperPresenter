@@ -1,0 +1,60 @@
+<?xml version="1.0" ?>
+<slide name="Chci pane chválit tě">
+    <variant name="čeština">
+        <section name="v1">
+Chci, Pane, chválit Tě, den ode dne víc,
+chci, Pane, chválit Tě, den ode dne víc,
+chci hledat Tvoji tvář a poznávat
+milost Tvou, chci, Tebe chválit
+</section>
+        <section name="v2">
+Ptáci v oblacích, tobě zpívají,
+Stromy na polích, ruce zvedají.
+I já zpívat chci, své ruce pozvednout,
+k oslavě Tvé
+</section>
+        <section name="v3">
+Chci Tebe více znát den ode dne víc,
+Chci Tebe více znát den ode dne víc,
+chci hledat Tvoji tvář a poznávat milost Tvou,
+chci, Tebe více znát
+</section>
+        <section name="v4">
+Ptáci v oblacích, tobě zpívají,
+Stromy na polích, ruce zvedají.
+I já zpívat chci, své ruce pozvednout,
+k oslavě Tvé
+</section>
+        <section name="v5">
+Chci,k tobě lásku mít, den ode dne víc,
+Chci,k tobě lásku mít , den ode dne víc,
+chci hledat Tvoji tvář a poznávat milost Tvou,
+chci,k tobě lásku mít
+</section>
+        <section name="v6">
+Ptáci v oblacích, tobě zpívají,
+Stromy na polích, ruce zvedají.
+I já zpívat chci, své ruce pozvednout,
+k oslavě tvé
+</section>
+        <section name="v7">
+Jen Tobě sloužit chci, den ode dne víc,
+Jen Tobě sloužit chci, den ode dne víc,
+chci hledat Tvoji tvář a poznávat milost Tvou,
+jen Tobě sloužit chci
+</section>
+        <section name="v8">
+Ptáci v oblacích, tobě zpívají,
+Stromy na polích, ruce zvedají.
+I já zpívat chci, své ruce pozvednout,
+k oslavě Tvé
+</section>
+        <section name="v9">
+Chci, Pane, chválit Tě, den ode dne víc,
+chci, Pane, chválit Tě, den ode dne víc,
+hledat Tvoji tvář a poznávat milost Tvou,
+chci, Pane, chválit Tě!
+</section>
+    </variant>
+    <repetition name="default" main="1">v1 v2 v3 v4 v5 v6 v7 v8 v9</repetition>
+</slide>

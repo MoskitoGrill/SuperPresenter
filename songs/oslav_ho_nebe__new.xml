@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<slide name="Oslav ho nebe - new">
+    <variant name="čeština">
+        <section name="v1">
+Oslav ho nebe a vše co je v něm,
+            chvalte ho andělé i celá zem,
+            vzývej svého Pána.
+</section>
+        <section name="v2">
+Klaň se mu slunce i zástupy hvězd,
+            chvalte ho nebesa chvalte ho dnes,
+            vzývej svého Pána.
+</section>
+        <section name="r1">
+Velký v síle, velký v slávě,
+            velký v lásce, Král v nebesích.
+            Velký v boji, velký v moci,
+            velký v církvi, Ježíš je králů král.
+</section>
+    </variant>
+    <repetition name="default" main="1">v1 v2 r1 v1 v2 r1 r1</repetition>
+    <repetition name="JančaDada">v1 v2 r1 v1 v2 r1 r1</repetition>
+</slide>

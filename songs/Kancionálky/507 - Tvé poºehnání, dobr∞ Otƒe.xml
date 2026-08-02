@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Tvé požehnání, dobrý Otče">
+    <variant name="čeština">
+        <section name="v1a">
+            Tvé požehnání, dobrý Otče,
+            nás cestou žití provázej!
+            Rač v Kristu sám nás posvětiti
+            a v srdcích našich chrám svůj měj!
+        </section>
+        <section name="v1b">
+            Ať slova Tvého pravda mocná
+            nás v sluhy Tvé si promění
+            ó, splň tu prosbu, věrný Bože,
+            k své slávě a nám k spasení!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1a v1b
+    </repetition>
+</slide>

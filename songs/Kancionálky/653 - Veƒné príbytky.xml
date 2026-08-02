@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Večné príbytky">
+    <variant name="čeština">
+        <section name="v1">
+            Večné príbytky nám už
+            chystá Pán
+            v zlatej ríši neba.
+            On je slnka jas, On je
+            svätý chrám
+            v zlatej ríši neba.
+        </section>
+        <section name="r1">
+            V zlatej ríši neba,
+            v zlatej ríši neba
+            stíchne bojov hluk;
+            bude večný kľud
+            v zlatej ríši neba.
+        </section>
+        <section name="v2">
+            Iste uzrieme našich
+            predrahých
+            v zlatej ríši neba,
+            rúchom pokoja, šťastia
+            odiatých
+            v zlatej ríši neba.
+        </section>
+        <section name="v3">
+            Slávy koruny k trónu
+            zložíme
+            v zlatej ríši neba.
+            Starosť Spasiteľ navždy
+            odníme
+            v zlatej ríši neba.
+        </section>
+        <section name="v4">
+            Pána Ježiša chváliť
+            budeme
+            v zlatej ríši neba,
+            spievať na veky piesne
+            blažené
+            v zlatej ríši neba.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1
+    </repetition>
+</slide>

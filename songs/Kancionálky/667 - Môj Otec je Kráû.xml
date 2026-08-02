@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Môj Otec je Kráľ">
+    <variant name="čeština">
+        <section name="v1">
+            Môj Otec je Kráľ,
+            dosť bohatstva má,
+            On z pokladov Ducha
+            vždy ochotne dá.
+            Že zdobí ma zlato
+            i rubínov lesk,
+            len Tvorcovi patrí hold,
+            vďaka a česť.
+        </section>
+        <section name="r1">
+            Dieťa kráľovské som,
+            dieťa kráľovské som,
+            tú nesmiernu milosť
+            dal mi Spasiteľ môj.
+        </section>
+        <section name="v2">
+            Môj Otec je Kráľ.
+            Ten zázrak sa stal,
+            keď Pán Ježiš trónu
+            sa ochotne vzdal,
+            keď miesto mňa umrel
+            a opustil hrob.
+            Vlasť nebeskú chystá dnes
+            pre nový rod.
+        </section>
+        <section name="v3">
+            Ach, bude to jas,
+            až Stvoriteľ raz
+            ten hlinený obal
+            už odstráni z nás!
+            Tu zbavený ťarchy
+            a tiesne a vín
+            sa pred Otcom pokloní
+            spasený syn.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1
+    </repetition>
+</slide>

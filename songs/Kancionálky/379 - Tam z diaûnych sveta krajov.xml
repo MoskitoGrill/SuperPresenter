@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Tam z diaľnych sveta krajov">
+    <variant name="čeština">
+        <section name="v1">
+            Tam z diaľnych sveta krajov, kde večný ľad a sneh,
+            i od palmových hájov, kde páli slnko,
+            smäd, cez hory, lesy, pláne, hlas mocný zaznieva:
+            “Nech Slovo Tvoje, Pane, i nám sa rozsieva!”
+        </section>
+        <section name="v2">
+            Sem, kde je žatva mnohá, nech ženci prídu žať,
+            my chceli by sme Boha tiež v pravde ctiť a znať.
+            Kde klam a bludy hrozné až dosiaľ panujú,
+            tam čisté Slovo Božie nech v pravde zvestujú.
+        </section>
+        <section name="v3">
+            Vám, kresťania, sa hlása to Slovo života.
+            Nech roznáša sa spása, kde hriechu temnota.
+            Nech svetlo pravdy žiari, by svitol jasný deň!
+            Nech Krista ctí a slávi ľud každý, celá zem!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3
+    </repetition>
+</slide>

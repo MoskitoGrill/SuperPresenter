@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Vypravuj mi o mém Pánu">
+    <variant name="čeština">
+        <section name="v1">
+            Vypravuj mi o mém Pánu,
+            napiš mi v srdce tu zvěst!
+            Vypravuj poselství vzácné,
+            ze všech jež nejlepší jest.
+            Pěj, jako andělé pěli,
+            naši když navštívil zem:
+            "Sláva na výsostech Bohu,
+            pokoj buď zemi, lidem všem!"
+        </section>
+        <section name="r1">
+            Vypravuj mi o mém Pánu,
+            napiš mi v srdce tu zvest,
+            vypravuj poselství vzácné,
+            ze všech jež nejlepší jest.
+        </section>
+        <section name="v2">
+            Pověz, jak na poušti lačněl,
+            vyprávěj o dávných dnech,
+            pokoušen pro naše hříchy,
+            v zápasech zvítězil všech.
+            Pověz o těžkých dnech práce,
+            jak za nás trpěl a mřel,
+            pohrdán, opuštěn všemi,
+            k všechněm však laskavě se měl.
+        </section>
+        <section name="v3">
+            Vypravuj o kříži hrubém,
+            na kterém bolestně lkal,
+            zapečetěn jak byl v hrobě,
+            třetí den slavně pak vstal.
+            Ó, jak té lásky vstříc září
+            z dávných těch zvěstí mi jas,
+            radostí plní mé srdce,
+            rád o ní slyžím zas a zas.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1
+    </repetition>
+</slide>

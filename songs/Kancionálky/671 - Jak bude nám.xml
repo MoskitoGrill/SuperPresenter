@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Jak bude nám">
+    <variant name="čeština">
+        <section name="v1a">
+            Jak bude nám,
+            až po skončeném boji
+            si oddechneme
+            jednou naposled,
+            a z této země
+            ve vlast věčnou svoji
+            se odeberem
+            v onen lepší svět,
+        </section>
+        <section name="v1b">
+            únav všechněch
+            pozbaveni cele
+            si setřem s čela
+            cesty prach  pot,
+            tam svého
+            pozdravím Spasitele,
+            kde věčný On nám
+            schystal lásky hod.
+        </section>
+        <section name="v2a">
+            Jak bude nám,
+            až rouchem slávy věčné
+            v nebesích budem
+            přioděni stát
+            a plesat budem
+            v slasti nekonečné,
+            že posléz všechněch
+            zproštěni jsme vad
+        </section>
+        <section name="v2b">
+            neb hříchu moc nás
+            nedotkne se více,
+            s níž víry boj zde
+            stále nám je vést;
+            tam vprostřed
+            lidu zvoleného dlíce,
+            nezvíme už, co
+            osten hříchu jest.
+        </section>
+        <section name="v3a">
+            Jak bude nám,
+            až v rozechvění slavném
+            v sluch zazní nám hlas
+            vykoupených těch,
+            jak v svatém žáru,
+            nikdy neúnavném,
+            se žalmy chvály
+            vinou z prsou všech.
+        </section>
+        <section name="v3b">
+            Jak celým nebem
+            chvalozpěv ten chvěje,
+            jak zvuky moře
+            rozbouřených vln
+            a zas jak
+            vánek líbezný když věje,
+            se vznáší k trůnu,
+            sladké něhy pln.
+        </section>
+        <section name="v4a">
+            Jak bude nám,
+            až plni lásky svaté
+            se přivineme
+            vroucně k Ježíši,
+            až tužby naše,
+            v hloubi srdce vzňaté,
+            se v domě jeho
+            navždy utiší.
+        </section>
+        <section name="v4b">
+            Až zmizí víra,
+            naděje též mine,
+            neb vidět budem
+            Pána tváří v tvář,
+            i na nás
+            jasnost jeho tváře splyne
+            a oblaží nás
+            jeho slávy zář.
+        </section>
+        <section name="v5a">
+            Jak bude nám,
+            až co zde nevídáno,
+            co nezachytil
+            nikdy lidský sluch,
+            co srdcím není
+            pochopiti dáno,
+            to připravil všem
+            věřícím svým Bůh!
+        </section>
+        <section name="v5b">
+            Nuž, spějme tedy
+            kupředu jen stále,
+            vzdorujme věrou
+            pokušením všem!
+            Však sobě
+            odpočinem dokonale,
+            až vejdem v onu
+            zaslíbenou zem.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1a v1b v2a v2b v3a v3b v4a v4b v5a v5b
+    </repetition>
+</slide>

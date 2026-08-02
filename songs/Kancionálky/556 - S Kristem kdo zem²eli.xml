@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="S Kristem kdo zemřeli">
+    <variant name="čeština">
+        <section name="v1">
+            S Kristem kdo zemřeli,
+            s ním také budou žíti.
+            Ve křtu s ním pohřbeni,
+            díl v světle budou míti.
+            Povstali k životu,
+            jim úkol slavný dán:
+            Jeho být předvojem,
+            jít do všech světa stran.
+        </section>
+        <section name="v2">
+            Drahá krev Kristova
+            smyla s nich hřích i vinu.
+            Duch svatý svědčí jim,
+            že mají právo synů.
+            Po cestě úzké již
+            jim kyne spásy cíl,
+            září jim Kristův kříž
+            a v Bohu jejich díl.
+        </section>
+        <section name="v3">
+            Pokorně, Pane můj,
+            se kladu ve Tvou náruč,
+            Duchem svým obživ mne,
+            Tvou vůli konat nauč!
+            S výsosti silou mne
+            pro svatý zmocni boj,
+            pod jhem Tvým rozkošným
+            mé srdce upokoj!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3
+    </repetition>
+</slide>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Bolesť, ó bolesť preveľká">
+    <variant name="čeština">
+        <section name="v1">
+            Bolesť, ó bolesť preveľká
+            hlodá v srdci mojom.
+            Život už z neho uniká,
+            kto dá silu k bojom?
+            Pre mňa už nieto pomoci,
+            v smrteľnej mojej nemoci,
+            niet pre mňa v svete pomoci.
+        </section>
+        <section name="v2">
+            Pán Ježiš rany otvoril
+            duši na spasenie.
+            Pekelné brány rozboril,
+            dal mi vykúpenie.
+            Nehľadám ľudskej pomoci
+            v smrteľnej svojej nemoci,
+            svet nemá pre mňa pomoci.
+        </section>
+        <section name="v3">
+            Srdce ja svoje dokorán
+            otváram dnes pred ním.
+            Lásky moc cítim z jeho rán,
+            jemu dušu zverím.
+            Od neho čakám pomoci
+            v smrteľnej svojej nemoci,
+            svet nemá pre mňa pomoci.
+        </section>
+        <section name="v4">
+            Pane, daj balzam na rany,
+            pre dušu i telo.
+            Hľadím už smrti za brány,
+            všetko uletelo.
+            Pre mňa už niet dňa, niet noci
+            v smrteľnej mojej nemoci,
+            niet pre mňa v svete pomoci.
+        </section>
+        <section name="v5">
+            Telo keď padne do hrobu,
+            Pane, dušu Ty spas!
+            Verím, že počká na dobu,
+            až ju vzbudí Tvoj hlas.
+            Od Teba čakám pomoci,
+            v smrteľnej svojej nemoci,
+            Ježišu Kriste, spomôž mi!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4 v5
+    </repetition>
+</slide>

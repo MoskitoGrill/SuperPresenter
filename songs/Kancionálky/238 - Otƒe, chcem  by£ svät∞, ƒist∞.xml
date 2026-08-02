@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Otče, chcem  byť svätý, čistý">
+    <variant name="čeština">
+        <section name="v1">
+            Otče, chcem byt svätý, verím, že ma posvätíš,
+            krvou môjho Spasiteľa nad sneh belšie očistíš.
+        </section>
+        <section name="r1">
+            Ty ma posväť, Pane môj, srdce čisté vo mne stvor.
+            K Tebe zrak upieram, na Tvoj kríž sa spolieham.
+        </section>
+        <section name="v2">
+            Pod bremenom mnohých hriechov vzdychám, volám znavený.
+            Zbav ma ťarchy, nech noc temná v jasný deň sa pramení.
+        </section>
+        <section name="v3">
+            Dobrého nič nieto vo mne, na Teba len spolieham,
+            iba pre krv Baránkovu v svätý život nádej mám.
+        </section>
+        <section name="v4">
+            U nôh Tvojich, drahý Otče, prosí dieťa skrúšené:
+            z milosti ma učiň svätým, daj mi plné spasenie.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1 v4 r1
+    </repetition>
+</slide>

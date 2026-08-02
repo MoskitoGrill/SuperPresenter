@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Tak svieťme ako hviezdy">
+    <variant name="čeština">
+        <section name="v1">
+            Tak svieťme ako hviezdy, keď svetom vládne noc.
+            Zvesť roznášajme vzácnu, Slovo je Božia moc.
+        </section>
+        <section name="r1">
+            Svieťme, svieťme, sťa hviezdy jagavé,
+            skutkami lásky zažiarme v hriechu tme.
+        </section>
+        <section name="v2">
+            Hľa, mnohí ešte blúdia a svetla nemajú,
+            nuž objasňujme všetkým Golgotu predrahú.
+        </section>
+        <section name="v3">
+            Hoc malá naša lampa, však veľký je náš Pán.
+            Ten jasne do tmy žiari, kto v skúškach nezastal.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1
+    </repetition>
+</slide>

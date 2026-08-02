@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Přihotov se, duchu můj">
+    <variant name="čeština">
+        <section name="v1">
+            Přihotov se, duchu můj,
+            k modlitbám a bdění;
+            odvěký, věz, škůdce tvůj,
+            nikdy dalek není;
+            jeho lest z pravdy cest
+            svodí dřív, než tuší,
+            dřímající duši.
+        </section>
+        <section name="v2">
+            Prociť ze sna hříchů svých,
+            vstaň a chop se ruky,
+            jež i tvůj chce smazat hřích,
+            zbavit věčné muky.
+            Ztracen ten, smrti den
+            koho znenadání
+            v hříšném stihne spaní.
+        </section>
+        <section name="v3">
+            di, ať tobě neškodí
+            svět svou lstí ni zbrojí;
+            těm, kdož v pravdě nechodí,
+            nedej ruky svojí.
+            Rád by svět strh tě zpět,
+            ó, pak po všem veta:
+            chraň se přízně světa!
+        </section>
+        <section name="v4">
+            Proto k bdění, k modlení
+            přihotov mne, Pane.
+            V bídě, strasti, soužení,
+            nechť se co chce stane:
+            Nedbám nic, neb mi vstříc,
+            vše když vůkol hyne,
+            Spasitel můj kyne.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

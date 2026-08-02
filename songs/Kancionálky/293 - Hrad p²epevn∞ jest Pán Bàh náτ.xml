@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Hrad přepevný jest Pán Bůh náš">
+    <variant name="čeština">
+        <section name="v1">
+            Hrad přepevný jest Pán Bůh náš, zbroj výborná i síla;
+            Onť nás chrání, když satanáš své proti nám vysílá.
+            Ten starý nepřítel zkazit by nás chtěl, moc a mnohá lest
+            hrozná zbraň jeho jest, v světě nemá rovného.
+        </section>
+        <section name="v2">
+            Nástroj lidský jest v tom špatný, snadníť jsme my k zmožení.
+            Však hájí nás Rek udatný, jejž Bůh nám dal k spasení;
+            kdo by ten byl, nevíš? Jest Kristus Ježíš,
+            Bůh a Pán všeho, a neníť jiného, pole jistě obdrží.
+        </section>
+        <section name="v3">
+            Byť svět - ďáblů plný byl, chtějících nás shltiti;
+            však žádný by z nás neubyl, neubyl, musejíť odstoupiti!
+            Kníže světa toho, ač bouří mnoho, co chce,
+            nespraví, soud Boží ho dáví, slovíčko jej porazí.
+        </section>
+        <section name="v4">
+            Ďábel, svět musejí jistě ustoupit slovu jeho,
+            neb s námi jest v každém místě Pán s dary Ducha svého.
+            Přijde-li na zmatek čest, hrdlo, statek:
+            nechť sobě mají, nic tím nezískají, nebes nám však nechají.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

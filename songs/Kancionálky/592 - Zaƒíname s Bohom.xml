@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Začíname s Bohom">
+    <variant name="čeština">
+        <section name="v1">
+            Začíname s Bohom
+            tento nový rok.
+            On nám bude žehnať
+            každý další krok.
+            Počúvame nežný
+            tichý Otcov hlas,
+            ktorým milo teší,
+            vyučuje nás.
+        </section>
+        <section name="r1">
+            Napred, deti svetla,
+            netreba sa báť,
+            Božie slovo platnosť
+            má i bude mať!
+        </section>
+        <section name="v2">
+            "S tebou som ja, tvoj Boh,
+            v pred bez strachu hľaď!
+            Podopriem ťa, zdvihnem,
+            večne ťa mám rád.
+            Povolaný navždy,
+            vyvolený môj,
+            predo mnou choď v pravde
+            celý život svoj!"
+        </section>
+        <section name="v3">
+            Večná Božia láska
+            starosť o nás má,
+            smädným dušiam zdarma
+            živú vodu dá.
+            Posilňuje slabých,
+            smutných poteší,
+            hriešne duše spasí,
+            k sebe pojme si
+        </section>
+        <section name="v4">
+            Nesklame Pán nikdy,
+            neopustí nás.
+            Jeho večnú zmluvu
+            neporuší čas.
+            Jeho sľubom verme
+            netreba sa báť!
+            Boh nám v novom roku
+            bude pomáhať.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1 v4 r1
+    </repetition>
+</slide>

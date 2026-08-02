@@ -1,0 +1,34 @@
+<?xml version="1.0" ?>
+<slide name="On je vítěz">
+    <variant name="čeština">
+        <section name="v1">
+Lásku svou jsi poslal k nám
+Hříšníkům jsi daroval
+Zlomil's hřích a vinou mou
+Stojím teď před tváří Tvou
+</section>
+        <section name="v2">
+Věrnost Tvá mě provází
+S Tebou zvládnu cokoli
+Nebojím se projít tmou
+Ježíš můj Pán je cestou mou
+</section>
+        <section name="v3">
+On je Vítěz, On je Vítěz
+Smrt prohrála, On se vrátí
+Ježíš příjde, pro mě přijde
+Sláva Králi navěky
+</section>
+        <section name="v4">
+Ty jsi první poslední
+Naděje, vykoupení
+Přišel's hledat ztracené
+Zaplatil jsi výkupné
+</section>
+        <section name="b1">
+Ať jméno Tvé je oslaveno
+Je oslaveno, je oslaveno
+</section>
+    </variant>
+    <repetition name="default" main="1">v1 v2 v3 v4 b1</repetition>
+</slide>

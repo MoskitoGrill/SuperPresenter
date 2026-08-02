@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Až práci všechnu zde složím">
+    <variant name="čeština">
+        <section name="v1">
+            Až  práci všechnu zde složím a spěch,
+            dostihnu bezpečné krásný ten břeh,
+            Pán můj kde splnění tužeb dá všech,
+            ó jaká po věky bude to slast!
+        </section>
+        <section name="r1">
+            To bude slast, to bude slast,
+            to bude slast, to bude slast,
+            až v jeho přesvatou popatřím tvář,
+            to bude slast, ach to bude slast!
+        </section>
+        <section name="v2">
+            Až On mne přenese u milosti tam,
+            od něho místo kde schystané mám,
+            největším blahem mým On bude sám,
+            ó jaká po věky bude to slast!
+        </section>
+        <section name="v3">
+            Družina přátel tam shledá se zas,
+            v mohutný chvalozpěv spojíme hlas,
+            a když Pán pozdraví úsměvem nás,
+            ó jaká po věky bude to slast!
+        </section>
+        <section name="v4">
+            Řadami svatých svých až půjde Pán,
+            pak předním pokleknu neodehnán
+            a jizvy políbím těch jeho ran:
+            ó jaká po věky bude to slast!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1 v4 r1
+    </repetition>
+</slide>

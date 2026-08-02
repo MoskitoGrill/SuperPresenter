@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Zem k súdu zreje">
+    <variant name="čeština">
+        <section name="v1">
+            Zem k súdu zreje, hore zrak, hľa, žatva blízko je.
+            Ach, neklam sa, veď každý znak deň Pánov zvestuje.
+            Už žltne lístie, belie klas a sparno, dusno vôkol nás.
+            Oj, žatva blízko je!
+        </section>
+        <section name="v2">
+            Dych búrky, víchra hrozného tak veje v sveta ríš,
+            dni naše zlé, dňom Noeho sú blízke, necítiš?
+            Schnie láska, útlak zavláda a srdce ľudské ochláda.
+            Oj, žatva blízko je!
+        </section>
+        <section name="v3">
+            Hľa, kosci tiahnu do poľa, ich vážny, tichý hlas
+            ni zloba sveta nezdolá; on zo sna budí nás.
+            Veď anjelom už určené v snop zviazať klasy skosené.
+            Oj, blízko žatvy čas!
+        </section>
+        <section name="v4">
+            Tak ujdi súdu strašnému, kto môžeš, ujdi len!
+            Čo váhaš? K ľudu Božiemu sa pripoj, kým je deň.
+            Poď k Ježišovi ešte dnes a potom šťastne zvolať smieš:
+            Príď, Pane! Amen. Príď!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

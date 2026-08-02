@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Všichni vděční">
+    <variant name="čeština">
+        <section name="v1">
+            Všichni vděční, pospěšte,
+            píseň díků způvejte!
+            Žeň je šťastně v stodole,
+            sníh než lehne na pole;
+            dobrý Bůh, náš Stvořitel,
+            o všechny nás péči měl.
+            K němu všichni pospěšte,
+            píseň díků zpívejte!
+        </section>
+        <section name="v2">
+            Stinný sad a žírný lán
+            požehnal nám dobrý Pán.
+            Jaro, dítě naděje,
+            selo květů závěje.
+            Pod laskavou oblohou
+            všecko zrálo pohodou.
+            Podzim jako štědrý král
+            z hojných zásob rozdával.
+        </section>
+        <section name="v3">
+            Vše to, Bože, z Tebe je,
+            Ty jsi naše naděje!
+            Požehnání Ty jsi zdroj,
+            k díkům naše srdce spoj!
+            Proto, vděční, pospěšte,
+            píseň díků zpívejte,
+            k Pánu všichni pospěšte,
+            zažeň díky vzdávejte!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3
+    </repetition>
+</slide>

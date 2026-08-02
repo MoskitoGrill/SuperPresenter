@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Slyším, Pane, jak déšť z nebe">
+    <variant name="čeština">
+        <section name="v1">
+            Slyším, Pane, jak déšť z nebe,
+            jejžs dal z lásky nesmírné,
+            v dáli šumí; prosím Tebe,
+            svlaž tou rosou také mne!
+            Také mne, také mne,
+            svlaž tou rosou také mne!
+        </section>
+        <section name="v2">
+            Otče můj, zda pominouti
+            chceš své dítě zemdlené?
+            Ach ne, Ty znáš, co mne rmoutí;
+            viz můj Otče, také mne!
+            Také mne, také mne,
+            viz můj Otče, také mne!
+        </section>
+        <section name="v3">
+            Jezu, připusť k uchu svému
+            lkání duše znavené!
+            Přijď, můj Pane, k ubohému,
+            obmyj, očisť také mne!
+            Také mne, také mne,
+            obmyj, očisť také mne!
+        </section>
+        <section name="v4">
+            Duchu svatý, též v mém nitru
+            konej dílo milostné;
+            tmy ať ustoupí již jitru,
+            uchvať mocně také mne!
+            Také mne, také mne,
+            uchvať mocně také mne!
+        </section>
+        <section name="v5">
+            Pane, Ty jsi v slibech stálý,
+            svazky Tvé jsou přepevné;
+            Pane, když tak žehnáš v dáli,
+            požehnej, ach, také mne!
+            Také mne, také mne,
+            Pane, žehnej také mne!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4 v5
+    </repetition>
+</slide>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Pán Ježiš je priateľ detí">
+    <variant name="čeština">
+        <section name="v1">
+            Pán Ježiš je priateľ detí,
+            On nás veľmi miluje.
+            V našom srdci dobro nieti,
+            k nám sa s láskou znižuje.
+            On nás vedie, On nás chráni,
+            všetkých ľudí miluje.
+        </section>
+        <section name="v2">
+            Pán Ježiš je priateľ detí,
+            v živote nás sprevádza.
+            On nás hreje, On nám svieti,
+            k vode živej privádza.
+            Pán Ježiš je priateľ detí,
+            On nás verne sprevádza.
+        </section>
+        <section name="v3">
+            Pán Ježiš je priateľ detí,
+            svojím slovom učí nás.
+            Chválospev náš k nebu letí,
+            do tej ríše večných krás.
+            Jemu patrí naša vďaka,
+            svojím slovom vedie nás.
+        </section>
+        <section name="v4">
+            Pán Ježiš je priateľ ľudí,
+            príde zase z neba k nám.
+            On, čo spravodlivo súdi,
+            príde ako Kráľ a Pán.
+            Preto buďme pripraveni,
+            príde večnej slávy Kráľ.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

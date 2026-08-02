@@ -1,0 +1,30 @@
+<?xml version="1.0" ?>
+<slide name="Ja utekám za tebou sám">
+    <variant name="čeština">
+        <section name="v1">
+Hľa, stojím pri dverách s pozvaním na perách
+ku mne sa privinúť.
+Všetko už dolieha tak dlho na teba,
+poď ku mne spočinúť.
+</section>
+        <section name="r1">
+Ja utekám za tebou sám.
+Vnímaj veľkosť lásky, ktorú k tebe mám.
+Už nemaj strach, mám ťa v rukách.
+Ja som tvojou silou, kráčať budeš po vodách.
+</section>
+        <section name="v2">
+Hľaď, pozdvihni svoj zrak. Budúcnosť dokorán.
+Mám s tebou veľký plán.
+Čo bolo, niet už viac. Nové už začínam.
+Ja všetko obnovím.
+</section>
+        <section name="v3">
+Každučkú hviezdu tvorím.
+Nech pamätáš, že som tvojim.
+To všetko je pre teba.Veľdielom ty si mojím.
+Pre teba spievam, horlím. Tá pieseň je pre teba.
+</section>
+    </variant>
+    <repetition name="default" main="1">v1 r1 v2 r1 v3 r1</repetition>
+</slide>

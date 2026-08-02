@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Ježiša viac chcem poznávať">
+    <variant name="čeština">
+        <section name="v1">
+            Ježiša viac chcem poznávať,
+            o ňom viac vedieť rozprávať,
+            viac brať z jeho plnosti,
+            viacej ho chváliť z vďačnosti.
+        </section>
+        <section name="r1">
+            Viac Ježiša poznať,
+            viac Ježiša poznať,
+            veď je On Boh môj, Pán a Kráľ,
+            z lásky sa za mňa v obeť dal.
+        </section>
+        <section name="v2">
+            Viac svojim blížnym svedčiť chcem,
+            že On je láska, keď to viem.
+            Nech každý hriešnik o tom zvie,
+            Pán Ježiš že ho miluje.
+        </section>
+        <section name="v3">
+            Dozvedieť sa ja túžim viac,
+            ako On k sebe volá nás,
+            uzdraviť všetkých chorých vie,
+            život je On i vzkriesenie.
+        </section>
+        <section name="v4">
+            Počuť chcem ako z vlasti krás
+            príde On na zem druhý raz,
+            kráľovstvo svoje zaujať,
+            spasených k sebe v nebo vziať.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1 v4 r1
+    </repetition>
+</slide>

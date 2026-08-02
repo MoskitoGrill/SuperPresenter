@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Požehnáním Ty učiň ma">
+    <variant name="čeština">
+        <section name="v1">
+            Požehnáním Ty učiň ma,
+            Pane môj predrahý,
+            nech som Ti plný vďačnosti,
+            na veky poddaný.
+        </section>
+        <section name="r1">
+            Nech nová pieseň
+            zaznieva
+            zo srdca môjho vždy.
+            Požehnáním Ty
+            učiň ma
+            pre smutné životy.
+        </section>
+        <section name="v2">
+            Požehnanai mi, Pane môj,
+            do srca vlej,
+            plameňom Ducha svätého
+            k službe ma rozohrej.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1
+    </repetition>
+</slide>

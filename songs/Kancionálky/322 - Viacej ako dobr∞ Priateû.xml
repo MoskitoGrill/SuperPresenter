@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Viacej ako dobrý Priateľ">
+    <variant name="čeština">
+        <section name="v1">
+            Viacej ako dobrý Priateľ, viacej ako život sám
+            si mi, Spasiteľu drahý, aké šťastie, že Ťa mám!
+        </section>
+        <section name="r1">
+            S Tebou len, s Tebou len, s Tebou len, s Tebou len
+            celu cestou k sláve neba túžim kráčať s Tebou len!
+        </section>
+        <section name="v2">
+            Posmech, pohanenie, bolesť, znášať bez odporu chcem,
+            vzdám sa vďačne svetskej slávy, keď len s Tebou chodiť smiem.
+        </section>
+        <section name="v3">
+            Veď ma dolinami, tieňom, búrkou života ma nes
+            do tých príbytkov, čo chystáš, kde len vierou bývam dnes.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1
+    </repetition>
+</slide>

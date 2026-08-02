@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Nežiaľ, že života púť">
+    <variant name="čeština">
+        <section name="v1">
+            Nežiaľ, že života púť často je tŕnistá,
+            vytrvaj v utrpení, keď trpíš pre Krista.
+            Zmužilo vytrvaj, pomôže nebies Kráľ.
+            Vytrvaj v utrpení, keď trpíš pre Krista.
+        </section>
+        <section name="v2">
+            Na to sme na svet prišli, na to sme poslaní:
+            vtedy tiež Boha chváliť, keď sme ním skúšaní.
+            Vtedy tiež Boha chváľ, vo viere vytrvaj,
+            oslavuj Hospodina, aj deď si skúšaný.
+        </section>
+        <section name="v3">
+            Bez skúšok, utrpenia budeme žiť až tam,
+            kde všetkým vyvoleným pripravil miesto Pán.
+            Bude tam plno chvál, večnú mu vďaku vzdám,
+            kde všetkým vyvoleným pripravil miesto Pán.
+        </section>
+        <section name="v4">
+            Kto v skúškach, v utrpení víťazne vytrvá,
+            tomu Pán na hostine korunu slávy dá.
+            Verne kto vytrvá, radosť a pokoj má,
+            na večnú svadbu toho Pán Ježiš povolá.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

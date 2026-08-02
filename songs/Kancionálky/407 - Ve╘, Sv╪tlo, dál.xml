@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Veď, Světlo, dál">
+    <variant name="čeština">
+        <section name="v1">
+            Veď, Světlo, dál, svou záři rozšiřuj, ó, veď mne vpřed!
+            Noc tmavá jest a dalek domov můj, ó, veď mne vpřed!
+            Veď kroky mé, já nechci vidět v dál,
+            mně dosti je, bych na krok cestu znal.
+        </section>
+        <section name="v2">
+            Ne vždycky v touze své jsem prosil tak, bys ved mne dál.
+            Svou cestou rád jsem chodil, nyní však Ty veď mne dál.
+            Mne vedla pýcha má a sváděl svět
+            v mé slabosti; těch nevzpomínej let!
+        </section>
+        <section name="v3">
+            Tak dlouho provází mne světlem svým Tvá zářná moc
+            přes hory, tmou a stínu údolím, než mine noc.
+            A pak už spatřím úsměv drahých svých,
+            již předešli mne do bran nebeských!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3
+    </repetition>
+</slide>

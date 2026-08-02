@@ -1,0 +1,27 @@
+<?xml version="1.0" ?>
+<slide name="Vždy s námi je">
+    <variant name="čeština">
+        <section name="v1">
+Je pro mě stále záhadou:
+Jak mohla Boží dlaň tak malá být?
+ty drobné prsty tápající tmou,
+ty samé ruce měly hvězdy spočtené.
+</section>
+        <section name="r1">
+Haleluja, haleluja
+spasil svět z nebes k nám šla láska Tvá.
+Haleluja, haleluja
+pokorný pokorný Boží syn přišel k nám a s námi žil.
+</section>
+        <section name="v2">
+Je pro mě stále záhadou: Jak ten, jež spatřil věků zrození.
+Ten jemuž andělé své písně zpívali,
+Mesiášem byl a přesto v jeslích spal
+</section>
+        <section name="v3">
+Narozený jak dítě v Betlémě,
+to kvůli nám sám Ježíš vzdal se slávy své.
+</section>
+    </variant>
+    <repetition name="default" main="1">v1 r1 v2 r1 v3</repetition>
+</slide>

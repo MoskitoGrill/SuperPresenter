@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Ó, ty prežiadúce ráno">
+    <variant name="čeština">
+        <section name="v1">
+            Ó, ty prežiadúce
+            ráno nedeľné,
+            vítam tvoje
+            skvostné žiarenie!
+            Chmúrné tône zmizli
+            ako trápny sen,
+            ty nám nesieš
+            milý deň.
+        </section>
+        <section name="r1">
+            Deň tichý, svetlom prežiarený,
+            závdavok neba už na zemi.
+            Chmúrne tône zmizli
+            ako trápny sen.
+            Vítaj, milý Pánov deň!
+        </section>
+        <section name="v2">
+            Skončilo sa zdarne
+            dielo šiestich dní,
+            v duši vládne
+            pokoj posvätný.
+            Tešíme sa z týchto
+            odpočinku chvíľ,
+            veď ich Pán Boh posvätil.
+        </section>
+        <section name="v3">
+            Zasväcujme Pánu
+            tento krásny deň,
+            pozdvihnime Slova
+            pochodeň.
+            Z diaľky nám už kynie
+            večnej spásy vlasť,
+            Pán kde zvíta všetkých nás
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1
+    </repetition>
+</slide>

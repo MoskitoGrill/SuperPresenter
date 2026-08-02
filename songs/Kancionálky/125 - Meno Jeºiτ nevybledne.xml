@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Meno Ježiš nevybledne">
+    <variant name="čeština">
+        <section name="v1">
+            Meno Ježiš nevybledne,
+            nezničí ho času zub.
+            Menu Ježiš večná sláva,
+            chvála zo sŕdc vzdaná buď!
+            Posolstvom je mladym, starým,
+            pučí novým životom,
+            v ňom sa milosť, vykúpenie,
+            ponúka dnes s jasotom.
+        </section>
+        <section name="r1">
+            Meno Ježiš nad svet drahé,
+            lúčom slnka srdcu je,
+            v mene Ježiš vykúpenie
+            Boh nám z lásky daruje.
+        </section>
+        <section name="v2">
+            Meno Ježiš zazni zvučne,
+            celou zemou nech to znie:
+            svet len v mene Ježiš nájde
+            štiastie, pokoj, zmierenie.
+            Pred Ježišom pŕchne zloba,
+            pred Ježišom mizne tma,
+            v jeho mene spravodlivosť,
+            nový život začína.
+        </section>
+        <section name="v3">
+            Meno Ježiš jasne žiari,
+            aj keď príde žiaľu noc.
+            Duša v ťažkých žitia bojoch
+            z neho čerpá spásnu moc.
+            Ježiš svietiť bude, hoc by
+            zhasla hviezda posledná,
+            pluky vykúpených sklonia
+            pred ním svoje kolená.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1
+    </repetition>
+</slide>

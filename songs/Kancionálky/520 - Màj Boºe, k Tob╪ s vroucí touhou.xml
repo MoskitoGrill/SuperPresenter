@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Můj Bože, k Tobě s vroucí touhou">
+    <variant name="čeština">
+        <section name="v1">
+            Můj Bože, k Tobě s vroucí touhou
+            se duše moje upíná:
+            ó, utvrď kroky mojich nohou,
+            Ty útěcho má jediná!
+            Ať nejsem jako stébla v bouři,
+            na všechny strany zmítaná,
+            leč skála v rozbouřeném moři,
+            již vlnobití nezdolá!
+        </section>
+        <section name="v2">
+            Jak břečťan zelený kol kmene
+            své pevně vine úponky,
+            ní v krutém vichru nezahyne,
+            až v sobě sám je slabounký:
+            tak chtěl bych s každou mdlobou svojí
+            ke kříži tvému přilnouti
+            a k Tobě, Božské síly zdroji,
+            své snahy všechny upnouti.
+        </section>
+        <section name="v3">
+            Ó, dej i v nejkrutějších bojích,
+            kdy nikde pomoci viděti,
+            bych uměl dlít u nohou tvojich
+            a duši v Tobě tišiti!
+            A když pak skončím časné boje
+            a vejdu v město vítězů,
+            tu opět všechny snahy svoje
+            jen Tobě v oběť ponesu.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3
+    </repetition>
+</slide>

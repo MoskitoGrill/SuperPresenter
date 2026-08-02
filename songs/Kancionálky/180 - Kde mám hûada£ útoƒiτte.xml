@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Kde mám hľadať útočište">
+    <variant name="čeština">
+        <section name="v1">
+            Kde mám hľadať útočište?
+            Duša hynie v úzkosti.
+            Utíšenie nájdeš iste
+            v Ježišovej blízkosti.
+        </section>
+        <section name="v2">
+            Kto zaženie hriecha mraky?
+            Smrť ma desí neistá.
+            Na Ježiša upri zraky,
+            v jeho krvi očista.
+        </section>
+        <section name="v3">
+            Kto mi podá ruku k boju?
+            Ja sa bojím, keď som sám.
+            Pán ponúka pomoc svoju,
+            vraví: "Ja ti silu dám."
+        </section>
+        <section name="v4">
+            Čo ma čaká, až raz hlavu
+            z hrobu zdvihnem napokon?
+            Ježiš pripravil ti slávu,
+            celé nebo dáti On.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

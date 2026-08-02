@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Kupředu vždy dál a dále">
+    <variant name="čeština">
+        <section name="v1">
+            Kupředu vždy dál a dále, budiž, bratři, heslem nám!
+            Za svými vůdcem neustále spějme k nebes výšinám.
+            Kupředu, hle, volná dráha v Kristu nám se zjevuje;
+            za ním kráčeti kdo váhá, milosti se zbavuje.
+        </section>
+        <section name="v2">
+            Kupředu vždy spějme k cíli, vykupujme  věrně čas!
+            Ztracenou víc nelze chvíli přivolati nazpět zas.
+            Kupředu! Čas rychle běží, nic jej nemůž’ zdržeti;
+            nevěrné kdo s hřivnou těží, věčně bude želeti!
+        </section>
+        <section name="v3">
+            Kupředu! Nuž, nechtěj dlíti, velký je ti úkol dán;
+            pracuj, chceš-li palmu vzíti, kterou věrným chystá Pán.
+            Kupředu! Slož marné tíže, v odění se Boží stroj!
+            Vítězství nám kyne s kříže, v Kristu spásy naší zdroj!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3
+    </repetition>
+</slide>

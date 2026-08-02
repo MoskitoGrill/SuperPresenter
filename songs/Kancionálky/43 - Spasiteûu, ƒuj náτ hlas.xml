@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Spasiteľu, čuj náš hlas">
+    <variant name="čeština">
+        <section name="v1">
+            Spasiteľu, čuj náš hlas,
+            príď a duše naše spas.
+            Svetu jasným svetlom buď,
+            v srdciach živú nádej vzbuď.
+        </section>
+        <section name="v2">
+            Prichádzaš k nám od Otca,
+            vymaniť nás z otroctva.
+            Ideš za nás bojovať,
+            ľuďom radosť, pokoj dať.
+        </section>
+        <section name="v3">
+            Srdcia naše v tento čas
+            ako spustlé jasle raz
+            čakajú ťa, skloň sa k nim,
+            Tvojím nech sú obydlím.
+        </section>
+        <section name="v4">
+            Ó príď, večný Kráľu, k nám!
+            Pozeráme k výšinám.
+            Hviezdou viery Ty nás veď,
+            zaplav láskou celý svet.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

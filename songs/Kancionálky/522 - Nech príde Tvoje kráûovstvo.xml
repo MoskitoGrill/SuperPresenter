@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Nech príde Tvoje kráľovstvo">
+    <variant name="čeština">
+        <section name="v1">
+            Nech príde Tvoje
+            kráľovstvo, ó Bože!
+            V ňom svitne lásky,
+            mieru, bratstva deň.
+            Daj poznať múdrost,
+            večné pravdy Tvoje
+            a osvieť svojím
+            Duchom celú zem.
+        </section>
+        <section name="r1">
+            Nech príde Tvoje
+            kráľovstvo, ó Bože!
+            V nás mocou lásky
+            vládni, pánov Pán!
+            Tak volá Tvoj ľud
+            v každodennej prosbe,
+            nech príde Tvoje
+            kráľovstvo už k nám!
+        </section>
+        <section name="v2">
+            Nech príde Tvoje
+            kráľovstvo, ó Bože!
+            Ty zažeň hriechu
+            tmavú, chladnú noc,
+            a v našich srdciach
+            na kráľovskom tróne
+            sa zaskvie tvoja
+            veleba a moc.
+        </section>
+        <section name="v3">
+            Nech príde Tvoje
+            kráľovstvo, ó Bože!
+            To šťastím, blahom
+            zaplaví náš svet.
+            Veď s Tebou, Pane,
+            človek všetko zmôže,
+            Ty obnov nás a
+            tiahni stále vpred.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1
+    </repetition>
+</slide>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Umdléváš-li">
+    <variant name="čeština">
+        <section name="v1">
+            Umdléváš-li, tíží-li tě hříchů těžké jho,
+            věz, že nemáš nad Ježíše jiného!
+        </section>
+        <section name="v2">
+            On tě volá, pomůže ti, pospěš k němu dnes,
+            zbědované srdce svoje jemu nes!
+        </section>
+        <section name="v3">
+            Neodmítne, neodsoudí, vyjde tobě vstříc;
+            než se nadáš, zarmoucenou zjasní líc.
+        </section>
+        <section name="v4">
+            On svou něžnou láskou svatou pozdvihne tě výš,
+            radost ráje, pokoj nebes okusíš.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

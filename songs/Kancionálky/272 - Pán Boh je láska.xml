@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Pán Boh je láska">
+    <variant name="čeština">
+        <section name="v1">
+            Pán Boh je láska, vykúpil hriešnych,
+            Pán Boh je láska, miluje ma.
+        </section>
+        <section name="r1">
+            Volajme spoločne: Pán Boh je lásky,
+            Pán Boh je láska, miluje nás.
+        </section>
+        <section name="v2">
+            Väzel som v putách strašného hriechu,
+            z väzenia svojho nemohol von.
+        </section>
+        <section name="v3">
+            Z nesmiernej lásky Spasiteľ prišiel,
+            aby ma zbavil otrockých pút.
+        </section>
+        <section name="v4">
+            Dal sa mi poznať v milosti svojej,
+            svadobným rúchom priodial ma.
+        </section>
+        <section name="v5">
+            Ó, láska večná, utíšiš bolesť,
+            ó, láska večná, liečiš môj žiaľ.
+        </section>
+        <section name="v6">
+            Teba chcem chváliť, Tebe česť vzdávať,
+            verne Ti slúžiť, večne byť Tvoj.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1 v4 r1 v5 r1 v6 r1
+    </repetition>
+</slide>

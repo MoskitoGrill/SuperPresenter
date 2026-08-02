@@ -1,0 +1,32 @@
+<?xml version="1.0" ?>
+<slide name="Lid který chodí v temnotách">
+    <variant name="čeština">
+        <section name="v1">
+Lid, který chodí  v temnotách
+uvidí veliké světlo,
+mitěm, kteří bydlí ve stínu smrti
+miz Betléma zazáří světlo.
+Neboť se nám Syn narodí,
+dítě bude nám  dáno,
+na Jeho rameni spočine vláda,
+bude mít nádherné jméno.
+</section>
+        <section name="r1">
+Divuplný Rádce, Božský Bohatýr,
+sám Pokoje vládce, Otec věčnosti.
+Divuplný Rádce, Božský Bohatýr,
+sám Pokoje vládce, Otec věčnosti.
+</section>
+        <section name="v2">
+Duch boží na něm spočine
+v Něm Bůh bude zjeven,
+z Jákoba hvězda zářivá vzejde
+Mesiáš s nádherným Dmijménem.
+On bude světlem v temnotách,
+majákem, když zuří bouře,
+před lidskou zlobou bezpečnou skrýší,
+pramenem uprostřed pouště.
+</section>
+    </variant>
+    <repetition name="default" main="1">v1 r1 v2</repetition>
+</slide>

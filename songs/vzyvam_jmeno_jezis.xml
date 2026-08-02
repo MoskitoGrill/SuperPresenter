@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<slide name="Vzývám jméno Ježíš">
+    <variant name="čeština">
+        <section name="v1">
+Vzývám jméno Ježíš,
+vzývám jméno Ježíš,
+vzývám jméno Ježíš,
+haleluja.
+</section>
+        <section name="r1">
+Svou sílu hledám ve Tvé moci,
+mám obléknutou Boží zbroj,
+ten boj však vedu proti mocnostem,
+které ovládají tento věk tmy.
+</section>
+    </variant>
+    <repetition name="default" main="1">((v1) (r1)) (v1)</repetition>
+</slide>

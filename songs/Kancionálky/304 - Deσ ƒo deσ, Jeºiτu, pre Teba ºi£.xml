@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Deň čo deň, Ježišu, pre Teba žiť">
+    <variant name="čeština">
+        <section name="v1a">
+            Deň čo deň, Ježišu,
+            pre Teba žiť,
+            deň čo deň milosti
+            Tvojej zrieť svit,
+            deň čo deň v modlitbách
+            pred Tebou stáť,
+            blaho je, ktoré
+            svet nemôže dať.
+        </section>
+        <section name="v1b">
+            Deň čo deň premáhať
+            satana zlosť,
+            deň čo deň niesť kríž,
+            kým nepovieš dosť.
+        </section>
+        <section name="r1">
+            V žití aj v smrti deň
+            zostať vždy Tvoj,
+            Ježišu drahý,
+            v tom štastia je zdroj.
+        </section>
+        <section name="v2a">
+            Deň čo deň šíriť tu
+            Kristovu česť,
+            deň čo deň pre neho
+            pohanu niesť,
+            deň čo deň v jeho len
+            službe vždy stáť,
+            blaho je, ktoré
+            svet nemôže dať.
+        </section>
+        <section name="v2b">
+            Deň čo deň počúvať
+            Ježišov hlas,
+            v nebeskej otčine
+            spočinúť raz.
+        </section>
+        <section name="v3a">
+            Deň čo deň prežívať
+            pokoja slasť,
+            deň čo deň víťazne
+            premáhať strasť,
+            deň čo deň v jeho len
+            službe vždy stáť,
+            blaho je, ktoré
+            svet nemôže dať.
+        </section>
+        <section name="v3b">
+            Deň čo deň uniká
+            života let,
+            napokon zaletí,
+            smútku kde niet.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1a v1b r1 v2a v2b r1 v3a v3b r1
+    </repetition>
+</slide>

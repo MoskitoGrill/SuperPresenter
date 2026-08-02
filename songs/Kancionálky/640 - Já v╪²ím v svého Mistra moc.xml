@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Já věřím v svého mistra moc">
+    <variant name="čeština">
+        <section name="v1">
+            Já věřím v svého Mistra moc
+            a smrt mne neleká;
+            a vím, že svítí v bouři noc
+            mi přístav zdaleka.
+
+            V2]
+            Nuž, přijmi, země, kořist svou,
+            což jest mi těla chýž?
+            Než klesne ta v tmu hrobovou
+            duch z ní vyšel již!
+        </section>
+        <section name="v3">
+            Ten nad vší prachu porobou
+            už nebes dýchá vzduch
+            a světlem mu i ozdobou
+            už na věky je Bůh.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v3
+    </repetition>
+</slide>

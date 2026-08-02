@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Vím, že Ježíš miluje mne">
+    <variant name="čeština">
+        <section name="v1">
+            Vím, že Ježíš miluje mne, co bych tedy žádal víc?
+            On mne těší mile, jemně, dává darů na tisíc.
+            Co je svět, co jeho vnady proti lásce Kristově?
+            Byť i pouští, půjdu všady s ním, neb On mne miluje!
+        </section>
+        <section name="v2">
+            Jdu-li trním, On jest růží, jež v tom trní rozkvétá;
+            když se strasti k smutku druží, On v ně radost proplétá.
+            Když mi svět žluč v nápoj vlévá, On ji v sladkost změňuje,
+            ať se svět ten, jak chce, hněvá, Ježíš vždy mne miluje!
+        </section>
+        <section name="v3">
+            Když mne hrůza obkličuje, On mne sílí, podpírá,
+            On mne mocně obhajuje, nepřítel když dotírá.
+            Co svět klade za neštěstí, On mi v štěstí změňuje;
+            Jemu jen vždy dám se vésti, neboť On mne miluje.
+        </section>
+        <section name="v4">
+            Blahoslavená buď chvíle, v níž jsem poznal Ježíše!
+            Ó, jak jsou ty doby milé, jež mi dává k útěše.
+            Radostně i smrti chladné jazyk můj vstříc zapěje:
+            “Nemáš pro mne hrůzy žádné, neb mne Ježíš miluje!”
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

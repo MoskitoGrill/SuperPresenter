@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="V tomto tichém stánku">
+    <variant name="čeština">
+        <section name="v1">
+            V tomto tichém stánku milujme se, radujme se,
+            jako v Božím chrámku, chrámečku! Láska lásku rodí,
+            milujme se, radujme se, ale hněvy škodí srdéčku.
+        </section>
+        <section name="v2">
+            Dobrý rád se učí, milujme se, radujme se,
+            zlý každého mučí jak zlý duch. Mladost, ta je radost,
+            milujme se, radujme se, učiní-li zadost, jak chce Bůh.
+        </section>
+        <section name="v3">
+            Jako holoubátka milujme se, radujme se,
+            jako ta jehňátka pod lesem. Spasitel k nám praví:
+            “Milujte se, radujte se! Buďte vždy laskaví k lidem všem!”
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3
+    </repetition>
+</slide>

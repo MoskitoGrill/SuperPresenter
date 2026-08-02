@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Boh na svoj obraz stvoril ma">
+    <variant name="čeština">
+        <section name="v1">
+            Boh na svoj obraz stvoril ma,
+            viem skúmať skryté taje,
+            a predsa všetko deje sa
+            tak, ako On si praje.
+        </section>
+        <section name="r1">
+            Ja svedok som len pokorný,
+            že Boh je stvoriteľ a
+            /:Jeho slávu zvestovať
+            je môjho žitia cieľ.:/
+        </section>
+        <section name="v2">
+            Svet obdivuje mnohokrát
+            môj rozum, dôvtip, rady,
+            však popri Bohou kto som ja?
+            On celý vesmír riadi.
+        </section>
+        <section name="v3">
+            Že dobýjam sa ku hviezdam?
+            A na dno veľkých mori?
+            Oj ako ľahko dobýjať,
+            čo raz už Pán Boh stvoril.
+        </section>
+        <section name="v4">
+            Boh na svoj obraz stvoril ma,
+            viem skúmať veci tajné,
+            a predsa, vidiac jeho moc,
+            v prach zeme pred ním padnem.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1 v4 r1
+    </repetition>
+</slide>

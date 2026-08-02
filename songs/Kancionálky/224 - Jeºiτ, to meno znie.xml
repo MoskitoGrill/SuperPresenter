@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Ježiš, to meno znie">
+    <variant name="čeština">
+        <section name="v1">
+            Ježiš to meno znie na svete najkrajšie, pre nás Boh spasenie zjavuje v ňom.
+            Napĺňa blahom zem, pred ním sa skláňam len, meno to vzývať chcem nocou i dňom.
+        </section>
+        <section name="v2">
+            Na cestách života búrka keď dvíha sa, nie som ja sirota, so mnou je Pán.
+            Verne ma chráni On, čuje môj každý ston, keď bije blesk a hrom, pokoj v ňom mám.
+        </section>
+        <section name="v3">
+            Ježišu predrahý, Tebe som oddaný, svojimi cestami Ty veď ma vpred.
+            Tvojou chcem vôľou znať, na seba kríž svoj vziať Teba vždy milovať nad celý svet.
+        </section>
+        <section name="v4">
+            Posväť ma úplne, svetlo, čo z Teba je, šíriť chcem po svete, ľuďom ho dám.
+            Kým sa raz nočnou tmou zableskne domov môj, večný kde podiel svoj u Teba mám!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

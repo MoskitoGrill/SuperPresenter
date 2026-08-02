@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Viz tu lásku Kristovu">
+    <variant name="čeština">
+        <section name="v1">
+            Viz tu lásku Kristovu, k pomoci vždy hotovu!
+            Hledá ve dne, hledá v noci, ať je vedro nebo mráz;
+            po městech i po dědinách slyšet její něžný hlas.
+        </section>
+        <section name="v2">
+            Viz tu lásku Kristovu, k pomoci vždy hotovu!
+            U komůrky srdcí stává, čeká, zda se otevrou,
+            ztišit chce ty stesky tajné, vzkřísit tužby, které mrou.
+        </section>
+        <section name="v3">
+            Viz tu lásku Kristovu, k pomoci vždy hotovu!
+            Byť i srdce hříchem zhrublo, nebo žalem hynulo,
+            On je zcela může změnit, aby láskou vzplanulo.
+        </section>
+        <section name="v4">
+            “Měls tu lásku Kristovu, k pomoci vždy hotovu?”
+            Tak se bude ozývati v nitru duše nejhlubším,
+            když se bude Soudce ptáti: “Jak jsi jednal s bližním svým?”
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

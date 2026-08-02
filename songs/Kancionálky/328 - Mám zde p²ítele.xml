@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Mám zde přítele">
+    <variant name="čeština">
+        <section name="v1">
+            Mám zde přítele,
+            Pána Ježíše,
+            a na rámě jeho spoléhám;
+            v něm své stěstí mám,
+            pokoj nalézám,
+            když na rámě jeho spoléhám!
+        </section>
+        <section name="r1">
+            Boží rámě
+            je v soužení náš pevný hrad;
+            Boží rámě,
+            uč se na ně vždycky spoléhat!
+        </section>
+        <section name="v2">
+            Jak je sladké být,
+            v jeho družině,
+            když na rámě jeho spoléhám,
+            jak se života
+            cesta zjasňuje
+            když na rámě Boží spoléhám!
+        </section>
+        <section name="v3">
+            Čeho bych se bál,
+            čeho strachoval,
+            když na rámě Boží spoléhám?
+            Mír je v duši mé,
+            když On blízko je,
+            když na rámě jeho spoléhám.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1
+    </repetition>
+</slide>

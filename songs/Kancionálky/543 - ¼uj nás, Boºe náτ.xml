@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Čuj nás, Bože náš">
+    <variant name="čeština">
+        <section name="v1">
+            Čuj nás, Bože náš!
+            Čuj náš vrúcny hlas!
+            Vzhliadni na svoj ľud
+            a požehnaj nás!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1
+    </repetition>
+</slide>

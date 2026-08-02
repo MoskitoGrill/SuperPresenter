@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Nechte dítek jíti ke mně">
+    <variant name="čeština">
+        <section name="v1">
+            Nechte dítek jíti ke mně, praví Pán.
+            /:Já jim chystám v nebi krásný, věčný stan.:/
+        </section>
+        <section name="v2">
+            Tak vás sladce volá, dítky, Páně hlas,
+            /:ó, kdo by chtěl dlíti? Rychle dokud čas,!:/
+        </section>
+        <section name="v3">
+            Hledejte jej pilně ve dnech mladosti,
+            /:On vás obdaří pak věčnou radostí.:/
+        </section>
+        <section name="v4">
+            Od něho se dejte poslušně vždy vést,
+            /:poznáte, jak věrný a jak dobrý jest.:/
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

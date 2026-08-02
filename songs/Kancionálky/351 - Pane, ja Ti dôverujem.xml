@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Pane, ja Ti dôverujem">
+    <variant name="čeština">
+        <section name="v1">
+            Pane, ja Ti dôverujem, Kráľu slávy, Ježišu.
+            V tebe srdce roztúžené nájde radosť najväčšiu.
+        </section>
+        <section name="r1">
+            S kým Ty kráčaš, vždy je šťastný žitia jeho každý rok.
+            Poď i so mnou, bez Teba ja nechcem spraviť ani krok.
+        </section>
+        <section name="v2">
+            Pane, ja Ti dôverujem, dôverujem každý deň.
+            Milosť Tvoja prežiaruje noci bôľov, žiaľu tieň.
+        </section>
+        <section name="v3">
+            Tys’ ma slávne vyslobodil z krutej moci satana,
+            krvou Tvojou na veky je moja vina zmazaná.
+        </section>
+        <section name="v4">
+            Ó, Ty viac mi nedovolíš klesnúť znova v hriechu noc.
+            Všetky zvody pokušenia premôže len Tvoja moc.
+        </section>
+        <section name="v5">
+            Pane, ja Ti dôverujem, dôverujem v každý čas.
+            Do večnej ma uveď slávy, ta, kde znie tvoj sladký hlas.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1 v4 r1 v5 r1
+    </repetition>
+</slide>

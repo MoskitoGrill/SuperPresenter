@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Jak Tě mám dost milovati">
+    <variant name="čeština">
+        <section name="v1">
+            Jak Tě mám dost milovati, jenž jsi všecko pro mě dal
+            Kterak dost Ti děkovati, mé žes břímě na se vzal?
+            S výsosti že trůnu svého sestoupil jsi na ten svět,
+            by mi ráje ztraceného krví svou vydobyl zpět?
+        </section>
+        <section name="v2">
+            Moře lásky, Jezu drahý, co já za to vše Ti dám?
+            V rukou Tvých jsou moje snahy, Tvé, co jsem a vše, co mám.
+            Náruč sám mne Tobě žití, veď a spravuj kroky mé,
+            nedej mi se odvrátiti nikdy zpět od pravdy Tvé!
+        </section>
+        <section name="v3">
+            K Tobě, ke své spásy zdroji, dej, ať s touhou stále zřím,
+            a když klesám s hříchem v boji, síliž mne, buď štítem mým!
+            Učiň, pro svou lásku mnohou, též mé srdce ochotným,
+            s Marií bych u Tvých nohou naslouchal rád slovům Tvým!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3
+    </repetition>
+</slide>

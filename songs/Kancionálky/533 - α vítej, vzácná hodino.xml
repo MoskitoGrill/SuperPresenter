@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Ó vítej, vzácná hodino">
+    <variant name="čeština">
+        <section name="v1">
+            Ó vítej, vzácná hodino,
+            v níž skláním svoje koleno
+            u trůnu Otce v nebesích
+            a v modlitbách jej vzývám svých.
+            V čas strastí, běd a soužení
+            zde útěcha mi pramení.
+            Tu pokušením unikám,
+            když s prosbou k Pánu utíkám.
+        </section>
+        <section name="v2">
+            Ó milá proseb hodino,
+            v níž přání mé je vtrženo
+            až před trůn Otce na nebi,
+            jenž zná mé všecky potřeby.
+            On laskavě mne k sobě zve
+            a potěšení dává své;
+            tu před ním skládám všecku tíž
+            a v modlitbách lnu k němu blíž.
+        </section>
+        <section name="v3">
+            Ó milá chvíle proseb mých,
+            co útěchy mi vzešlo z nich!
+            Až s hory Nébo zahlédnu
+            vlast slíbenou, tam zalétnu,
+            zde roucho těla nechaje
+            a k nebesům se vznášeje,
+            ti žehnat budu v loučení,
+            ty milá chvíle k modlení.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3
+    </repetition>
+</slide>

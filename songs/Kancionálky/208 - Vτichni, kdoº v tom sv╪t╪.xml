@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Všichni, kdož v tom světě">
+    <variant name="čeština">
+        <section name="v1">
+            Všichni, kdož v tomto světě šťastni chtějí býti,
+            k ovečkám se Krista musí připojiti!
+        </section>
+        <section name="v2">
+            On je sále vodí na zelené nivy,
+            sebe sama dává jim za pokrm živý.
+        </section>
+        <section name="v3">
+            Žízeň jejich kojí v přebohatém zdroji,
+            jejž jim sám otevřel svatou krví svojí.
+        </section>
+        <section name="v4">
+            I já Tvou, ó Jezu, ovečkou chci býti,
+            rač mne milostivě v ochranu svou vzíti.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

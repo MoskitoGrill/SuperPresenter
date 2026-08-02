@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Žije Ježiš, život môj">
+    <variant name="čeština">
+        <section name="v1">
+            Žije Ježiš, život môj, moja nádej, svetlo, spása.
+            Uistenie o tom mám, moje srdce neľaká sa.
+            Nebude môcť ani smrť nad ním večne zavládnuť.
+        </section>
+        <section name="v2">
+            Moje telo v zemský prach v tmavom hrobe premení sa,
+            ale potom, v súdny deň, príde povel od Ježiša.
+            Pre zásluhy jeho, viem, vzkriesenia svit čakať smiem.
+        </section>
+        <section name="v3">
+            Istotne hneď spoznám tam svojho Kráľa v neba stane.
+            Od radosti, že ho zriem, duša ohňom blaha vzplanie.
+            Dieťa zemskej chudoby, sláva nebies ozdobí.
+        </section>
+        <section name="v4">
+            Žije Ježiš, pánov Pán; On je slávnym nebies Kráľom.
+            A ja svoju zemskú púť v čakaní chcem prežiť stálom,
+            večného kým žitia diel i mne dá môj Spasiteľ.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

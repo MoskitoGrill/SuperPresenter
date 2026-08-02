@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Pluh orá naše pole">
+    <variant name="čeština">
+        <section name="v1">
+            Pluh orá naše pole,
+            my zrna kladem v zem,
+            než Bůh v nich život budí,
+            je sytí nocí, dnem.
+            Sníh v zimě sype s hůry,
+            žár v létě časem svým,
+            chlad s vláhou dává z jara
+            a dar žní na podzim.
+        </section>
+        <section name="r1">
+            Od Boha pochází
+            náš každodení zdar,
+            a proto dík mu vzdejme
+            za každý dar!
+        </section>
+        <section name="v2">
+            V něm původ všech je věcí,
+            jež blízko jsou, či dál.
+            On barví louky kvítím,
+            On hvězdám záři dal.
+            On vlny větrem víří,
+            On kojí ptáků hlad,
+            má péči o své děti,
+            neb má je všechny rád.
+        </section>
+        <section name="v3">
+            Ó, nebeský náš Otče,
+            měj pokorný náš dík,
+            za dobu žní i setí,
+            za každý okamžik!
+            Náš přijmi skromný dárek,
+            jak úrok za náš dluh,
+            a posvěť naše srdce
+            a spravuj Tvůj je duch.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1
+    </repetition>
+</slide>

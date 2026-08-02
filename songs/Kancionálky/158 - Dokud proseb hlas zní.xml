@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Dokud proseb hlas zní">
+    <variant name="čeština">
+        <section name="v1">
+            Dokud proseb hlas zní kol,
+            dokud cítíš duše bol,
+            dokud volá Otec tvůj,
+            nechceš jíti, bratře můj?
+        </section>
+        <section name="r1">
+            /:Proč ne hned,
+            proč ne hned,
+            proč bys nešel
+            k Pánu hned?:/
+        </section>
+        <section name="v2">
+            Daleko jsi pobloudil,
+            proč bys' dál tak smutně žil?
+            Neodvracej tváře své,
+            když te milost Boží zve!
+        </section>
+        <section name="v3">
+            Svět tě zklamal, opojil,
+            aniž srdce spokojil.
+            Vrať se, uvěř Ježíši,
+            On tvé boly utiší.
+        </section>
+        <section name="v4">
+            Pojď a vyznej všechen hřích,
+            On tě skryje v ranách tvých.
+            Jemu když se odevzdáš,
+            bezpečnost a pokoj máš.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1 v4 r1
+    </repetition>
+</slide>

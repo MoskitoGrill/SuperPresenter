@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Nechcem reptať">
+    <variant name="čeština">
+        <section name="v1">
+            Nechcem reptať, ani žialiť, že kríž denne musím niesť.
+            Pán mi s ním chce k blahu slúžiť, buď mu za to večná česť!
+        </section>
+        <section name="r1">
+            Ježiš kráčal utrpením, užil horkosť všetkých bied,
+            len kto s krížom ide za ním uzrie nový, krásny svet.
+        </section>
+        <section name="v2">
+            Dietky Božie v svete šírom cestou kríža putujú.
+            V odpore vždy s hriechu vírom svojho Vodcu sledujú.
+        </section>
+        <section name="v3">
+            Spasiteľ mi privoláva: “Nech ťa tvoj kríž neľaká!
+            Trpiaceho očakáva večná sláva nebeská!”
+        </section>
+        <section name="v4">
+            Pri potoku krištáľovom žijú mnohí po boji,
+            v krátkom čase svojím slovom Pán aj mňa k nim pripojí.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1 v4 r1
+    </repetition>
+</slide>

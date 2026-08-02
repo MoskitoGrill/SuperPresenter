@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Betlehemské nivy">
+    <variant name="čeština">
+        <section name="v1">
+            Betlehemské nivy
+            svetlom ožiarené,
+            /:oznamuje
+            anjel svätý,
+            oslavujú
+            Božie čaty
+            Dieťa narodené.:/
+        </section>
+        <section name="v2">
+            Vitaj, Syna Boží,
+            ľudstvu darovaný!
+            /:Z hviezdnych výšin
+            nebies slávných,
+            dľa prorockých
+            sľubov dávnych,
+            ku spáse nám daný!:/
+        </section>
+        <section name="v3">
+            Brány otvárame,
+            vojdi, Požehnaný!
+            /:Nieto v svete
+            miesta Tebe,
+            v srdciach našich
+            usteľ sebe,
+            drahý, milovaný!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3
+    </repetition>
+</slide>

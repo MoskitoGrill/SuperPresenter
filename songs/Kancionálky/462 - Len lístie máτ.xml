@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Len lístie máš">
+    <variant name="čeština">
+        <section name="v1">
+            Len lístie máš, to málo je! Pán žiada ovocie.
+            Tak málo si ho miloval, tak malú vernosť dokázal,
+            že nič si nezískal.
+        </section>
+        <section name="r1">
+            Len lístie máš!
+            Len lístie máš!
+        </section>
+        <section name="v2">
+            Len lístie máš? Kde ovocie je tvojho života?
+            Boh dlho čakal, Presvätý, snáď zvolá dnes: "Buď vyťatý!"
+            Keď iba lístie máš!
+        </section>
+        <section name="v3">
+            Len lístie máš? Oj, hanba, žial; a život uniká!
+            Svoj čas si hriešne premrhal, vstup do večnosti zameškal
+            a hrivny zakopal.
+        </section>
+        <section name="v4">
+            Len lístie máš! Či tak to chceš sa pred súd postaviť?
+            Hľa, hrozná páľa plameňa je plevám navždy určená!
+            O učiň pokánie!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1 v4 r1
+    </repetition>
+</slide>

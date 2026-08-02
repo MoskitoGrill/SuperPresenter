@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Ó, nechoď světem sám a sám">
+    <variant name="čeština">
+        <section name="v1a">
+            Ó nechoď světem sám a sám,
+            pojď s nám k nebes výšinám,
+            pojď s námi domů jen!
+            Pojď s námi tam, kde blaha říš,
+            kde na věky se potěšíš,
+            kde věčný svítá den.
+        </section>
+        <section name="v1b">
+            Pojď jen, pojď jen,
+            tam čeká na tě
+            Spasitel.
+            Pojď jen, pojď jen,
+            On volá tebe
+            abys šel.
+        </section>
+        <section name="v2a">
+            Ó marnotratný synu, slyš,
+            jenž dalek Otce svého dlíš,
+            vrať domů se již, vrať!
+            Tvůj Otec s láskou vyhlíží,
+            kdy jeho syn se přiblíží,
+            ó synu, vrať se, vrať!
+        </section>
+        <section name="v2b">
+            Pojď jen, pojď jen,
+            vždyť Otec tebe
+            miluje,
+            Pojď jen, pojď jen,
+            On nad tebou se
+            slituje.
+        </section>
+        <section name="v3a">
+            Ó pobloudilá dcerko, slyš:
+            Kdy kroky domů obrátíš?
+            Ó nebluď déle již!
+            Pán Ježíš hledá spásu tvou,
+            On něžně zve te v náruč svou;
+            proč tedy otálíš?
+        </section>
+        <section name="v3b">
+            Pojď jen, pojď jen,
+            byť jako červec
+            byl tvůj hřích
+            Pojď jen, pojď jen,
+            krev Kristova jej
+            zbělí v sníh.
+        </section>
+        <section name="v4a">
+            Ó s námi pojď a nechoď sám!
+            My jdeme k nebes výšinám,
+            pojď s námi blaha říš.
+            Nás vede Ježíš vůdce náš,
+            nám neuškodí satanáš.
+            Co pokoj v Kristu, zvíš.
+        </section>
+        <section name="v4b">
+            Pojď jen, pojď jen,
+            pojď se svým hříchem
+            k Ježíši.
+            Pojď jen, pojď jen,
+            On touhy tvoje
+            utiší.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1a v1b v2a v2b v3a v3b v4a v4b
+    </repetition>
+</slide>

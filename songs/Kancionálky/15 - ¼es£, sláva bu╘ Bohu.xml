@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Čest, sláva buď Bohu">
+    <variant name="čeština">
+        <section name="v1">
+            Česť, sláva buď Bohu, že
+            miloval svet,
+            dal Syna nám svojho,
+            by zbavil nás bied.
+            Syn v obeť dal život,
+            ten najdrahší skvost,
+            raj otvoril znovu,
+            nám treba len vojsť.
+        </section>
+        <section name="r1">
+            Duša, chváľ Boha, chváľ,
+            nech je počuť tvoj hlas.
+            Duša, chváľ Pána, chváľ
+            prišiel milosti čas.
+            Poď k Otcovi v Kristu,
+            dnes k Bohu sa vráť.
+            Vzdaj jemu česť, chválu,
+            Boh ľudí má rád.
+        </section>
+        <section name="v2">
+            Krv Kristova slobodu
+            získala nám.
+            Kto uverí sľubom,
+            čo ľuďom dal Pán,
+            hoc najhorší hriešnik je,
+            vieru keď má,
+            v tej chvíľočke Pán Ježiš
+            milosť mu dá.
+        </section>
+        <section name="v3">
+            Boh slovom a skutkom
+            moc dokazoval
+            a v Kristu nám radosť
+            a spasenie dal.
+            No, nad všetko poteší
+            verných raz Pán,
+            až k sebe ich povolá
+            v nebeský stan.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1
+    </repetition>
+</slide>

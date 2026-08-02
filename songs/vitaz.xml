@@ -1,0 +1,81 @@
+<slide name="Víťaz">
+    
+    <variant name="čeština">
+        <section name="v1">
+            Slúžiaci Kráľ na kríži umrieť šiel, 
+            za náš hriech on sám trpel.
+            Vydýchol, dal život za nás, môj Pán.
+        </section>
+        
+        <section name="v2">
+            Spasiteľ, svätú krv prelial, 
+            baránok, umrel miesto nás.
+            Na seba vzal ťažkosť všetkých dní, 
+            keď umieral na kríži v bolesti.
+        </section>
+        
+        <section name="r1">
+            V tretí deň hrob sa otvára 
+            a Ježiš Kráľ z mŕtvych vstáva.
+            Strach odchádza a smrť silu stráca, 
+            On zvíťazil, nám nový život dal.
+        </section>
+        
+        <section name="b1">
+            Nad každý strach, ktorý vládol, 
+            nad každou hanbou a pádom.
+            Boh, moja láska a nádej, 
+            víťazne nad všetkým vládne.
+            Nad každú bolesť a smútok, 
+            nad každou slzou a búrkou.
+            Boh, moja radosť a vášeň, 
+            víťazne nad všetkým vládne.
+            S ním môžem snívať odvážne, 
+            s ním každé úskalie zvládnem.
+            On, ktorý krídla mi dáva, 
+            víťazne nad všetkým vládne.
+        </section>
+    </variant>
+
+    <variant name="український - auto">
+        <section name="v1">
+            Služíci krám на хресті Умрі Шіль,
+            Він страждав за наші могили.
+            Величезний, дав життя за нас, мій джентльмен.
+        </section>
+        
+        <section name="v2">
+            Спасіт, світ
+            Баранок, Містто помер нас.
+            У Себі зайняв один із днів Všety,
+            Якщо ви омєрал з боку болю.
+        </section>
+        
+        <section name="r1">
+            Під третій дощову могилу sa тривожно
+            І Ісус Краľ встає від шліфування.
+            Страх руїни та смерті сили фаг,
+            Він задумався, дав нам нове життя.
+        </section>
+        
+        <section name="b1">
+            Через будь -який страх, що уряд,
+            над кожним соромом і веслом.
+            Боже, Моя любов і контейнер,
+            Правила víťzna над Všetky.
+            Над кожним болем і смаком,
+            Над кожними сльозами і буркою.
+            Бог, Моджа Радосť та пристрасть,
+            Правила víťzna над Všetky.
+            З ним мрії Дрю,
+            Ми можемо впоратися з ним з ним.
+            Він, що є жорстким, що дає мені,
+            Правила víťzna над Všetky.
+        </section>
+    </variant>
+
+    
+    <repetition name="default">
+        v1 v2 r1 b1
+    </repetition>
+</slide>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Mnoho je duší">
+    <variant name="čeština">
+        <section name="v1">
+            Mnoho je duší
+            v dáli i blíž,
+            ubohé ve tmách
+            zmírají již,
+            nevědí o tom,
+            fkterý jim rád
+            v ovčinci svém chce
+            místo též dát.
+        </section>
+        <section name="r1">
+            Ó, duše milá,
+            Páně slyš hlas,
+            teď dnové vzácní,
+            teď milosti čas!
+        </section>
+        <section name="v2">
+            Náš dobrý Pastýř
+            potěšen jest
+            z těch, jež se z bludných
+            vracejí cest.
+            Však s pláčem želí
+            slepoty těch,
+            jichž do záhuby
+            směřuje běh.
+        </section>
+        <section name="v3">
+            Tak slast a vnada,
+            kterou dá svět,
+            jest pouhý klamný,
+            sodomský květ:
+            Spasitel jest nám
+            jediný dán,
+            náš dobrý Ježíš,
+            Pastýř a Pán!
+        </section>
+        <section name="v4">
+            Slyš tedy, vzdálen
+            dosud kdo jsi,
+            cest zanech zlých a
+            za Pánem jdi!
+            Pak o něm vděčně
+            vypravuj všem,
+            aby též našli
+            spasení v něm!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1 v4 r1
+    </repetition>
+</slide>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Jak para život rozplýva sa">
+    <variant name="čeština">
+        <section name="v1">
+            Jak para život rozplýva sa,
+            priam vädne ako pekný kvet.
+            Na vlnách času mladosť, krása
+            sa minú, nevrátia sa späť.
+            Aj nrod starne v svojom behu,
+            zem vekom vrásky dostáva,
+            jar všetko má, aj dobu snehu,
+            počiatok má i skonáva.
+        </section>
+        <section name="v2">
+            Smrť tela ne je koniec duší,
+            hrob nie je žitia záverom;
+            čas dielo Božie neporuší,
+            Boh tvorcom je, je všetko v ňom.
+            Kto v dôvere ku Kristu ziera,
+            nič nemusí sa zlého báť
+            a nikdy, nikdy neumiera:
+            v ňom večný život bude mať.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2
+    </repetition>
+</slide>

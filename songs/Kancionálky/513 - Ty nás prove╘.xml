@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Ty nás proveď">
+    <variant name="čeština">
+        <section name="v1">
+            Ty nás proveď, Hospodine,
+            pouští světa vyprahlou!
+            Slabí jsme, Tys, Bože, silný,
+            posilň duši naši mdlou!
+            Spoléháme, spoléháme
+            ve všem jenom na Tebe.
+        </section>
+        <section name="v2">
+            Světu zjev tu Skálu věčnou,
+            z níž se život pramení,
+            ukoj žízeň zmírajících,
+            ukaž své jim spasení,
+            Spasiteli, Spasiteli,
+            zaskvěj všem se národům!
+        </section>
+        <section name="v3">
+            Rozhojni v své církvi, Pane,
+            dary Ducha slíbené,
+            by se každý k dílu hlásil,
+            kdo okusil lásky Tvé.
+            Vítězně ať s chvalozpěvy
+            k příští Tvému spějeme.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3
+    </repetition>
+</slide>

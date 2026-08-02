@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Ve světle věčné lásky Tvé">
+    <variant name="čeština">
+        <section name="v1">
+            Ve světle večné lásky Tvé,
+            ó Jezu, blaha zdroji,
+            zde milujících srdcí dvé
+            dnes v jednotu se pojí.
+            Ó, slituj se a budiž jim
+            v čas bouře hradem bezpečným,
+            ó, slituj se a budiž jim
+            hradem bezpečným!
+        </section>
+        <section name="v2">
+            Ty v dobách štěstí i dnech zlých
+            jim sviť, ó slunce spásy,
+            ať lásku, která plane v nich
+            mráz světa neuhasí!
+            Dej, ať ta láska pramen má
+            v Tvé lásce, jež je nezměrná
+            ať skrze Ducha Tvého v nich
+            vždy se rozlévá!
+        </section>
+        <section name="v3">
+            V naději též a ve víře
+            za Kristem, drazí, spějte
+            a hlasu svého Pastýře
+            se vždycky rádi mějte!
+            Kéž v záři jeho spasení
+            jste láskou stále blažení,
+            nuž, buďte v Jeho spasení
+            stále blažení!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3
+    </repetition>
+</slide>

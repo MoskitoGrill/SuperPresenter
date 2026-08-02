@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Čuj hlas lásky">
+    <variant name="čeština">
+        <section name="v1">
+            Čuj hlas lásky prenesmiernej,
+            z Golgoty čo zaznieva:
+            Skončené je! Dokonané!
+            Boží Syn tam zomiera.
+            Skálie puká zem sa trasie,
+            nebo mračno zastiera.
+        </section>
+        <section name="v2">
+            Skončené je dielo spásy
+            pre človeka hriešneho;
+            Kto len verí v Krista, má vstup
+            do života večného.
+            Z Krista svätá sila plynie
+            k bojom žitia časného.
+        </section>
+        <section name="v3">
+            Dokonané je už všetko,
+            čo Boh ľuďom zasľúbil.
+            Skrze Syna premilého
+            sľuby verne naplnil.
+            Peklo, smrť sú premožené,
+            Pán svoj boj tak ukončil.
+        </section>
+        <section name="v4">
+            Laďte svoje harfy znova,
+            serafovia na nebi,
+            Víťaza každá duša
+            vrúcnou chválou velebí!
+            Zaspievajme: Baránkovi
+            patrí sláva naveky.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

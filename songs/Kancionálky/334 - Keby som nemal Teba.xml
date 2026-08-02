@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Keby som nemal Teba">
+    <variant name="čeština">
+        <section name="v1">
+            Keby som nemal Teba, svojho Pána,
+            spásy zdroj v krvi, skrýšu v Tvojich ranách,
+            kde by som našiel útočište isté, Ježišu Kriste?
+        </section>
+        <section name="v2">
+            V súžení, v žiali ktože privinie ma?
+            Odpočinutie duša inde nemá.
+            Len Ty si, Pane, moja pevná skala bezpečná, stála.
+        </section>
+        <section name="v3">
+            Myšlienky Tvoje, večné, bez skonania,
+            milosti, lásky plné, zhorievania,
+            koria v prach dušu vprostred žita bojov veľkosťou svojou.
+        </section>
+        <section name="v4">
+            Dobre viem, že som z hriešnych najhriešnejší,
+            za mňa žes’ muky trpel, Najsvätejší.
+            Denne čo beriem, je len milosť samá, nebeská manna.
+        </section>
+        <section name="v5">
+            Ježišu, keby nebol si ma hľadal,
+            milosti Tvojej nebol by som žiadal.
+            Svetom som blúdil, Tys’ ma našiel v biede, Duch Tvoj ma vedie.
+        </section>
+        <section name="v6">
+            Teraz už vďačne spievam Tebe žalmy,
+            za vykúpenie, čo si z lásky dal mi.
+            Uprostred búrok mojím hrdom si Ty, v Tebe som skrytý.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4 v5 v6
+    </repetition>
+</slide>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Neslyšíte zpívat zvony">
+    <variant name="čeština">
+        <section name="v1">
+            Neslyšíte zpívat zvony vánoční?
+            Neslyšíte, jak velebně krajem zní?
+            Vyprávějí svaté zvěsti dojemné,
+            že se Kristus Pán narodil v Betlémě.
+        </section>
+        <section name="r1">
+            Bohu sláva, zvon radostně pěje,
+            Bohu sláva, až se srdce chvěje.
+            Píseň míru hlaholí do dědin i do polí,
+            neslyšíte zívat zvony vánoční?
+        </section>
+        <section name="v2">
+            Zvěsti letí, píseň stoupá k výšinám,
+            cítíme, že Ježíš přišel také k nám.
+            Vzpomínáme na pastýře u jeslí,
+            na mudrce, jak mu dary přinesli.
+        </section>
+        <section name="v3">
+            Vzpomínáme i na píseň andělskou,
+            jak se chvěla nad krajinou betlémskou.
+            I my Bohu zaspíváme ze všech sil,
+            vždyť se Ježíš také pro nás narodil.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1
+    </repetition>
+</slide>

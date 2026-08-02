@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Ži krásne v časnom živote">
+    <variant name="čeština">
+        <section name="v1">
+            Ži krásne v časnom živote, šír vôňu lásky kol seba.
+            /:Putuješ ta, kde sĺz už niet, sústrasti tvojej netreba:/
+        </section>
+        <section name="v2">
+            Na konci žitia všeličo márnosťou sa ti bude zdať.
+            /:nad časom v láske prežitým nebudeš nikdy ľútosť mať.:/
+        </section>
+        <section name="v3">
+            Pokorne nos kríž za Kristom, prepáli oheň tvoje “ja”.
+            /:Po bojoch v rúchu zbielenom s Ježišom vstúpiš do raja.:/
+        </section>
+        <section name="v4">
+            Keď rozkazuje Pán, tak choď! Keď velí: “Stoj”, tak poslúchaj!
+            /:Bez neho zblúdiš k priepasti, s ním do nebeských vojdeš brán.:/
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

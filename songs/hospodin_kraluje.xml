@@ -1,0 +1,24 @@
+<?xml version="1.0" ?>
+<slide name="Hospodin kraluje">
+    <variant name="čeština">
+        <section name="v1">
+Hospodin kraluje,
+oděl se důstojností,
+oděl se Hospodin,
+mocí se opásal.
+</section>
+        <section name="r1">
+Zvedají řeky, Hospodine,
+zvedají řeky svůj hlas.
+zvedám i já, Hospodine,
+zvedám i já svůj hlas.
+</section>
+        <section name="v2">
+Pevně je založen svět,
+nic s ním neotřese,
+Tvůj trůn pevně stojí odedávna
+Ty jsi od věčnosti.
+</section>
+    </variant>
+    <repetition name="default" main="1">v1 r1 v2</repetition>
+</slide>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Na Golgote stíš sa, stíš">
+    <variant name="čeština">
+        <section name="v1">
+            Na Golgote stíš sa, stíš,
+            tu dal Ježiš v obeť seba.
+            Oltárom sa stal ten kríž,
+            na ňom plameň lásky z neba.
+            Poníž srdce pred svätým
+            Baránkom tým nevinným!
+        </section>
+        <section name="v2">
+            Krv mu steká z nôh i rúk,
+            tŕnie svätú hlavu zdobí.
+            Môžeš si ho nevšimnúť,
+            či ťa srdce nezabolí?
+            K nemu obráť svoju tvár,
+            pre teba mrie kráľov Kráľ!
+        </section>
+        <section name="v3">
+            Baránok, Ty Boží Syn,
+            Tvoja obeť drahá, svätá,
+            obmyla ma z mojich vín,
+            nado mnou smrť moci nemá.
+            Z toho kríža hrozných múk
+            spásu beriem z Tvojich rúk.
+        </section>
+        <section name="v4">
+            Pane, čo ja Tebe dám,
+            že si za mňa toľko znášal?
+            Prijmi srdce, zmeň ho v chrám,
+            bývaj v ňom Ty, moja spása!
+            Tebe dávam život svoj,
+            so svojím ho v jedno spoj!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

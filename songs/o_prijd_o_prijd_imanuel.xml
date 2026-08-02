@@ -1,0 +1,31 @@
+<?xml version="1.0" ?>
+<slide name="O prijd o prijd imanuel">
+    <variant name="čeština">
+        <section name="v1">
+Ó, príd', ó, príd, Emanuel, tak túžobne Iká Izrael
+a očakáva nádej dňa, ked' vôkol taží hriechu tma.
+</section>
+        <section name="r1">
+Už blízko deň, ó Izrael, 
+ked príde tvoj Emanuel.
+</section>
+        <section name="v2">
+Ó, príd, ó, príd, Syn Dávidov, zlo premôž láskou bezmedznou, 
+premôž ho a vyslobod' nás, z pút hriechu, drahý Mesiáš!
+</section>
+        <section name="v3">
+Ó, príd, ó, príd, Ty ranný svit, nás zo sna hriechov zobudit,
+tmu hustej noci rozožeň, nech svitne nový jasný deň.
+</section>
+        <section name="v4">
+Ó, príd, ó, príd, Syn človeka, Ty pravda Božia odveká.
+Ku večnej spáse ved'svoj lud a nedaj hriešnym zahynút.
+</section>
+        <section name="v5">
+Ó, príd, ó, príd, Ty králov Král, by nám si spásu daroval,
+a ked' bude posledný súd, nám, Kriste, milostivý bud!
+</section>
+    </variant>
+    <repetition name="default" main="1">v1 r1 v2 v3 v4 v5</repetition>
+    <repetition name="Mira-band">(v1 v2 v3)</repetition>
+</slide>

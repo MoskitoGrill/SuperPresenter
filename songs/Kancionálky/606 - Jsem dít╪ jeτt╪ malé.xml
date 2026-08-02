@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Jsem dítě ještě malé">
+    <variant name="čeština">
+        <section name="v1">
+            Jsem dítě ještě malé,
+            však Boha v srdci mám
+            /:a všecky lidi miluji
+            a láskou objímám.:/
+        </section>
+        <section name="v2">
+            Je malinké mé srdce,
+            přec velkou radost má,
+            /:jsem Ježíšova ovečka,
+            On dítky přijímá.:/
+        </section>
+        <section name="v3">
+            A malým chci vždy býti
+            před Spasitelem svým,
+            /:a pokorou se zdobiti
+            jak rouchem královským.:/
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3
+    </repetition>
+</slide>

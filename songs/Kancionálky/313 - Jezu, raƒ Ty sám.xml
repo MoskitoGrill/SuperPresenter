@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Jezu, rač Ty sám">
+    <variant name="čeština">
+        <section name="v1">
+            Jezu, rač Ty sám
+            cestu razit nám!
+            Tam, kde Tvoje šlépěj svatá,
+            tam i duše naše chvátá:
+            veď nás z ciziny
+            v radost otčiny!
+        </section>
+        <section name="v2">
+            Bude-li nám zle,
+            uč nás vesele,
+            bez reptání, bez bolesti
+            každé těžké břímě nésti;
+            vždyť tou strastí zde
+            k Tobě cesta jde.
+        </section>
+        <section name="v3">
+            Vlastní-li nám žal
+            srdce rozbodal,
+            nebo cizí bol když tlačí,
+            potěš Ty sám v každém pláči.
+            Povznes mysl nám
+            k nebes výšinám!
+        </section>
+        <section name="v4">
+            Jezu, v dobách všech
+            spravuj sám náš běh!
+            I když cesta drsná bude,
+            Ty jen chraň a braň nás všude,
+            potom poutníkům
+            otevři svůj dům!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

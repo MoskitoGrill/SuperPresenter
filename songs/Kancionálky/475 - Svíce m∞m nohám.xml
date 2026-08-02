@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Svíce mým nohám">
+    <variant name="čeština">
+        <section name="v1">
+            Svíce mým nohám a stezce mé na všech mých cestách je Slovo Tvé;
+            vůdcem je, rádcem neomylným, učí mne neklamným pravdám Tvým.
+        </section>
+        <section name="r1">
+            Svaté Písmo, světlo mé, převzácný můj poklade,
+            ty mne učíš cestám svým, díš mi, komu náležím!
+        </section>
+        <section name="v2">
+            Studnice vody pro žíznící, ze skály věků se prýštící,
+            manna mně s nebe darovaná, v zápasu s hříchem tys' síla má!
+        </section>
+        <section name="v3">
+            Budiž ty dále nadějí mou, jak vždy jsi byla mně útěchou,
+            skrýší a hradem, ó, Kniho knih, až dojdu radosti v nebesích!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1
+    </repetition>
+</slide>

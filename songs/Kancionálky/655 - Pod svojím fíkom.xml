@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Pod svojím fíkom">
+    <variant name="čeština">
+        <section name="v1">
+            Pod svojím fíkom v tieni
+            vo vlasti večných krás,
+            bude mať naladenú
+            harfu už každý z nás.
+            Skončia sa boje viery,
+            na kosák skujú meč.
+            /:Tisíce rokov v mieri:/
+            budeme šťastní dlieť.
+        </section>
+        <section name="v2">
+            Zmlknu tam zbrane, delá,
+            utíchne búrka zhon,
+            smrť kde je premožená,
+            život je víťazom.
+            Človek sa k ľudom túli,
+            v láske keď zmizol hnev,
+            /:závisti pominuli,:/
+            s baránkom býva lev.
+        </section>
+        <section name="v3">
+            Láska, ty pieseň ladná,
+            už teraz zhrievaj svet,
+            príde raz tvoja vláda,
+            budeš raz večne znieť.
+            Pod svojím fíkom v tieni,
+            vo vlasti večných krás,
+            /:bude mať naladenú:/
+            harfu už každý z nás.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3
+    </repetition>
+</slide>

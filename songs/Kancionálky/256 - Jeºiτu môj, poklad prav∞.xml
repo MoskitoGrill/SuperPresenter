@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Ježišu môj, poklad pravý">
+    <variant name="čeština">
+        <section name="v1">
+            Ježišu môj, poklad pravý, v Tvojej krvi moja spása.
+            Srdce v túžbe k Tebe vzhliada, príď, ó Pane, skoro zjav sa!
+            Ježišu môj, Spasiteľu.
+        </section>
+        <section name="v2">
+            Teba, Pane, prosím vrúcne, aby si bol pri mne stále.
+            Ty ma vyslobodíš z biedy, v radosť zmeníš moje žiale.
+            Ježišu môj, Spasiteľu.
+        </section>
+        <section name="v3">
+            Čo je viac než Tvoje meno, v ňom sa kochá Tvoje dieťa.
+            Keď sa k Tebe vinúť môže, márnosťou sú skvosty sveta.
+            Ježišu môj, Spasiteľu.
+        </section>
+        <section name="v4">
+            Keď si môžem pripomínať nekonečnosť Tvojho mena,
+            moja duša v takej chvíli radosťou je rozochvená.
+            Ježišu môj, Spasiteľu.
+        </section>
+        <section name="v5">
+            Daj, nech oheň lásky k Tebe v mojom srdci vždy viac planie,
+            a keď umriem, budem s Tebou večne bývať v neba stane.
+            Ježišu môj, Spasiteľu.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4 v5
+    </repetition>
+</slide>

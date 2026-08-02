@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Vezmi, Pane, život můj">
+    <variant name="čeština">
+        <section name="v1">
+            Vezmi, Pane život můj,
+            své jej službě zasvěcuj,
+            moje dny, můj každý dech;
+            slávu Tvou vždy hlásat nech!
+        </section>
+        <section name="v2">
+            Vezmi ruce, uč mne sám,
+            co a jak kdy konat mám;
+            vezmi také nohy mé,
+            ať jsou hbity v službě tvé!
+        </section>
+        <section name="v3">
+            Vezmi hlas, ať velebí
+            Tebe, Boha na nebi;
+            vezmi rty, bych hlásal všem,
+            u Tebe jak šťasten jsem!
+        </section>
+        <section name="v4">
+            Vezmi všecko jmění mé
+            v oběť lásky upřimné;
+            vezmi moje schopnosti,
+            svou je spravuj moudrostí.
+        </section>
+        <section name="v5">
+            Vezmi chtění mé a zaň
+            vždy jen Tvá se vůle staň!
+            vezmi srdce, ustavuj
+            v něm si trůn, ó Králi můj!
+        </section>
+        <section name="v6">
+            Vezmi lásky mé si květ,
+            vezmi, což jest Tvého, zpět,
+            vezmi tělo, duši sám,
+            vše Ti rád a cele dám!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4 v5 v6
+    </repetition>
+</slide>

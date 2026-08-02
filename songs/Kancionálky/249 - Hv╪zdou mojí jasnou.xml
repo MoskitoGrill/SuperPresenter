@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Hvězdou mojí jasnou">
+    <variant name="čeština">
+        <section name="v1">
+            Hvězdou mojí jasnou,
+            na niž tak rád zřím,
+            skalou mojí pevnou,
+            věrným Vůdcem mým,
+            cílem mého žití,
+            za nímž pospíchám,
+            /:chlebem, jenž mne sytí,
+            Kristus Pán je sám!:/
+        </section>
+        <section name="v2">
+            Zdroji mého blaha,
+            v Tobě nebe mám,
+            má když klesá noha,
+            o porou's mi sám;
+            životem jsi v smrti,
+            v strasti útěchou,
+            /:vše mám drahý Jezu,
+            maje milost Tvou!:/
+        </section>
+        <section name="v3">
+            Bez Tebe bych zmíral
+            pod tíží vin svých,
+            bez Tebe bych klesal
+            s hříchem v zápasích.
+            Bez Tebe jsme plevy
+            větrem zmítané,
+            /:v Tobě všeho blaha
+            nám se dostane.:/
+        </section>
+        <section name="v4">
+            V pevné víře v Tebe
+            jít chci cestou Tvou,
+            až i mně se nebe
+            brány otevrou.
+            Pak již novou písní
+            vstříc Ti zaplesám:
+            /:"Nemám nic krom Tebe,
+            v Tobě všechno mám!":/
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Sláva tebe, dobrý Bože náš">
+    <variant name="čeština">
+        <section name="v1">
+            Sláva Tebe, dobrý Bože náš,
+            že jsi svojho Syna dal,
+            aby každý, kto mu uverí,
+            v nebi večný život mal.
+        </section>
+        <section name="r1">
+            Sláva, sláva Bohu na nebi
+            a na zemi pokoj nám.
+            Teba Bože, ľudstvo velebí:
+            narodil sa Kristus Pán.
+        </section>
+        <section name="v2">
+            V Kristu Boh nám nebo otvoril,
+            svetlo sveta žiari v noc.
+            Kto sa pred Ježišom pokoril,
+            k synovstvu má právo, moc.
+        </section>
+        <section name="v3">
+            Krista, Kráľa nebies, vítajme,
+            v srdciach postavme mu trón.
+            Jemu samému sa klaňajme,
+            nech je vyvýšený On.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1
+    </repetition>
+</slide>

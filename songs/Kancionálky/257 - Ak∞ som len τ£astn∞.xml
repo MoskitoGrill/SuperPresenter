@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Aký som len šťastný">
+    <variant name="čeština">
+        <section name="v1">
+            Aký som len šťastný od kedy mám Pána, že už celým srdcom jemu náležím.
+            Moja duša bola hriechom poviazaná, rozviazal mi putá, voľný žijem s ním.
+            Z prenesmiernej lásky vyliečil mi rany. Všetkej vďaky, chvály hoden je môj Pán.
+        </section>
+        <section name="r1">
+            Iba Ježiš sám, iba Ježiš sám hojnosť blaha, šťastia srdcu daroval.
+            Ježiš, lásky Kráľ, seba v obeť dal, by mi svojou smrťou život daroval.
+        </section>
+        <section name="v2">
+            Pán Ježiš aj tebe chce dať život voľný, poškvrnené rúcho zbieliť ako sneh,
+            každý deň s ním bude pokojný a hojný, k chvále Božej môžeš dobré plody neisť.
+            Priviň sa len k Nemu v neochvejnej viere! Povedie ťa verne Ježiš, slávny Kráľ.
+        </section>
+        <section name="v3">
+            Odhoď všetku príťaž, duša utrápená, obeť kríža teba zemí zázračne.
+            Spasiteľ ťa dobrý vezme na ramená, prenesie až k cieľu púšťou bezpečne.
+            Víťazstvo máš isté v Pánu Ježišovi! Pre tebe ho dobyl, krvou zaplatil.
+        </section>
+        <section name="v4">
+            S veľ vodcom už slávnym kto je zjednotený, má vždy silu, svetlo;
+            Pán je rod ostrom. On je vinič pravý, ty si prútik v kmeni,
+            On je kmeňom tebe, zostaň navždy v ňom. Moc Svätého Ducha,
+            ovocie i dary, Vykupiteľ drahý pre teba tiež má.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1 v4 r1
+    </repetition>
+</slide>

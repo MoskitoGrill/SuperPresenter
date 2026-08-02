@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Ze zemského tu údolí">
+    <variant name="čeština">
+        <section name="v1">
+            Ze zemského tu údolí
+            se vírou vzhůru nese duch,
+            kde srdce nikdy nebolí,
+            kde svatý trůní Bůh.
+        </section>
+        <section name="v2">
+            Buď slaven, Boží Beránku!
+            Ty snímáš bol i hříchů tíž.
+            Ó Golgoto, ó Golgoto,
+            ty vedeš k Bohu blíž!
+        </section>
+        <section name="v3">
+            Tam v přehlubokém doježí,
+            co mír je, duše poznává.
+            Tam Kristu sebe zasvětí
+            a v službu vydává.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3
+    </repetition>
+</slide>

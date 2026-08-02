@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Otče náš, ktorý v nebi trón svoj máš">
+    <variant name="čeština">
+        <section name="v1">
+            Otče náš, ktorý
+            v nebi trón svoj máš,
+            modlitby dietok
+            svojich vyslýchaš.
+            Skloň sa i k nám, čuj
+            vrúcnych prosieb hlas,
+            na na pastvy svieže
+            ľud svoj voď a pas.
+        </section>
+        <section name="v2">
+            Bohatá žatva,
+            končí sa jej deň.
+            Ežte kým čas je,
+            k práci napomeň.
+            Ženci nech pozvú
+            všetko stvorenie,
+            nech prijmú v Kristu
+            večné spasenie.
+        </section>
+        <section name="v3">
+            Kráľu, veď k cieľu,
+            silu, k púti daj,
+            víťaziť nad tmou
+            v bojoch pomáhaj.
+            Na stráži daj nám,
+            Pane, verne stáť,
+            zlosť sveta pomož
+            láskou premáhať.
+        </section>
+        <section name="v4">
+            S cirkvou buď svojou,
+            aj keď zúri boj,
+            priprav ju k svadbe,
+            rany, bôle zhoj.
+            Tvoju moc, slávu
+            nech tu uzrieme,
+            prv než stáť tvárou
+            v tvár Ti budeme.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

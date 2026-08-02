@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Kto v Tvojom stánku">
+    <variant name="čeština">
+        <section name="v1">
+            Kto v Tvojom stánku, Bože, bude dlieť?
+            Kto na vrchu sa svätom bude skvieť?
+            Kto v úprimnosti chodí, svojim blížnym neuškodí,
+            ale vždy len dobre robí smie tam dlieť.
+        </section>
+        <section name="v2">
+            Kto v Tvojom stánku, Bože, bude dlieť?
+            Kto na vrchu sa svätom bude svieť?
+            Kto zastáva sa pravdy, znáša krivdy, nezná zrady,
+            v svojom slove stojí navždy smie tam dlieť.
+        </section>
+        <section name="v3">
+            Kto v Tvojom stánku, Bože, môže byť?
+            Kto na vrch svätý môže vystúpiť?
+            Kto iných háji práva, Tvoja nad všetko mu sláva,
+            každému čo jeho, dáva smie tam žiť.
+        </section>
+        <section name="v4">
+            Kto verne blížnym slúži, Bože náš,
+            Ty toho iste hojne požehnáš.
+            Ten bude v rúchu bielom s Tebou dlieť na vrchu svätom,
+            keď už zlaté stánky celkom prichystáš.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

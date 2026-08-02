@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="V cudzom diaľnom kraji">
+    <variant name="čeština">
+        <section name="v1">
+            V cudzom diaľnom kraji,
+            krok kde zblúdil tvoj,
+            počuj Otcov výkrik:
+            syn môj, syn môj!
+        </section>
+        <section name="r1">
+            Otec plný lásky,
+            v náruč chce ťa vziať,
+            ponáhľaj sa domov,
+            ó, vráť sa, vráť!
+        </section>
+        <section name="v2">
+            Sklamanie a bieda,
+            hrozný údel tvoj,
+            bynieš telom, dušou,
+            syn môj, syn môj!
+        </section>
+        <section name="v3">
+            Unavený, štvaný,
+            cítíš nepokoj,
+            vráť sa domov, príď už,
+            syn môj, syn môj!
+        </section>
+        <section name="v4">
+            Svet ti môže dať len
+            zármutok a bôl,
+            u mňa nájdeš lásku,
+            syn môj, syn môj!
+        </section>
+        <section name="v5">
+            Hoci dávno blúdiš
+            v svete hriešnom, zlom,
+            milujem ťa vrúcne,
+            syn môj, syn môj!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1 v4 r1 v5 r1
+    </repetition>
+</slide>

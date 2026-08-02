@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Ó, slávny pánov Pán">
+    <variant name="čeština">
+        <section name="v1">
+            Ó, slávny pánov Pán,
+            tú prosbu k Tebe mám,
+            ju v piesni vyspievam:
+            príď kráľovstvo Tvoje už k nám!
+        </section>
+        <section name="v2">
+            Ó, pomôž kríž mi niesť
+            a žitím vzdať Ti česť,
+            by vždy som mohol riecť:
+            príď kráľovstvo Tvoje už dnes!
+        </section>
+        <section name="v3">
+            Maj v srdci mojom trón,
+            len Ty sám vládni v ňom,
+            som Tvojím vlastníctvom.
+            Už so svojím príď kráľovstvom!
+        </section>
+        <section name="v4">
+            V tú našu zemskú vlasť
+            ráč slovo rozosiať,
+            daj ľuďom seba nájsť!
+            Príď s kráľovstvom na zem mier dať!
+        </section>
+        <section name="v5">
+            Kráľ večný, skoro príď
+            moc svoju prejaviť!
+            Chcem s Tebou večne žiť.
+            Už so svojím kráľovstvom príď!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4 v5
+    </repetition>
+</slide>

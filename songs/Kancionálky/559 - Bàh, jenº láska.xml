@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Bůh, jenž láska">
+    <variant name="čeština">
+        <section name="v1">
+            Bůh, jenž láska, Otec milý,
+            v Kristu zve nás k hodům svým.
+            S věrnými se plně sdílí,
+            neohrdá ani mdlým.
+            Živý chléb On udílí,
+            mocí lásky posílí.
+        </section>
+        <section name="v2">
+            Ó, by každý z hodovníků
+            v Páně smrt se ponořil!
+            Ó, by srdce plné díků
+            každý v oběť položil,
+            chtěj jen svému Mistru žít,
+            všude jeho svědkem být!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2
+    </repetition>
+</slide>

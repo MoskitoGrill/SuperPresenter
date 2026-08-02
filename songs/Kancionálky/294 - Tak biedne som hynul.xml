@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Tak biedne som hynul">
+    <variant name="čeština">
+        <section name="v1a">
+            Tak biedne som hynul, mrel uprostred vĺn,
+            preč unášal vietor môj bezmocný čln.
+            Mrak temný len vôkol a hrozivý zvuk,
+            aj veslo už vypadlo zo slabých rúk.
+        </section>
+        <section name="v1b">
+            V tom počul som hlas: Ide života Pán.
+            On v priepasti vín novú nádej dá nám.
+            Veď rozkáže víchrom a utíchnu hneď,
+            len dúfaj a volaj, On vtrhne z bied.
+        </section>
+        <section name="r1">
+            Už počujem hlas: Ide života Pán.
+            On v priepasti vín novú nádej dá nám.
+            On rozkázal víchrom a utíchli hneď,
+            už vďačne mu verím, veď vyrval ma z bied.
+        </section>
+        <section name="v2">
+            Keď zviazaný hriechom som bezvládne žil
+            a klesol som na dno už zbavený síl,
+            tu zdvihla ma nežne tá preklaná dlaň,
+            tak z kalnej na vody môj zachránil Pán.
+        </section>
+        <section name="v3">
+            Dnes v nebeský prístav smiem plaviť sa s ním,
+            a na skaly skryté už nenarazím.
+            Nech nepriateľ hrozí mi víchricou zlou,
+            ja navždy a dobre som ukrytý v ňom.
+        </section>
+        <section name="v4">
+            Strach, starosti nemám, veď nebo i zem
+            môj Spasiteľ riadi, to bezpečne viem.
+            Hľa, jagá sa more, vždy krášli ho mier,
+            loď pláva tak tíško v ten nebeský cieľ.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1a v1b v2 r1 v3 r1 v4 r1
+    </repetition>
+</slide>

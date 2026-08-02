@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Bůh buď s vámi">
+    <variant name="čeština">
+        <section name="v1">
+            Bůh buď s vámi,
+            než se sejdem zas!
+            Moudrost svoji
+            vždy vám dávej,
+            v lásce své vás zachovávej,
+            Bůh buď s vámi,
+            než se sejdem zas!
+        </section>
+        <section name="r1">
+            Než se sejdem,
+            než se sejdem
+            u nohou tam Ježíše,
+            než se sejdem,
+            než se sejdem,
+            Bůh buď s vámi,
+            než se sejdem zas!
+        </section>
+        <section name="v2">
+            Bůh buď s vámi,
+            než se sejdem zas!
+            Zastírej vás
+            svými křídly,
+            obdaruj dny pokojnými,
+            Bůh buď s vámi,
+            než se sejdem zas!
+        </section>
+        <section name="v3">
+            Bůh buď s vámi,
+            než se sejdem zas!
+            V těžkostech a
+            v nebezpečí
+            On vás laskavě měj v péči,
+            Bůh buď s vámi,
+            než se sejdem zas!
+        </section>
+        <section name="v4">
+            Bůh buď s vámi,
+            než se sejdem zas!
+            V lásce své vás
+            zachovávej,
+            zhoubných vichřic uchovávej,
+            Bůh buď s vámi,
+            než se sejdem zas!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1 v4 r1
+    </repetition>
+</slide>

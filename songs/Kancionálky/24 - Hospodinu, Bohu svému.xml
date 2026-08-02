@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Hospodinu, Bohu svému">
+    <variant name="čeština">
+        <section name="v1">
+            Hospodinu, Bohu svému,
+            dobrořeč, ó duše má,
+            nezapomínej na jeho
+            dobrodiní všeliká!
+        </section>
+        <section name="r1">
+            Zajisté, tak jako nebe
+            vysoko nad zemí jest,
+            jest nad těmi,
+            kteří se ho bojí,
+            milosrdenství
+            vyvýšené!
+        </section>
+        <section name="v2">
+            Nechce podle naších hříchů
+            s námi věčně nakládat,
+            ani na přestupky naše
+            ustavičně vzpomínat.
+        </section>
+        <section name="v3">
+            Jak se otec slitovává
+            rád nad svými dítkami,
+            tak se Pán Bůh milostivě
+            slitovává nad námi.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1
+    </repetition>
+</slide>

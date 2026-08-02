@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Když Bůh je s námi">
+    <variant name="čeština">
+        <section name="v1">
+            /:Když Bůh je s námi, kdo je proti nám?:/
+            On Syna nelitoval, za lidstvo jej obětoval,
+            jak by nám s ním všeho nedal Bůh, náš Pán?
+        </section>
+        <section name="v2">
+            /:Kdo na lid Boží bude žalovat?:/
+            Bůh spraveďnost mu dává, Kristus vrací synů práva,
+            Svatý Duch pak nepřestává za ně lkát.
+        </section>
+        <section name="v3">
+            /:Kdo pobaví nás lásky Kristovy?:/
+            Ni peklo, ani země ať si hrozí, vábí jemně:
+            Pán, “co mého, přijde ke mně”, odpoví.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3
+    </repetition>
+</slide>

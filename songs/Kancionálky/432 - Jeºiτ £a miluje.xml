@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Ježiš ťa miluje">
+    <variant name="čeština">
+        <section name="v1">
+            Ježiš ťa miluje! Čuješ tú zvesť?
+            V pokore vzdávam mu poctu a česť!
+            Zasľúbil: Neboj sa v súžení zlom.
+            /:Ochránim, zachovám, s tebou vždy som.:/
+        </section>
+        <section name="v2">
+            Nad mocou temnosti zvíťazil On,
+            zahojí rany a utíši ston,
+            na všetky bolesti lekárstvo má,
+            /:v úzkosti bezpečnú pomoc ti dá.:/
+        </section>
+        <section name="v3">
+            Ježiš ťa miluje! Zaženie tmu.
+            Nesklame, nezradí. Oddaj sa mu.
+            V boji len na neho s dôverou hľaď!
+            /: na tvoje volanie odpovie rád.:/
+        </section>
+        <section name="v4">
+            Ježiš ťa miluje! V posledný čas
+            vovedie verný ľud do ríše krás.
+            Víťazom prichystal kráľovský stan.
+            /:Raduj sa, skoro už príde tvoj Pán!:/
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

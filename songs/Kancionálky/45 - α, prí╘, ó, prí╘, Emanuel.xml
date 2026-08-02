@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Ó, príď, ó príď, Emanuel">
+    <variant name="čeština">
+        <section name="v1">
+            Ó, príď, ó príď, Emanuel.
+            Tak túžobne lká Izrael
+            a nepresajne čaká Ťa,
+            sťa opustená sirota.
+        </section>
+        <section name="r1">
+            Už blízko deň,
+            ó, Izrael,
+            keď príde tvoj
+            Emanuel.
+        </section>
+        <section name="v2">
+            Ó príď, ó príď, prút Jesseho!
+            Zlo potri mocou bezmedznou.
+            Z dna hlbokosti vyveď nás
+            a z ohňa zachráň, Mesiáš!
+        </section>
+        <section name="v3">
+            Ó príď, ó príď, Ty Východ dňa!
+            Tvoj národ, hľa, sa zobúdza.
+            Hmlu hustej noci rozožeň,
+            nech svitne nad ním jasný deň.
+        </section>
+        <section name="v4">
+            Ó príď, ó príď, Syn kráľovký!
+            Spas ľud svoj, zbav ho žalosti.
+            Ty do neba mu priprav púť,
+            nech nemusí raz zahynúť.
+        </section>
+        <section name="v5">
+            Ó príď, ó príď, Ty veľký Kráľ,
+            čo na Sinai raz si stál.
+            Svet ohromujúc slávou,
+            príď raz pred súd ľudstvo postaviť.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1 v4 r1 v5 r1
+    </repetition>
+</slide>

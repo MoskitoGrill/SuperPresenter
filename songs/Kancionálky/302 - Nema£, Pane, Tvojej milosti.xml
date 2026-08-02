@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Nemať, Pane, Tvojej milosti">
+    <variant name="čeština">
+        <section name="v1">
+            Nemať Pane, Tvojej milosti, tvojej lásky, tvojej vernosti,
+            neznať moc kríža Golgoty, kam by som sa, Bože presvätý,
+            kam by som sa, kam by som sa, Bože presvätý, podel v úzkosti?
+        </section>
+        <section name="v2">
+            V hriešnom klame by som ďalej spal, do nerestí biedne upadal,
+            ako kameň v priepasť hodený, spravodlivo na smrť súdený,
+            spravodlivo, spravodlivo na smrť súdený by som zomieral.
+        </section>
+        <section name="v3">
+            Tvoja ruka zbavila ma pút. Tvoja milosť, živej vody prúd.
+            Tvoja lásky mora hlbiny, keď si platil krvou za viny,
+            keď si platil, keď si platil krvou za viny, nedá zahynúť.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3
+    </repetition>
+</slide>

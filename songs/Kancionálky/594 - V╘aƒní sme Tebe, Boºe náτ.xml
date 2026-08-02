@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Vďační sme Tebe, Bože náš">
+    <variant name="čeština">
+        <section name="v1">
+            Vďačni sme Tebe,
+            Bože náš,
+            že mocnou rukou
+            vodíš nás.
+            Nový rok si nám
+            dožiť dal,
+            ó, prijmi za to
+            pieseň chvál.
+        </section>
+        <section name="v2">
+            Nad nami stále
+            stráž si mal,
+            a sýtil dobrým,
+            svätý Kráľ.
+            Vždycky si k nám bol
+            láskavý,
+            náš Otče dobrý,
+            predrahý.
+        </section>
+        <section name="v3">
+            Veríme, že aj
+            tento rok
+            Ty budeš viesť náš
+            každý krok.
+            Na to sa, Pane,
+            tešíme
+            a Tebe všetko
+            zveríme.
+        </section>
+        <section name="v4">
+            Tebe česť, chválu
+            vzdáváme
+            a v úcte sa Ti
+            klaniame.
+            V Kristu si ľudstvu
+            milosť dal,
+            buď sláva Tebe,
+            večný Kráľ.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

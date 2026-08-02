@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Daj, nech sa nám dobre darí">
+    <variant name="čeština">
+        <section name="v1">
+            Daj, nech sa nám dobre darí
+            v novom roku, Otče náš.
+            Daj nám silu len to konať,
+            čo za dobré uznávaš.
+            Tebe srdcia dávame,
+            so všetkým už Tvoji sme,
+            len sa zase zmilovávaj,
+            nový život dušiam dávaj.
+        </section>
+        <section name="v2">
+            Daj nám šťastne doputovať,
+            Pane, započatý rok.
+            Milostive ráč nás žehnať,
+            veď náš každý žitia krok.
+            Nenechaj nás v žalostiach,
+            pri nás buď i v radistiach,
+            aj pri smrti zostaň s nami,
+            Spasiteľu milovaný.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2
+    </repetition>
+</slide>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Jeden život máme">
+    <variant name="čeština">
+        <section name="v1">
+            Jeden život máme, ach, aj ten je krátky,
+            jeden život máme, ach, aj ten je krátky,
+            ani jedna chvíľa, ani jedna chvíľa,
+            spät sa nenavráti,spät sa nenavráti,
+            nenavráti.
+        </section>
+        <section name="v2">
+            Neprišli sme na svet žiť len svojmu blahu,
+            neprišli sme na svet žiť len svojmu blahu,
+            služiť máme blížnym, služiť máme blížnym,
+            šíriť Božiu slávu, šíriť Božiu slávu,
+            Božiu slávu.
+        </section>
+        <section name="v3">
+            Svieťme ako zora svieti nad obzorom,
+            svieťme ako zora svieti nad obzorom,
+            čiňme skutky lásky, čiňme skutky lásky
+            v mene Ježišovom, v mene Ježišovom,
+            Ježišovom.
+        </section>
+        <section name="v4">
+            Milujme vždy verne, láska neustáva,
+            milujme vždy verne, láska neustáva
+            ona svoje dielo, ona svoje dielo
+            smrťou dokonáva, smrťou dokonáva,
+            dokonáva.
+        </section>
+        <section name="v5">
+            Príde Pán náš, príde, svojich vyhľadá si,
+            príde Pán náš, príde, svojich vyhľadá si,
+            odmení ich vernosť, odmení ich vernosť
+            blahom večnej spásy, blahom večnej spásy,
+            večnej spásy.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4 v5
+    </repetition>
+</slide>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Kéž víc Tě miluji">
+    <variant name="čeština">
+        <section name="v1">
+            Kéž víc Tě miluji, víc lásky jen dávej mi, Pane můj, na každý den!
+            Ó, slyš tu prosbu mou, duši mou studenou rozehřej láskou svou; jen lásky víc!
+        </section>
+        <section name="v2">
+            Zemských dřív radostí žádával jsem, teď žádám Tebe mít vždy v srdci svém.
+            Tvář svou mi neskrývej, prosbu mou vyslýchej, víc lásky, Pane, dej, jen lásky víc!
+        </section>
+        <section name="v3">
+            Ať sešleš radosti, ať trpký žal, vždy jsi jim poslaní pro nás tu dal;
+            bychom Tě hledali a k Tobě volali, víc lásky žádali, jen lásky víc!
+        </section>
+        <section name="v4">
+            A když se konec můj přiblíží již a budu muset již svůj složit kříž,
+            zašeptnu v loučení, v pokorném ztišení k Tobě, mé spasení: jen lásky víc!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

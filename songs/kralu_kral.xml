@@ -1,0 +1,38 @@
+<?xml version="1.0" ?>
+<slide name="Králů král">
+    <variant name="čeština">
+        <section name="v1">
+V temnoté jsme byli sami, bez nadeje bez svétla.
+Z nebe přišel jsi k nám Králi, a svou lásku jsi nám dal.
+Stalo se tak behem noci, 
+z trunu slávy na zem sel, tak naplnil se zákon, 
+celý svět je zachráněn!
+</section>
+        <section name="r1">
+Sláva Otci, Synovi, Sláva Duchu, jsou v jednom tři.
+Jsi Bůh slávy, majestát, králi králü Tobě sláva!
+</section>
+        <section name="v2">
+Naději o Tvém království ztraceným jsi ukázal, 
+vykoupil jsi nås svou krvi, křižem hřichy udolal.
+Láskou celý svět jsi spasil, 
+naše spása byla cil, utrpenim pouta zlomil, 
+celý svět jsi usmiril.
+</section>
+        <section name="v3">
+Nad ránem, tak jak slibil, 
+třetího dne z hrobu vstal, 
+odvalen byl těžký kámen a já svobodný se stal.
+Mrtvé vzbudil z jejich hrobu, andělé stáli v úžasu.
+Ježiš přivede nás domü, k Otci svému ke trünu.
+</section>
+        <section name="v4">
+Tak probudil v nas víru,
+cirkev svou tu postavil, už nemusíme tápat, 
+Duchem oheň zapálil.
+V Jeho krvi v Jeho jménu všichni jsme ted svobodní,
+ každý z nás, kdo v něho věři bude jednou vzkřišený.
+</section>
+    </variant>
+    <repetition name="default" main="1">v1 r1 v2 r1 v3 v4 r1</repetition>
+</slide>

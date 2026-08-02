@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Kristu Pánu náležím">
+    <variant name="čeština">
+        <section name="v1">
+            Kristu Pánu náležím, to je pevným heslem mým;
+            hříchu, světu výhost dám, Páně jsem a zůstávám.
+        </section>
+        <section name="v2">
+            Ježíš, přítel můj, krev svou za mne vylil předrahou,
+            aby syn, jenž pobloudil, od Otce zas přijat byl.
+        </section>
+        <section name="v3">
+            Pane, v Tobě všecko mám; vše, co nelibé,
+            Ty sám z nitra mého vyhosti: dost mám na Tvé milosti!
+        </section>
+        <section name="v4">
+            Věřím, že mne vyslyšíš, ano předem volám již:
+            Amen, chvála Tobě, dík Kriste, žes můj pomocník!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

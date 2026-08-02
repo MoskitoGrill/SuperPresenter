@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Už slnce zapadá">
+    <variant name="čeština">
+        <section name="v1">
+            Už slnce zapadá,
+            deň zase odchádza,
+            však Ježiš, slnko života,
+            vždy s nami zostáva.
+        </section>
+        <section name="v2">
+            On, Tvorca, správca hviezd,
+            nás v pamäti má tiež,
+            my vrúcnym srdcom v deň i noc
+            mu vzdáme chválu, česť.
+        </section>
+        <section name="v3">
+            Za ticha nočného,
+            za svitu hviezdného
+            sa mysľou k nemu povznesme
+            nájsť pokoj u neho.
+        </section>
+        <section name="v4">
+            Lúč zhasne slnečný,
+            však Pán je nemenný,
+            On oslňuje láskou nás,
+            noc v svetlo premení.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

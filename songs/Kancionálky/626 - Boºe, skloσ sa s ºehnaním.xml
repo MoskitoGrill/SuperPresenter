@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Bože, skloň sa s žehnaním">
+    <variant name="čeština">
+        <section name="v1">
+            Bože, skloň sa s žehnaním
+            k svojim dietkam pokorným.
+            Tento zväzok manželský
+            nech má základ nebeský.
+            /:Obdar ich palmou mieru,
+            lásku im daj a vieru,
+            radosťou z Teba
+            vždy nech oplývajú.:/
+        </section>
+        <section name="v2">
+            K Tvojej práci dávaj chuť,
+            stále s nimi, Pane buď.
+            Keď si im dal žitia cieľ,
+            pomôž plniť daný diel.
+            /:Daj im a snimi i nám
+            privádzať ľudí v Tvoj chrám,
+            aby sme Teba
+            mohli oslavovať.:/
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2
+    </repetition>
+</slide>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Položil sa v jasliach">
+    <variant name="čeština">
+        <section name="v1">
+            Položil sa
+            v jasliach ako dieťa,
+            Kráľ, čo riadi,
+            udržuje svet,
+            na ktoreho
+            povel hviezdy svietia,
+            slovom ruší
+            mocný víchrov let.
+        </section>
+        <section name="r1">
+            /:Ježiš, vládca neba,
+            obetoval seba,
+            spasil mňa i teba.
+            Sláva, česť mu buď!:/
+        </section>
+        <section name="v2">
+            Túžby otcov
+            sú už naplnené,
+            prišiel Ježiš,
+            Vykupiteľ náš.
+            Zajasajte,
+            srdcia utrápené:
+            spásu nesie
+            drahý Mesiáš!
+        </section>
+        <section name="v3">
+            "Zvestujem vám
+            radosť!" anjel vraví
+            pastierom na
+            poliach betlemských.
+            Narodil sa
+            Spasiteľ, Kráľ slávy,
+            nesie zemi
+            pokoj nebeský.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1
+    </repetition>
+</slide>

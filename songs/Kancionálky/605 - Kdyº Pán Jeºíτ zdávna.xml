@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Když Pán Ježíš zdávna">
+    <variant name="čeština">
+        <section name="v1">
+            Když Pán Ježíš zdávna
+            chodil světem,
+            býval vždycky velmi
+            laskav k dětem:
+            zval je k sobě,
+            na klín si je brával,
+            ruce na ně
+            vkládal, požehnával.
+        </section>
+        <section name="v2">
+            I my největší v tom
+            blaho máme,
+            že Ježíše, Pána
+            svého známe.
+            Aš je sice
+            okem nevidíme,
+            přece že je vždycky
+            s námi, dobře víme.
+        </section>
+        <section name="v3">
+            Jsme-li dobré, ó, jak
+            jej to těší!
+            Ale lítost má, když
+            někdo hřeší.
+            Jaký sám jest,
+            nás chce také míti,
+            by nás mohl
+            potom k sobě vzíti.
+        </section>
+        <section name="v4">
+            Pokorně se všichni
+            k Tobě vinem,
+            ó, Ježíši, dej, ať
+            nezahynem;
+            drž nás pevně,
+            ať z nás ze všech žádné
+            z ruky Tvojí
+            nikdy nevypadne!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

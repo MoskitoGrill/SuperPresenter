@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Pri cieli blízko">
+    <variant name="čeština">
+        <section name="v1">
+            Pri cieli blízko,
+            nechýba moc,
+            hriechu by navždy
+            zmizla už noc.
+            V tvojom však srdci znie:
+            "Odídi ešte nie!
+            Neskôr dám zvolenie
+            k obráteniu."
+        </section>
+        <section name="v2">
+            Pri cieli blízko,
+            dnes je tvoj čas!
+            Ježiš chce srdce
+            dostať už raz.
+            Čakajú anjeli,
+            spásu by videli.
+            Bratov hlas posmelí:
+            "Duša, ó, poď!"
+        </section>
+        <section name="v3">
+            Pri cieli blízko
+            preblaženom,
+            na srdci takmer
+            Ježišovom.
+            Len tam je záchrana!
+            S vierou hľaď na pána,
+            ovečka zranená
+            poď, kým je čas!
+        </section>
+        <section name="v4">
+            Pri cieli blízko!
+            Príde raz súd!
+            Od hrôzy kde sa
+            duša má hnúť?!
+            Sklamali nádeje,
+            vrátiť sa pozde je.
+            Kdeže sa podeje?
+            Zahynie v tmách.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

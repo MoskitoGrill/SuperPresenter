@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Z hlbín volám na Tebe">
+    <variant name="čeština">
+        <section name="v1">
+            Z hlbín volám na Teba,
+            Pane, čuj môj hlas!
+            Viem, len Tvoja velba
+            dáva duši jas.
+            V priepasti je hriech a tma,
+            Bože, Ty z nej vyveď ma,
+            v nikom inom nieto
+            pre mňa záchrana.
+        </section>
+        <section name="v2">
+            Kto by obstál pred Tebou,
+            svätý Bože náš,
+            ak Ty svojou milosťou
+            nezakryješ nás?
+            Odpusť hriechy, zblúdenie,
+            pokoj daj a spasenie;
+            za tú lásku nech Ti
+            večná chvála znie!
+        </section>
+        <section name="v3">
+            Žiari svetlo nádeje,
+            mizne tmavá noc,
+            duša už sa nechveje,
+            cítím Tvoju moc.
+            Príde ráno, skončím boj,
+            Tebe zverím život svoj,
+            z hlbín Ty ma zdvihni
+            k sebe, Bože môj!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3
+    </repetition>
+</slide>

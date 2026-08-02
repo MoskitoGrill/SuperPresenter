@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Veď nás, ó Pane">
+    <variant name="čeština">
+        <section name="v1">
+            Veď nás, ó Pane,
+            cestou pokoje
+            snadno bez Tvé ruky
+            zabloudit,
+            a cíl je daleký a
+            smutno je.
+            Ty cestou života nám
+            pomoz jít!
+        </section>
+        <section name="v2">
+            Veď nás, ó Pane,
+            cestou pravdy své,
+            vždyť člověk bez Tebe jen
+            klopýtá;
+            jen v blízkosti Tvé ruky
+            laskavé
+            je naše pomoc, naše
+            záštita.
+        </section>
+        <section name="v3">
+            Veď nás, ó Otče,
+            v nebeský svůj byt
+            po cestě příme nebo
+            neschůdné:
+            Ty povedeš, my budem
+            vítězit
+            a posléz spočineme
+            v říši Tvé!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3
+    </repetition>
+</slide>

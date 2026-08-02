@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Cez oheň, cez vodu">
+    <variant name="čeština">
+        <section name="v1">
+            Cez oheň, cez vodu kráčať ak mám,
+            dobrého, sprievodcu, Ježiša, znám.
+            Veď ma, ó, Pane môj, veď ma ó, Pane môj,
+            svoju moc zjav, pri mne vždy stoj.
+        </section>
+        <section name="v2">
+            Mnohé a vábivé cesty set má.
+            Hoc sú aj žiarivé, koniec však tma.
+            Na úzku cestu svieť, na úzku cestu svieť,
+            Ježišu môj, po nej ma veď.
+        </section>
+        <section name="v3">
+            Svoj kríž rád ponesiem, ktorý mi dáš,
+            rozkoš Ty pre mňa, viem, skrytú v ňom máš.
+            Tebe znie chvály hlas. Tebe znie chvály hlas,
+            Ježišu môj chráň ma a spas!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3
+    </repetition>
+</slide>

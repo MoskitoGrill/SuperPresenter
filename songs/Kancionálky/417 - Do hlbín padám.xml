@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Do hlbín padám">
+    <variant name="čeština">
+        <section name="v1">
+            Do hlbín padám, do tmy súženia,
+            nikde už v svete nieto spasenia.
+            Za blahom zašlým márne pozerám,
+            po ľuďoch márne náruč vystieram,
+            u Teba už len, Jezu pomoc mám.
+        </section>
+        <section name="v2">
+            Tvoja krv svätá i mňa obmyla,
+            moje tiež hriechy nad sneh zbielila.
+            Podávaš ruku klincom ranenú,
+            Ty i dnes môžeš dušu zmorenú
+            potešiť, uviesť v ríšu blaženú.
+        </section>
+        <section name="v3">
+            Vyveď ma zo tmy k svetlu nádeje.
+            Tvojho nech Slova moc sa zaskveje.
+            Noci a žiaľne chvíle trápenia
+            nech sa mi v slávne ráno premenia,
+            uzriem v nich slávu Tvojho spasenia.
+        </section>
+        <section name="v4">
+            Na Teba vždy sa pevne spolieham,
+            naplníš sľuby, veď si Pravda sám.
+            Dokonals’  za mňa, ešte dokonáš,
+            ach, veď Ty dobre biedu moju znáš,
+            nesmiernu lásku k svojmu ľudu máš.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

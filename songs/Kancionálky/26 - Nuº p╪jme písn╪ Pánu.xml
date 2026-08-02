@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Nuž pějme písně Pánu">
+    <variant name="čeština">
+        <section name="v1">
+            Nuž, pějme písně Pánu
+            a lidem k radosti
+            nuž, milujme se spolu
+            a ničme žalosti.
+            Ó, když je srdce plno,
+            až láskou oplývá,
+            tu duši tak je volno,
+            že písní mluvívá.
+        </section>
+        <section name="v2">
+            Ať zanícení svaté
+            tón k písním udává,
+            ať tužby láskou vzňaté
+            z nás každý vyznává.
+            Ty všeho tvorstva touhu
+            vlož v tóny ve zpěvech
+            a s ní se povznes k Bohu,
+            jsa zbaven pochyb všech.
+        </section>
+        <section name="v3">
+            Pojď s námi, kdo jen toužíš,
+            pojď k Boží plnosti.
+            Proč duši marně soužíš?
+            Pojď k zdroji radosti!
+            Ó, ponoř v Boží lásku
+            své boly mučivé,
+            Pán upraví ti cestu
+            a zhojí nitro tvé.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3
+    </repetition>
+</slide>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Náš život jako letní den">
+    <variant name="čeština">
+        <section name="v1">
+            Náš život, jako letní den,
+            má stín i slunce jas;
+            leč vkrátce mizí jako sen
+            a nevrátí se zas.
+        </section>
+        <section name="r1">
+            Jako sen pomíjí čas,
+            kterým Pán daří nás.
+            Zvadlý květ ku večeru
+            ráno měl svou nádheru.
+        </section>
+        <section name="v2">
+            Však tato žití chvilenka
+            je drahý spásy den,
+            v němž rozséváme seménka
+            pro nekonečnou žeň.
+        </section>
+        <section name="v3">
+            Nuž, pracuj každý za rána
+            a nesluž ruce v klín,
+            by práce byla zdolána,
+            než přijde smrti stín.
+        </section>
+        <section name="v4">
+            Jak šťasten, kdo svůj práce čas
+            zde věrně naplní,
+            jej přivítá pak nebes jas
+            a věčné spasení.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1 v4 r1
+    </repetition>
+</slide>

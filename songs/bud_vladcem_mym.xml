@@ -1,0 +1,24 @@
+<?xml version="1.0" ?>
+<slide name="Buď Vládcem mým">
+    <variant name="čeština">
+        <section name="v1">
+Zemi v rukou máš, jí vládneš sám,
+horským potokům, dni i nočním tmám.
+Já však touhu mám, jediný můj cíl
+je, abys Vládcem mým vždy byl.
+</section>
+        <section name="r1">
+Buď Vládcem mým, vládni v síle své,
+nad vším, o čem sním, i ve chvíli zlé.
+Jen Ty jsi Pán, jsem Tvůj, to vím,
+prosím Tě, buď vždy vládcem mým
+</section>
+        <section name="v2">
+Každým slovem svým, každou myšlenkou
+ať vždy odrážím, Pane, krásu Tvou.
+Vždyť nikdo není víc, Ty jsi pro mě vším!
+Ježíši, buď vždy Vládcem mým.
+</section>
+    </variant>
+    <repetition name="default" main="1">v1 r1 v2 (r1)</repetition>
+</slide>

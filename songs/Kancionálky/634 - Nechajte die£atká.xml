@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Nechajte dieťatká">
+    <variant name="čeština">
+        <section name="v1">
+            "Nechajte dieťatká ku mne ísť!"
+            Takto povedal Pán Ježiš.
+            Preto tak ochotne robíme,
+            dieťatká do chrámu nosíme,
+            aby ich na ruky Pán sám vzal,
+            pohladil, posvätil,
+            požehnal.
+        </section>
+        <section name="v2">
+            "Takých je kráľovstvo nebeské,"
+            vyriekli drahé rty priateľské.
+            Pán Ježiš potešil mamičky,
+            na ruky brával ich maličkých.
+            Bola to prevzácna láskavosť,
+            na príklad, na šťastie,
+            na radosť.
+        </section>
+        <section name="v3">
+            Pane náš predrahý, láskavý,
+            dieťa sme prijali vo zdraví,
+            Tebe zaň srdečne vďačíme,
+            radostnou piesňou Ťa chválime.
+            Pohliadni na dieťa s milosťou,
+            učiň ho láskavou
+            bytosťou.
+        </section>
+        <section name="v4">
+            Prosíme, posväť ho, zachovaj,
+            do svojej služby raz zavolaj.
+            Rodičom k výchove múdrosť daj,
+            celý dom láskave požehnaj!
+            Pokorne žiadame, Otče náš,
+            sprevádzaj dieťa i
+            všetkých nás!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

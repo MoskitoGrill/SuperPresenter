@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Verný si, láskavý, Otče môj">
+    <variant name="čeština">
+        <section name="v1">
+            Verný si, láskavý,
+            Otče môj, Bože,
+            Teba mi nijaký
+            neskryje tieň.
+            Dobrota Tvoja, čo
+            konať chce, môže,
+            večne si ten istý,
+            niet v Tebe zmien.
+        </section>
+        <section name="r1">
+            Verný si, ten istý
+            včera, dnes, naveky.
+            Deň čo deň jas Tvojej
+            dobroty zriem
+            Otcovskú láskavosť,
+            Bože môj veľký,
+            od Teba v každý čas
+            prijímať smiem.
+        </section>
+        <section name="v2">
+            Zima i jarný čas,
+            leto a žatva,
+            nebeské telesá
+            z nezmerných plôch
+            spoločne s prírodou
+            radostne hlásia,
+            aký si mocný a
+            láskavý Boh.
+        </section>
+        <section name="v3">
+            Hriešnemu človeku
+            ponúkaš milosť,
+            drahá tvár Tvoja vie
+            potešiť, viesť,
+            nádejou na zajtra
+            zmocňuješ milou,
+            za všetko vzdávam Ti
+            chválu a česť!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1
+    </repetition>
+</slide>

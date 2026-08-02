@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Púšťaj chlieb svoj">
+    <variant name="čeština">
+        <section name="v1">
+            Púšťaj chlieb svoj v každom čase po vodách!
+            Tak káže Pán. Pre trpiacich mávaj dvere otvorené dokorán.
+        </section>
+        <section name="v2">
+            Ako semä zanesené do krajiny vzdialenej,
+            tak tvoj chlebík bude vzácny duši hladom zmorenej.
+        </section>
+        <section name="v3">
+            Dávaj hojne, nehľaď straty, zo všetkého vždy a rád,
+            púšťaj chlieb svoj, tvoje dary Boh ti vráti tisíckrát.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3
+    </repetition>
+</slide>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Poď, zvelebuj Pána">
+    <variant name="čeština">
+        <section name="v1">
+            Poď, zvelebuj Pána, ó
+            spasený ľud
+            a k oslave jeho vždy
+            hotový buď,
+            bo do svätej zmluvy
+            Pán zahrnul nás
+            a na večnom základe
+            postavil zas.
+        </section>
+        <section name="v2">
+            On umyl nás od hriechu,
+            prelieval krv
+            a vytiahol z bahna, kde
+            dleli sme prv.
+            S ním hriechu a svetu
+            sme odumreli
+            a teraz ho slávime
+            obnovení.
+        </section>
+        <section name="v3">
+            S ním do hrobu vody
+            sme ponorení,
+            tak pre neho navždy
+            sme spečatení.
+            Nuž plesáme šťastne,
+            že vyvolil nás
+            a kráčame za ním až
+            do vlasti krás.
+        </section>
+        <section name="v4">
+            Keď vedie a plní nás
+            Svätý Tvoj Duch,
+            už nepriateľ nevyrve
+            z Tvojich nás rúk.
+            Buď svetlom nám, keď sa
+            aj rozídeme,
+            daj srdcia nám v milosti
+            utvrdené.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

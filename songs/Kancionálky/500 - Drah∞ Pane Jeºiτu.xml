@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Drahý Pane Ježišu">
+    <variant name="čeština">
+        <section name="v1">
+            Drahý Pane Ježišu,
+            k Tvojmu Slovu zišli sme sa.
+            Daj tú radosť najvyššiu,
+            počúvať tak, až duch splesá.
+            Nech sa z prachu tejto zeme
+            k Tvojmu trńu povznesieme.
+        </section>
+        <section name="v2">
+            Pokušenie, únava,
+            zrak i myseľ zakaľuje;
+            Tvojho svetla záplava
+            nech náš rozum osveľuje.
+            Dobre myslieť, činiť môže,
+            komu to dáš Ty, ó Bože.
+        </section>
+        <section name="v3">
+            Svetlo z sveta večného,
+            Ty blesk večnej Božej slávy,
+            mocou Ducha svätého
+            zapáľ aj v nás oheň pravý.
+            Nech nám z Tvojho Slova, Pane,
+            vzíde hojné požehnanie.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3
+    </repetition>
+</slide>

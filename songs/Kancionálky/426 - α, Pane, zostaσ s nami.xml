@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Ó, Pane, zostaň s nami">
+    <variant name="čeština">
+        <section name="v1">
+            Ó, Pane, zostaň s nami a svoju milosť daj.
+            Keď hriech a satan vábi, Ty silu požehnaj.
+        </section>
+        <section name="v2">
+            Ó, Pane, svojím Slovom riaď denne život náš,
+            nech v jase Tvojho svetla tu kráča každý z nás.
+        </section>
+        <section name="v3">
+            Ó, Pane, udeľ dary nám Ducha svojho zas.
+            Ty naplň prázdne srdcia a obživ v každý čas.
+        </section>
+        <section name="v4">
+            Ó, Pane, chráň nás všade, sťa nedobytný hrad.
+            Daj spočinutie v Tebe, keď hrozí temný mrak.
+        </section>
+        <section name="v5">
+            Ó, Pane, zostaň s nami a vene o nás dbaj.
+            My chceme byť len Tvoji, tú milosť nám Ty daj.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4 v5
+    </repetition>
+</slide>

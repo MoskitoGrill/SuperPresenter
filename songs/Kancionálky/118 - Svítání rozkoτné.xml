@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Svítání rozkošné">
+    <variant name="čeština">
+        <section name="v1">
+            Svítaní rozkošné
+            s jitrem se blíží,
+            všem krajům ztemnělým
+            zazáří jas,
+            zapudí bolů a
+            trampot všech tíži
+            Pán, jehož příchodu
+            nastává čas.
+        </section>
+        <section name="v2">
+            Vítej, ó skvostné ty
+            po noci světlo,
+            po kterém proroků
+            vyhlížel zrak!
+            Lidstva všem zástupům
+            blaho by vzkvetlo,
+            Ty vzejdi nad nimi,
+            rozežeň mrak!
+        </section>
+        <section name="v3">
+            Pouště nechť ozdobí
+            luzným se květem,
+            řeky ať zavlaží
+            vyprahlý kraj,
+            o spáse píseň nechť
+            celým zní světem,
+            pod širou oblohou
+            jeden buď ráj!
+        </section>
+        <section name="v4">
+            Z krajin všech, ostrovů,
+            z dálného moře
+            chvály zpěv vstupuje
+            k nebesům výš.
+            Tychnou již rozbroje,
+            křivdy i hoře,
+            Tvá, Pane Ježíši,
+            rozkvete říš!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Sprievodcu mám">
+    <variant name="čeština">
+        <section name="v1">
+            Sprievodcu mám na púti časnej, čo nespí, starosť o mňa má,
+            i moje ťažké bremä nesie, On kráča vpred a cestu zná.
+        </section>
+        <section name="r1">
+            Pán cestu zná, čo vedie v slávu, zbav sa strachu, duša mdlá,
+            On určil bezpečnú ti dráhu, len za ním choď, On cestu zná.
+        </section>
+        <section name="v2">
+            Keď ťarchou unavený padám a temno všade vôkol mňa,
+            i vtedy v neho nádej skladám, On kráča vpred a cestu zná.
+        </section>
+        <section name="v3">
+            Ak je aj ťažká borba a duša býva strápená,
+            však mňa už neodvábi zvodca, Pán kráča vpred a cestu zná.
+        </section>
+        <section name="v4">
+            Ó, srdce, dravým hriechom štvané, ó, duša, žiaľom skľúčená,
+            Pán zničí tvojich škodcov zbrane, len kráčaj s ním, On cestu zná.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1 v4 r1
+    </repetition>
+</slide>

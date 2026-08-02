@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Když kol tebe zuří moře">
+    <variant name="čeština">
+        <section name="v1">
+            Když kol tebe zuří moře vzbouřeno
+            a ty chceš lkát smuten, že vše ztraceno:
+            sečti všecky dary, které Pán ti dal
+            a v tvém srdci zazní
+            nová píseň chval!
+        </section>
+        <section name="r1">
+            Sečti dary, které Pán ti dal,
+            sečti dary, které už jsi vzal,
+            sečti dary, v nichž ti požehnal,
+            a v tvém srdci musí
+            zaznět píseň chval!
+        </section>
+        <section name="v2">
+            Pod břemenem práce ran a obtíží,
+            když tvé oko marně pomoc vyhlíží,
+            sečti všecky dary a vzdáš Pánu čest,
+            a v tvém srdci zazní:
+            On má pomoc jest!
+        </section>
+        <section name="v3">
+            Když má jiný růže, ty však trní jen,
+            hleď na Boží sliby, budeš spokojen!
+            Sečti všecky dary, které nemá svět
+            a v tvém srdci zazní:
+            Já netoužím zpět!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1
+    </repetition>
+</slide>

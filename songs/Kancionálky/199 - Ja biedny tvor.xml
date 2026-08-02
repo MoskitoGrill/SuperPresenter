@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Ja biedny tvor">
+    <variant name="čeština">
+        <section name="v1">
+            Ja biedny tvor,
+            ja biedny hriešnik
+            vidím svoju veľkú biedu.
+            Ó Bože môj, hľla,
+            moje kroky
+            do záhube večnej vedú.
+            Pomoc kto podá mi z ľudí,
+            keď ma stihnú Tvoje súdy?
+        </section>
+        <section name="v2">
+            Dnes duša lká,
+            veď v ťažkom jarme
+            mocou tmy je zotročená,
+            a slobodu a
+            očistenie
+            na zemi nik pre ňu nemá.
+            V slzách Ťa prosím, ó Pane,
+            o Tvoje len zľudtovanie.
+        </section>
+        <section name="v3">
+            Hľa, aký žiaľ
+            má srdce moje,
+            množstvom hriechov obťažené.
+            Ó, vzhliadni naň,
+            ty, Otče z neba,
+            zošli svoje odpustenie!
+            Len krvou Božieho Syna
+            môž byť zmytá moja vina.
+        </section>
+        <section name="v4">
+            Oj, ozvi sa!
+            Daj potešenie!
+            Za svoje ma prijmi dieťa!
+            Nech počuť smiem
+            tie vzácne slová:
+            "Som tvoj Otec, milujem ťa!
+            Život ti dávam dnes nový,
+            vykúpenie v Ježišovi."
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

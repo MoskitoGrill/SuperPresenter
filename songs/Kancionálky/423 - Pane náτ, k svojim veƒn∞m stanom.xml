@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Pane náš, k svojim večným stanom">
+    <variant name="čeština">
+        <section name="v1">
+            Pane náš, k svojim večným stanom veď svoju cirkev sveta tmou,
+            proti zlu, hriechu, zvodným klamom Ty jej buď štítom, oporou.
+            Ľud Tvoj nech vždycky v ducha zbroji národom nesie spásy zvesť.
+            Srdce nech k srdcu láska pojí na Tvoju slávu, Tvoju česť!
+        </section>
+        <section name="v2">
+            Hoci dnes cirkev trpí ešte, mnohými v svete hanená,
+            zastavíš hriešnych na ich ceste: víťazstva príde hodina.
+            Ty keď sa zjavíš v svojej sláve, prestane vládať v svete blud,
+            Tebe sa, Božej cirkvi Hlave, pokloní s úctou Boží ľud.
+        </section>
+        <section name="v3">
+            Pánova cirkev,, národ Boží! Nech nám skvost tejto nádeji
+            vo chvíľach ťažkých silu množí, odvahy štítom v bojoch je.
+            Blízko už čas, keď pre nás príde Spasiteľ večný, slávny Pán,
+            odkryje taje dosiaľ skryté, vezme si ľud svoj v nebies chrám.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3
+    </repetition>
+</slide>

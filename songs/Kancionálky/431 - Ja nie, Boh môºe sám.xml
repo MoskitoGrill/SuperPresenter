@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Ja nie, Boh môže sám">
+    <variant name="čeština">
+        <section name="v1">
+            Ja nie, Boh môže sám ma novou cestou vodiť
+            a srdce znavené z pút hriechu vyslobodiť.
+            Nehľadím na seba, na Krista pozerám,
+            /:vyznávam s dôverou, ja nie, Boh môže sám.:/
+        </section>
+        <section name="v2">
+            Ja nie, Boh môže sám na v bojoch priviesť k cieľu
+            a duši zomdlenej dať nádej, vieru smelú.
+            Na neho bremeno vín svojich ukladám,
+            /:niesť ich už nevládzem! Ja nie, Boh môže sám.:/
+        </section>
+        <section name="v3">
+            Ja nie, Boh môže sám ma priviesť týmto svetom;
+            On k službe vyučí, dá svetlo svojim deťom.
+            Zmužilosť ochabla, ó, kde ju hľadať mám?
+            /:Chytím sa jeho rúk: ja nie, Boh môže sám.:/
+        </section>
+        <section name="v4">
+            Ja nie, Boh môže sám ma pripodobniť sebe,
+            dať na svet zabudnúť a srde povzniesť v nebe.
+            Verím, keď začal už dielo to vo mne Pán,
+            /:On ho i dokoná: ja nie, Boh môže sám.:/
+        </section>
+        <section name="v5">
+            Ja nie, Boh môže sám! Ó, slovo preradostné,
+            zdroj techy v súžení a neba svetlo skvostné.
+            Napokon s radosťou víťazne zaplesám,
+            /:s chválou že zvolať smiem: Ja nie, Boh môže sám.:/
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4 v5
+    </repetition>
+</slide>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Netráp sa a nežiaľ">
+    <variant name="čeština">
+        <section name="v1">
+            Netráp sa a nežiaľ, že len s mnohým bojom
+            doputuje kresťan k blaženosti zdrojom.
+            Čuj, čo dávno bolo v Slove Božom povedané:
+            Iba verné dieťa víťazom sa stane.
+        </section>
+        <section name="v2">
+            Netráp sa a nežiaľ! Vedz, že cez mrákavy
+            dieťa Božie prejde v ríšu večnej slávy.
+            Vtedy ono pozná, nad mrakmi že slnko žiari
+            a že rany zhojí svetlo Božej tvári.
+        </section>
+        <section name="v3">
+            Netráp sa a nežiaľ, žes’ nie pochopený,
+            že si v svätom boji krivo obvinený.
+            Na úsudok ľudí hviezda nebies nepýta sa,
+            ale ticho svieti; v tom jej večná krása.
+        </section>
+        <section name="v4">
+            Netráp sa a nežiaľ, že si vysmievaný
+            a že svet ťa v hneve ustavične haní.
+            Pán to iste vidí, raz dá pokyn, všetko minie,
+            ty žiť budeš večne, svet však večne zhynie!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

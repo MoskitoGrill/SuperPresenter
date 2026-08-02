@@ -1,0 +1,372 @@
+{
+    "styles":[
+        {
+            "name": "chvály sál – stacionární",
+            
+            "win":{
+                "width": 1920,
+                "height": 5000,
+                "background": "#000000"
+            },
+            "canvas":{
+                "width": 1920,
+                "height": 5000,
+                "background": "#000000",
+                "bd": 0,
+                "highlightthickness": 0
+            },
+            "canvas.place":{
+                "anchor": "n",
+                "relx": 0.5,
+                "rely": 0
+            },
+            "fonts":{
+                "hel32b":{
+                    "family": "Helvetica",
+                    "size": 33,
+                    "weight": "bold",
+                    "slant": "roman"
+                },
+                "hel28bi":{
+                    "family": "Helvetica",
+                    "size": 27,
+                    "weight": "bold",
+                    "slant": "italic"
+                }
+            },
+            "sources":[
+                {
+                    "type":"long",
+                    "repeat_start": "|:",
+                    "repeat_end": ":|"
+                }
+            ],
+            "widgets": [
+                {
+                "type": "stanza_paged",
+                "source": "long",
+                "lines_per_page": 200,
+                "x": 960,
+                "y": 100,
+                "y1": 48,
+                "y2": 42,
+                "gap": 18,
+                "fill": "#FFFFFF",
+                "primaryFont": "hel32b",
+                "secondaryFont": "hel28bi"
+                }   
+            ],
+            
+            "collection": {
+            "source": "images/sbirka_qr.png",
+            "size": 360, 
+            "relx": 0.87,
+            "rely": 0.55,
+            "anchor": "center"
+            }
+        },
+        {
+            "name": "chvály stream – stacionární",
+            "win": { "width": 1920, "height": 1080, "background": "#000000" },
+            "canvas": { "width": 1920, "height": 1080, "background": "#000000", "bd": 0, "highlightthickness": 0 },
+            "canvas.place": { "anchor": "n", "relx": 0.5, "rely": 0 },
+            "fonts": {
+                "streamFont": { "family": "Helvetica", "size": 32, "weight": "bold", "slant": "roman" }
+            },
+            "sources": [
+                {
+                    "type": "short2",
+                    "repeat_start": "",
+                    "repeat_end": ""
+                }
+            ],
+            "widgets": [
+                {
+                    "type": "image",
+                    "x": 0, "y": 0, "anchor": "nw",
+                    "source": "\\images\\stream_bg.png"
+                },
+                
+    
+                {
+                    "type": "stanza_paged",
+                    "source": "short2",
+                    "x": 960,
+                    "y": 930,
+                    "y1": 48,
+                    "y2": 42,
+                    "gap": 15,
+                    "width": 1800,
+                    "height": 150,
+                    "lines_per_page": 2,
+                    "align": "center",
+                    "primaryFont": "streamFont",
+                    "secondaryFont": "streamFont",
+                    "fill": "#ffffff"
+                }
+            ]
+        },
+        {
+            "name": "chvály sál",
+            "win":{
+                "background": "#000000"
+            },
+            "canvas":{
+                "width": 1920,
+                "height": 1080,
+                "background": "#000000",
+                "bd": 0,
+                "highlightthickness": 0
+            },
+            "canvas.place":{
+                "anchor": "s",
+                "relx": 0.5,
+                "rely": 1
+            },
+            "fonts":{
+                "hel32b":{
+                    "family": "Helvetica",
+                    "size": 33,
+                    "weight": "bold",
+                    "slant": "roman"
+                },
+                "hel28bi":{
+                    "family": "Helvetica",
+                    "size": 27,
+                    "weight": "bold",
+                    "slant": "italic"
+                }
+            },
+            "sources":[
+                {
+                    "type":"short",
+                    "repeat_start": "|:",
+                    "repeat_end": ":|"
+                }
+            ],
+            "widgets":[
+                {
+                    "type":"flow_lines",
+                    "x": 960,
+                    "y": 330,
+                    "y1": 48,
+                    "y2": 42,
+                    "gap": 18,
+                    "stp_in": 330,
+                    "stp_out": 330,
+                    "source":"short",
+                    "primaryFont": "hel32b",
+                    "secondaryFont": "hel28bi",
+                    "fill": "#ffffff",
+                    "path": "poly5",
+                    "path_steps": 20
+                },
+                {
+                    "type":"image",
+                    "x": 960,
+                    "y": 330,
+                    "anchor": "center",
+                    "source": "\\images\\fade_fg.png",
+                    "topmost": 1
+                }
+            ],
+            "collection": {
+            "source": "\\images\\sbirka_qr.png",
+            "size": 360,
+            "relx": 0.87,
+            "rely": 0.55,
+            "anchor": "center"
+            }
+        },
+        {
+            "name": "chvály stream",
+            "win":{
+                "background": "#000000"
+            },
+            "canvas":{
+                "width": 1920,
+                "height": 1080,
+                "background": "#000000",
+                "bd": 0,
+                "highlightthickness": 0
+            },
+            "canvas.place":{
+                "anchor": "s",
+                "relx": 0.5,
+                "rely": 1
+            },
+            "fonts":{
+                "hel32b":{
+                    "family": "Helvetica",
+                    "size": 33,
+                    "weight": "bold",
+                    "slant": "roman"
+                },
+                "hel28bi":{
+                    "family": "Helvetica",
+                    "size": 27,
+                    "weight": "bold",
+                    "slant": "italic"
+                }
+            },
+            "sources":[
+                {
+                    "type": "short2", "repeat_start": " (", "repeat_end": ")" 
+                }
+            ],
+            "widgets":[
+                {
+                    "type":"image",
+                    "x": 0,
+                    "y": 0,
+                    "anchor": "nw",
+                    "source": "\\images\\stream_bg.png"
+                },
+                {
+                    "type":"one_line",
+                    "x": 960,
+                    "y": 960,
+                    "y1": 48,
+                    "y2": 42,
+                    "source":"short2",              
+                    "primaryFont": "hel32b",
+                    "secondaryFont": "hel28bi",
+                    "fill": "#ffffff"
+                }
+            ]
+        },
+        {
+            "name": "chvály stream 1/3x",
+            "win":{
+                "width": 640,
+                "height": 360,
+                "background": "#000000"
+            },
+            "canvas":{
+                "width": 640,
+                "height": 360,
+                "background": "#000000",
+                "bd": 0,
+                "highlightthickness": 0
+            },
+            "canvas.place":{
+                "anchor": "s",
+                "relx": 0.5,
+                "rely": 1
+            },
+            "fonts":{
+                "hel32b":{
+                    "family": "Helvetica",
+                    "size": 11,
+                    "weight": "bold",
+                    "slant": "roman"
+                },
+                "hel28bi":{
+                    "family": "Helvetica",
+                    "size": 9,
+                    "weight": "bold",
+                    "slant": "italic"
+                }
+            },
+            "sources":[
+                {
+                    "type": "short2", "repeat_start": " (", "repeat_end": ")"
+                }
+            ],
+            "widgets":[
+                {
+                    "type":"image",
+                    "x": 0,
+                    "y": 0,
+                    "anchor": "nw",
+                    "resize": [640, 360],
+                    "source": "\\images\\stream_bg.png"
+                },
+                {
+                    "type":"one_line",
+                    "x": 320,
+                    "y": 320,
+                    "y1": 16,
+                    "y2": 14,
+                    "source":"short2",
+                    "primaryFont": "hel32b",
+                    "secondaryFont": "hel28bi",
+                    "fill": "#ffffff"
+                }
+            ]
+        },
+        {
+            "name": "chvály sál 1/3x",
+            "win":{
+                "width": 640,
+                "height": 360,
+                "background": "#000000"
+            },
+            "canvas":{
+                "width": 640,
+                "height": 360,
+                "background": "#000000",
+                "bd": 0,
+                "highlightthickness": 0
+            },
+            "canvas.place":{
+                "anchor": "s",
+                "relx": 0.5,
+                "rely": 1
+            },
+            "fonts":{
+                "hel32b":{
+                    "family": "Helvetica",
+                    "size": 11,
+                    "weight": "bold",
+                    "slant": "roman"
+                },
+                "hel28bi":{
+                    "family": "Helvetica",
+                    "size": 9,
+                    "weight": "bold",
+                    "slant": "italic"
+                }
+            },
+            "sources":[
+                {
+                    "type":"short",
+                    "repeat_start": "|:",
+                    "repeat_end": ":|"
+                }
+            ],
+            "widgets":[
+                {
+                    "type":"flow_lines",
+                    "x": 320,
+                    "y": 110,
+                    "y1": 16,
+                    "y2": 14,
+                    "gap": 6,
+                    "stp_in": 110,
+                    "stp_out": 110,
+                    "source":"short",
+                    "primaryFont": "hel32b",
+                    "secondaryFont": "hel28bi",
+                    "fill": "#ffffff",
+                    "path": "poly5",
+                    "path_steps": 20
+                },
+                {
+                    "type":"image",
+                    "x": 320,
+                    "y": 110,
+                    "anchor": "center",
+                    "resize": [640, 720],
+                    "source": "\\images\\fade_fg.png",
+                    "topmost": 1
+                }
+            ]
+        }
+        
+    ],
+    "animation":{
+        "anim_timeout": 0.3,
+        "dt": 30
+    }
+}

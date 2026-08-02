@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Ty víš, Pane, co bych rád">
+    <variant name="čeština">
+        <section name="v1">
+            Ty víš, Pane co bych rád, dokud živ jsem, zdráv a mlád:
+            rád bych celám srdcem svým sloužil velkým cílům Tvým.
+        </section>
+        <section name="v2">
+            Ty chceš, Tvým by celá zem řídila se rozkazem
+            a já rád bych ze všech sil snahu k tomu přičinil.
+        </section>
+        <section name="v3">
+            Světem vládne svár a hněv, pravá láska vzácný zjev:
+            Ty jsi láska, to vím sám, k Tobě bližní zavolám!
+        </section>
+        <section name="v4">
+            Svět je plný bolů, běd, slzy sčíst bych nedoved’;
+            kde je zřídlo těchy, vím, oznámím to lkajícím!
+        </section>
+        <section name="v5">
+            Svět je zlý a plný vin, každý z nás je smrti syn;
+            v Kristu chceš nám život dát, k němu budu lidi zvát!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4 v5
+    </repetition>
+</slide>

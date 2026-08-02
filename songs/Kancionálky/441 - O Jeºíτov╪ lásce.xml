@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="O Ježíšově lásce">
+    <variant name="čeština">
+        <section name="v1">
+            O Ježíšově lásce
+            zní světem píseň má,
+            o lásce, jež mne z hříchu
+            a z bídy pozvedla.
+            Až do nebes ta milost,
+            jež zachraňuje svět!
+            Chci po celý svůj život
+            jen o ní věčně pět.
+        </section>
+        <section name="r1">
+            Dražší je mi den co den,
+            čím ji blíže poznávám.
+            Hlubší nežli moře,
+            ztišující hoře,
+            Spasiteli, láska tvá!
+        </section>
+        <section name="v2">
+            Když zdávna v zemi Judské
+            Pán Ježíš chodíval,
+            s ním dlíval zástup mnohý,
+            by milost jeho vzal.
+            On zkroušené zval k sobě
+            a slepým dával zrak
+            a dosud lne svou láskou
+            i ke mně právě tak.
+        </section>
+        <section name="v3">
+            Z té přenesmírné lásky,
+            jíž mne tak miloval,
+            On bez reptání na kříž
+            se za mne přibít dal.
+            Ó, hloubko Božské lásky,
+            On za mne strpěl kříž
+            a tiše snášel muka,
+            by hříchů sňal mi tíž!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1
+    </repetition>
+</slide>

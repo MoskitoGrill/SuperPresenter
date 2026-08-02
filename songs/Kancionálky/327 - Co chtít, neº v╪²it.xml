@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Co chtít, než věřit">
+    <variant name="čeština">
+        <section name="v1">
+            Co chtít, než věřit, doufat dál,
+            však nezklamal Bůh nás:
+            On přítel věrný, Pastýř, Král,
+            jen dál mu věřme zas!
+        </section>
+        <section name="v2">
+            Co víc, než dává On, si přát?
+            Vždy naše dobré chtěl;
+            jak nést vše a jak dál se brát,
+            vždy nejlíp rozuměl.
+        </section>
+        <section name="v3">
+            Kam jíti máme s touhou svou?
+            Což nevyslýchal nás?
+            Nuž, k němu s víry modlitbou
+            vždy znovu, zas a zas!
+        </section>
+        <section name="v4">
+            Nám nejlíp je vždy zůstat s ním
+            a doufat v něho zas:
+            i stínu smrti údolím
+            On ví, jak provést nás!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

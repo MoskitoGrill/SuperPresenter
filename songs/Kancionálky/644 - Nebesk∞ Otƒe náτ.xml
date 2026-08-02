@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Nebeský Otče náš">
+    <variant name="čeština">
+        <section name="v1a">
+            Nebeský Otče náš,
+            všetko čo v moci máš,
+            všetkého Stvoriteľ,
+            od hriechov Spasiteľ,
+            Tvoju tvár hľadáme,
+            skrúšene žiadame
+        </section>
+        <section name="v1b">
+            na nás tu pohliadni,
+            srdcia Ty ovládni.
+            Prišla smrť v domov náš,
+            láskave poteš nás.
+        </section>
+        <section name="v2a">
+            Skončil boj života,
+            Tvoja však dobrota
+            pre nás vždy pomoc má,
+            poteší, požehná.
+            Urobil si už tak,
+            odstránil smútku mrak,
+        </section>
+        <section name="v2b">
+            pretože v Kristovi
+            stánok máš hotový
+            pre sestru, pre brata
+            v nebesiach zo zlata.
+        </section>
+        <section name="v3a">
+            Tebe sa klaniame,
+            vďaku Ti vzdávame
+            za milosť, za spásu,
+            za život, za krásu.
+            Ďalej nás ochraňuj,
+            podopri, obraňuj!
+        </section>
+        <section name="v3b">
+            Kým aj nás odvoláš,
+            alebo prídeš zas,
+            aby sme zmenení
+            boli v raj vnesení.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1a v1b v2a v2b v3a v3b
+    </repetition>
+</slide>

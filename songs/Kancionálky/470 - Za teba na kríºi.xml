@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Za teba na kríži">
+    <variant name="čeština">
+        <section name="v1">
+            Za teba na kríži
+            z lásky som zomieral,
+            vylial tam svoju krv,
+            seba som v obeť dal.
+            Prijal si spásy zvesť.
+            Čím šíriš moju česť?
+        </section>
+        <section name="v2">
+            Chodil som na zemi,
+            v chudobe, v úzkosti,
+            aby si na veky
+            prebýval v radosti.
+            Všetkého som sa vzdal,
+            čo si mi za to dal?
+        </section>
+        <section name="v3">
+            Spásu som vydobyl,
+            premohol hriechu noc,
+            priniesol zmierenie,
+            k víťazstvám slávnym moc.
+            Všetko to vo mne máš,
+            čo že mi za to dáš?
+        </section>
+        <section name="v4">
+            Venuj mi život svoj,
+            nájdeš ho, keď sa vzdáš.
+            Nie v svete, vo mne len
+            večný svoj poklad máš.
+            V moju sa službu daj
+            a vždy dosť na mne maj!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

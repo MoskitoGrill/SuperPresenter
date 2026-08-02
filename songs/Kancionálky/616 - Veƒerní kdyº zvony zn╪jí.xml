@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Večerní když zvony znějí">
+    <variant name="čeština">
+        <section name="v1">
+            Večerní když zvony znějí,
+            duše moje pamatuj,
+            kolik zase dobrodiní
+            prokázal ti Ježíš tvůj!
+        </section>
+        <section name="r1">
+            Haleluja! K chvále Páně
+            zvučte nebesa i zem.
+            Veleb jej i ty, má duše,
+            pokorným svým ohlasem!
+        </section>
+        <section name="v2">
+            Večerní když rostou stíny,
+            na vlast světla pamatuj,
+            ke již slunce nezachází,
+            slunce spásy, Ježíš tvůj.
+        </section>
+        <section name="v3">
+            Večerní když "s Bohem" dáváš
+            na Přítele pamatuj,
+            jenž je s tebou vždy a všude
+            bez proměny: Ježíš tvůj.
+        </section>
+        <section name="v4">
+            Večerní když hvězda plane,
+            na den nový pamatuj:
+            k němu brzo povolá tě
+            Hvězda jitřní, Ježíš tvůj!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1 v4 r1
+    </repetition>
+</slide>

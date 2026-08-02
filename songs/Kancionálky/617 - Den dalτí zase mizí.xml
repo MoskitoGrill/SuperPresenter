@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Den další zase mizí">
+    <variant name="čeština">
+        <section name="v1">
+            Den další zase mizí nám,
+            by nevrátil se víc
+            a nové noci temnotám
+            se ubíráme vstříc.
+        </section>
+        <section name="v2">
+            Však Ty jsi, Bože, stále týž,
+            Tvá moc se nemění,
+            Ty o všech našich nocech víš,
+            máš v počtu naše dny!
+        </section>
+        <section name="v3">
+            Tvou péčí objat usínám,
+            jak dítě bezpečen
+            a radostně Ti chválu vzdám,
+            až nový vzejde den.
+        </section>
+        <section name="v4">
+            A přijde-li smrt s rozkazem,
+            že odtud jíti mám,
+            rád půjdu: vždyť Tobě živ jsem
+            a Tobě umírám!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

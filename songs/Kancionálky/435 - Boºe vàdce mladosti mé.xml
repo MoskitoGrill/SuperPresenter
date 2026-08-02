@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Bože vůdce mladosti mé">
+    <variant name="čeština">
+        <section name="v1">
+            Bože vůdce mladosti mé, veď mne sám vždy cestou svou!
+            Sláb jsem, Tys však, Bože, silen, k Tobě vzhlížím s důvěrou.
+            Otče, veď mne, Otče drž mne, abych nekles mdlobou svou!
+        </section>
+        <section name="v2">
+            Nezkušen jsem; sám-li půjdu, sveden budu jistě vím;
+            mnoho nepřátel mi hroz zahynutím věčným, zlým.
+            Svět a ďábel úklad strojí, pomoz, Otče, Duchem svým!
+        </section>
+        <section name="v3">
+            Svět mne rozkoší svou láká a mé tělo slabé jest;
+            neodolám pokušení, nebudeš-li sám mne vést.
+            Svět je ve zlém, k zlému svádí, svadí, Otče, s Tvých mne cest.
+        </section>
+        <section name="v4">
+            Tělesnost mi, Otče, hrozí, zbavuj mne jí každý den.
+            Otče, drž mne rukou mocnou, abych ďáblu nepad v plen!
+            Srdce čisté stvoř mi, Bože, vypuď všechnu chlípnost ven!
+        </section>
+        <section name="v5">
+            Dej, bych žití své tak trávil, jako drahý Spasitel;
+            pokoru dej, srdce tiché, z něhož chvály zpěv by zněl.
+            Dej, bych Tebe v srdci nosil, s Tebou obecenství měl.
+        </section>
+        <section name="v6">
+            Veď mne v práci, veď mne v klidu, veď mne stále, uč mne sám,
+            jak bych svého užil žití: srdce své Ti oddávám.
+            Otče, vezmi můj si život, veď mne k nebes výšinám!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4 v5 v6
+    </repetition>
+</slide>

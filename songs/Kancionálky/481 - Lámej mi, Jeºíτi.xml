@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Lámej mi, Ježíši">
+    <variant name="čeština">
+        <section name="v1">
+            Lámej mi, Ježíši,
+            chléb z nebe svůj,
+            jak lid kdys u moře
+            mne nasycuj!
+            Za slovy knihy Tvé
+            Tebe chci zřít,
+            po Tobě touží duch,
+            Tebe chce mít.
+        </section>
+        <section name="v2">
+            Požehnej slovo své,
+            Pane, též mně,
+            jako jsi žehnal kdys
+            chléb v ruce své!
+            Povolí vazba již
+            stísněn můj duch:
+            pro Tebe budu žít,
+            jenž jsi můj Bůh.
+        </section>
+        <section name="v3">
+            Ty jsi mi, Ježíši,
+            chléb živý sám,
+            ve svatém slově tvém
+            svou sílu mám.
+            Deljž mi, bych s Tebou vždy
+            jedl a žil,
+            Tvou pravdu miloval,
+            Tvým věčně byl!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3
+    </repetition>
+</slide>

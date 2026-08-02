@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Sláva Tebe, Hospodine">
+    <variant name="čeština">
+        <section name="v1">
+            Sláva Tebe, Hospodine,
+            za stôl Tvojej štedrosti.
+            Hlad a smäd už necítime,
+            Ty nás žehnáš otcovsky.
+            Ráč nás chlebom svojich slov
+            živiť v tomto svete zlom
+            a raz v slávnej večnej ríši,
+            nech nás Tvoja láska sýti.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1
+    </repetition>
+</slide>

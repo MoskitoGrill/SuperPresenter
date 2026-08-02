@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Pán Boh je mi silou">
+    <variant name="čeština">
+        <section name="v1">
+            Pán Boh je mi silou, vykúpením, potešením v každom zemskom trápení.
+            Ja v jeho moci jak vo dne tak v noci mám zdroj pomoci.
+        </section>
+        <section name="v2">
+            V ňom keď žijem, smrť ma nepredesí. Už sa teším:
+            duša domov nájde si a vo večnosti mier sa v nej uhostí v jeho blízkosti.
+        </section>
+        <section name="v3">
+            Od neho, ma nič už neodlúči, On ma učí mať dosť v jeho náručí.
+            On ma chráni a v jeho žehnaní liek mám na rany.
+        </section>
+        <section name="v4">
+            Kým len žijem, spievaj, duša, chvály, On je stály, svety z neho povstali.
+            Chváľ Stvoriteľa! On radosť zosiela, plesaj zvesela.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4
+    </repetition>
+</slide>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Ach, jak bych v Pánu nezaplesal">
+    <variant name="čeština">
+        <section name="v1">
+            Ach, jak bych v Pánu nezaplesal, když jeho lásku srdcem znám,
+            když vím, že slávu nebes nechal a na svět přišel v těle k nám!
+        </section>
+        <section name="v2">
+            Vždy těš se v Pánu, duše moje, že jeho lásky důkaz máš,
+            že život dal za ovce svoje a vede v pravý domov náš.
+        </section>
+        <section name="v3">
+            Ó, děkuj Pánu všecka země, že jeho lásky krásný květ
+            svou vůní libou blaží plémě, jenž zrušil hřích a sobců svět.
+        </section>
+        <section name="v4">
+            I ty pěj Pánu, lide svatý, žes jeho lásky ovocem,
+            že přes ten odpor hříchu klatý přec jeho láska vítězem!
+        </section>
+        <section name="v5">
+            Chval celým srdcem svého Pána, kdos ve vlast lásky vešel tam,
+            a hlásej bližním, že v něm budou mít věčné slávy, světla chrám.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4 v5
+    </repetition>
+</slide>

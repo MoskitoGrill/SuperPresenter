@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Krv zvierat všetkých čias">
+    <variant name="čeština">
+        <section name="v1">
+            Krv zvierat všetkýc čias,
+            prelita v chráme tam,
+            nemohla hriech
+            človeka strieť,
+            uhasiť trýzne plam.
+        </section>
+        <section name="v2">
+            Baránok Boží sám
+            vlastnú krv v obeť dal,
+            ona tvoj hriech
+            zbieli sťa sneh,
+            tak Boh svet miloval.
+        </section>
+        <section name="v3">
+            Ku krížu Tvojmu zriem,
+            kde Ty si v bôli mrel:
+            vzdávam Ti česť,
+            žes' musel mrieť,
+            by večne žiť som smel.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3
+    </repetition>
+</slide>

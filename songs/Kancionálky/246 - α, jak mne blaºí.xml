@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Ó, jak mne blaží">
+    <variant name="čeština">
+        <section name="v1">
+            Ó, jak mne blaží ta rozkošná zvěst,
+            Bůh můj, že slitovným Otcem mi jest!
+            Ó, jak to z bible mi srdcem vždy hne,
+            slyším-li, Ježíš miluje mne.
+        </section>
+        <section name="r1">
+            Slyš, světe! Ježíš miluje mne
+            s věrností svou neskonalou,
+            slyš světe! Ježíš miluje mne,
+            miluje mne, mne, mne!
+        </section>
+        <section name="v2">
+            Od někoho, z prachu jenž smrti mne
+            zdvih, častokrát zabloudím v bídu a hřích.
+            Přece však k němu zas duše má lne,
+            slyším-li, Ježíš že miluje mne.
+        </section>
+        <section name="v3">
+            To mojí nejdražší písní vždy jest,
+            přes hory, doly bych dál ji chtěl nést,
+            až by to nadšeně, v svornosti ctné,
+            pěl celý svět: Ježíš miluje mne.
+        </section>
+        <section name="v4">
+            Věčnou tu slávu, již u Otce měl,
+            opustil, snížen zde trpěl a mřel.
+            Vyrval mne z pravice Satana lstné,
+            proto vím, Ježíš že miluje mne
+        </section>
+        <section name="v5">
+            Jestliže ptá se kdo, odkud to vím,
+            já ku cti Páně pak blažen mu dím:
+            Duch jeho stále, za noci i dne,
+            šepce mi, Ježíš že miluje mne.
+        </section>
+        <section name="v6">
+            Proto tak vesel a šťasten vždy jsem,
+            v Pánu mám blaho, jež nemůž dát zem.
+            Ďábel ať zbraní svou jakkoli tne,
+            marno vše: Ježíš, On miluje mne!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1 v4 r1 v5 r1 v6 r1
+    </repetition>
+</slide>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Jen vzývej Boha">
+    <variant name="čeština">
+        <section name="v1">
+            Jen vzývej Boha
+            v radostech i žalu,
+            ať srdce mdlí neb
+            okřívá!
+            A vzdávej jemu
+            díky, čest a chválu:
+            s ním bezpečná je
+            cesta tvá.
+        </section>
+        <section name="v2">
+            Ó, vzývej Boha,
+            když tě vina hlodá
+            a nitro zrývá
+            nepokoj.
+            pro Krista On ti
+            zahynouti nedá,
+            jen v modlitbě se
+            upokoj!
+        </section>
+        <section name="v3">
+            Ó, vzývej Boha,
+            když jsi péčí sevřen
+            a zklamán, kde ses
+            nenadál!
+            Bez něho ptáček
+            nepadá ni jeden,
+            On ještě nikdy
+            nezklamal!
+        </section>
+        <section name="v4">
+            Jen vzývej Boha,
+            kdyt že nemoc stíhá
+            a nikde pomoc
+            nevidět!
+            Ten lákař, jenž i
+            mrtvé z hrobu zdvihá,
+            vše pomůže ti
+            přetrpět.
+        </section>
+        <section name="v5">
+            Jen vzývej Boha
+            v každý čas a všude,
+            uč se tu konat
+            všecko s ním;
+            tvá cest k nebi
+            ozářena bude
+            a půjdeš po ní
+            s plesáním!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4 v5
+    </repetition>
+</slide>

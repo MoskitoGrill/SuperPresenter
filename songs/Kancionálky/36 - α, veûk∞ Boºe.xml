@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Ó, veľký Bože">
+    <variant name="čeština">
+        <section name="v1">
+            Ó, veľký Bože,
+            Tvá když vidím díla,
+            stvořená mocným
+            tvůrčím slovem Tvým,
+            nádherné hvězdy,
+            které Tvoje síla
+            zdržuje, nese
+            mžikem každičkým, tu plesá
+        </section>
+        <section name="r1">
+            Bože, Tobě vstříc můj duch:
+            Tys slavný Bůh, Tys slavný Bůh!
+            Tu plesá,
+            Bože, Tobě vstříc můj duch:
+            Tys slavný Bůh, Tys slavný Bůh!
+        </section>
+        <section name="v2">
+            Když Ty se skláníš
+            ke mně ve svém slovu,
+            k mé duši siré,
+            k mému soužení,
+            když Duch Tvůj těší
+            znovu mne a znovu,
+            když v Kristu dáváš
+            plné spasení: tu plesá
+        </section>
+        <section name="v3">
+            Ať rukou štědrou
+            rozdáváš své dary,
+            když požehnáním
+            prostíráš svůj stůl,
+            ať žal neb smutek,
+            trýznitel můj starý,
+            mne souží, tu mne
+            podpírá tvá hůl. Vždy plesá,
+        </section>
+        <section name="v4">
+            Když vidím Pána
+            chodit zemskou plání,
+            jak slouží, trpí,
+            jak má lidi rád,
+            v pokoře hlavu
+            jak na kříži sklání,
+            jsa svatý, splácí
+            provinilých pád, tu plesá
+        </section>
+        <section name="v5">
+            Až jednou skončí
+            moje zemská služba,
+            a věrný Pán
+            mne k sobě povolá,
+            pak splní má se
+            nejvroucnější  tužba.
+            Radostně, vděčně
+            duch můj zavolá: Již plesá
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1 v4 r1 v5 r1
+    </repetition>
+</slide>

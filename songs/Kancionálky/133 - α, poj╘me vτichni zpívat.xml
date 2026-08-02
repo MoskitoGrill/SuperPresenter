@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Ó, pojďme všichni zpívat">
+    <variant name="čeština">
+        <section name="v1">
+            Ó, pojďme všichni zpívat
+            o Pánu Ježíši!
+            On velkých nás i malých
+            je přítel nejlepší.
+            On v nepřístupném světle
+            trůn velebnosti má,
+            a přec i naše hlasy
+            v své lásce přijímá.
+        </section>
+        <section name="v2">
+            Jak milo zpívat o něm
+            a hlásat jeho čest
+            a vypravovat všechněm,
+            jak dobrý byl a jest.
+            On neodepřel nikdy
+            z běd lidem pomoci;
+            i naše dosud léčí
+            a hojí nemoci.
+        </section>
+        <section name="v3">
+            Jak milo zpívat o něm,
+            jenž z nebe přišel k nám,
+            a pro spasení naše
+            dal v oběť sebe sám.
+            Jsa Bůh a dědic všeho,
+            vzal nízkou podobu
+            a z lásky k lidem snášel
+            strast, hanu, chudobu.
+        </section>
+        <section name="v4">
+            Jak milo zpívat o něm,
+            jenž slavně z mrtvých vstal
+            a ďábla, smrt i peklo
+            tak mocně přemáhal.
+            Na zemi i na nebi
+            On věčně vévodí,
+            když On náš a my jeho,
+            nám kdo že uškodí?
+        </section>
+        <section name="v5">
+            Nuž, pějme tedy o něm
+            vždy rádi na zemi!
+            Pak novou písní chválu
+            mu vzdáme na nebi.
+            Kdo Ježíše zde vyzná,
+            i Ježíš vyzná jej,
+            a dá mu v nebi vidět
+            svůj jasný obličej.
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4 v5
+    </repetition>
+</slide>

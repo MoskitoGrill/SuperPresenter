@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Ovečkou že Páně jsem">
+    <variant name="čeština">
+        <section name="v1">
+            Ovečkou že Páně jsem, rád a vždycky hlásám všem.
+            On můj dobrý Pastýř je, do nebe mne dovede,
+            s láskou o mne pečuje, jménem mým mne jmenuje.
+        </section>
+        <section name="v2">
+            Vede mne i v nesnázi, láskou svou mne provází.
+            Na zelené mne nivy vodí, kde potok živý
+            duši moji žíznivou občerstvuje vodou svou.
+        </section>
+        <section name="v3">
+            Ó, jak velkou radost mám, Pastýř můj že Ježíš sám!
+            Když pak skončí žití čas, On mne příjme v nebes jas,
+            kde mu vděčnou chválu vzdám. V Kristu život věčný mám!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3
+    </repetition>
+</slide>

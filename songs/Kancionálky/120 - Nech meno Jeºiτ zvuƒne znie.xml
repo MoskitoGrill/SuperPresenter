@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Nech meno Ježiš zvučne znie">
+    <variant name="čeština">
+        <section name="v1">
+            Nech meno Ježiš zvučne znie,
+            zem, nebo, chváľho, chváľ.
+            Tvor každý hlásaj
+            nadšene:
+        </section>
+        <section name="r1">
+            Pán Ježiš, Ježiš,
+            Ježiš je náš slávny
+            Kráľ!
+        </section>
+        <section name="v2">
+            Vy mučeníci so zborom,
+            čo v nebi skláňa tvár,
+            svoj zložte hold tam
+            pred trónom:
+        </section>
+        <section name="v3">
+            Ty vykúpený, svätý ľud
+            vždy Božiu lásku chváľ
+            a pravdy mocným
+            svedkom buď:
+        </section>
+        <section name="v4">
+            On všetkým sveta národom
+            sa večnou spásou stal.
+            Nuž spojme srdcia
+            láskou v ňom:
+        </section>
+        <section name="v5">
+            Keď pred seba nás postaví,
+            duch plný bude chvál.
+            Spev nový zaznie
+            jasavý:
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 r1 v2 r1 v3 r1 v4 r1 v5 r1
+    </repetition>
+</slide>

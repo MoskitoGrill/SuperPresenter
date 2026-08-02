@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Pane, buď vždy vůdcem mým">
+    <variant name="čeština">
+        <section name="v1">
+            Pane, buď vždy vůdcem mým v plavbě mezi úskalím!
+            Bouře děsí duši mou, pomoz! Hledám spásu Tvou.
+            Veď ty sám mne slovem svým, Pane, buď vždy vůdcem mým!
+        </section>
+        <section name="v2">
+            Jako matka dítě své moře tišíš bouřlivé.
+            Na rozkaz a vůli Tvou vlny ihned utichnou.
+            S pomocí včas spěcháš k svým; Pane můj, buď vůdcem mým!
+        </section>
+        <section name="v3">
+            Ku břehu až přistanu, vezni mne v svou ochranu;
+            v jeku bouře divoké přiviň k sobě dítko své, těš mne:
+            “Nic se nestrachuj! Já jsem jistý vůdce tvůj!”
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3
+    </repetition>
+</slide>

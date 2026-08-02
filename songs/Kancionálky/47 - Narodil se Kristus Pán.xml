@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="Narodil se Kristus Pán">
+    <variant name="čeština">
+        <section name="v1">
+            Narodil se Kristus Pán,
+            veselme se,
+            z růže kvítek vykvet nám,
+            radujme se!
+            Z života čistého,
+            z rodu královského,
+            již nám narodil se.
+        </section>
+        <section name="v2">
+            Jenž prorokován jest,
+            veselme se,
+            ten na svět poslán jest,
+            radujme se!
+            Z života čistého,
+            z rodu královského,
+            již nám narodil se.
+        </section>
+        <section name="v3">
+            Člověčenství naše,
+            veselme se,
+            ráčil vzíti na se,
+            radujme se!
+            Z života čistého,
+            z rodu královského,
+            již nám narodil se.
+        </section>
+        <section name="v4">
+            Goliáš oloupen,
+            veselme se,
+            člověk jest vykoupen,
+            radujme se!
+            Z života čistého,
+            z rodu královského,
+            již nám narodil se.
+        </section>
+        <section name="v5">
+            Ó milosti Božská,
+            budiž s námi,
+            dej ať lest ďábelská
+            nás nemámí.
+            Pro Syna milého,
+            nám narozeného,
+            smiluj se nad námi!
+        </section>
+        <section name="v6">
+            Dejž dobré skončení,
+            ó Ježíši,
+            věčné vykoupení
+            věrných duší.
+            Přijď nám k spomožení,
+            zbav od zatracení,
+            pro své narození!
+        </section>
+    </variant>
+    <repetition name="default">
+        v1 v2 v3 v4 v5 v6
+    </repetition>
+</slide>
