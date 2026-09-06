@@ -256,3 +256,104 @@ při budoucím strukturálním přeuspořádání variant/opakování musí edit
 umístění aktualizovat nebo explicitně převést opakování pod kořen.
 Navazující krok: přepojit editor na repository a samostatně otestovat převod
 modelových řádků do dosavadního zobrazení před přepojením prezentéru.
+
+## Etapa 4 – samostatný construct parser
+
+Výchozí stav byl čistý repozitář na commitu `0965cf4` s dokončenými etapami
+1–3. Jejich změny byly zachovány. Nový modul
+`superpresenter/services/construct_parser.py` poskytuje
+`parse_construct(text, available_sections)`. Vrací neměnný strom `Construct`
+s instrukcemi `SectionStep` (sekce, pozice, výběr řádků) a `RepeatGroup`
+(děti, počet opakování, pozice, informace o opětovném použití řádků).
+Neimportuje Tkinter, aplikaci ani projektory a opakování nerozbaluje do paměti.
+
+Syntaxe podle původní implementace, význam skupin pro opakované řádky,
+API, výjimky a historické zvláštnosti jsou popsány v
+[docs/construct_syntax.md](docs/construct_syntax.md). Úplný seznam výskytů
+složených konstrukcí a odmítnutých výrazů je v
+[docs/construct_inventory.md](docs/construct_inventory.md).
+Závorky implicitně opakují dvakrát, násobení patří skupině, rozsah je včetně
+obou krajních řádků. Vnoření je podporované; nová syntaxe nebyla přidána.
+
+`WidgetSource.readInstructions()` nyní překládá výsledek služby přes
+`Construct.to_legacy()` do totožných dosavadních zásobníkových instrukcí.
+Vrací `Construct` a při chybě vyhazuje konkrétní `ConstructError` podtřídu
+s pozicí od 0 a čitelnou zprávou. Volající UI výjimku zobrazí místo číselného
+kódu. Původní algoritmus zůstal jen v testovací referenci
+`tests/fixtures/legacy_construct_parser.py`; produkční fallback není potřeba.
+Renderery a navigace, XML písně, editor i `presentation_presenter.py` zůstaly
+beze změny.
+
+### Ověření 6. 9. 2026
+
+Python 3.12.14 z `.venv`, příkaz
+`.venv\Scripts\python.exe -B -m unittest discover -s tests -v`:
+**39 testů prošlo**, z toho 15 nových v `tests/test_construct_parser.py`.
+Pokrývají pořadí, skupiny, násobení, výběry řádků, 1500 úrovní vnoření,
+velká opakování bez rozbalení, historická ID a okrajové případy, konkrétní
+výjimky i jejich pozice, import služby bez GUI závislostí a atomické předání
+instrukcí do adaptéru.
+
+Porovnáno všech **860 XML výrazů v 858 souborech** proti zmrazenému původnímu
+parseru: při sjednocení sekcí všech variant **853 shodně přijatých** s přesně
+stejnými instrukcemi a použitými sekcemi, **7 shodně odmítnutých**. Další test
+porovnává skutečný legacy import pro jednotlivé varianty a jejich společný
+výběr. Šest reprezentativních písní a syntetické příklady ověřují výsledky
+`longText`, `shortText`, skupin i `short2`, včetně zachování níže uvedené
+původní chyby `short2`. Stávající testy importů a XML round-tripu také prošly.
+
+Provedena syntaktická kompilace 14 aktivních Python souborů v paměti
+a `git diff --check`. Samostatný linter není nakonfigurován. Přetrvávají dvě
+původní `SyntaxWarning` pro escape `\H`. Validátor etapy 2 stále uvádí
+**5 obsahových chyb a 76 varování** (návratový kód 1); jeho rozsah se neměnil.
+GUI ani projekční okna nebyly interaktivně testovány.
+
+### Omezení a další krok
+
+Parser dostává pouze jména sekcí, proto neověřuje rozsahy proti délce textu.
+Zachovává historické nulové indexy, prázdné skupiny a nulové násobení, i když
+je renderer nemusí bezpečně zpracovat. Velká násobení mohou být nákladná
+v dosavadních rendererech. Podrobnosti jsou v dokumentaci syntaxe.
+
+Při regresním testování byly potvrzeny dvě dosavadní chyby mimo parser:
+`importRepetitions` přehlíží guide na stejném řádku jako XML tag a `short2`
+může u opakovaných skupin vyvolat `IndexError` (například
+`at_srdce_me_tebe_vida.xml`). Obě se projevují i s původními instrukcemi;
+nebyly opravovány změnou navigace. Doporučená další etapa je samostatná oprava
+těchto dvou cest s regresními testy a ruční rozhodnutí sedmi odmítnutých výrazů
+ze zdokumentovaného inventáře.
+
+### Upřesnění syntaxe opakování
+
+Podle následného upřesnění uživatele zůstává XML hierarchie
+`slide name="Název písně"` → `variant name="jazyk"` → `section name="v1"`.
+ID `v1`, `v2`, … označují sloky, `r1`, `r2`, … refrény a `b1`, `b2`, … bridge.
+Parser zachovává i ostatní již používaná ID.
+
+`(v1)` znamená první sloku celkem dvakrát, `(v1) * 3` celkem třikrát.
+`v1.3` vybere pouze třetí řádek; `(r2.3) * 3` opakuje třetí řádek druhého
+refrénu celkem třikrát. Doplněna tolerance ASCII mezer kolem hvězdičky,
+kterou původní implementace nepřijímala. Zápisy s mezerami i bez nich nyní
+vytvářejí totožné instrukce; pozice chyb stále odpovídají původnímu textu.
+
+Změněny `construct_parser.py`, `tests/test_construct_parser.py`, dokumentace
+syntaxe a tento README. Všech **42 testů prošlo**, včetně celé databáze
+a přímého ověření textu i navigačních indexů pro `(r2.3) * 3`.
+Syntaktická kompilace a kontrola diffu prošly. XML ani renderery se neměnily;
+dříve uvedená omezení a doporučená oprava `short2` nadále platí.
+
+### Mezery kolem operátorů a pořadí sekcí
+
+Další upřesnění uživatele rozšiřuje toleranci ASCII mezer i kolem tečky
+ a dvojtečky: `(r2.3)*3`, `(r2.3) * 3` a `( r2 . 3 ) * 3` jsou ekvivalentní.
+`v1   v2` nadále znamená dvě sekce v uvedeném pořadí. Mezery uvnitř ID nebo
+čísla se neslepují. Pozice chyb zůstávají indexy v původním vstupu.
+Změněny parser, jeho testy, dokumentace syntaxe a README; XML ani navigace
+nebyly upraveny.
+
+Všech 21 parserových testů prošlo, včetně porovnání celé databáze.
+Syntaktická kompilace a kontrola diffu prošly. Celá sada 45 testů byla spuštěna,
+ale XML round-trip test tentokrát opakovaně hlásil WinError 5 při os.replace
+v dočasné složce, také mimo sandbox. Celou sadu tedy tentokrát nelze označit
+za úspěšnou. Doporučený krok: prověřit přístup/zamykání dočasných souborů
+Windows a zopakovat round-trip test; starší omezení short2 nadále platí.

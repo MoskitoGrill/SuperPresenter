@@ -11,6 +11,7 @@ import time
 import math
 from PIL import ImageTk, Image
 from superpresenter.services.song_repository import SongRepository
+from superpresenter.services.construct_parser import parse_construct, ConstructError
 
 
 class WidgetSource():
@@ -313,133 +314,16 @@ class WidgetSource():
         return slide_name
 
     def readInstructions(self):
-        txt = self.repetitions
-        legals = self.legalSections()
-        insts = []
-        b = ''
-        used = []
-        err = [0]
-        idx = 0
-        conn = [0]
-        while idx < len(txt):
-            a = txt[idx]
-            if a == '(':
-                insts = ['*'] + insts
-                conn.append(0)
-                idx += 1
-            elif a == ')':
-                idx += 1
-                a = txt[idx] if idx < len(txt) else ''
-                if a == '*':
-                    idx += 1
-                    while idx < len(txt):
-                        a = txt[idx]
-                        if ord(a) >= 48 and ord(a) <= 57:
-                            b += a
-                        else:
-                            break
-                        idx += 1
-                    if b == '':
-                        err = [2, idx]
-                        break
-                    n = int(b)
-                    b = ''
-                else:
-                    n = 2
-                for idx2 in range(len(insts)):
-                    b = 'err'
-                    if insts[idx2] == '*':
-                        insts = insts[0:idx2] + [conn[-1],'conn',n,'mult'] \
-                            + insts[idx2+1:]
-                        conn.pop(-1)
-                        conn[-1] += 1
-                        b = ''
-                        break
-                if b == 'err':
-                    err = [1]
-                    break                
-            elif a == ' ':
-                idx += 1
-            else:
-                conn[-1] += 1
-                while a != ' ' and a != '.' and a != '(' and a != ')':
-                    b += a
-                    idx += 1
-                    if idx >= len(txt):
-                        break
-                    a = txt[idx]
-                if b in legals:
-                    if b in used:
-                        k = used.index(b)
-                    else:
-                        k = len(used)
-                        used.append(b)
-                else:
-                    err = [3, b] 
-                    break
-                b = ''
-                if a == ' ' or a == ')' or a == '(':
-                    insts = [k,'all'] + insts
-                elif a == '.':
-                    idx += 1
-                    if idx > len(txt):
-                        err = [4, idx] 
-                        break
-                    while idx < len(txt):
-                        a = txt[idx]
-                        if ord(a) >= 48 and ord(a) <= 57:
-                            b += a
-                            idx += 1
-                        else:
-                            break
-                    if b == '':
-                        err = [4, idx]
-                        break
-                    n0 = int(b)
-                    if idx >= len(txt):
-                        insts = [k,n0,'line'] + insts
-                        break
-                    b = ''
-                    a = txt[idx]
-                    if a == ':':
-                        idx += 1
-                        if idx > len(txt):
-                            err = [5, idx] 
-                            break
-                        while idx < len(txt):
-                            a = txt[idx]
-                            if ord(a) >= 48 and ord(a) <= 57:
-                                b += a
-                                idx += 1
-                            else:
-                                break
-                        if b == '':
-                            err = [5, idx] 
-                            break
-                        n = int(b)
-                        if n <= n0:
-                            err = [6, idx] 
-                            break
-                        insts= [k,n0,n,'lins'] + insts
-                        b = ''
+        """Compile the independent parser's result for the existing renderers.
 
-                    else:
-                        insts = [k,n0,'line'] + insts
-                elif idx >= len(txt):
-                    insts = [k,'all'] + insts
-        if err[0] > 0:
-            return err
-        if len(conn) > 1:
-            err = [1] 
-            return err
-        for inst in insts:
-            if inst == '*':
-                err = [1] 
-                return err
-        insts = insts + [conn[0],'conn']
-        self.instructions = insts
+        Parsing errors propagate as ConstructError with an original-text offset.
+        Commit both legacy fields only after successful parsing and compilation.
+        """
+        construct = parse_construct(self.repetitions, self.legalSections())
+        instructions, used = construct.to_legacy()
+        self.instructions = instructions
         self.usedSections = used
-        return err
+        return construct
 
     def legalSections(self):
         legals = self.importSections([self.variants[0]])
@@ -1946,7 +1830,7 @@ class GUI():
                 self.onlineSources = [self.sources[idx] for idx in self.sourceList]
 
                 # 3. PŘÍPRAVA ZDROJŮ (PÍSNÍ)
-                err = [0]
+                construct_error = None
                 for src in self.onlineSources:
                     # Výběr správného konstruktu (opakování)
                     if hasattr(self, "song_editor_widget") and self.song_editor_widget.file_path == src.path:
@@ -1973,17 +1857,11 @@ class GUI():
                         guide = (reps.get(sel, {}).get("guide", "") or "").strip()
                     
                     src.repetitions = guide
-                    if not src.repetitions:
-                        tkmsg.showerror('Error constructing text',
-                                        f'Error in source "{src.importSlideName()}"\n'
-                                        'Construct (opakování) is empty.')
-                        err = [7]
-                        break
-
-                    # Parsování instrukcí (hvězdičky, tečky, sloky)
-                    err = src.readInstructions()
-                    if err[0]:
-                        self._display_construct_error(src.importSlideName(), err)
+                    try:
+                        src.readInstructions()
+                    except ConstructError as exc:
+                        construct_error = exc
+                        self._display_construct_error(src.importSlideName(), exc)
                         break
 
                     # Sestavení řádků (Zde se aktivuje logika short2 pro stream)
@@ -2001,7 +1879,7 @@ class GUI():
                     self.prevVars.append([0] + vars_)
 
                 # Pokud došlo k chybě při přípravě kterékoli písně, zastavíme
-                if err[0]:
+                if construct_error is not None:
                     self.runState = False
                     self._cleanup_after_stop()
                     return
@@ -2032,18 +1910,10 @@ class GUI():
 
     def _display_construct_error(self, slide_name, err):
         """Pomocná metoda pro zobrazení chyb v konstruktu"""
-        msgs = {
-            1: 'There are probably some parentheses missing.',
-            2: f'Expecting number after "*", at index {err[1] if len(err)>1 else "?"}.',
-            3: f'Section {err[1] if len(err)>1 else "?"} is not defined in chosen variants.',
-            4: f'Expecting number after ".", at index {err[1] if len(err)>1 else "?"}.',
-            5: f'Expecting number after ":", at index {err[1] if len(err)>1 else "?"}.',
-            6: f'Second number must be smaller than first, at {err[1] if len(err)>1 else "?"}.',
-            7: 'Construct (opakování) is empty.'
-        }
         tkmsg.showerror('Error constructing text',
                         f'Error in source "{slide_name}"\n'
-                        'Check construct input.\n' + msgs.get(err[0], "Unknown error"))        
+                        'Check construct input.\n' + str(err))
+
     def _cleanup_after_stop(self):
         self.openProjs.config(self.offStyle)
         self.win.bind('<Escape>', doNothing)
