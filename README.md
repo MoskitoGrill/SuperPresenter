@@ -551,3 +551,249 @@ aplikaci. GUI a reálné projekční výstupy nebyly interaktivně ověřeny.
 Velká opakování stále mohou vytvořit velký výsledný plán. Navazující krok:
 napojit stacionární plán na GUI navigaci a ověřit oba projekční výstupy;
 konkrétní označení v databázi rozhodnout ručně s autory písní.
+
+## Etapa 7 – napojení stacionární projekce na cue 8/4 (6. 9. 2026)
+
+Výchozí stav: čistý repozitář na `a112c12` (Etapa 6). Předchozí změny jsou
+zachované. Žádná píseň ani `presentation_presenter.py` nebyly upraveny.
+
+Přesné názvy a explicitní typy v `projectors_styles.json`:
+
+| Název stylu | mode |
+| --- | --- |
+| chvály sál | legacy_scroll |
+| chvály stream | legacy_scroll |
+| chvály sál – stacionární | stationary_hall |
+| chvály stream – stacionární | stationary_stream |
+| chvály sál 1/3x | legacy_scroll |
+| chvály stream 1/3x | legacy_scroll |
+
+Názvy a pořadí stylů zůstaly zachované kvůli uloženým konfiguracím. `mode`
+má přednost před názvem: styl lze přejmenovat. U staré konfigurace bez `mode`
+se pouze dva přesné původní stacionární názvy přeloží v kompatibilitní funkci
+`style_mode`; ostatní styly zůstanou legacy. Neznámá hodnota `mode` zastaví
+spuštění s chybou konfigurace. U přejmenovaného starého stacionárního stylu
+bez `mode` doplňte typ ručně. Žádná detekce podle části názvu se nepoužívá.
+
+### Propojení a ovládání
+
+`superpresenter/services/stationary_navigation.py` obsahuje čistou službu
+`CueNavigation`, adaptér vybraných variant `build_plan` a malý canvas adaptér
+`StationaryPageWidget` bez importu Tkinteru. `super_presenter.py` při spuštění
+připraví plán každé písně podle aktuálního guide a zvolených variant. Plány
+se během navigace nepřegenerovávají. Nové spuštění je připraví znovu.
+
+Stacionární seznam náhledu má jednu položku na cue. Šipky vlevo/vpravo,
+tlačítka vpřed/zpět i výběr položky používají tentýž navigační stav. Sál
+vykresluje `hall_page`, stream `stream_page`. Stejný objekt stránky sálu
+nevyvolá ani změnu textu na canvasu; stream se přitom aktualizuje. Přepnutí
+je okamžité, bez plánování animace přes `after`. Při návratu z prázdného
+kroku se stránka znovu správně vykreslí.
+
+Zachovány jsou prázdné kroky na začátku a konci písně. Posloupnost je:
+úvod, cue 1 až N, konec, úvod další písně, cue 1 další písně.
+Zpět prochází přesně tutéž posloupnost obráceně, tedy z úvodu další písně
+nejprve na konec předchozí písně a potom její poslední cue. Přímé přepnutí
+písně (také Shift+šipka) nastaví úvod. Začátek a konec celého seznamu se
+nepřetáčejí. Prázdný seznam ani píseň bez cue navigaci neshodí.
+
+Stejná časová osa platí při samostatném stacionárním sálu, samostatném
+stacionárním streamu i jejich souběhu. Sál samotný proto má také kroky,
+při nichž se jeho obraz nemění. Čistě pohyblivá sestava používá původní
+navigaci a widgety; větve `pair2/paged` jsou ponechány pro legacy konfigurace
+a stacionární větev je obchází. Ve smíšené sestavě s pohyblivým projektorem
+se jeho původní widget nastaví okamžitě na zdrojový řádek začátku cue.
+
+Výběry řádků a `@` se vyhodnotí před proložením zvolených jazyků. Každý
+fyzický řádek překladu zabírá jednu pozici v limitu 8/4, pořadí jazyků je
+pořadí jejich výběru. Náhled zobrazuje všechny zvolené jazyky současně.
+Stacionární widget zatím používá hlavní font pro všechny jazyky. Sál má
+plátno 1920 × 1080 místo dřívější výšky 5000 a stream začíná na y=860,
+aby se vešly čtyři řádky. Rozměry ani widgety legacy stylů se nemění.
+
+### Diagnostika a ruční scénáře
+
+Čítač ovládání ukazuje `song`, `step`, `cue`, `hall`, `stream` (od jedničky,
+`-` označuje prázdný krok). Pro výpis každého přepnutí do konzole spusťte
+v PowerShellu:
+
+```powershell
+$env:SUPERPRESENTER_CUE_DEBUG = '1'
+.venv\Scripts\python.exe super_presenter.py
+```
+
+Na skutečných výstupech zbývá ověřit:
+
+- Jedna sekce s 8 řádky: cue 1 = hall 1 / stream 1; cue 2 = hall 1 /
+  stream 2. Sál bez bliknutí, stream zobrazí druhé čtyři řádky.
+- Jedna sekce s 10 řádky: dvojice stránek 1/1, 1/2, 2/3.
+- Vpřed přes konec do další písně a zpět přes stejné prázdné kroky;
+  přímé přepnutí písní a nové spuštění vždy začínají úvodem.
+- Tytéž scénáře se sálem samotným, streamem samotným a oběma současně.
+- Původní `chvály sál` a `chvály stream`: původní pohyb a ovládání,
+  včetně rychlého přepínání; také smíšená sestava se stacionárním stylem.
+- Dlouhé řádky, více jazyků, připnuté výběry, čitelnost na skutečném
+  rozlišení a umístění textu vůči pozadí streamu a QR obrázku.
+
+### Ověření a omezení pro další etapu
+
+Python `.venv\Scripts\python.exe` je dostupný. Nový soubor
+`tests/test_stationary_navigation.py` přidává 12 testů bez skutečných oken:
+plány 8 a 10 řádků, přesně obrácený průchod včetně prázdné písně, start a
+restart všech písní, prázdný seznam, výběr cue myší, šipky i metody tlačítek,
+všechny kombinace výstupů, stejné hall page bez zásahu do canvasu,
+kompatibilitu stylů, jazykové varianty/připnutí a legacy směrování widgetů.
+
+Celá sada `-B -m unittest discover -s tests -v`: **74 testů prošlo**.
+Validátor: **858 XML, původních 5 chyb a 76 varování**, návratový kód 1.
+Kompilace všech **21 Python souborů** v paměti a `git diff --check` prošly.
+Samostatný linter není nakonfigurován; přetrvávají dvě původní
+`SyntaxWarning` pro `\H` v hlavní aplikaci.
+
+Změněné soubory: `super_presenter.py`, `projectors_styles.json`, tento
+`README.md`; nové soubory: `superpresenter/services/stationary_navigation.py`
+a `tests/test_stationary_navigation.py`.
+
+GUI testy používají náhrady canvasu a ovládacích prvků, nikoli skutečná okna.
+Dlouhý text se může zalomit a překročit pevnou svislou rozteč; automatické
+zmenšování fontu není součástí této etapy. Velká opakování stále mohou
+vytvořit velký plán. U více jazyků s různými délkami může smíšené legacy
+zobrazení používat odlišné zarovnání; prioritou je přesná společná časová
+osa stacionárních výstupů. Doporučený další krok: vizuálně provést uvedené
+scénáře na cílovém sálu/streamu, potom samostatně řešit typografii dlouhých
+řádků a případnou diferenciaci fontů jazyků. Známé chyby databáze neopravovat
+automatickým odhadem obsahu.
+
+## Doplnění Etapy 7 – opakované řádky stejné sloky (6. 9. 2026)
+
+Na předchozí necommitované napojení 8/4 navazuje pravidlo pro obyčejné
+výběry řádků bez `@`. Při zahájení této úpravy už existovala také uživatelská
+změna `songs/.xml`; zůstala nedotčená. `presentation_presenter.py` se nemění.
+
+Příklad pro pětiřádkovou sloku:
+
+```text
+v1 (v1.5)*3
+```
+
+Zobrazí celou sloku a tři další výskyty pátého řádku: sál 8, stream 4 + 4.
+Pátý řádek tedy zazní čtyřikrát celkem. Pro třikrát celkem použijte
+`v1 (v1.5)*2`: sál 7, stream 4 + 3. Stejně funguje rozepsaný zápis
+`v1 v1.5 v1.5 v1.5` a navazující rozsah, například `v1 v1.4:5`.
+
+Slučuje se celá souvislá skupina výběrů pouze s bezprostředně předcházejícím
+blokem stejné zdrojové sekce a jen když součet nepřesáhne 8 fyzických řádků.
+Identita sekce se určuje podle ID, nikoli shodou textu. `v1 r1` s délkami
+5 a 3 zůstane na samostatných stránkách 5 / 3. Výběr `r1.1` se rovněž
+nepřipojí k `v1`. Opakování celé sloky `(v1)*2` zachovává její hranice.
+
+`v1 (v1.5)*4` vytvoří stránky 5 / 4: skupina čtyř opakování se nerozdělí
+jen proto, aby vyplnila první stránku. Samotná skupina delší než 8 se
+následně standardně stránkuje po osmi. Při více jazycích se do kapacity
+počítají všechny zobrazované jazykové řádky. Explicitní dopředné připnutí
+`@` z Etapy 6 zachovává vlastní dosavadní pravidlo; nové slučování jej
+nepřesouvá na předchozí sloku. Historická poznámka Etapy 6, že obyčejné
+výběry vždy zachovávají hranice, je tímto doplněním pro stacionární režim
+nahrazena. Význam textu písně ani legacy překlad parseru se nemění.
+
+Změněno v tomto doplnění:
+- `superpresenter/services/stationary_pages.py`: příznak obyčejného výběru
+  na LogicalSection a slučování celé skupiny se stejnou slokou.
+- `superpresenter/services/stationary_navigation.py`: přenos příznaku přes
+  adaptér vybraných jazyků, takže pravidlo skutečně platí v projekci.
+- `tests/test_stationary_navigation.py`: tři nové testy s více scénáři
+  (kapacita, ID sekce, opakování, rozsahy, více jazyků, cue vpřed i zpět).
+- `tests/test_pinned_lines.py`: upravené očekávání obyčejného `v1 v1.4`;
+  testy explicitního `@` zůstaly zachované a procházejí.
+- `README.md`: tento zápis a příklady pro obsluhu.
+
+Ověření: **77 testů prošlo**, kompilace **21 Python souborů** v paměti a
+`git diff --check` prošly. Python ve `.venv` je dostupný. Samostatný linter
+není nakonfigurován; zůstávají dvě původní SyntaxWarning pro `\H`.
+Validátor: **858 souborů, 5 chyb, 77 varování**, kód 1. Jedno varování navíc
+oproti předchozímu běhu pochází z již změněného `songs/.xml`: jeho construct
+`v1 v2 v1 (v1.6)` není vyhodnocován omezenou kontrolou starých výrazů ve
+validátoru (`repetition_unchecked`); není to chyba nového slučování.
+
+Omezení z předchozí etapy platí: skutečná okna nebyla vizuálně testována a
+zalamování dlouhého textu může zvětšit počet obrazových řádků. Navazující
+krok: znovu spustit prezentaci (plán se vytváří při startu) a vyzkoušet
+uvedený pětiřádkový příklad na sálu i streamu, včetně návratu zpět.
+
+## Etapa 8 – řádkový náhled časové osy 8/4 (6. 9. 2026)
+
+Navazuje na necommitovanou Etapu 7 a její doplnění. Existující změny README,
+projektorových stylů, songs/.xml, stránkování a testů byly zachovány.
+Tato etapa upravuje pouze super_presenter.py, tests/test_stationary_navigation.py
+ a README.md. presentation_presenter.py ani XML písně se nemění.
+
+Podle upřesnění uživatele zůstává seznam po jednotlivých textových řádcích.
+Jeden ovládací krok tvoří záhlaví a jeho řádky; každý z nich přímo odkazuje
+na stejný PresentationCue. Kliknutí na text (i prázdný řádek) nebo záhlaví
+vybere přesně tento krok, bez zpětného odvozování z indexů zdrojového textu.
+Kliknutí, šipky a tlačítka synchronizují tentýž navigační stav.
+
+Záhlaví obsahuje ID sekce, číslo kroku a číslo stránky sálu s označením
+nová / stejná. Aktivní záhlaví má modré písmo a značku fokusu.
+Při zapnutém stacionárním streamu běžný výběr označuje jeho nejvýše čtyři
+textové řádky. Světle modrý podklad označuje celou aktivní stránku sálu,
+včetně druhého streamového kroku. Bez streamu výběr označuje celou stránku
+sálu (nejvýše osm řádků), ovládání stále postupuje po cue.
+Text pochází přímo ze stream_page.lines; oba bloky dohromady tvoří přesný
+obsah hall_page. Zůstávají všechny vybrané jazyky, opakování a prázdné řádky.
+Záhlaví jsou pouze pro obsluhu, neposílají se na projektory. Rozměry okna
+se nemění; seznam při přepnutí posune aktivní stránku do viditelné oblasti.
+Čítač používá české názvy místo interní diagnostiky; konzolový debug zůstává.
+Legacy indexové pomocné metody jsou stále používané a nebyly odstraněny.
+
+Ověření: Python z .venv je dostupný, všech 79 testů unittest prošlo.
+Doplněno ověření každého řádku a záhlaví proti přesnému cue i oběma výstupům,
+počtu vybraných řádků, úvodu, konce, další písně a návratu. Stávající testy
+ověřují šipky, opakování, více jazyků a kompatibilitu databáze.
+Kompilace 19 aktivních Python souborů v paměti a git diff --check prošly.
+Samostatný linter není nakonfigurován; přetrvávají dvě původní SyntaxWarning
+pro escape \H. Validátor databáze má nezměněných 5 chyb a 77 varování
+v 858 souborech (návratový kód 1).
+
+Omezení: testy GUI používají náhrady ovládacích prvků; skutečná okna nebyla
+vizuálně ověřena. Náhled ukazuje textový obsah, nikoli zalamování a font
+projekčního canvasu. U velmi úzkého seznamu může být dlouhé záhlaví/text
+vodorovně oříznuté jako dosavadní text. Smíšené legacy výstupy nadále mají
+původní vykreslování, tento náhled popisuje stacionární sál a stream.
+Doporučený další krok: na cílovém monitoru ověřit čitelnost podbarvení,
+8/4 a 10řádkovou sloku, kliknutí na druhou polovinu sálu a návrat mezi písněmi.
+
+### Upřesnění Etapy 8 – pouze text písně
+
+Na přání uživatele byla odstraněna všechna záhlaví sekcí, kroků a stránek
+ze seznamu. Viditelný text nyní tvoří pouze řádky písně v pořadí promítání.
+Úvod a konec mají prázdnou položku, takže zůstává možný přímý výběr prázdného
+výstupu. Čítač pod seznamem, zvýraznění 4/8 a přímé odkazy řádků na cue
+zůstávají zachované. Tato úprava nahrazuje popis záhlaví výše.
+Změněny super_presenter.py, tests/test_stationary_navigation.py a README.md.
+Test přesného obsahu seznamu nově vylučuje přidané popisky. Ověření: všech
+79 testů prošlo, syntaktická kompilace upravených modulů a git diff --check
+prošly; přetrvávají původní dvě SyntaxWarning pro \H. Skutečné GUI nebylo
+vizuálně testováno; navazující krok je znovu spustit prezentaci a ověřit
+výběr textových řádků. presentation_presenter.py a písně zůstaly nedotčené.
+
+### Doplnění Etapy 8 – střídavé pozadí slok
+
+Každý druhý blok sloky/refrénu v pořadí promítání má jemně světlejší pozadí
+(8 % směrem k bílé podle aktuální barvy seznamu; u #444444 je to #535353).
+Střídání vychází z výskytů sekcí v cue, nikoli z čísla v názvu sloky.
+Dlouhá sloka si zachová odstín přes více streamových kroků i stránek sálu;
+opakovaný celý výskyt sloky tvoří nový blok. Připojené výběry řádků na téže
+stránce sálu zůstávají součástí společného bloku. Úvod a konec mají základní
+pozadí. Zvýraznění aktivního sálu a výběr streamu mají přednost; po odchodu
+se původní střídavé pozadí obnoví. Žádné nadpisy se do seznamu nevracejí.
+
+Změněny super_presenter.py, tests/test_stationary_navigation.py a README.md.
+Předchozí necommitované změny zachovány; presentation_presenter.py, styly
+projektorů a XML písně nebyly touto úpravou změněny.
+Ověření: všech 80 testů prošlo, včetně tří opakovaných deset řádků dlouhých
+slok, zachování odstínu přes stránky a obnovení po změně aktivního kroku.
+Syntaktická kompilace upravených modulů a git diff --check prošly.
+Zůstávají dvě původní SyntaxWarning pro \H; samostatný linter není nastaven.
+Skutečné GUI nebylo vizuálně ověřeno. Doporučený další krok: znovu spustit
+prezentaci a posoudit jemnost kontrastu na monitoru obsluhy.

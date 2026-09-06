@@ -12,6 +12,9 @@ import math
 from PIL import ImageTk, Image
 from superpresenter.services.song_repository import SongRepository
 from superpresenter.services.construct_parser import parse_construct, ConstructError
+from superpresenter.services.stationary_navigation import (
+    CueNavigation, StationaryPageWidget, build_plan, style_mode,
+)
 
 
 class WidgetSource():
@@ -1227,6 +1230,7 @@ class GUI():
         self.repImp.configure(state='disabled')
       
         self.stepsList.bind('<<ListboxSelect>>',self.stepSelect)
+        self.stepsList.bind('<Button-1>', self._stationary_click)
         self.chooseProj.bind('<<ComboboxSelected>>', self.changeProjector)
         self.chooseStyle.bind('<<ComboboxSelected>>', self.changeStyle)
         self.stepsLang.bind('<<ComboboxSelected>>', self.stepsLangUpdate)
@@ -1816,12 +1820,13 @@ class GUI():
                     self._cleanup_after_stop()
                     return
 
-                # 2. DETEKCE STREAMU (Důležité pro synchronizaci sálu a streamu)
+                # Explicit modes; legacy navigation remains isolated below.
                 self.pair2_active = False
-                for proj in self.projectors:
-                    if self.projStyles[proj.style]['name'] == "chvály stream – stacionární":
-                        self.pair2_active = True
-                        break
+                self.stationary_active = any(
+                    style_mode(self.projStyles[p.style]) != 'legacy_scroll'
+                    for p in self.projectors)
+                self.stationary_navigation = None
+                stationary_plans = []
 
                 if len(self.sourceList) > 0:
                     self.saveRepetitions()
@@ -1867,10 +1872,15 @@ class GUI():
                     # Sestavení řádků (Zde se aktivuje logika short2 pro stream)
                     try:
                         vars_ = src.constructLines(types)
+                        if self.stationary_active:
+                            plan, src.cue_legacy_steps = build_plan(
+                                src.loadSong(),
+                                [v for v in src.variants if v != '-----'], guide)
+                            stationary_plans.append(plan)
                     except Exception as ex:
                         tkmsg.showerror('Error in projector styles',
                             'Error occurred while constructing source text\n'
-                            'Check "projector_styles.json"')
+                            'Check "projectors_styles.json"\n' + str(ex))
                         self.runState = False
                         self._cleanup_after_stop()
                         return
@@ -1883,6 +1893,9 @@ class GUI():
                     self.runState = False
                     self._cleanup_after_stop()
                     return
+
+                if self.stationary_active:
+                    self.stationary_navigation = CueNavigation(stationary_plans)
 
                 # 4. OTEVŘENÍ OKEN PROJEKTORŮ
                 self.runningSlide = 0
@@ -1934,6 +1947,9 @@ class GUI():
 
         # reset běhového stavu
         self.onlineSources = []
+        self.stationary_navigation = None
+        self.stationary_active = False
+        self.animation = 0
 
     def onProjectorClose(self, *e):
         if tkmsg.askyesno('Stop presentation',
@@ -1942,6 +1958,8 @@ class GUI():
 
     def previewSlide(self):
         self.currentStep = 0
+        if getattr(self, 'stationary_navigation', None) is not None:
+            self.stationary_navigation.select(self.runningSlide)
         if len(self.onlineSources) > 0:
             self.loadSteps()
             idx = self.runningSlide
@@ -1949,10 +1967,30 @@ class GUI():
                 f' {len(self.onlineSources)}')
             self.stepsLang['values'] = self.prevVars[idx][1:]
             self.stepsLang.set(self.prevVars[idx][self.prevVars[idx][0]+1])
+            if getattr(self, 'stationary_active', False):
+                self.stepsLang['values'] = [' / '.join(
+                    v for v in self.onlineSources[idx].variants if v != '-----')]
+                self.stepsLang.current(0)
 
     def loadSteps(self):
         self.stepsList.delete(0,'end')
         src = self.onlineSources[self.runningSlide]
+        if getattr(self, 'stationary_active', False):
+            self.pair2_active = self.paged_active = False
+            nav = self.stationary_navigation
+            nav.select(self.runningSlide, self.currentStep)
+            self.noOfSteps = nav.last_step
+            self.cue_rows = [(None, 0, False)]
+            self.stepsList.insert('end', '')
+            for cue in nav.plans[nav.song].cues:
+                for line in cue.stream_page.lines:
+                    self.stepsList.insert('end', line.text)
+                    self.cue_rows.append((cue, cue.step_index + 1, True))
+            self.stepsList.insert('end', '')
+            self.cue_rows.append((None, nav.last_step, False))
+            self._select_stationary_rows()
+            self.stepUpdate()
+            return
 
         # 1) kolik aktivních variant?
         active_var_count = len(self.prevVars[self.runningSlide]) - 1
@@ -2011,6 +2049,14 @@ class GUI():
         self.loadSteps()
     
     def stepUpdate(self):
+        if getattr(self, 'stationary_active', False):
+            nav = self.stationary_navigation
+            cue = nav.cue
+            self.stepsLabel.configure(text=(
+                f'Krok {nav.step}/{nav.last_step - 1} · '
+                f'Sál {cue.hall_page.index + 1} · Stream {cue.stream_page.index + 1}'
+                if cue else ('Úvod' if nav.step == 0 else 'Konec')))
+            return
         if getattr(self, 'pair2_active', False):
             if self.currentStep == 0:
                 cur = 0
@@ -2041,6 +2087,9 @@ class GUI():
             self.stepsLabel.configure(text=f'{self.currentStep} / {self.noOfSteps}')
 
     def stepSelect(self, e):
+        if getattr(self, 'stationary_active', False):
+            self._stationary_select_row(int(self.stepsList.index('active')))
+            return
         # 1) preferuj skutečný výběr
         sel = self.stepsList.curselection()
         if sel:
@@ -2085,6 +2134,11 @@ class GUI():
         return self.pair2_map[pair_i][0] + 1
     
     def stepGoTo(self, anim=1):
+        if getattr(self, 'stationary_active', False):
+            self.stationary_navigation.select(self.runningSlide, self.currentStep)
+            self.animation = 0
+            self._show_stationary_cue()
+            return
         t = time.time()
         # Tato metoda se stará pouze o časování a animaci. 
         # Samotné odeslání dat dělá pomocná funkce _update_projectors.
@@ -2102,13 +2156,114 @@ class GUI():
             self.animated = list(range(len(self.projectors)))
             self.win.after(self.animationParams['dt'], self.animmator)
 
+    def _sync_stationary_navigation(self):
+        nav = self.stationary_navigation
+        if not nav.plans:
+            return
+        changed_song = self.runningSlide != nav.song
+        self.runningSlide, self.currentStep = nav.song, nav.step
+        if changed_song:
+            for proj in self.projectors:
+                proj.switchSource()
+            self.loadSteps()
+            self.stepsLang['values'] = [' / '.join(
+                v for v in self.onlineSources[nav.song].variants if v != '-----')]
+            self.stepsLang.current(0)
+        elif not hasattr(self, 'cue_rows'):
+            self.loadSteps()
+        self._select_stationary_rows()
+        self.slideLabel.configure(text=f'{nav.song + 1} / {len(nav.plans)}')
+        self._show_stationary_cue()
+
+    def _stationary_click(self, event):
+        if getattr(self, 'stationary_active', False):
+            self.stepsList.focus_set()
+            self._stationary_select_row(self.stepsList.nearest(event.y))
+            return 'break'
+
+    def _stationary_select_row(self, index):
+        if not 0 <= index < len(self.cue_rows):
+            return
+        cue, boundary_step, _ = self.cue_rows[index]
+        step = cue.step_index + 1 if cue else boundary_step
+        self.stationary_navigation.select(self.runningSlide, step)
+        self._sync_stationary_navigation()
+
+    def _select_stationary_rows(self):
+        """Text rows belong directly to cues; hall tint also covers the other half."""
+        nav = self.stationary_navigation
+        active = nav.cue
+        stream = any(style_mode(self.projStyles[p.style]) == 'stationary_stream'
+                     for p in self.projectors)
+        self.stepsList.selection_clear(0, 'end')
+        first = None
+        hall_rows = []
+        background = self.stepsList.cget('background')
+        rgb = self.stepsList.winfo_rgb(background)
+        alternate = '#' + ''.join(
+            f'{round((channel / 257) * 0.92 + 255 * 0.08):02x}' for channel in rgb)
+        section_number = 0
+        previous_cue = None
+        for index, (cue, step, text_row) in enumerate(self.cue_rows):
+            if cue is not None and cue is not previous_cue:
+                if (previous_cue is None or
+                        cue.occurrence_id != previous_cue.occurrence_id
+                        and cue.hall_page is not previous_cue.hall_page):
+                    section_number += 1
+                previous_cue = cue
+            row_background = (alternate if cue is not None and section_number % 2 == 0
+                              else background)
+            same_hall = active is not None and cue is not None and cue.hall_page is active.hall_page
+            if same_hall:
+                hall_rows.append(index)
+            self.stepsList.itemconfigure(index,
+                background='#dceaf5' if same_hall else row_background,
+                foreground='#18344d' if same_hall else self.stepsList.cget('foreground'))
+            selected = (text_row and (cue is active if stream else same_hall)
+                        or cue is None and step == nav.step)
+            if selected:
+                self.stepsList.selection_set(index)
+            if step == nav.step and first is None:
+                first = index
+        if first is not None:
+            self.stepsList.activate(first)
+            if hall_rows:
+                self.stepsList.see(hall_rows[-1])
+                self.stepsList.see(hall_rows[0])
+            self.stepsList.see(first)
+
+    def _show_stationary_cue(self):
+        nav = self.stationary_navigation
+        if not nav.plans:
+            return
+        cue = nav.cue
+        for proj in self.projectors:
+            mode = style_mode(self.projStyles[proj.style])
+            if mode != 'legacy_scroll':
+                page = (cue.hall_page if mode == 'stationary_hall'
+                        else cue.stream_page) if cue else None
+                proj.showStationaryPage(page)
+            else:
+                # Mixed setups follow the source row at the beginning of a cue.
+                src = self.onlineSources[nav.song]
+                long_step = (src.cue_legacy_steps[nav.step - 1] if cue else
+                             (0 if nav.step == 0 else len(src.lines['longsteps']) + 1))
+                pairmap = src.lines.get('short2pairmap', [])
+                pair_step = next((i + 1 for i, pair in enumerate(pairmap)
+                                  if long_step - 1 in pair),
+                                 0 if long_step == 0 else len(pairmap) + 1)
+                proj.switch((pair_step if pairmap else long_step, long_step), 0)
+        self.stepUpdate()
+        if os.environ.get('SUPERPRESENTER_CUE_DEBUG') == '1':
+            print('[stationary] ' + nav.diagnostic(), flush=True)
+
     def _update_projectors(self, anim=1):
         """Pomocná metoda, která bezpečně aktualizuje všechna okna projektorů."""
         for proj in self.projectors:
             try:
-                style_name = self.projStyles[proj.style]['name']
+                mode = style_mode(self.projStyles[proj.style])
                 
-                if style_name == "chvály stream – stacionární":
+                if mode == 'stationary_stream':
                     if getattr(self, 'pair2_active', False):
                         if self.currentStep == 0:
                             send_idx = 0
@@ -2168,6 +2323,11 @@ class GUI():
         self.win.after(self.animationParams['dt'], self.animmator)
 
     def nextSlide(self):
+        if self.runState and getattr(self, 'stationary_active', False):
+            if self.runningSlide + 1 < len(self.onlineSources):
+                self.stationary_navigation.select(self.runningSlide + 1)
+                self._sync_stationary_navigation()
+            return
         if self.runState:
             if self.runningSlide < len(self.onlineSources)-1:
                 self.runningSlide += 1
@@ -2177,6 +2337,11 @@ class GUI():
                     proj.switchSource()
     
     def prevSlide(self):
+        if self.runState and getattr(self, 'stationary_active', False):
+            if self.runningSlide > 0:
+                self.stationary_navigation.select(self.runningSlide - 1)
+                self._sync_stationary_navigation()
+            return
         if self.runState:
             if self.runningSlide > 0:
                 self.runningSlide -= 1
@@ -2187,6 +2352,10 @@ class GUI():
 
     def nextStep(self):
         if not self.runState:
+            return
+        if getattr(self, 'stationary_active', False):
+            self.stationary_navigation.move(1)
+            self._sync_stationary_navigation()
             return
 
         # --- PÁROVANÝ STREAM (short2) ---
@@ -2263,6 +2432,10 @@ class GUI():
         else:
             self.nextSlide()
     def prevStep(self):
+        if self.runState and getattr(self, 'stationary_active', False):
+            self.stationary_navigation.move(-1)
+            self._sync_stationary_navigation()
+            return
         if not self.runState:
             return
 
@@ -2401,6 +2574,8 @@ class GUI():
     def getSourceTypes(self):
         types = [{'type':'long'}]
         for proj in self.projectors:
+            if style_mode(self.projStyles[proj.style]) != 'legacy_scroll':
+                continue
             srctypes = self.projStyles[proj.style]['sources']
             for srctype in srctypes:
                 if not srctype in types:
@@ -2954,7 +3129,13 @@ class ProjWindow():
                 slant=fnt['slant']
             )
         for widget in stl["widgets"]:
-            if widget["type"] == 'one_line':
+            if (style_mode(stl) != 'legacy_scroll'
+                    and widget['type'] in ('one_line', 'flow_lines', 'stanza_paged')):
+                idx = len(self.animated)
+                self.animated.append(StationaryPageWidget(
+                    self.canvas, widget, fonts, style_mode(stl)))
+                x = 'animated'
+            elif widget["type"] == 'one_line':
                 if len(self.master.onlineSources) == 0:
                     continue
                 idx = len(self.animated)
@@ -3017,6 +3198,10 @@ class ProjWindow():
             del self.win
         except:
             pass
+
+    def showStationaryPage(self, page):
+        for widget in self.animated:
+            widget.show_page(page)
 
     def switch(self, idx, e):
         # idx může být int (zpětná kompatibilita) nebo tuple (pair_idx, long_idx)

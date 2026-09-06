@@ -54,7 +54,7 @@ class PinnedLinesTests(unittest.TestCase):
 
     def test_groups_and_unmarked_selection(self):
         self.assertEqual([len(p.lines) for p in self.plan('(v1 @v1.4 v2)*2').hall_pages], [4, 7, 4, 7])
-        self.assertEqual([len(p.lines) for p in self.plan('v1 v1.4 v2').hall_pages], [4, 1, 6])
+        self.assertEqual([len(p.lines) for p in self.plan('v1 v1.4 v2').hall_pages], [5, 6])
         self.plan('((@v1.4)*2 v2)*2')
         self.assertEqual(self.plan('(@v1.4)*0').hall_pages, ())
 

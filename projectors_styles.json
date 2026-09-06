@@ -2,15 +2,16 @@
     "styles":[
         {
             "name": "chvály sál – stacionární",
+            "mode": "stationary_hall",
             
             "win":{
                 "width": 1920,
-                "height": 5000,
+                "height": 1080,
                 "background": "#000000"
             },
             "canvas":{
                 "width": 1920,
-                "height": 5000,
+                "height": 1080,
                 "background": "#000000",
                 "bd": 0,
                 "highlightthickness": 0
@@ -45,7 +46,7 @@
                 {
                 "type": "stanza_paged",
                 "source": "long",
-                "lines_per_page": 200,
+                "lines_per_page": 8,
                 "x": 960,
                 "y": 100,
                 "y1": 48,
@@ -67,6 +68,7 @@
         },
         {
             "name": "chvály stream – stacionární",
+            "mode": "stationary_stream",
             "win": { "width": 1920, "height": 1080, "background": "#000000" },
             "canvas": { "width": 1920, "height": 1080, "background": "#000000", "bd": 0, "highlightthickness": 0 },
             "canvas.place": { "anchor": "n", "relx": 0.5, "rely": 0 },
@@ -92,13 +94,13 @@
                     "type": "stanza_paged",
                     "source": "short2",
                     "x": 960,
-                    "y": 930,
+                    "y": 860,
                     "y1": 48,
                     "y2": 42,
                     "gap": 15,
                     "width": 1800,
                     "height": 150,
-                    "lines_per_page": 2,
+                    "lines_per_page": 4,
                     "align": "center",
                     "primaryFont": "streamFont",
                     "secondaryFont": "streamFont",
@@ -108,6 +110,7 @@
         },
         {
             "name": "chvály sál",
+            "mode": "legacy_scroll",
             "win":{
                 "background": "#000000"
             },
@@ -180,6 +183,7 @@
         },
         {
             "name": "chvály stream",
+            "mode": "legacy_scroll",
             "win":{
                 "background": "#000000"
             },
@@ -237,6 +241,7 @@
         },
         {
             "name": "chvály stream 1/3x",
+            "mode": "legacy_scroll",
             "win":{
                 "width": 640,
                 "height": 360,
@@ -297,6 +302,7 @@
         },
         {
             "name": "chvály sál 1/3x",
+            "mode": "legacy_scroll",
             "win":{
                 "width": 640,
                 "height": 360,
