@@ -357,3 +357,100 @@ ale XML round-trip test tentokrát opakovaně hlásil WinError 5 při os.replace
 v dočasné složce, také mimo sandbox. Celou sadu tedy tentokrát nelze označit
 za úspěšnou. Doporučený krok: prověřit přístup/zamykání dočasných souborů
 Windows a zopakovat round-trip test; starší omezení short2 nadále platí.
+
+## Etapa 5 – čistý generátor stacionárních stránek
+
+Výchozí repozitář byl čistý na commitu `4696ce7`. Předchozí etapy zůstaly
+zachované. Nová služba `superpresenter/services/stationary_pages.py` neimportuje
+Tkinter ani aplikaci a zatím není zapojena do projekce či navigace.
+`presentation_presenter.py`, editor, režimy chvály_sál/chvály_stream, styly
+a XML písní nebyly změněny.
+
+### Současné struktury a nový kontrakt
+
+- `long` je výstup `longText`, řádky po jazykových variantách po zpracování
+  construct instrukcí; `longsteps` jsou indexy řádků první varianty.
+- `group_lengths` odvozuje délky logických skupin z instrukcí a první aktivní
+  varianty. Neobsahuje kompletní původ řádků ani příznaky připnutí.
+- `short2` vzniká z `shortText`: pro jednu variantu páruje řádky uvnitř skupin
+  do dvou polí; lichý konec doplní prázdným textem. `short2steps` indexuje dvojice.
+- `short2pairmap`, v navigaci `pair2_map`, mapuje dvojice na původní indexy
+  (druhý může být `None`). Není to mapa nových čtyřřádkových stránek.
+- `paged_starts` obsahuje začátky stránek odvozené po skupinách, standardně
+  s krokem 8. Současná navigace vybírá mezi párováním a stránkováním.
+
+Nové API `generate_pages(sections)` přijímá posloupnost `LogicalSection`:
+`occurrence_id` je neprázdný unikátní identifikátor konkrétního výskytu sekce
+v pořadí prezentace, `lines` je posloupnost `SourceLine(text, section_id,
+line_index, pinned=False, repeated=False)`. Opakované výskyty stejné sloky
+mají různá occurrence ID, ale stejná zdrojová section ID. Volající předem
+vyřeší jazyk, construct a výběry řádků. Text se neořezává; prázdný řádek
+zabírá kapacitu, CR/LF uvnitř jedné položky je odmítnuto. Indexy jsou od nuly.
+
+Výstup `PresentationPlan` obsahuje neměnné `HallPage`, `StreamPage` a
+`PresentationCue`. Cue má index ovládacího kroku, přímé odkazy na obě stránky,
+occurrence ID, zdrojové rozsahy a stabilní `navigation_id`. Rozsahy jsou
+polouzavřené `[start, stop)` a uchovávají příznaky. Je jich více, pokud blok
+obsahuje připnuté řádky jiné sekce nebo nesouvislý výběr.
+Navigační ID tvoří escapované occurrence ID a lokální offset řádku; nezávisí
+na textu ani globálním čísle stránky. Je stabilní při vložení jiné sekce
+a při textových opravách, nikoli obecně při změně počtu/pořadí řádků uvnitř
+sekce. Je lokální pro plán písně; budoucí navigace přidá identitu písně.
+
+### Deterministická pravidla a připnuté řádky
+
+Každá neprázdná logická sekce začíná vlastní stránkou sálu. Krátké sousední
+sekce se automaticky neslučují. Sekce se dělí po 8 řádcích a každá stránka
+sálu nezávisle po 4 řádcích pro stream. Dva streamové kroky téže stránky
+sdílejí přesně tentýž objekt `HallPage`. Prázdná píseň/sekce nevytváří stránku
+ani úvodní či koncový krok. Služba nemá časovač ani animace.
+
+Připnutí je v této etapě explicitní vstup: volající vloží kopie posledních
+1–2 řádků před následující obsah se zachovaným zdrojovým section ID/indexem
+a `pinned=True`, případně `repeated=True`. Kopie zabírají kapacitu stejně
+jako ostatní řádky; generátor nic neduplikuje ani nehádá podle textu.
+Například dvě připnuté položky + šest řádků refrénu tvoří jednu stránku sálu
+a dva streamové kroky. Při více než osmi položkách platí běžné dělení;
+generátor neslibuje udržení připnutých řádků a celého následujícího obsahu
+pohromadě. Výběr vhodného připnutí patří budoucímu adaptéru.
+
+Dosavadní model má pouze textové řádky a volné atributy sekce, nikoli
+definovaný příznak připnutí. Minimální **návrh ke schválení** je volitelný
+atribut sekce `stationary_pin_tail="2"` (povoleno 0/1/2, absence = 0).
+Budoucí adaptér by poslední N řádků konkrétního výskytu připojil jako označené
+kopie před další sekci pouze tehdy, vejde-li se celek do 8 řádků; na konci
+písně bez účinku. Repository již obecné atributy uchovává. Atribut se nyní
+nečte ani nezapisuje a nebyl doplněn do žádného XML. Před zavedením je nutné
+schválit význam pro částečné výběry a opakované výskyty i ověřit legacy editor.
+
+### Diagnostika a ověření 6. 9. 2026
+
+`format_timeline(plan)` vrací text; samostatná ukázka:
+`.venv\Scripts\python.exe -B -m superpresenter.services.stationary_pages`
+
+```text
+cue 1 -> hall 1 / stream 1.1 [v1-first:row:0]
+cue 2 -> hall 1 / stream 1.2 [v1-first:row:4]
+cue 3 -> hall 2 / stream 2.1 [v1-first:row:8]
+```
+
+Python není v PATH, ale `.venv\Scripts\python.exe` je dostupný.
+`-B -m unittest discover -s tests -p test_stationary_pages.py -v`:
+**9 testů prošlo**, včetně podtestů pro 4/6/8/10/16 řádků, dvě krátké sekce,
+sloku/refrén, dvě připnuté kopie a prázdnou píseň. Další kontroly délek 0–64
+ověřují úplnost obsahu, původ, limity i synchronizaci; testuje se také
+stabilita ID, opakované výskyty, diagnostika a import bez GUI.
+
+Celá sada `-B -m unittest discover -s tests -v` spustila **54 testů**;
+neprošla kvůli dříve popsanému `WinError 5` při `os.replace` v XML round-tripu
+(51 chyb podtestů v sandboxu, 9 při opakování mimo něj). Nové testy prošly
+v obou bězích. Validátor 858 písní stále hlásí **5 chyb a 76 varování**,
+návratový kód 1. Kompilace všech 18 Python souborů v paměti prošla;
+přetrvávají dvě původní `SyntaxWarning` pro `\H`. Samostatný linter není
+nakonfigurován. Provedena také kontrola `git diff --check`.
+
+Další etapa: přidat explicitní adaptér z modelu a construct stromu do tohoto
+vstupu, ověřit převod řádků/jazyků proti existujícím písním a teprve poté
+samostatně zapojit cue navigaci a statické vykreslování. Vyřešit také
+zamykání dočasných souborů při round-tripu. Tato etapa nedokládá chování
+skutečných projekčních oken; jejich napojení je záměrně odložené.
