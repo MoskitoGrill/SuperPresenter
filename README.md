@@ -172,3 +172,87 @@ v `super_presenter.py` (řádky 1553 a 1563); mimo zadání zůstaly beze změny
 Navazující etapa: ručně rozhodnout pět významových nálezů se správcem písní,
 poté doplnit bezpečnou analýzu složených opakování a řešit podporu starších ID
 v editoru. Varování neznamenají, že výraz je chybný; jen není plně ověřen.
+
+## Etapa 3 – společný model a XML repository
+
+Přidány datové třídy `Song`, `SongVariant`, `SongSection` a `SongRepetition`
+v `superpresenter/domain/song.py` a nezávislé `SongRepository` v
+`superpresenter/services/song_repository.py`. Balíček má vlastní `__init__.py`
+v kořeni i obou podsložkách. Nevyžaduje GUI ani externí závislosti.
+
+API:
+
+```python
+from superpresenter.services.song_repository import SongRepository
+
+repository = SongRepository()
+song = repository.load("songs/haleluja.xml")
+repository.validate(song)
+# Uložení je explicitní; načtení soubor nemění.
+repository.save(song, "kopie.xml")
+```
+
+- Seznamy zachovávají pořadí variant, sekcí a opakování. `selected_repetition`
+  vrací první opakování s `main="1"`, jinak první dostupné, nebo `None`.
+  Více hlavních opakování se při načtení neopravuje a příznaky se zachovají.
+- Text sekcí se dělí pouze na LF, bez stripování. Zachovává prázdné řádky,
+  odsazení, koncové mezery, Unicode a Unicode oddělovače. Prázdná sekce se
+  načítá jako `[""]`. `guide` zůstává původním textem, bez vyhodnocení výrazů.
+- Použit je standardní `xml.etree.ElementTree`. DTD jsou odmítnuté, stejně jako
+  neznámé elementy a vnořené značky v textu. Doplňkové atributy se uchovávají.
+  UTF-8 výstup escapuje XML znaky; znak CR v textu zapisuje jako referenci.
+- Ukládání probíhá přes dočasný soubor ve stejné složce a následné `os.replace`,
+  aby chyba validace či zápisu nezkrátila původní soubor.
+- `SongLoadError`, `SongSaveError` a `SongValidationError` dědí ze
+  `SongRepositoryError`; obsahují `path`, `cause` i řetězenou původní výjimku.
+- `validate(song)` ověřuje reprezentovatelnost modelu v XML, nikoli obsahovou
+  správnost písně. Prázdné názvy/texty a chybějící opakování zůstávají načitatelné;
+  přísnější obsahové diagnostiky nadále poskytuje nástroj etapy 2.
+
+### Kompatibilita a historická data
+
+`WidgetSource.loadSong()` nabízí explicitní načtení společného modelu z aktuální
+cesty. Každé volání znovu čte soubor, takže vidí i pozdější uložení editorem.
+Dosavadní metody `importSlide`, `importVariants`, `importSections`,
+`importRepetitions`, `importSlideName` a parserové pomocné funkce zůstaly stejné.
+Úplné přepojení je odložené, protože starý parser odstraňuje prázdné řádky,
+normalizuje mezery a jinak zpracovává XML entity. V této etapě se nemění
+navigace, vzhled ani dosavadní cesta promítání. `song_editor.py` a
+`presentation_presenter.py` nebyly upraveny.
+
+Test celé databáze odhalil opakování uvnitř variant v písních
+`buh_vsech_narodu.xml`, `jak_vzacna_milost_otcova.xml` a `moc_cest_a_slava.xml`.
+Repository je zahrnuje do seznamu opakování v pořadí dokumentu a pamatuje si
+jejich původní umístění. Uchovává také text mimo sekce, včetně teček za
+`</section>` v `pana_chval_duse_ma.xml` a `pane_smadni_sme_po_tebe.xml`.
+Tyto zvláštnosti se automaticky neopravují. Žádná píseň nebyla touto etapou změněna.
+
+### Ověření 6. 9. 2026
+
+Python z `.venv` je dostupný. Příkaz
+`.venv\Scripts\python.exe -B -m unittest discover -s tests -v`:
+**24 testů prošlo**, včetně importů bez GUI. Nový soubor
+`tests/test_song_repository.py` ověřuje více jazyků, Unicode, whitespace,
+pořadí, hlavní i chybějící opakování, chyby XML/I/O, odmítnutí DTD,
+nezměněný cíl při neúspěšném zápisu a kompatibilní přístup přes `WidgetSource`.
+Všech **858 písní** prošlo load/save/load do dočasné složky se shodou modelu
+ i XML obsahu; test současně ověřuje nezměněné bajty originálů.
+
+Validátor etapy 2 nadále hlásí **5 obsahových chyb a 76 varování**, návratový
+kód 1; jde o dosavadní nálezy. Provedena syntaktická kompilace aktivních modulů,
+nového balíčku, skriptů a testů v paměti a `git diff --check`. Samostatný linter
+není nakonfigurovaný. Zůstávají dvě původní `SyntaxWarning` pro escape `\H`
+v hlavním modulu. GUI ani skutečné promítání nebyly interaktivně testované.
+
+Při zahájení byly přítomné změny etapy 2 (README, čtyři XML, validátor,
+testy a sledovaný pycache); nebyly přepisované. Během práce se v historii
+objevil commit `b717406` této etapy. Změny etapy 3 nejsou commitované.
+
+Omezení: jde o obsahový round-trip, nikoli identickou XML serializaci;
+parser normalizuje CRLF podle XML standardu, komentáře a processing instructions
+se neuchovávají. Chybějící `name` se zapisuje jako prázdný atribut a nehlavní
+opakování bez `main`. Metadata původního umístění opakování slouží k round-tripu;
+při budoucím strukturálním přeuspořádání variant/opakování musí editor jejich
+umístění aktualizovat nebo explicitně převést opakování pod kořen.
+Navazující krok: přepojit editor na repository a samostatně otestovat převod
+modelových řádků do dosavadního zobrazení před přepojením prezentéru.

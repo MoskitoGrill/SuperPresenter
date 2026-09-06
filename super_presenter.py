@@ -10,9 +10,18 @@ from tkinter import messagebox as tkmsg
 import time
 import math
 from PIL import ImageTk, Image
+from superpresenter.services.song_repository import SongRepository
 
 
 class WidgetSource():
+    def loadSong(self):
+        """Opt-in shared model for future consumers; legacy display stays unchanged.
+
+        Read the current file on each call, so editor saves are visible. Errors
+        use SongRepositoryError rather than the legacy validate() bit mask.
+        """
+        return SongRepository().load(self.path)
+
     def __init__(self, path:str):
         self.fileName = readFileName(path)
         try:

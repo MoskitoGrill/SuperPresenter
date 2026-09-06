@@ -1,0 +1,153 @@
+"""Standard XML persistence; no GUI imports or repetition expression evaluation."""
+
+from pathlib import Path
+import os
+import tempfile
+import xml.etree.ElementTree as ET
+
+from superpresenter.domain.song import Song, SongVariant, SongSection, SongRepetition
+
+
+class SongRepositoryError(Exception):
+    def __init__(self, path, cause):
+        self.path = Path(path) if path is not None else None
+        self.cause = cause
+        super().__init__(f"{self.path or '<unsaved song>'}: {cause}")
+
+
+class SongLoadError(SongRepositoryError):
+    """Unreadable XML or unsupported song structure."""
+
+
+class SongSaveError(SongRepositoryError):
+    """Song could not be written."""
+
+
+class SongValidationError(SongRepositoryError):
+    """Model cannot be represented safely as song XML."""
+
+
+class _SongTreeBuilder(ET.TreeBuilder):
+    def doctype(self, name, pubid, system):
+        raise ValueError('DTD declarations are not supported')
+
+
+def _attributes(element, *reserved):
+    return {k: v for k, v in element.attrib.items() if k not in reserved}
+
+
+def _check_children(element, allowed):
+    for child in element:
+        if child.tag not in allowed:
+            raise ValueError(f'Unsupported element {child.tag!r} in {element.tag}')
+
+
+class SongRepository:
+    def load(self, path) -> Song:
+        path = Path(path)
+        try:
+            root = ET.parse(path, parser=ET.XMLParser(target=_SongTreeBuilder())).getroot()
+            if root.tag != 'slide':
+                raise ValueError('Root element must be slide')
+            _check_children(root, {'variant', 'repetition'})
+            song = Song(root.get('name', ''), source_path=path,
+                        attributes=_attributes(root, 'name'), xml_text=root.text)
+            for variant in root.findall('variant'):
+                _check_children(variant, {'section', 'repetition'})
+                model = SongVariant(variant.get('name', ''),
+                                    attributes=_attributes(variant, 'name'),
+                                    xml_text=variant.text, xml_tail=variant.tail)
+                for section in variant.findall('section'):
+                    _check_children(section, set())
+                    model.sections.append(SongSection(
+                        section.get('name', ''), (section.text or '').split('\n'),
+                        _attributes(section, 'name'), xml_tail=section.tail))
+                song.variants.append(model)
+            variants = root.findall('variant')
+            locations = {}
+            for index, child in enumerate(root):
+                if child.tag == 'repetition':
+                    locations[id(child)] = (None, index)
+                elif child.tag == 'variant':
+                    for position, nested in enumerate(child):
+                        if nested.tag == 'repetition':
+                            locations[id(nested)] = (variants.index(child), position)
+            for repetition in root.iter('repetition'):
+                song.repetition_locations.append(locations[id(repetition)])
+                _check_children(repetition, set())
+                song.repetitions.append(SongRepetition(
+                    repetition.get('name', ''), repetition.text or '',
+                    repetition.get('main') == '1', _attributes(repetition, 'name', 'main'),
+                    xml_tail=repetition.tail))
+            return song
+        except (OSError, ET.ParseError, ValueError, LookupError) as exc:
+            raise SongLoadError(path, exc) from exc
+
+    def validate(self, song: Song):
+        """Check storage invariants, not musical quality or guide syntax.
+
+        Legacy empty names/text and missing repetitions remain representable.
+        The read-only stage 2 validator provides stricter content diagnostics.
+        """
+        try:
+            root = self._to_xml(song)
+            # Also checks invalid XML names/characters and model value types.
+            ET.fromstring(ET.tostring(root, encoding='utf-8'))
+        except (TypeError, ValueError, AttributeError, IndexError, ET.ParseError) as exc:
+            raise SongValidationError(song.source_path, exc) from exc
+
+    def _to_xml(self, song):
+        def node(tag, attributes, **reserved):
+            if set(attributes).intersection(reserved):
+                raise ValueError(f'{tag}: reserved attributes must use model fields')
+            for value in [*attributes.values(), *reserved.values()]:
+                if not isinstance(value, str):
+                    raise ValueError(f'{tag}: attributes must be strings')
+            return ET.Element(tag, {**attributes, **reserved})
+
+        root = node('slide', song.attributes, name=song.title)
+        root.text = song.xml_text
+        for variant in song.variants:
+            v = node('variant', variant.attributes, name=variant.name)
+            v.text, v.tail = variant.xml_text, variant.xml_tail
+            root.append(v)
+            for section in variant.sections:
+                s = node('section', section.attributes, name=section.identifier)
+                s.text = '\n'.join(section.lines)
+                s.tail = section.xml_tail
+                v.append(s)
+        for index, repetition in enumerate(song.repetitions):
+            if 'main' in repetition.attributes or not isinstance(repetition.is_main, bool):
+                raise ValueError('repetition: main must use the boolean is_main field')
+            r = node('repetition', repetition.attributes, name=repetition.name)
+            if repetition.is_main:
+                r.set('main', '1')
+            if not isinstance(repetition.guide, str):
+                raise ValueError('repetition: guide must be a string')
+            r.text = repetition.guide
+            r.tail = repetition.xml_tail
+            if index < len(song.repetition_locations):
+                parent_index, position = song.repetition_locations[index]
+                parent = root if parent_index is None else root.findall('variant')[parent_index]
+                parent.insert(position, r)
+            else:
+                root.append(r)
+
+        return root
+
+    def save(self, song: Song, path):
+        path = Path(path)
+        temporary = None
+        try:
+            self.validate(song)
+            data = ET.tostring(self._to_xml(song), encoding='utf-8', xml_declaration=True).replace(b'\r', b'&#13;')
+            # Replace only after a complete write; never truncate the existing song.
+            with tempfile.NamedTemporaryFile(dir=path.parent, suffix='.tmp', delete=False) as out:
+                temporary = Path(out.name)
+                out.write(data)
+            os.replace(temporary, path)
+        except (OSError, ValueError, SongValidationError) as exc:
+            raise SongSaveError(path, exc) from exc
+        finally:
+            if temporary is not None:
+                temporary.unlink(missing_ok=True)
