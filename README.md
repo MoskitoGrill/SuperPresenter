@@ -454,3 +454,100 @@ vstupu, ověřit převod řádků/jazyků proti existujícím písním a teprve 
 samostatně zapojit cue navigaci a statické vykreslování. Vyřešit také
 zamykání dočasných souborů při round-tripu. Tato etapa nedokládá chování
 skutečných projekčních oken; jejich napojení je záměrně odložené.
+
+## Etapa 6 – explicitní připnuté výběry (6. 9. 2026)
+
+Výchozí repozitář byl čistý na `98e5e0f` (Etapa 5). Předchozí etapy jsou
+zachovány. Návrh atributu `stationary_pin_tail` z etapy 5 byl nahrazen menší
+změnou: prefixem `@` v existujícím textu constructu. XML hierarchie se nemění.
+Atribut by neodlišoval jednotlivé výskyty a samostatný XML element uvnitř
+repetition by vyžadoval změny editoru/importeru. Migrace není nutná a žádné
+XML písně nebylo změněno; význam existujících výběrů nelze bezpečně odhadnout.
+
+### Jak označit a zobrazit řádky
+
+Do pole opakování v editoru nebo do textu `<repetition>` napište například:
+
+```xml
+<repetition name="default">v1 @v1.4 v2</repetition>
+<repetition name="dva řádky">v1 @v1.3:4 v2</repetition>
+```
+
+`@v1.4` je další výskyt čtvrtého řádku; `@v1.3:4` další výskyt třetího
+ a čtvrtého řádku. Původní `v1` zůstává celý. Značka nepřidává skryté kopie,
+nevyžaduje textovou shodu a lze ji použít i pro jiný než koncový řádek.
+Platí pro konkrétní výběr, nikoli pro všechny výskyty sekce. Povolen je
+jeden řádek nebo dva sousední řádky, číslování od 1. `@v1`, `@v1.0`
+a `@v1.1:3` jsou chyby. `(@v1.4)*3` vytvoří tři označené výskyty.
+Mezery jsou přípustné stejně jako u dosavadních výběrů.
+
+Ve **stacionárním generátoru** se označený blok předsadí následujícímu obsahu,
+pouze když se celý součet vejde do 8 řádků. Dva připnuté + šest následujících
+řádků tvoří stránku 8, stream ji rozdělí na 4 + 4. Dva + sedm tvoří samostatné
+stránky 2 a 7 (stream 2, 4, 3). Před dlouhou sekcí 10 vzniknou stránky
+2, 8, 2 (stream 2, 4, 4, 2). Na konci písně výběr zůstane samostatný.
+Sousední označené bloky se slučují zprava, pokud se vejdou; na předchozí
+běžnou stránku se nepřidávají. Žádný výskyt se nezahodí ani nededuplikuje.
+Neměnný plán se vytvoří před navigací; vpřed i zpět používá stejné stránky.
+
+Staré písně bez `@` zachovávají dosavadní parserové instrukce i hranice sekcí.
+Samotné `v1.4`, závorky ani stejný text automaticky neznamenají připnutí.
+Legacy překlad `to_legacy()` zachová vybraný text a opakování, ale příznak
+připnutí nezpracovává. **Současná GUI projekce dosud není připojena ke
+stacionárnímu generátoru**, takže nové pravidlo slučování platí v jeho API;
+připojení projekčních oken je samostatný navazující krok. Editor ukládá guide
+jako text, není potřeba nové XML pole. `presentation_presenter.py`, hlavní
+aplikace a editor nebyly upraveny.
+
+### Model, převod a validace
+
+`SectionStep.pinned` reprezentuje označení v modelu instrukcí (výchozí `False`).
+`resolve_sections(construct, variant)` převádí jednu jazykovou variantu
+`SongVariant` do logických výskytů; `SourceLine` zachovává ID/index zdroje,
+`pinned` a `repeated`. Opakované skupiny se procházejí iterativně a výskyty
+mají ID odvozené od pozice instrukce a cesty opakování. Cue identifikuje výskyt
+prvního svého řádku, zdrojové rozsahy zachovávají všechny jeho zdroje.
+
+```python
+from superpresenter.services.construct_parser import parse_construct
+from superpresenter.services.stationary_pages import resolve_sections, generate_pages
+
+# variant je SongVariant načtená přes SongRepository
+construct = parse_construct('v1 @v1.3:4 v2', [s.identifier for s in variant.sections])
+plan = generate_pages(resolve_sections(construct, variant))
+```
+
+Převod používá zobrazované neprázdné LF řádky s odstraněnými krajními mezerami;
+prázdné řádky a XML odsazení nejsou číslované. Repository originální text
+nemění. Přímé `SourceLine('')` nadále zabírá místo, stejně jako v etapě 5.
+Validátor kontroluje označené constructy bez rozbalování násobení, včetně
+neexistujících řádků ve všech příslušných variantách a variantových repetition.
+Chyba má kategorii `repetition_pin`; kontroly starých neoznačených výrazů
+zůstávají stejné. Validace rozsahu platí i uvnitř skupiny násobené nulou.
+
+Prozkoumané skutečné příklady (ponechány beze změny):
+- `songs/duchu_svaty_jsi_tu_vitany_(suchdol_version).xml`: `v2 v2.3 r1`
+  opakuje poslední řádek třířádkové sloky. Celý guide navíc obsahuje dříve
+  známé neplatné `b1.2*4`; pouhé doplnění `@` tuto chybu neopraví.
+- `songs/uk_-_krev_svateho_byla_usmirena.xml`: `r1.3:4 v3` vybírá dva
+  řádky pět řádků dlouhého refrénu; nejde automaticky o jeho poslední dva.
+- `songs/at_srdce_me_tebe_vida.xml`: `(b1.1)*3 b1.2` opakuje jeden řádek
+  bridge. Zda má být připnutý, musí určit autor, ne porovnávání textu.
+
+### Ověření a omezení
+
+Python `.venv\Scripts\python.exe` je dostupný. Celá sada
+`-B -m unittest discover -s tests -v`: **62 testů prošlo**, včetně 8 nových
+testů připnutí, kompatibility databáze a round-tripu všech 858 XML.
+Tentokrát se dřívější `WinError 5` neprojevil. Testy ověřují jeden/dva řádky,
+překročení kapacity, dlouhou sekci, konec písně, sousední připnutí, skupiny,
+neztracený obsah, limity, determinismus, zpětný průchod, chybnou syntaxi,
+rozsahy jednotlivých jazyků, XML round-trip a legacy překlad.
+
+Validátor: **858 souborů, původních 5 chyb a 76 varování**, kód 1.
+Syntaktická kompilace v paměti a `git diff --check` prošly. Samostatný linter
+není nakonfigurován. Zůstávají dvě původní `SyntaxWarning` pro `\H` v hlavní
+aplikaci. GUI a reálné projekční výstupy nebyly interaktivně ověřeny.
+Velká opakování stále mohou vytvořit velký výsledný plán. Navazující krok:
+napojit stacionární plán na GUI navigaci a ověřit oba projekční výstupy;
+konkrétní označení v databázi rozhodnout ručně s autory písní.

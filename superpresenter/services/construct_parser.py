@@ -34,6 +34,10 @@ class EmptyConstructError(ConstructError):
     pass
 
 
+class InvalidPinError(ConstructError):
+    pass
+
+
 @dataclass(frozen=True)
 class SectionStep:
     section: str
@@ -41,6 +45,7 @@ class SectionStep:
     # Inclusive, historically one-based (zero is preserved for compatibility).
     start_line: int | None = None
     end_line: int | None = None
+    pinned: bool = False
 
 
 @dataclass(frozen=True)
@@ -144,9 +149,14 @@ def parse_construct(text: str, available_sections: Iterable[str]) -> Construct:
             frames[-1][0].append(RepeatGroup(tuple(children), repeat, start))
         else:
             start = pos
+            pinned = char == '@'
+            if pinned:
+                pos += 1
+                spaces()
+            name_start = pos
             while pos < len(text) and text[pos] not in ' .()':
                 pos += 1
-            section = text[start:pos]
+            section = text[name_start:pos]
             if section not in legal:
                 raise UnknownSectionError(f'Neznámá sekce "{section}"', start)
             first = last = None
@@ -162,7 +172,10 @@ def parse_construct(text: str, available_sections: Iterable[str]) -> Construct:
                     last = number(':')
                     if last <= first:
                         raise InvalidRangeError('Konec rozsahu musí být větší než začátek', range_position)
-            frames[-1][0].append(SectionStep(section, start, first, last))
+            if pinned and (first is None or first < 1
+                           or (last is not None and last - first != 1)):
+                raise InvalidPinError('Připnutí vyžaduje výběr jednoho nebo dvou řádků od 1', start)
+            frames[-1][0].append(SectionStep(section, start, first, last, pinned))
     if len(frames) > 1:
         raise ParenthesisError('Neuzavřená závorka', frames[-1][1])
     if not frames[0][0]:

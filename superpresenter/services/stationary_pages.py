@@ -8,6 +8,11 @@ from dataclasses import dataclass
 from typing import Iterable
 from urllib.parse import quote
 
+from superpresenter.domain.song import SongVariant
+from superpresenter.services.construct_parser import (
+    Construct, RepeatGroup, InvalidPinError,
+)
+
 
 @dataclass(frozen=True)
 class SourceLine:
@@ -94,7 +99,7 @@ def _source_ranges(lines: tuple[SourceLine, ...]) -> tuple[SourceRange, ...]:
 
 
 def generate_pages(sections: Iterable[LogicalSection]) -> PresentationPlan:
-    """Keep section boundaries; split hall pages at 8 and their streams at 4.
+    """Keep ordinary boundaries; join explicit pins only if the total fits 8.
 
     Empty sections produce no pages. Blank text rows count toward capacity.
     Navigation IDs survive unrelated section insertion and text-only edits;
@@ -102,23 +107,86 @@ def generate_pages(sections: Iterable[LogicalSection]) -> PresentationPlan:
     """
     halls, streams, cues = [], [], []
     seen = set()
+    blocks = []
     for section in sections:
         if section.occurrence_id in seen:
             raise ValueError('Duplicate section occurrence ID: ' + section.occurrence_id)
         seen.add(section.occurrence_id)
-        for start in range(0, len(section.lines), 8):
-            hall = HallPage(len(halls), section.lines[start:start + 8])
+        if section.lines:
+            blocks.append((section.lines, tuple((section.occurrence_id, i)
+                                                for i in range(len(section.lines)))))
+    # Only explicit, wholly pinned blocks may cross a section boundary.
+    # Work from the right so adjacent pinned selections can join the same target.
+    for i in range(len(blocks) - 2, -1, -1):
+        rows, owners = blocks[i]
+        following, following_owners = blocks[i + 1]
+        if all(row.pinned for row in rows) and len(rows) + len(following) <= 8:
+            blocks[i:i + 2] = [(rows + following, owners + following_owners)]
+    for rows, owners in blocks:
+        for start in range(0, len(rows), 8):
+            hall = HallPage(len(halls), rows[start:start + 8])
             halls.append(hall)
             for offset in range(0, len(hall.lines), 4):
                 stream = StreamPage(len(streams), hall.index, offset,
                                     hall.lines[offset:offset + 4])
                 streams.append(stream)
+                occurrence_id, source_offset = owners[start + offset]
                 cues.append(PresentationCue(
-                    len(cues), hall, stream, section.occurrence_id,
+                    len(cues), hall, stream, occurrence_id,
                     _source_ranges(stream.lines),
-                    f'{quote(section.occurrence_id, safe="")}:row:{start + offset}',
+                    f'{quote(occurrence_id, safe="")}:row:{source_offset}',
                 ))
     return PresentationPlan(tuple(halls), tuple(streams), tuple(cues))
+
+
+def presentation_lines(lines: Iterable[str]) -> tuple[str, ...]:
+    """Legacy song display numbering: nonblank LF rows with outer space removed.
+
+    Repository text is preserved; this is an explicit projection-only view.
+    """
+    return tuple(line.strip() for line in lines if line.strip())
+
+
+def resolve_sections(construct: Construct, variant: SongVariant) -> Iterable[LogicalSection]:
+    """Resolve one language and expand occurrences lazily, without text matching.
+
+    Pinned steps are explicit extra occurrences, never implicit tail copies.
+    IDs use instruction position and repeat path, not text or global page index.
+    """
+    sections = {}
+    for section in variant.sections:
+        if section.identifier in sections:
+            raise ValueError('Duplicate section ID: ' + section.identifier)
+        sections[section.identifier] = presentation_lines(section.lines)
+    pending = [(iter(construct.instructions), '', False)]
+    while pending:
+        nodes, path, repeated = pending[-1]
+        node = next(nodes, None)
+        if node is None:
+            pending.pop()
+            continue
+        if isinstance(node, RepeatGroup):
+            # A generator avoids allocating one entry per repetition.
+            def children(group, parent_path, parent_repeated):
+                for iteration in range(group.repeat):
+                    yield (iter(group.children),
+                           f'{parent_path}g{group.position}.{iteration}/',
+                           parent_repeated or iteration > 0)
+            # Process group iterations via a separate iterator frame.
+            pending.append((iter(children(node, path, repeated)), path, repeated))
+            continue
+        if isinstance(node, tuple):
+            pending.append(node)
+            continue
+        rows = sections[node.section]
+        indices = (range(len(rows)) if node.start_line is None else
+                   range(node.start_line - 1, (node.end_line or node.start_line)))
+        if node.pinned and any(i < 0 or i >= len(rows) for i in indices):
+            raise InvalidPinError('Připnutý řádek neexistuje ve vybrané variantě', node.position)
+        selected = tuple(SourceLine(rows[i] if -len(rows) <= i < len(rows) else '',
+                                    node.section, i if i >= 0 else max(len(rows) - 1, 0),
+                                    node.pinned, node.pinned or repeated) for i in indices)
+        yield LogicalSection(f'{path}s{node.position}', selected)
 
 
 def format_timeline(plan: PresentationPlan) -> str:

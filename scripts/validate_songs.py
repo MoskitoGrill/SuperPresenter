@@ -8,6 +8,12 @@ import re
 import sys
 import xml.etree.ElementTree as ET
 
+if __package__ in (None, ''):
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+
+from superpresenter.services.construct_parser import parse_construct, ConstructError, RepeatGroup
+from superpresenter.services.stationary_pages import presentation_lines
+
 
 # Preserve legacy IDs (r, r0, v1a), rather than imposing editor numbering.
 SECTION_ID = re.compile(r"[A-Za-z][A-Za-z0-9_-]*", re.ASCII)
@@ -60,12 +66,37 @@ def validate_song(path: Path) -> list[Issue]:
                 report("error", "section_text", f"{label}: section {sid!r} has no text.")
         section_sets.append(identifiers)
     repetitions = root.findall("repetition")
+    # Historical diagnostics stay unchanged; marked guides are checked also
+    # at the legacy variant-local location.
+    for repetition in root.iter('repetition'):
+        if '@' not in (repetition.text or ''):
+            continue
+        expression = ' '.join(line.strip() for line in (repetition.text or '').split('\n')
+                              if line.strip())
+        targets = [v for v in variants if repetition in list(v)] or variants
+        for variant in targets:
+            rows = {s.get('name', ''): presentation_lines((s.text or '').split('\n'))
+                    for s in variant.findall('section')}
+            try:
+                if len(repetition):
+                    raise ValueError('Nested elements are not supported in a marked repetition')
+                pending = list(parse_construct(expression, rows).instructions)
+                while pending:
+                    node = pending.pop()
+                    if isinstance(node, RepeatGroup):
+                        pending.extend(node.children)
+                    elif node.pinned and (node.end_line or node.start_line) > len(rows[node.section]):
+                        raise ValueError(f'Pinned selection exceeds section {node.section!r}')
+            except (ConstructError, ValueError) as exc:
+                report('error', 'repetition_pin', f"variant {variant.get('name', '')}: {exc}")
     if not repetitions:
         report("warning", "repetition_missing", "No repetition found.")
     existing = set().union(*section_sets)
     for index, repetition in enumerate(repetitions, 1):
         expression = (repetition.text or "").strip()
         label = f"repetition {index} ({repetition.get('name', '')})"
+        if '@' in expression:
+            continue
         if not expression:
             report("warning", "repetition_empty", f"{label}: empty expression.")
             continue

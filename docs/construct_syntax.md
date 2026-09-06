@@ -109,3 +109,26 @@ v přesném vstupním textu, také uvedený v čitelné zprávě.
   `tests/fixtures/legacy_construct_parser.py`, nikoli jako produkční fallback.
   Testy srovnávají přijetí/odmítnutí i přesné instrukce na celé databázi,
   skutečný import s výběrem variant a výstupy stávajících rendererů.
+
+## Explicitní připnutí (etapa 6)
+
+Nový prefix `@` před výběrem určuje připnutý výskyt: `v1 @v1.4 v2`
+nebo `v1 @v1.3:4 v2`. Vyžaduje jeden nebo dva sousední řádky od 1;
+celá sekce, nula a delší rozsahy nejsou povolené (`InvalidPinError`).
+`SectionStep.pinned` má bez označení hodnotu `False`. Závorky zachovávají
+význam opakování: `(@v1.4)*3` jsou tři explicitní výskyty. Samotný výběr
+ani `RepeatGroup.reuse_lines` tento nový příznak nenastavuje.
+
+XML guide zůstává obyčejný text. `to_legacy()` překládá označený výběr
+stejně jako neoznačený, bez nové instrukce pro staré renderery. API
+`resolve_sections(construct, variant)` předá příznak stacionárnímu generátoru.
+Čísluje neprázdné LF řádky po odstranění krajních mezer; model XML nemění.
+Neexistující připnutý řádek je chyba adaptéru i validátoru.
+
+Generátor připojí označený blok pouze před následující obsah, pokud se celý
+součet vejde do 8. Jinak ponechá blok samostatný, i na konci písně. Dlouhou
+následující sekci z tohoto důvodu nepřeskupuje. Sousední označené bloky
+slučuje zprava při stejné kontrole kapacity. Stream dělí každou hotovou
+stránku po nejvýše 4 řádcích. Obsah nikdy neodvozuje z textové shody.
+Podrobné příklady, kompatibilita, omezení současného GUI a výsledky testů
+jsou v README v etapě 6; tato pravidla nahrazují starší návrh atributu sekce.
