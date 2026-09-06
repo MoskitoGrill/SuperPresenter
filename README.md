@@ -797,3 +797,32 @@ Syntaktická kompilace upravených modulů a git diff --check prošly.
 Zůstávají dvě původní SyntaxWarning pro \H; samostatný linter není nastaven.
 Skutečné GUI nebylo vizuálně ověřeno. Doporučený další krok: znovu spustit
 prezentaci a posoudit jemnost kontrastu na monitoru obsluhy.
+
+### Doladění streamového pruhu – svislé umístění textu
+
+Na základě náhledu obsluhy posunut začátek textu stacionárního streamu
+z y=860 na y=872 (o 12 px níže). Pro zobrazený čtyřřádkový blok tím vychází
+přibližně stejná mezera nad a pod textem v šedém pruhu (pozadí začíná na
+ y=858 a končí na 1080). Velikost fontu 32, rozteč 48 i pozadí se nemění.
+Změněny pouze projectors_styles.json a README.md; presentation_presenter.py
+ani písně nebyly upraveny. Výchozí repozitář byl čistý na b6dfd63.
+Ověření: 80 testů unittest, načtení JSON a git diff --check prošly.
+Přetrvávají dvě původní SyntaxWarning pro \H; samostatný linter není nastaven.
+Jde o pevný posun podle dodaného čtyřřádkového náhledu, nikoli automatické
+centrování různých počtů řádků. Doporučený krok: restartovat aplikaci, aby
+načetla styl, a ověřit okraje na skutečném streamovém výstupu.
+
+### Doladění označení aktivního sálu – neutrální šedá
+
+Modré pozadí části aktivní stránky sálu mimo stream nahrazeno jemně světlejší
+variantou barvy výběru streamu: 8 % směrem k bílé, tedy při současném stylu
+#444444 → #535353. Text používá běžnou barvu seznamu (nyní bílou), nikoli
+původní tmavě modrou. Výběr streamu, střídání neaktivních slok a navigace
+zůstávají zachované. Tento zápis nahrazuje dřívější popis modrého podkladu.
+Změněny super_presenter.py, tests/test_stationary_navigation.py a README.md.
+Předchozí změny README a projectors_styles.json zachovány; do písní ani
+presentation_presenter.py tato úprava nezasahuje.
+Ověření: všech 80 testů prošlo; syntaktická kompilace upravených modulů
+ a git diff --check prošly. Přetrvávají dvě původní SyntaxWarning pro \H.
+Samostatný linter není nastaven. Skutečné GUI nebylo vizuálně ověřeno;
+doporučený další krok je restart aplikace a kontrola kontrastu na monitoru.

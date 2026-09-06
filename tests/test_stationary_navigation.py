@@ -282,7 +282,7 @@ class ProjectionTests(unittest.TestCase):
         initial = backgrounds()
         self.assertEqual(initial, ['#444444'] * 11 + ['#535353'] * 10 + ['#444444'] * 11)
         gui._stationary_select_row(11)
-        self.assertEqual(backgrounds()[11:19], ['#dceaf5'] * 8)
+        self.assertEqual(backgrounds()[11:19], ['#535353'] * 8)
         gui._stationary_select_row(0)
         self.assertEqual(backgrounds(), initial)
 

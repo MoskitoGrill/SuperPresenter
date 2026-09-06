@@ -2202,6 +2202,10 @@ class GUI():
         rgb = self.stepsList.winfo_rgb(background)
         alternate = '#' + ''.join(
             f'{round((channel / 257) * 0.92 + 255 * 0.08):02x}' for channel in rgb)
+        selection_rgb = self.stepsList.winfo_rgb(self.stepsList.cget('selectbackground'))
+        hall_background = '#' + ''.join(
+            f'{round((channel / 257) * 0.92 + 255 * 0.08):02x}'
+            for channel in selection_rgb)
         section_number = 0
         previous_cue = None
         for index, (cue, step, text_row) in enumerate(self.cue_rows):
@@ -2217,8 +2221,8 @@ class GUI():
             if same_hall:
                 hall_rows.append(index)
             self.stepsList.itemconfigure(index,
-                background='#dceaf5' if same_hall else row_background,
-                foreground='#18344d' if same_hall else self.stepsList.cget('foreground'))
+                background=hall_background if same_hall else row_background,
+                foreground=self.stepsList.cget('foreground'))
             selected = (text_row and (cue is active if stream else same_hall)
                         or cue is None and step == nav.step)
             if selected:
