@@ -1,0 +1,228 @@
+import tempfile
+import tkinter as tk
+from tkinter import ttk
+import unittest
+from pathlib import Path
+from copy import deepcopy
+from unittest.mock import patch, Mock
+
+from song_editor import SongEditor
+from super_presenter import GUI, WidgetSource
+from superpresenter.domain.editable_song import EditableSong as Song
+from superpresenter.services.song_editor_repository import SongEditorRepository as SongRepository
+
+
+class EditorIntegrationTests(unittest.TestCase):
+    def setUp(self):
+        self.root = tk.Tk()
+        self.root.withdraw()
+        self.addCleanup(self.root.destroy)
+        self.addCleanup(self.root.update_idletasks)
+        self.tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.tmp.cleanup)
+        self.error = self.enterContext(patch('song_editor.messagebox.showerror'))
+        self.enterContext(patch('super_presenter.tkmsg.showwarning'))
+        self.choice = self.enterContext(patch('song_editor.messagebox.askyesnocancel', return_value=None))
+        self.overwrite = self.enterContext(patch('song_editor.messagebox.askyesno', return_value=False))
+        self.song = Song('Original', {'cs': {'v1': 'One', 'v2': 'Two'}}, {'default': 'v1 v2', 'short': 'v2'}, 'short')
+        self.path = Path(self.tmp.name) / 'original.xml'
+        SongRepository().save(self.song, self.path)
+        self.editor = SongEditor(self.root, embedded=True)
+        self.editor.songs_dir = self.tmp.name
+        self.editor.load_file_from_path(self.path)
+
+    def test_load_clean_and_programmatic_text_changes_dirty(self):
+        self.root.update()
+        self.assertFalse(self.editor.dirty)
+        self.editor.sections[0]['widget'].insert('end', ' changed')
+        self.root.update()
+        self.assertTrue(self.editor.dirty)
+        self.assertTrue(self.editor.status_variable.get())
+
+    def test_cancel_discard_and_failed_save_transitions(self):
+        self.editor.title_variable.set('Changed')
+        self.assertFalse(self.editor.new_song())
+        self.assertEqual(self.editor.snapshot().title, 'Changed')
+        self.choice.return_value = True
+        with patch.object(self.editor.session.repository, 'save', side_effect=PermissionError('locked')):
+            self.assertFalse(self.editor.new_song())
+        self.assertTrue(self.editor.dirty)
+        self.choice.return_value = False
+        self.assertTrue(self.editor.new_song())
+        self.assertFalse(self.editor.dirty)
+        self.assertEqual(self.editor.snapshot(), Song())
+
+    def test_invalid_load_keeps_dirty_song_without_prompt(self):
+        self.editor.title_variable.set('Changed')
+        self.assertFalse(self.editor.load_file_from_path(self.path.with_name('absent.xml')))
+        self.choice.assert_not_called()
+        self.assertEqual(self.editor.snapshot().title, 'Changed')
+
+    def test_repetitions_sync_and_save(self):
+        self.editor.set_selected_repetition_text('v1 v2')
+        self.assertTrue(self.editor.dirty)
+        self.assertTrue(self.editor.save_file())
+        self.assertFalse(self.editor.dirty)
+        saved = SongRepository().load(self.path)
+        self.assertEqual(saved.guide, 'v1 v2')
+        self.assertEqual(saved.main_repetition, 'short')
+
+    def test_remove_default_then_add_section_does_not_leave_stale_variable(self):
+        self.editor.new_song()  # clean existing song
+        self.editor.remove_repetition('default', self.editor.repetition_frames['default'])
+        self.editor.add_section_to_all_languages('v')
+        self.assertEqual(self.editor.snapshot().guide, 'v1')
+        self.assertTrue(self.editor.dirty)
+
+    def test_callback_failure_visible_and_transition_stops(self):
+        self.editor.on_saved = Mock(side_effect=RuntimeError('callback failure'))
+        self.editor.set_selected_repetition_text('v1')
+        self.choice.return_value = True
+        self.assertFalse(self.editor.new_song())
+        self.assertIn('callback failure', self.error.call_args.args[1])
+        self.assertEqual(SongRepository().load(self.path).guide, 'v1')
+        self.assertFalse(self.editor.confirm_transition())
+        self.editor.on_saved = Mock()
+        self.assertTrue(self.editor.confirm_transition())
+        self.editor.on_saved.assert_called_once()
+
+    def test_rename_cancel_collision_and_copy(self):
+        self.editor.title_variable.set('New')
+        self.assertFalse(self.editor.save_file())
+        self.assertTrue(self.editor.dirty)
+        self.choice.return_value = False
+        target = self.path.with_name('new.xml')
+        SongRepository().save(self.song, target)
+        self.assertFalse(self.editor.save_file())
+        self.assertEqual(SongRepository().load(target).title, 'Original')
+        self.overwrite.return_value = True
+        self.assertTrue(self.editor.save_file())
+        self.assertTrue(self.path.exists())
+        self.assertEqual(SongRepository().load(target).title, 'New')
+
+    def make_gui(self):
+        gui = GUI.__new__(GUI)
+        gui.win = self.root
+        gui.sources = [WidgetSource(str(self.path))]
+        gui.sources[0].variants = ['cs', '-----', '-----']
+        gui.sourceList = [0]
+        gui.sourceID = 0
+        gui.draft_open = False
+        gui.song_editor_widget = self.editor
+        gui.newSource = tk.Button(self.root)
+        gui.sourceNum = tk.Label(self.root)
+        gui.sourceLab = tk.Label(self.root)
+        gui.var1Combo = ttk.Combobox(self.root)
+        gui.var2Combo = ttk.Combobox(self.root)
+        gui.var3Combo = ttk.Combobox(self.root)
+        gui.construct_variable = tk.StringVar(master=self.root)
+        gui.repIn = tk.Entry(self.root, textvariable=gui.construct_variable)
+        gui._syncing_song = False
+        gui.construct_variable.trace_add('write', gui._construct_changed)
+        self.editor.on_changed = gui._editor_changed
+        self.editor.on_saved = gui.on_editor_saved
+        gui.viewSource()
+        return gui
+
+    def test_main_construct_is_dirty_and_only_save_publishes(self):
+        gui = self.make_gui()
+        running = deepcopy(gui.sources[0])
+        gui.construct_variable.set('v1')
+        self.assertTrue(self.editor.dirty)
+        self.assertEqual(gui.sources[0].song.guide, 'v2')
+        self.assertTrue(self.editor.save_file())
+        self.assertEqual(gui.sources[0].song.guide, 'v1')
+        self.assertEqual(running.song.guide, 'v2')
+        self.assertEqual(gui.construct_variable.get(), 'v1')
+        self.assertFalse(self.editor.dirty)
+
+    def test_save_preserves_new_language_selection(self):
+        gui = self.make_gui()
+        self.editor.add_section('v', 1, 'First', 'en')
+        self.editor.add_section('v', 2, 'Second', 'en')
+        gui.var1Combo.set('en')
+        gui.setVariant1()
+        self.assertTrue(self.editor.save_file())
+        self.assertEqual(gui.sources[0].variants[0], 'en')
+        self.assertEqual(gui.var1Combo.get(), 'en')
+
+    def test_retry_saved_callback_preserves_newer_edits(self):
+        gui = self.make_gui()
+        self.editor.on_saved = Mock(side_effect=RuntimeError('failed'))
+        self.editor.set_selected_repetition_text('v1')
+        self.assertFalse(self.editor.save_file())
+        self.editor.title_variable.set('Newer unsaved title')
+        self.editor.on_saved = gui.on_editor_saved
+        self.assertFalse(self.editor.confirm_transition())
+        self.assertEqual(self.editor.snapshot().title, 'Newer unsaved title')
+        self.assertTrue(self.editor.dirty)
+        self.assertEqual(gui.sources[0].song.guide, 'v1')
+
+    def test_main_cancel_navigation_new_close_and_quit(self):
+        gui = self.make_gui()
+        second = self.path.with_name('second.xml')
+        SongRepository().save(Song('Second', {'cs': {'v1': 'Other'}}), second)
+        gui.loadSource(str(second))
+        self.editor.title_variable.set('Unsaved')
+        for action in (gui.prevSourceFun, gui.newSongFun, gui.closeSourceFun, gui.on_closing):
+            action()
+            self.assertEqual(gui.sourceID, 1)
+            self.assertEqual(self.editor.snapshot().title, 'Unsaved')
+        self.assertTrue(self.root.winfo_exists())
+        self.choice.return_value = False
+        gui.prevSourceFun()
+        self.assertEqual(gui.sourceID, 0)
+        self.assertEqual(self.editor.snapshot().title, 'Original')
+
+    def test_draft_save_during_navigation(self):
+        gui = self.make_gui()
+        gui.newSongFun()
+        self.editor.title_variable.set('Draft')
+        self.editor.add_section_to_all_languages('v')
+        self.choice.return_value = True
+        gui.prevSourceFun()
+        self.assertEqual(len(gui.sourceList), 2)
+        self.assertFalse(gui.draft_open)
+        self.assertEqual(gui.sourceID, 0)
+        self.assertEqual(gui.sources[1].song.title, 'Draft')
+
+    def test_languages_and_non_numbered_ids_survive_load(self):
+        song = Song('Legacy', {'cs': {'r': 'Text'}, 'empty': {}}, {'only': 'r'}, 'only')
+        self.assertTrue(self.editor.load_song(song))
+        self.assertFalse(self.editor.dirty)
+        self.assertEqual(self.editor.snapshot(), song)
+
+
+class StartupTests(unittest.TestCase):
+    def test_standalone_editor_has_title_and_close_protocol(self):
+        root = tk.Tk()
+        root.withdraw()
+        try:
+            editor = SongEditor(root)
+            self.assertTrue(editor.title_entry.winfo_exists())
+            self.assertTrue(root.protocol('WM_DELETE_WINDOW'))
+            self.assertFalse(editor.dirty)
+            root.update_idletasks()
+        finally:
+            root.destroy()
+
+    def test_main_window_wiring(self):
+        original_tk = tk.Tk
+        def hidden_root():
+            root = original_tk()
+            root.withdraw()
+            return root
+        with patch('super_presenter.tk.Tk', side_effect=hidden_root), patch.object(GUI, 'getMonitors'), patch.object(GUI, 'newProjector'), patch('super_presenter.tkmsg.showerror') as error:
+            gui = GUI()
+            try:
+                gui.song_title.set('Draft title')
+                self.assertEqual(gui.song_editor_widget.snapshot().title, 'Draft title')
+                self.assertTrue(gui.song_editor_widget.dirty)
+                error.assert_not_called()
+                gui.win.update_idletasks()
+            finally:
+                gui.win.destroy()
+
+
+if __name__ == '__main__':
+    unittest.main()
