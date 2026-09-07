@@ -5,6 +5,7 @@ import re
 
 from superpresenter.domain.song import Song, SongVariant, SongSection, SongRepetition
 from superpresenter.services.song_repository import SongRepository
+from superpresenter.services.construct_parser import parse_construct, ConstructError
 
 
 class SongEditSession:
@@ -38,6 +39,19 @@ class SongEditSession:
                 raise OSError(f"Kopie byla uložena do {target}, ale původní soubor {old} nelze odstranit: {exc}") from exc
         self.song.source_path = target
         self.reset(self.song, target)
+
+    def repetition_problems(self):
+        """Report invalid references/syntax with the shared presentation parser."""
+        sections = list(dict.fromkeys(sid for variant in self.song.variant_texts.values() for sid in variant))
+        problems = {}
+        for name, guide in self.song.repetition_texts.items():
+            if not guide.strip():
+                continue  # Existing omitted-section warning handles empty guides.
+            try:
+                parse_construct(guide, sections)
+            except ConstructError as exc:
+                problems[name] = str(exc)
+        return problems
 
     def omitted_sections(self):
         """Advisory coverage of every named repetition, without expanding loops.

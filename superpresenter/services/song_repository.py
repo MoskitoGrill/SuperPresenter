@@ -49,43 +49,58 @@ class SongRepository:
     def load(self, path) -> Song:
         path = Path(path)
         try:
-            root = ET.parse(path, parser=ET.XMLParser(target=_SongTreeBuilder())).getroot()
-            if root.tag != 'slide':
-                raise ValueError('Root element must be slide')
-            extras = [(i, deepcopy(child)) for i, child in enumerate(root)
-                      if child.tag not in {'variant', 'repetition'}]
-            song = Song(root.get('name', ''), source_path=path,
-                        attributes=_attributes(root, 'name'), xml_text=root.text, extra_elements=extras)
-            for variant in root.findall('variant'):
-                _check_children(variant, {'section', 'repetition'})
-                model = SongVariant(variant.get('name', ''),
-                                    attributes=_attributes(variant, 'name'),
-                                    xml_text=variant.text, xml_tail=variant.tail)
-                for section in variant.findall('section'):
-                    _check_children(section, set())
-                    model.sections.append(SongSection(
-                        section.get('name', ''), (section.text or '').split('\n'),
-                        _attributes(section, 'name'), xml_tail=section.tail))
-                song.variants.append(model)
-            variants = root.findall('variant')
-            locations = {}
-            for index, child in enumerate(root):
-                if child.tag == 'repetition':
-                    locations[id(child)] = (None, index)
-                elif child.tag == 'variant':
-                    for position, nested in enumerate(child):
-                        if nested.tag == 'repetition':
-                            locations[id(nested)] = (variants.index(child), position)
-            for repetition in root.iter('repetition'):
-                song.repetition_locations.append(locations[id(repetition)])
-                _check_children(repetition, set())
-                song.repetitions.append(SongRepetition(
-                    repetition.get('name', ''), repetition.text or '',
-                    repetition.get('main', '').lower() in ('1', 'true', 'yes'), _attributes(repetition, 'name', 'main'),
-                    xml_tail=repetition.tail))
-            return song
-        except (OSError, ET.ParseError, ValueError, LookupError) as exc:
+            return self.loads(path.read_bytes(), path)
+        except OSError as exc:
             raise SongLoadError(path, exc) from exc
+
+    def loads(self, data, path=None) -> Song:
+        """Decode the same song format from a recovery record or file contents."""
+        path = Path(path) if path is not None else None
+        try:
+            root = ET.fromstring(data, parser=ET.XMLParser(target=_SongTreeBuilder()))
+            return self._from_root(root, path)
+        except (ET.ParseError, ValueError, LookupError) as exc:
+            raise SongLoadError(path, exc) from exc
+
+    def _from_root(self, root, path):
+        if root.tag != 'slide':
+            raise ValueError('Root element must be slide')
+        extras = [(i, deepcopy(child)) for i, child in enumerate(root)
+                  if child.tag not in {'variant', 'repetition'}]
+        song = Song(root.get('name', ''), source_path=path,
+                    attributes=_attributes(root, 'name'), xml_text=root.text, extra_elements=extras)
+        for variant in root.findall('variant'):
+            _check_children(variant, {'section', 'repetition'})
+            model = SongVariant(variant.get('name', ''),
+                                attributes=_attributes(variant, 'name'),
+                                xml_text=variant.text, xml_tail=variant.tail)
+            for section in variant.findall('section'):
+                _check_children(section, set())
+                model.sections.append(SongSection(
+                    section.get('name', ''), (section.text or '').split('\n'),
+                    _attributes(section, 'name'), xml_tail=section.tail))
+            song.variants.append(model)
+        variants = root.findall('variant')
+        locations = {}
+        for index, child in enumerate(root):
+            if child.tag == 'repetition':
+                locations[id(child)] = (None, index)
+            elif child.tag == 'variant':
+                for position, nested in enumerate(child):
+                    if nested.tag == 'repetition':
+                        locations[id(nested)] = (variants.index(child), position)
+        for repetition in root.iter('repetition'):
+            song.repetition_locations.append(locations[id(repetition)])
+            _check_children(repetition, set())
+            song.repetitions.append(SongRepetition(
+                repetition.get('name', ''), repetition.text or '',
+                repetition.get('main', '').lower() in ('1', 'true', 'yes'), _attributes(repetition, 'name', 'main'),
+                xml_tail=repetition.tail))
+        return song
+
+    def dumps(self, song):
+        self.validate(song)
+        return ET.tostring(self._to_xml(song), encoding='utf-8', xml_declaration=True).replace(b'\r', b'&#13;')
 
     def validate(self, song: Song):
         """Check storage invariants, not musical quality or guide syntax.
@@ -146,8 +161,7 @@ class SongRepository:
         path = Path(path)
         temporary = None
         try:
-            self.validate(song)
-            data = ET.tostring(self._to_xml(song), encoding='utf-8', xml_declaration=True).replace(b'\r', b'&#13;')
+            data = self.dumps(song)
             # Replace only after a complete write; never truncate the existing song.
             with tempfile.NamedTemporaryFile(dir=path.parent, prefix='.song-', suffix='.tmp', delete=False) as out:
                 temporary = Path(out.name)

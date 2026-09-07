@@ -4,6 +4,7 @@ from copy import deepcopy
 from pathlib import Path
 from superpresenter.domain.song import Song
 from superpresenter.services.song_edit_session import SongEditSession, update_song_fields, validate_editor_fields
+from superpresenter.services.song_recovery import SongRecovery
 import os
 import re
 
@@ -54,6 +55,9 @@ class SongEditor:
         self.session = SongEditSession()
         self._loading = True
         self._pending_saved = None
+        self._recovery = None
+        self._recovery_after = None
+        self._recovery_error = False
         self.on_saved = on_saved
         self.on_changed = on_changed
         self.title_variable = title_variable if title_variable is not None else tk.StringVar(master=root)
@@ -88,8 +92,114 @@ class SongEditor:
         self.selected_repetition.trace_add("write", self._changed)
         self._loading = False
         self._render_song()
+        self.root.winfo_toplevel().bind('<Control-s>', self._save_shortcut)
+        self.root.winfo_toplevel().bind('<Control-S>', self._save_shortcut)
         if not embedded:
             self.root.protocol("WM_DELETE_WINDOW", self.close_window)
+
+    def _save_shortcut(self, event=None):
+        self.save_file()
+        return 'break'
+
+    def _undo_text(self, text, redo=False):
+        try:
+            text.edit_redo() if redo else text.edit_undo()
+        except tk.TclError:
+            text.bell()
+        self._changed()
+        return 'break'
+
+    def start_recovery(self, directory=None, on_restored=None):
+        """Enable disk recovery at application startup (not in embedded test fixtures)."""
+        if self._recovery is not None:
+            return
+        try:
+            self._recovery = SongRecovery(directory or Path(__file__).resolve().parent / '.song-recovery')
+        except OSError as exc:
+            messagebox.showwarning('Záloha není dostupná', f'Průběžné zálohování se nepodařilo zapnout:\n{exc}', parent=self.root)
+            return
+        self.root.bind('<Destroy>', self._close_recovery, add='+')
+        self.root.after_idle(lambda: self._offer_recovery(on_restored))
+        self._queue_recovery()
+
+    def _queue_recovery(self):
+        if self._recovery is None:
+            return
+        if not self.session.dirty:
+            self._flush_recovery()
+        elif self._recovery_after is None:
+            # Throttle rather than debounce: continuous typing is backed up too.
+            self._recovery_after = self.root.after(1000, self._flush_recovery)
+
+    def _flush_recovery(self):
+        if self._recovery_after is not None:
+            self.root.after_cancel(self._recovery_after)
+            self._recovery_after = None
+        if self._recovery is None:
+            return True
+        try:
+            self.session.song = self.snapshot()
+            if self.session.dirty:
+                self._recovery.write(self.session)
+            else:
+                self._recovery.clear()
+            self._recovery_error = False
+            return True
+        except Exception as exc:
+            self.status_variable.set('Neuloženo – chyba zálohy' if self.session.dirty else 'Chyba zálohy')
+            if not self._recovery_error:
+                self._recovery_error = True
+                messagebox.showwarning('Chyba zálohy', f'Průběžnou zálohu nelze aktualizovat:\n{exc}\nPíseň můžete uložit tlačítkem Uložit.', parent=self.root)
+            return False
+
+    def _offer_recovery(self, on_restored=None):
+        try:
+            candidates = self._recovery.candidates()
+        except OSError as exc:
+            messagebox.showerror('Chyba obnovy', str(exc), parent=self.root)
+            return
+        for candidate in candidates:
+            lease = None
+            try:
+                lease = self._recovery.claim(candidate)
+                if lease is None or not candidate.exists():
+                    continue
+                song, clean_song, path = self._recovery.read(candidate)
+                validate_editor_fields(song)
+                choice = messagebox.askyesnocancel('Obnovit rozpracovanou píseň?',
+                    f'Nalezena neuložená verze: {song.title or "(bez názvu)"}\n'
+                    f'{path or "Nová píseň"}\n\nAno = obnovit, Ne = zahodit zálohu, Storno = ponechat na později.', parent=self.root)
+                if choice is None:
+                    return
+                if not choice:
+                    candidate.unlink()
+                    continue
+                if not self.confirm_transition():
+                    return
+                self.session.reset(clean_song, path)
+                self.session.song = song
+                self._render_song()
+                if on_restored:
+                    on_restored(deepcopy(song), deepcopy(clean_song), path)
+                # Only remove the old record after the recovered state is durable.
+                if self._flush_recovery():
+                    candidate.unlink()
+                return
+            except Exception as exc:
+                messagebox.showerror('Chyba obnovy', f'Záloha {candidate} zůstala zachovaná:\n{exc}', parent=self.root)
+            finally:
+                if lease is not None:
+                    lease.close()
+
+    def _close_recovery(self, event):
+        if event.widget != self.root:
+            return
+        if self._recovery_after is not None:
+            self.root.after_cancel(self._recovery_after)
+            self._recovery_after = None
+        if self._recovery is not None:
+            self._recovery.close()
+            self._recovery = None
 
     def snapshot(self):
         variants = {name: {} for name, sections in self.session.song.variant_texts.items() if not sections}
@@ -109,6 +219,7 @@ class SongEditor:
             return
         self.session.song = self.snapshot()
         self.status_variable.set("Neuloženo" if self.session.dirty else "")
+        self._queue_recovery()
         if self.on_changed:
             try:
                 self.on_changed(deepcopy(self.session.song))
@@ -313,7 +424,7 @@ class SongEditor:
         )
         remove_btn.pack(side='right', padx=5)
 
-        text = tk.Text(frame, height=1, font=self.font, wrap='word')  # přidané wrap='word'
+        text = tk.Text(frame, height=1, font=self.font, wrap='word', undo=True, maxundo=200)  # přidané wrap='word'
         text.insert('end', content)
         text.pack(fill='x')
 
@@ -326,7 +437,11 @@ class SongEditor:
                 text.edit_modified(False)
                 resize_text(event)
                 self._changed()
+        text.edit_reset()
         text.edit_modified(False)
+        text.bind('<Control-z>', lambda e: self._undo_text(text))
+        text.bind('<Control-y>', lambda e: self._undo_text(text, redo=True))
+        text.bind('<Control-Shift-Z>', lambda e: self._undo_text(text, redo=True))
         text.bind("<<Modified>>", modified)
         text.bind("<KeyRelease>", resize_text)
         resize_text(None)
@@ -497,6 +612,14 @@ class SongEditor:
                 overwrite = messagebox.askyesno("Soubor již existuje", f"Přepsat soubor?\n{target}", parent=self.root)
                 if not overwrite:
                     return False
+            problems = self.session.repetition_problems()
+            if problems:
+                details = '\n'.join(f'{name}: {problem}' for name, problem in problems.items())
+                if not messagebox.askyesno('Chyba v opakování',
+                        'Opakování obsahuje neexistující sekci nebo chybný zápis:\n\n'
+                        + details + '\n\nDoporučuji zápis opravit. Přesto uložit rozpracovanou píseň?',
+                        icon='warning', parent=self.root):
+                    return False
             missing = self.session.omitted_sections()
             if missing:
                 def section_label(sid):
@@ -517,6 +640,7 @@ class SongEditor:
         self.file_path = str(self.session.path)
         self.original_title = self.session.song.title
         self.status_variable.set("")
+        self._flush_recovery()
         self._pending_saved = (deepcopy(self.session.song), self.file_path, str(old_path) if rename and old_path else None)
         return self._notify_saved()
 
@@ -582,4 +706,5 @@ if __name__ == "__main__":
     root = tk.Tk()
     root.resizable(False, False)
     app = SongEditor(root)
+    app.start_recovery()
     root.mainloop()

@@ -7,6 +7,7 @@ from copy import deepcopy
 from unittest.mock import patch, Mock
 
 from song_editor import SongEditor, add_title_placeholder
+from superpresenter.services.song_recovery import SongRecovery
 from super_presenter import GUI, WidgetSource
 from superpresenter.domain.song import Song, SongSection, SongVariant
 from superpresenter.services.song_repository import SongRepository, SongLoadError, SongSaveError
@@ -120,6 +121,145 @@ class EditorIntegrationTests(unittest.TestCase):
         self.editor.set_selected_repetition_text('v1 v2')
         self.assertTrue(self.editor.save_file())
         self.overwrite.assert_not_called()
+
+    def test_text_undo_redo_restores_dirty_state(self):
+        text = self.editor.sections[0]['widget']
+        text.insert('end', ' extra')
+        text.edit_separator()
+        self.root.update()
+        self.assertTrue(self.editor.dirty)
+        self.editor._undo_text(text)
+        self.assertEqual(text.get('1.0', 'end-1c'), 'One')
+        self.assertFalse(self.editor.dirty)
+        self.editor._undo_text(text, redo=True)
+        self.assertEqual(text.get('1.0', 'end-1c'), 'One extra')
+        self.assertTrue(self.editor.dirty)
+
+    def test_ctrl_s_uses_save_validation_and_persists_text(self):
+        self.root.geometry('+30000+30000')
+        self.root.deiconify()
+        self.root.update()
+        text = self.editor.sections[0]['widget']
+        text.focus_force()
+        text.insert('end', ' changed')
+        self.root.update()
+        text.event_generate('<Control-s>')
+        self.root.update()
+        self.assertEqual(SongRepository().load(self.path).variant_texts['cs']['v1'], 'One changed')
+        self.assertFalse(self.editor.dirty)
+
+    def test_unknown_section_warning_can_cancel_or_save_draft(self):
+        before = self.path.read_bytes()
+        self.editor.set_selected_repetition_text('v3')
+        self.overwrite.side_effect = None
+        self.overwrite.return_value = False
+        self.assertFalse(self.editor.save_file())
+        self.assertEqual(self.overwrite.call_args.args[0], 'Chyba v opakování')
+        self.assertIn('v3', self.overwrite.call_args.args[1])
+        self.assertTrue(self.editor.dirty)
+        self.assertEqual(self.path.read_bytes(), before)
+        self.overwrite.return_value = True
+        self.assertTrue(self.editor.save_file())
+        self.assertEqual(SongRepository().load(self.path).guide, 'v3')
+
+    def enable_recovery(self, directory=None, callback=None):
+        self.editor.start_recovery(directory or Path(self.tmp.name) / 'recovery', on_restored=callback)
+        self.addCleanup(self.editor._recovery.close)
+        self.root.update_idletasks()
+        return self.editor._recovery
+
+    def test_backup_is_removed_on_save_and_explicit_discard(self):
+        store = self.enable_recovery()
+        self.editor.set_selected_repetition_text('v1')
+        self.assertIsNotNone(self.editor._recovery_after)
+        self.assertTrue(self.editor._flush_recovery())
+        self.assertTrue(store.path.exists())
+        self.assertTrue(self.editor.save_file())
+        self.assertFalse(store.path.exists())
+        self.editor.set_selected_repetition_text('v2')
+        self.editor._flush_recovery()
+        self.choice.return_value = False
+        self.assertTrue(self.editor.new_song())
+        self.assertFalse(store.path.exists())
+
+    def test_restore_keeps_dirty_data_out_of_presentation_until_saved(self):
+        gui = self.make_gui()
+        writer = SongRecovery(Path(self.tmp.name) / 'recovery')
+        self.addCleanup(writer.close)
+        session = deepcopy(self.editor.session)
+        session.song.variants[0].sections[0].lines = ['Recovered text']
+        writer.write(session)
+        writer.close()
+        self.choice.return_value = True
+        store = self.enable_recovery(writer.directory, gui.on_editor_restored)
+        self.assertTrue(self.editor.dirty)
+        self.assertEqual(self.editor.snapshot().variant_texts['cs']['v1'], 'Recovered text')
+        self.assertEqual(gui.sources[gui.sourceList[gui.sourceID]].song.variant_texts['cs']['v1'], 'One')
+        self.assertEqual(SongRepository().load(self.path).variant_texts['cs']['v1'], 'One')
+        self.assertFalse(writer.path.exists())
+        self.assertTrue(store.path.exists())
+        self.assertTrue(self.editor.save_file())
+        self.assertEqual(gui.sources[gui.sourceList[gui.sourceID]].song.variant_texts['cs']['v1'], 'Recovered text')
+        self.assertFalse(store.path.exists())
+
+    def test_recovery_can_be_postponed_or_discarded(self):
+        writer = SongRecovery(Path(self.tmp.name) / 'recovery')
+        self.addCleanup(writer.close)
+        session = deepcopy(self.editor.session)
+        session.song.title = 'Recovery'
+        writer.write(session)
+        writer.close()
+        self.choice.return_value = None
+        self.enable_recovery(writer.directory)
+        self.assertTrue(writer.path.exists())
+        self.assertEqual(self.editor.snapshot().title, 'Original')
+        self.choice.return_value = False
+        self.editor._offer_recovery()
+        self.assertFalse(writer.path.exists())
+        self.assertEqual(self.editor.snapshot().title, 'Original')
+
+    def test_recovery_timer_records_latest_text_without_saving_song(self):
+        before = self.path.read_bytes()
+        store = self.enable_recovery()
+        self.editor.title_variable.set('First change')
+        self.root.after(300, lambda: self.editor.title_variable.set('Latest change'))
+        self.root.after(1200, self.root.quit)
+        self.root.mainloop()
+        self.assertEqual(store.read(store.path)[0].title, 'Latest change')
+        self.assertEqual(self.path.read_bytes(), before)
+        self.assertTrue(self.editor.dirty)
+
+    def test_recovered_new_draft_can_be_saved_normally(self):
+        gui = self.make_gui()
+        writer = SongRecovery(Path(self.tmp.name) / 'recovery')
+        self.addCleanup(writer.close)
+        session = deepcopy(self.editor.session)
+        session.reset(Song.from_texts())
+        session.song = Song.from_texts('Recovered draft', {'cs': {'v1': 'Draft text'}}, {'default': 'v1'})
+        writer.write(session)
+        writer.close()
+        self.choice.return_value = True
+        store = self.enable_recovery(writer.directory, gui.on_editor_restored)
+        self.assertTrue(gui.draft_open)
+        self.assertTrue(self.editor.dirty)
+        self.assertIsNone(self.editor.file_path)
+        self.assertEqual(len(gui.sourceList), 1)
+        self.assertTrue(self.editor.save_file())
+        self.assertFalse(gui.draft_open)
+        self.assertFalse(self.editor.dirty)
+        self.assertEqual(len(gui.sourceList), 2)
+        self.assertEqual(gui.sources[gui.sourceList[gui.sourceID]].song.title, 'Recovered draft')
+        self.assertFalse(store.path.exists())
+
+    def test_corrupt_recovery_shows_error_and_preserves_backup(self):
+        directory = Path(self.tmp.name) / 'recovery'
+        directory.mkdir()
+        candidate = directory / 'corrupt.json'
+        candidate.write_text('{broken', encoding='utf-8')
+        self.enable_recovery(directory)
+        self.assertEqual(candidate.read_text(encoding='utf-8'), '{broken')
+        self.assertEqual(self.error.call_args.args[0], 'Chyba obnovy')
+        self.assertFalse(self.editor.dirty)
 
     def make_gui(self):
         gui = GUI.__new__(GUI)

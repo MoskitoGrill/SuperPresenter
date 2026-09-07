@@ -1335,6 +1335,24 @@ class GUI():
         self.sourceLab.config(text='(neuložená píseň)')
         self._editor_changed(self.song_editor_widget.snapshot())
 
+    def on_editor_restored(self, song, clean_song, path):
+        """Show recovered work while keeping presentation data at its clean baseline."""
+        if path:
+            source = WidgetSource(path, clean_song)
+            languages = source.importVariants()
+            source.variants = [languages[0] if languages else '-----', '-----', '-----']
+            self.sources.append(source)
+            self.sourceList.append(len(self.sources) - 1)
+            self.sourceID = len(self.sourceList) - 1
+            self.draft_open = False
+            self.viewSource(reload_editor=False)
+            self._editor_changed(song)
+        else:
+            self.draft_open = True
+            self.sourceID = len(self.sourceList)
+            self.viewDraft()
+        self._update_new_button_state()
+
     def on_editor_saved(self, song, path, renamed_from=None):
         """Publish a fresh saved snapshot; running presentations retain their snapshot."""
         same_path = lambda a, b: os.path.normcase(os.path.abspath(a)) == os.path.normcase(os.path.abspath(b))
@@ -3310,6 +3328,7 @@ def doNothing(*e):
 
 def main():
     gui = GUI()
+    gui.song_editor_widget.start_recovery(on_restored=gui.on_editor_restored)
     
     # gui._testProj()
 

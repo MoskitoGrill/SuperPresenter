@@ -1049,3 +1049,50 @@ zůstaly proti `9ac1952` beze změny. Testy nadále zahrnují knihovnu 858 XML p
 Přenos je dokončen místním merge commitem na `test`; push není součástí této operace.
 Doporučený navazující krok je běžná ruční zkouška editoru a skutečných projektorů
 na větvi `test`. Stávající omezení etapy 9 zůstávají stejná.
+
+## Doplňky editoru: zkratky a obnova rozpracované písně (7. 9. 2026)
+
+Na větvi `test` byly doplněny odsouhlasené body 1–4. Kontrola externích změn
+souboru (bod 5) nebyla přidána. Vzhled editoru zůstává zachovaný.
+
+- `Ctrl+S` spouští běžné uložení včetně všech potvrzení ve vloženém i samostatném
+  editoru. `Ctrl+Z`, `Ctrl+Y` a `Ctrl+Shift+Z` vracejí/opakují změny textu sekce.
+  Historie je samostatná pro každé textové pole, maximálně 200 kroků; počáteční
+  načtení není krokem historie. Nezahrnuje odstranění celé sekce ani další pole.
+- Před uložením sdílený construct parser kontroluje neexistující sekce a syntaxi
+  každého neprázdného pojmenovaného opakování. Dialog uvádí konkrétní problém
+  a dovoluje vědomě uložit rozpracovanou píseň. Stávající potvrzení vynechaných
+  sekcí zůstává. Nejde o úplnou kontrolu rozsahů řádků ve všech jazycích.
+- Změněný editor ukládá pomocnou zálohu do `.song-recovery/` přibližně jednou
+  za sekundu. Složka je v `.gitignore`; původní píseň se mění jen běžným uložením.
+  Záloha obsahuje pracovní i poslední čistý model a cestu; oba modely používají
+  XML serializaci společného SongRepository. Zápis zálohy je atomický.
+- Při příštím spuštění lze zálohu obnovit, zahodit nebo ponechat na později.
+  Obnovený editor zůstává změněný. Hlavní aplikace pro prezentaci zachovává čistý
+  model až do běžného potvrzení/uložení. Obnovit lze také nový neuložený draft.
+  Úspěšné uložení či výslovné zahození změn odstraní příslušnou zálohu.
+- Zámek zálohy rozlišuje běžící instance od ukončených; nejde o sledování změn
+  původních souborů. Poškozená záloha zůstává zachovaná a zobrazí se konkrétní
+  chyba. Chyba průběžného zápisu se také zobrazí, předchozí záloha zůstává.
+
+Tato část nahrazuje dřívější omezení „žádný autosave po pádu“. Při pádu lze stále
+ztratit poslední přibližně sekundu změn, při zablokované událostní smyčce nebo
+chybě disku i více. Při jednom spuštění se obnoví nejvýše jedna záloha; ostatní
+zůstávají pro další spuštění. Drobné soubory `.lock` mohou ve složce zůstávat.
+
+Změněné soubory: `.gitignore`, `song_editor.py`, `super_presenter.py`,
+`superpresenter/services/song_edit_session.py`,
+`superpresenter/services/song_repository.py`, `tests/test_song_editor_data.py`,
+`tests/test_song_editor_integration.py` a `README.md`. Přidány
+`superpresenter/services/song_recovery.py` a `tests/test_song_recovery.py`.
+`presentation_presenter.py`, knihovna písní a styly projekce se neměnily.
+Předem změněný sledovaný bytecode editoru byl ponechán beze zásahu.
+
+Ověření: **137 testů prošlo** příkazem
+`.venv/Scripts/python.exe -B -m unittest discover -s tests` mimo sandbox.
+Testy zahrnují skutečné předčasné ukončení pomocného procesu, zámky souběžných
+instancí, selhání atomického zápisu, časované zálohování, obnovu draftu i existující
+písně, Ctrl+S a undo/redo. Prošla kontrola syntaxe 26 Python souborů a
+`git diff --check`. Fyzické projektory nebyly ověřovány.
+Doporučený navazující krok: restart aplikace a běžná uživatelská zkouška zkratek
+a ukládání na větvi `test`. Tyto doplňky zatím nejsou commitnuté ani pushnuté.

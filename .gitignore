@@ -23,3 +23,6 @@ htmlcov/
 *.swp
 *.swo
 *~
+
+# Unsaved editor crash recovery records
+.song-recovery/

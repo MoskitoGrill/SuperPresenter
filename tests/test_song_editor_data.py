@@ -164,6 +164,15 @@ class RepetitionCoverageTests(unittest.TestCase):
         self.assertEqual(session.song.guide, '@v1.1')
         parse_construct(session.song.guide, session.song.variant_texts['cs'])
 
+    def test_unknown_section_and_bad_syntax_are_reported_per_repetition(self):
+        session = SongEditSession()
+        session.reset(Song.from_texts('Test', {'cs': {'v1': 'A', 'v2': 'B'}},
+            {'complete': 'v1 v2', 'typo': 'v1 v3', 'broken': '(v1', 'pin': '@v1.1'}))
+        problems = session.repetition_problems()
+        self.assertEqual(set(problems), {'typo', 'broken'})
+        self.assertIn('v3', problems['typo'])
+        self.assertFalse(session.dirty)
+
     def test_empty_and_absent_repetition(self):
         session = SongEditSession()
         session.reset(Song.from_texts('Test', {'cs': {'v1': 'A'}}))
