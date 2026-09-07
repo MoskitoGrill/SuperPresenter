@@ -59,7 +59,7 @@ class RepositoryTests(unittest.TestCase):
         self.assertIs(loaded.selected_repetition, loaded.repetitions[0])
 
     def test_errors_have_path_and_cause(self):
-        for xml in ['<broken>', '<song/>', '<slide><unknown/></slide>',
+        for xml in ['<broken>', '<song/>',
                     '<slide><variant><section><b>text</b></section></variant></slide>',
                     '<!DOCTYPE slide [<!ENTITY x "text">]><slide name="&x;"/>']:
             with self.subTest(xml=xml), self.assertRaises(SongLoadError) as caught:

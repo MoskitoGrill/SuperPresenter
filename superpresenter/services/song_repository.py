@@ -1,5 +1,8 @@
 """Standard XML persistence; no GUI imports or repetition expression evaluation."""
 
+from copy import deepcopy
+import re
+import unicodedata
 from pathlib import Path
 import os
 import tempfile
@@ -49,9 +52,10 @@ class SongRepository:
             root = ET.parse(path, parser=ET.XMLParser(target=_SongTreeBuilder())).getroot()
             if root.tag != 'slide':
                 raise ValueError('Root element must be slide')
-            _check_children(root, {'variant', 'repetition'})
+            extras = [(i, deepcopy(child)) for i, child in enumerate(root)
+                      if child.tag not in {'variant', 'repetition'}]
             song = Song(root.get('name', ''), source_path=path,
-                        attributes=_attributes(root, 'name'), xml_text=root.text)
+                        attributes=_attributes(root, 'name'), xml_text=root.text, extra_elements=extras)
             for variant in root.findall('variant'):
                 _check_children(variant, {'section', 'repetition'})
                 model = SongVariant(variant.get('name', ''),
@@ -77,7 +81,7 @@ class SongRepository:
                 _check_children(repetition, set())
                 song.repetitions.append(SongRepetition(
                     repetition.get('name', ''), repetition.text or '',
-                    repetition.get('main') == '1', _attributes(repetition, 'name', 'main'),
+                    repetition.get('main', '').lower() in ('1', 'true', 'yes'), _attributes(repetition, 'name', 'main'),
                     xml_tail=repetition.tail))
             return song
         except (OSError, ET.ParseError, ValueError, LookupError) as exc:
@@ -116,6 +120,7 @@ class SongRepository:
                 s.text = '\n'.join(section.lines)
                 s.tail = section.xml_tail
                 v.append(s)
+        insertions = [(root, position, deepcopy(element)) for position, element in song.extra_elements]
         for index, repetition in enumerate(song.repetitions):
             if 'main' in repetition.attributes or not isinstance(repetition.is_main, bool):
                 raise ValueError('repetition: main must use the boolean is_main field')
@@ -129,25 +134,45 @@ class SongRepository:
             if index < len(song.repetition_locations):
                 parent_index, position = song.repetition_locations[index]
                 parent = root if parent_index is None else root.findall('variant')[parent_index]
-                parent.insert(position, r)
+                insertions.append((parent, position, r))
             else:
                 root.append(r)
 
+        for parent, position, element in sorted(insertions, key=lambda item: item[1]):
+            parent.insert(position, element)
         return root
 
-    def save(self, song: Song, path):
+    def save(self, song: Song, path, *, overwrite=True):
         path = Path(path)
         temporary = None
         try:
             self.validate(song)
             data = ET.tostring(self._to_xml(song), encoding='utf-8', xml_declaration=True).replace(b'\r', b'&#13;')
             # Replace only after a complete write; never truncate the existing song.
-            with tempfile.NamedTemporaryFile(dir=path.parent, suffix='.tmp', delete=False) as out:
+            with tempfile.NamedTemporaryFile(dir=path.parent, prefix='.song-', suffix='.tmp', delete=False) as out:
                 temporary = Path(out.name)
                 out.write(data)
-            os.replace(temporary, path)
+                out.flush()
+                os.fsync(out.fileno())
+            if overwrite:
+                os.replace(temporary, path)
+            else:
+                os.link(temporary, path)
         except (OSError, ValueError, SongValidationError) as exc:
             raise SongSaveError(path, exc) from exc
         finally:
             if temporary is not None:
-                temporary.unlink(missing_ok=True)
+                if temporary.exists():
+                    os.unlink(temporary)
+
+    @staticmethod
+    def filename(title):
+        if not title.strip():
+            raise ValueError("Název písně nesmí být prázdný.")
+        stem = unicodedata.normalize("NFD", title).encode("ascii", "ignore").decode().lower()
+        stem = re.sub(r"[^a-z0-9_]", "", re.sub(r"\s+", "_", stem)).strip("_")
+        if not stem:
+            raise ValueError("Název musí obsahovat alespoň jedno písmeno použitelné v názvu souboru nebo číslici.")
+        if stem.upper() in {"CON", "PRN", "AUX", "NUL", *(f"COM{i}" for i in range(1, 10)), *(f"LPT{i}" for i in range(1, 10))}:
+            stem = "song_" + stem
+        return stem + ".xml"

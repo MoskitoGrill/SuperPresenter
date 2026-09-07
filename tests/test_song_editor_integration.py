@@ -6,10 +6,10 @@ from pathlib import Path
 from copy import deepcopy
 from unittest.mock import patch, Mock
 
-from song_editor import SongEditor
+from song_editor import SongEditor, add_title_placeholder
 from super_presenter import GUI, WidgetSource
-from superpresenter.domain.editable_song import EditableSong as Song
-from superpresenter.services.song_editor_repository import SongEditorRepository as SongRepository
+from superpresenter.domain.song import Song, SongSection, SongVariant
+from superpresenter.services.song_repository import SongRepository, SongLoadError, SongSaveError
 
 
 class EditorIntegrationTests(unittest.TestCase):
@@ -24,7 +24,8 @@ class EditorIntegrationTests(unittest.TestCase):
         self.enterContext(patch('super_presenter.tkmsg.showwarning'))
         self.choice = self.enterContext(patch('song_editor.messagebox.askyesnocancel', return_value=None))
         self.overwrite = self.enterContext(patch('song_editor.messagebox.askyesno', return_value=False))
-        self.song = Song('Original', {'cs': {'v1': 'One', 'v2': 'Two'}}, {'default': 'v1 v2', 'short': 'v2'}, 'short')
+        self.overwrite.side_effect = lambda title, *args, **kwargs: True if title == 'Vynechané sekce v opakování' else self.overwrite.return_value
+        self.song = Song.from_texts('Original', {'cs': {'v1': 'One', 'v2': 'Two'}}, {'default': 'v1 v2', 'short': 'v2'}, 'short')
         self.path = Path(self.tmp.name) / 'original.xml'
         SongRepository().save(self.song, self.path)
         self.editor = SongEditor(self.root, embedded=True)
@@ -50,7 +51,7 @@ class EditorIntegrationTests(unittest.TestCase):
         self.choice.return_value = False
         self.assertTrue(self.editor.new_song())
         self.assertFalse(self.editor.dirty)
-        self.assertEqual(self.editor.snapshot(), Song())
+        self.assertEqual(self.editor.snapshot(), Song.from_texts())
 
     def test_invalid_load_keeps_dirty_song_without_prompt(self):
         self.editor.title_variable.set('Changed')
@@ -99,6 +100,26 @@ class EditorIntegrationTests(unittest.TestCase):
         self.assertTrue(self.editor.save_file())
         self.assertTrue(self.path.exists())
         self.assertEqual(SongRepository().load(target).title, 'New')
+
+    def test_omission_warning_cancel_keeps_disk_and_dirty_then_accept_saves(self):
+        original = self.path.read_bytes()
+        self.editor.set_selected_repetition_text('v1')
+        self.overwrite.side_effect = None
+        self.overwrite.return_value = False
+        self.assertFalse(self.editor.save_file())
+        self.assertTrue(self.editor.dirty)
+        self.assertEqual(self.path.read_bytes(), original)
+        self.assertIn('short', self.overwrite.call_args.args[1])
+        self.assertIn('Sloka 2 (v2)', self.overwrite.call_args.args[1])
+        self.overwrite.return_value = True
+        self.assertTrue(self.editor.save_file())
+        self.assertFalse(self.editor.dirty)
+        self.assertEqual(SongRepository().load(self.path).guide, 'v1')
+
+    def test_complete_repetitions_do_not_warn(self):
+        self.editor.set_selected_repetition_text('v1 v2')
+        self.assertTrue(self.editor.save_file())
+        self.overwrite.assert_not_called()
 
     def make_gui(self):
         gui = GUI.__new__(GUI)
@@ -161,7 +182,7 @@ class EditorIntegrationTests(unittest.TestCase):
     def test_main_cancel_navigation_new_close_and_quit(self):
         gui = self.make_gui()
         second = self.path.with_name('second.xml')
-        SongRepository().save(Song('Second', {'cs': {'v1': 'Other'}}), second)
+        SongRepository().save(Song.from_texts('Second', {'cs': {'v1': 'Other'}}), second)
         gui.loadSource(str(second))
         self.editor.title_variable.set('Unsaved')
         for action in (gui.prevSourceFun, gui.newSongFun, gui.closeSourceFun, gui.on_closing):
@@ -187,7 +208,7 @@ class EditorIntegrationTests(unittest.TestCase):
         self.assertEqual(gui.sources[1].song.title, 'Draft')
 
     def test_languages_and_non_numbered_ids_survive_load(self):
-        song = Song('Legacy', {'cs': {'r': 'Text'}, 'empty': {}}, {'only': 'r'}, 'only')
+        song = Song.from_texts('Legacy', {'cs': {'r': 'Text'}, 'empty': {}}, {'only': 'r'}, 'only')
         self.assertTrue(self.editor.load_song(song))
         self.assertFalse(self.editor.dirty)
         self.assertEqual(self.editor.snapshot(), song)
@@ -206,6 +227,33 @@ class StartupTests(unittest.TestCase):
         finally:
             root.destroy()
 
+    def test_title_placeholder_never_changes_song_data(self):
+        root = tk.Tk()
+        root.withdraw()
+        try:
+            editor = SongEditor(root)
+            entry = editor.title_entry
+            hint = next(child for child in entry.winfo_children() if isinstance(child, tk.Label))
+            self.assertEqual(hint.cget('text'), 'Název zde')
+            self.assertEqual(hint.winfo_manager(), 'place')
+            self.assertEqual(editor.snapshot().title, '')
+            self.assertFalse(editor.dirty)
+            # Mouse events require mapped widgets; keep the test window offscreen.
+            root.geometry('+30000+30000')
+            root.deiconify()
+            root.update()
+            hint.event_generate('<Button-1>')
+            self.assertEqual(hint.winfo_manager(), '')
+            self.assertFalse(editor.dirty)
+            entry.event_generate('<FocusOut>')
+            self.assertEqual(hint.winfo_manager(), 'place')
+            editor.title_variable.set('Actual title')
+            self.assertEqual(hint.winfo_manager(), '')
+            self.assertEqual(editor.snapshot().title, 'Actual title')
+            root.update_idletasks()
+        finally:
+            root.destroy()
+
     def test_main_window_wiring(self):
         original_tk = tk.Tk
         def hidden_root():
@@ -215,6 +263,7 @@ class StartupTests(unittest.TestCase):
         with patch('super_presenter.tk.Tk', side_effect=hidden_root), patch.object(GUI, 'getMonitors'), patch.object(GUI, 'newProjector'), patch('super_presenter.tkmsg.showerror') as error:
             gui = GUI()
             try:
+                self.assertTrue(gui.sourceTitleEntry.winfo_children())
                 gui.song_title.set('Draft title')
                 self.assertEqual(gui.song_editor_widget.snapshot().title, 'Draft title')
                 self.assertTrue(gui.song_editor_widget.dirty)

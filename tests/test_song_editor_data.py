@@ -5,8 +5,8 @@ import tempfile
 from unittest.mock import patch
 import xml.etree.ElementTree as ET
 
-from superpresenter.domain.editable_song import EditableSong as Song
-from superpresenter.services.song_editor_repository import SongEditorRepository as SongRepository
+from superpresenter.domain.song import Song, SongSection, SongVariant
+from superpresenter.services.song_repository import SongRepository, SongLoadError, SongSaveError
 from superpresenter.services.song_edit_session import SongEditSession
 
 
@@ -16,7 +16,7 @@ class SongDataTests(unittest.TestCase):
         self.addCleanup(self.tmp.cleanup)
         self.path = Path(self.tmp.name) / 'song.xml'
         self.repo = SongRepository()
-        self.song = Song('Píseň', {'čeština': {'v1': 'První\nDruhý'}, 'English': {'v1': 'First\nSecond'}}, {'default': 'v1', 'short': '(v1)*2'}, 'short')
+        self.song = Song.from_texts('Píseň', {'čeština': {'v1': 'První\nDruhý'}, 'English': {'v1': 'First\nSecond'}}, {'default': 'v1', 'short': '(v1)*2'}, 'short')
 
     def test_roundtrip_languages_repetitions_and_main(self):
         self.repo.save(self.song, self.path)
@@ -38,8 +38,9 @@ class SongDataTests(unittest.TestCase):
         self.repo.save(self.song, self.path)
         original = self.path.read_bytes()
         self.song.title = 'Other'
-        with self.assertRaises(FileExistsError):
-            self.repo.save(self.song, self.path)
+        with self.assertRaises(SongSaveError) as caught:
+            self.repo.save(self.song, self.path, overwrite=False)
+        self.assertIsInstance(caught.exception.cause, FileExistsError)
         self.assertEqual(original, self.path.read_bytes())
         self.assertFalse(list(self.path.parent.glob('.song-*')))
 
@@ -49,8 +50,8 @@ class SongDataTests(unittest.TestCase):
         session = SongEditSession(self.repo)
         session.load(self.path)
         session.song.title = 'Changed'
-        with patch('superpresenter.services.song_editor_repository.os.replace', side_effect=PermissionError('locked')):
-            with self.assertRaises(PermissionError):
+        with patch('superpresenter.services.song_repository.os.replace', side_effect=PermissionError('locked')):
+            with self.assertRaises(SongSaveError):
                 session.save(self.path, overwrite=True)
         self.assertTrue(session.dirty)
         self.assertEqual(original, self.path.read_bytes())
@@ -59,7 +60,7 @@ class SongDataTests(unittest.TestCase):
     def test_dirty_all_model_fields_and_successful_save(self):
         session = SongEditSession(self.repo)
         session.reset(self.song)
-        changes = [lambda s: setattr(s, 'title', 'Other'), lambda s: s.variants['čeština'].update(v1='Text'), lambda s: s.variants.update(de={'v1': 'Text'}), lambda s: s.variants['čeština'].update(v2='Text'), lambda s: s.repetitions.update(short='v1'), lambda s: setattr(s, 'main_repetition', 'default')]
+        changes = [lambda s: setattr(s, 'title', 'Other'), lambda s: setattr(s.variants[0].sections[0], 'lines', ['Text']), lambda s: s.variants.append(SongVariant('de', [SongSection('v1', ['Text'])])), lambda s: s.variants[0].sections.append(SongSection('v2', ['Text'])), lambda s: setattr(s.repetitions[1], 'guide', 'v1'), lambda s: setattr(s.repetitions[0], 'is_main', True)]
         for change in changes:
             session.reset(self.song)
             self.assertFalse(session.dirty)
@@ -72,7 +73,7 @@ class SongDataTests(unittest.TestCase):
         session = SongEditSession(self.repo)
         session.reset(self.song)
         session.song.title = 'Unsaved'
-        with self.assertRaises(FileNotFoundError):
+        with self.assertRaises(SongLoadError):
             session.load(self.path)
         self.assertEqual(session.song.title, 'Unsaved')
         self.assertTrue(session.dirty)
@@ -107,7 +108,9 @@ class SongDataTests(unittest.TestCase):
     def test_empty_title_and_unsafe_names(self):
         for title in ('', '   '):
             with self.assertRaises(ValueError):
-                self.repo.save(Song(title), self.path)
+                session = SongEditSession()
+                session.reset(Song.from_texts(title))
+                session.save(self.path)
         self.assertEqual(self.repo.filename('Příliš žluťoučký'), 'prilis_zlutoucky.xml')
         self.assertEqual(self.repo.filename('CON'), 'song_CON.xml'.lower())
         with self.assertRaises(ValueError):
@@ -115,12 +118,45 @@ class SongDataTests(unittest.TestCase):
 
     def test_section_removal_updates_all_languages_and_constructs(self):
         session = SongEditSession()
-        session.reset(Song('Test', {'cs': {'v1': 'A', 'v2': 'B', 'v3': 'C'}, 'en': {'v1': 'a', 'v2': 'b', 'v3': 'c'}}, {'default': 'v1v2v3', 'other': '(v2.1)*3 v3.1:2'}, 'other'))
+        session.reset(Song.from_texts('Test', {'cs': {'v1': 'A', 'v2': 'B', 'v3': 'C'}, 'en': {'v1': 'a', 'v2': 'b', 'v3': 'c'}}, {'default': 'v1v2v3', 'other': '(v2.1)*3 v3.1:2'}, 'other'))
         session.remove_section('v2')
-        self.assertEqual(session.song.variants['cs'], {'v1': 'A', 'v2': 'C'})
-        self.assertEqual(session.song.variants['en'], {'v1': 'a', 'v2': 'c'})
-        self.assertEqual(session.song.repetitions, {'default': 'v1v2', 'other': 'v2.1:2'})
+        self.assertEqual(session.song.variant_texts['cs'], {'v1': 'A', 'v2': 'C'})
+        self.assertEqual(session.song.variant_texts['en'], {'v1': 'a', 'v2': 'c'})
+        self.assertEqual(session.song.repetition_texts, {'default': 'v1v2', 'other': 'v2.1:2'})
         self.assertTrue(session.dirty)
+
+
+class RepetitionCoverageTests(unittest.TestCase):
+    def test_missing_chorus_per_repetition_without_duplicate_languages(self):
+        session = SongEditSession()
+        session.reset(Song.from_texts('Test', {'cs': {'v1': 'A', 'v2': 'B', 'r1': 'C'},
+                                   'en': {'v1': 'a', 'v2': 'b', 'r1': 'c'}},
+                           {'band A': 'v1 v2 v1', 'band B': '(v1 v2 r1)*2'}, 'band A'))
+        self.assertEqual(session.omitted_sections(), {'band A': ['r1']})
+        self.assertFalse(session.dirty)
+
+    def test_whole_ids_nested_groups_and_ranges(self):
+        session = SongEditSession()
+        session.reset(Song.from_texts('Test', {'cs': {'v1': 'A', 'v10': 'B', 'r': 'C'}},
+                           {'default': '((v10.1:3)*2 r.1)*3'}))
+        self.assertEqual(session.omitted_sections(), {'default': ['v1']})
+        session.song.repetitions[0].guide += ' v1'
+        self.assertEqual(session.omitted_sections(), {})
+
+    def test_adjacent_section_references(self):
+        session = SongEditSession()
+        session.reset(Song.from_texts('Test', {'cs': {'v1': 'A', 'v2': 'B', 'r1': 'C'}},
+                           {'default': 'v1v2(r1)*2'}))
+        self.assertEqual(session.omitted_sections(), {})
+
+    def test_empty_and_absent_repetition(self):
+        session = SongEditSession()
+        session.reset(Song.from_texts('Test', {'cs': {'v1': 'A'}}))
+        self.assertEqual(session.omitted_sections(), {'default': ['v1']})
+        session.song.repetitions = []
+        self.assertEqual(list(session.omitted_sections().values()), [['v1']])
+        session.reset(Song.from_texts())
+        self.assertEqual(session.omitted_sections(), {})
 
 
 if __name__ == '__main__':

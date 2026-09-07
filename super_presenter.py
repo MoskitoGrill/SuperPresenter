@@ -1,8 +1,9 @@
 import os
 from copy import deepcopy
 import xml.etree.ElementTree as ET
-from superpresenter.domain.editable_song import EditableSong as Song
-from superpresenter.services.song_editor_repository import SongEditorRepository as SongRepository
+from superpresenter.domain.song import Song
+from superpresenter.services.song_repository import SongRepository, SongLoadError
+from superpresenter.services.song_edit_session import validate_editor_fields
 import tkinter as tk
 from os import path
 from screeninfo import get_monitors
@@ -808,7 +809,11 @@ class WidgetSource(_LegacyWidgetSource):
         if self.song is None:
             try:
                 self.song = SongRepository().load(path)
-            except ET.ParseError as exc:
+            except SongLoadError as exc:
+                if not isinstance(exc.cause, ET.ParseError):
+                    self.err = 1
+                    self.load_warning = str(exc)
+                    return
                 try:
                     variants = super().importVariants()
                     sections = super().importSections(variants)
@@ -817,7 +822,7 @@ class WidgetSource(_LegacyWidgetSource):
                     if not variants or not sections:
                         raise ValueError("Soubor neobsahuje varianty a sekce.")
                     main = next((name for name, rep in reps.items() if str(rep.get('main', '')).lower() in ('1', '1.0', 'true', 'yes')), 'default' if 'default' in reps else next(iter(reps), ''))
-                    self.song = Song(super().importSlideName(),
+                    self.song = Song.from_texts(super().importSlideName(),
                         {lang: {sid: '\n'.join(slide[lang][sid]['lines']) for sid in sections if sid in slide[lang]} for lang in variants},
                         {name: rep['guide'] for name, rep in reps.items()}, main)
                     self.load_warning = str(exc)
@@ -833,37 +838,34 @@ class WidgetSource(_LegacyWidgetSource):
 
     def loadSong(self):
         """Read the original ordered model for existing repository consumers."""
-        from superpresenter.services.song_repository import SongRepository as OrderedSongRepository
-        return OrderedSongRepository().load(self.path)
+        return SongRepository().load(self.path)
 
     def importSlideName(self):
-        return self.song.title
+        return self.song.title or self.fileName
 
     def importVariants(self):
-        return list(self.song.variants)
+        return list(self.song.variant_texts)
 
     def importSections(self, variants):
-        return list(dict.fromkeys(sid for lang in variants for sid in self.song.variants.get(lang, {})))
+        return list(dict.fromkeys(sid for lang in variants for sid in self.song.variant_texts.get(lang, {})))
 
     def importRepetitions(self):
         return {name: {'guide': guide, 'main': '1' if name == self.song.main_repetition else '0'}
-                for name, guide in self.song.repetitions.items()}
+                for name, guide in self.song.repetition_texts.items()}
 
     def importSlide(self, variants, sections):
-        root = self.song.template
-        slide = dict(root.attrib) if root is not None else {}
-        slide['name'] = self.song.title
-        for lang in variants:
-            if lang not in self.song.variants:
+        slide = dict(self.song.attributes)
+        slide['name'] = self.importSlideName()
+        for i, variant in enumerate(self.song.variants, 1):
+            lang = variant.name or f"variant {i}"
+            if lang not in variants:
                 continue
-            template = next((v for v in root.findall('variant') if v.get('name') == lang), None) if root is not None else None
-            data = dict(template.attrib) if template is not None else {}
-            data.pop('name', None)
-            for sid, content in self.song.variants[lang].items():
+            data = dict(variant.attributes)
+            for j, section in enumerate(variant.sections, 1):
+                sid = section.identifier or f"s{j}"
                 if sid in sections:
-                    section = next((v for v in template.findall('section') if v.get('name') == sid), None) if template is not None else None
-                    attrs = dict(section.attrib) if section is not None else {}
-                    attrs.pop('name', None)
+                    attrs = dict(section.attributes)
+                    content = '\n'.join(section.lines).strip()
                     attrs['lines'] = [clearEmpties(line) for line in content.splitlines() if clearEmpties(line)]
                     data[sid] = attrs
             slide[lang] = data
@@ -1131,7 +1133,7 @@ class GUI():
         self.win.title(self.title)
         self.win.resizable(0,0)
         self.win.geometry('+20+20')
-        from song_editor import SongEditor
+        from song_editor import SongEditor, add_title_placeholder
 
         ##### halve window
         self.leftFrame = tk.Frame(self.win)
@@ -1221,6 +1223,7 @@ class GUI():
         self.sourceLab = tk.Label(self.sourceNav, text='-----')
         self.song_title = tk.StringVar(master=self.win)
         self.sourceTitleEntry = tk.Entry(self.sourceNav, width=40, textvariable=self.song_title)
+        add_title_placeholder(self.sourceTitleEntry, self.song_title)
         
         self.song_editor_frame = tk.Frame(self.sourceEdit)
         self.song_editor_frame.grid(column=0, row=0, sticky='nsew')
@@ -1426,7 +1429,7 @@ class GUI():
         self._syncing_song = True
         try:
             self.construct_variable.set(song.guide)
-            languages = list(song.variants)
+            languages = list(song.variant_texts)
             for index, combo in enumerate((self.var1Combo, self.var2Combo, self.var3Combo)):
                 choices = languages if index == 0 else ['-----'] + languages
                 current = combo.get()
@@ -1627,6 +1630,11 @@ class GUI():
         if src.err:
             tkmsg.showerror('Chyba načítání', f'Nelze načíst {path}:\n{src.load_warning or "Soubor není dostupný."}')
             return False
+        try:
+            validate_editor_fields(src.song)
+        except ValueError as exc:
+            tkmsg.showerror('Chyba načítání', str(exc))
+            return False
         ok, variants, _ = self.validateSource(src)
         if not ok or not self._prepare_song_transition():
             return False
@@ -1708,7 +1716,7 @@ class GUI():
     def _set_variant(self, index, combo):
         if 0 <= self.sourceID < len(self.sourceList):
             source = self.sources[self.sourceList[self.sourceID]]
-            if combo.get() in source.song.variants or (index > 0 and combo.get() == '-----'):
+            if combo.get() in source.song.variant_texts or (index > 0 and combo.get() == '-----'):
                 source.variants[index] = combo.get()
 
     def setVariant1(self, *e):

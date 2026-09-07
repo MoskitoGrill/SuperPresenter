@@ -2,10 +2,50 @@ import tkinter as tk
 from tkinter import filedialog, messagebox, simpledialog, ttk
 from copy import deepcopy
 from pathlib import Path
-from superpresenter.domain.editable_song import EditableSong as Song
-from superpresenter.services.song_edit_session import SongEditSession
+from superpresenter.domain.song import Song
+from superpresenter.services.song_edit_session import SongEditSession, update_song_fields, validate_editor_fields
 import os
 import re
+
+
+def add_title_placeholder(entry, variable):
+    """Display a hint without inserting it into the song's title variable."""
+    hint = tk.Label(entry, text="Název zde", cursor="xterm", takefocus=False)
+    active = False
+
+    def refresh(*_):
+        if not variable.get() and not active:
+            hint.configure(background=entry.cget("background"),
+                           foreground="#aaaaaa", font=entry.cget("font"))
+            hint.place(relx=0.5, rely=0.5, anchor="center")
+        else:
+            hint.place_forget()
+
+    def focus_in(event=None):
+        nonlocal active
+        active = True
+        hint.place_forget()
+
+    def focus_out(event=None):
+        nonlocal active
+        active = False
+        refresh()
+
+    def click(event):
+        focus_in()
+        entry.focus_set()
+        return "break"
+
+    hint.bind("<Button-1>", click)
+    entry.bind("<Button-1>", focus_in, add="+")
+    entry.bind("<FocusIn>", focus_in, add="+")
+    entry.bind("<FocusOut>", focus_out, add="+")
+    entry.bind("<Configure>", refresh, add="+")
+    trace = variable.trace_add("write", refresh)
+    entry.bind("<Destroy>", lambda event: variable.trace_remove("write", trace)
+               if event.widget == entry else None, add="+")
+    refresh()
+    return hint
 
 
 class SongEditor:
@@ -52,14 +92,12 @@ class SongEditor:
             self.root.protocol("WM_DELETE_WINDOW", self.close_window)
 
     def snapshot(self):
-        song = deepcopy(self.session.song)
-        song.title = self.title_variable.get()
-        song.variants = {name: {} for name, sections in song.variants.items() if not sections}
+        variants = {name: {} for name, sections in self.session.song.variant_texts.items() if not sections}
         for section in self.sections:
-            song.variants.setdefault(section['lang'], {})[section['sid']] = section['widget'].get("1.0", "end-1c")
-        song.repetitions = {name: var.get() for name, var in self.repetition_vars.items()}
-        song.main_repetition = self.selected_repetition.get()
-        return song
+            variants.setdefault(section['lang'], {})[section['sid']] = section['widget'].get("1.0", "end-1c")
+        return update_song_fields(self.session.song, self.title_variable.get(), variants,
+                                  {name: var.get() for name, var in self.repetition_vars.items()},
+                                  self.selected_repetition.get())
 
     @property
     def dirty(self):
@@ -103,12 +141,12 @@ class SongEditor:
             self.clear_editor()
             self.title_variable.set(song.title)
             self.manual_repetition_edit = True
-            for lang, sections in song.variants.items():
+            for lang, sections in song.variant_texts.items():
                 for sid, content in sections.items():
                     match = re.fullmatch(r"([a-zA-Z]+)([0-9]+)", sid)
                     typ, num = (match[1], int(match[2])) if match else (sid, 0)
                     self.add_section(typ, num, content, lang, sid=sid)
-            for name, value in song.repetitions.items():
+            for name, value in song.repetition_texts.items():
                 self.add_repetition(name, value)
             self.repetition_entry = self.repetition_vars.get("default", tk.StringVar(master=self.root))
             self.selected_repetition.set(song.main_repetition)
@@ -158,6 +196,7 @@ class SongEditor:
         if not self.embedded:
             self.title_entry = tk.Entry(self.root, textvariable=self.title_variable, font=self.font)
             self.title_entry.pack(fill='x', padx=5)
+            add_title_placeholder(self.title_entry, self.title_variable)
 
         canvas_frame = tk.Frame(self.root)
         canvas_frame.pack(fill='both', expand=True)
@@ -349,7 +388,7 @@ class SongEditor:
     def new_song(self):
         if not self.confirm_transition():
             return False
-        self.session.reset(Song())
+        self.session.reset(Song.from_texts())
         self._render_song()
         return True
 
@@ -458,6 +497,19 @@ class SongEditor:
                 overwrite = messagebox.askyesno("Soubor již existuje", f"Přepsat soubor?\n{target}", parent=self.root)
                 if not overwrite:
                     return False
+            missing = self.session.omitted_sections()
+            if missing:
+                def section_label(sid):
+                    match = re.fullmatch(r"([vrb])([0-9]+)", sid)
+                    return f"{ {'v': 'Sloka', 'r': 'Refrén', 'b': 'Bridge'}[match[1]]} {match[2]} ({sid})" if match else sid
+                details = "\n".join(f"{name}: {', '.join(section_label(sid) for sid in sections)}"
+                                    for name, sections in missing.items())
+                if not messagebox.askyesno(
+                        "Vynechané sekce v opakování",
+                        "V těchto opakováních nejsou použity některé sekce písně:\n\n"
+                        + details + "\n\nVynechání může být záměrné. Přesto uložit?",
+                        icon="warning", parent=self.root):
+                    return False
             self.session.save(target, overwrite=overwrite, rename=rename)
         except Exception as exc:
             messagebox.showerror("Chyba ukládání", f"Píseň se nepodařilo uložit:\n{exc}", parent=self.root)
@@ -494,6 +546,11 @@ class SongEditor:
         return self.load_song(song, file_path)
 
     def load_song(self, song, file_path=None):
+        try:
+            validate_editor_fields(song)
+        except ValueError as exc:
+            messagebox.showerror("Chyba načítání", str(exc), parent=self.root)
+            return False
         if not self.confirm_transition():
             return False
         self.session.reset(song, file_path)

@@ -5,7 +5,9 @@ import tempfile
 import unittest
 
 from super_presenter import WidgetSource, _LegacyWidgetSource
-from superpresenter.services.song_editor_repository import SongEditorRepository as SongRepository
+from superpresenter.domain.song import Song
+from superpresenter.services.song_edit_session import update_song_fields
+from superpresenter.services.song_repository import SongRepository, SongLoadError, SongSaveError
 
 
 class ExistingSongsTests(unittest.TestCase):
@@ -19,7 +21,13 @@ class ExistingSongsTests(unittest.TestCase):
                 with self.subTest(song=path.name):
                     current = WidgetSource(str(path))
                     self.assertEqual(current.err, 0, current.load_warning)
-                    repo.save(current.song, target, overwrite=True)
+                    self.assertIsInstance(current.song, Song)
+                    edited = update_song_fields(current.song, current.song.title,
+                                                current.song.variant_texts,
+                                                current.song.repetition_texts,
+                                                current.song.main_repetition)
+                    self.assertEqual(edited, current.song)
+                    repo.save(edited, target, overwrite=True)
                     self.assertEqual(current.song, repo.load(target))
                     legacy = _LegacyWidgetSource(str(path))
                     variants = legacy.importVariants()
