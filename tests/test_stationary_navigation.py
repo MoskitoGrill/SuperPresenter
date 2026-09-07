@@ -161,12 +161,15 @@ class ProjectionTests(unittest.TestCase):
     def test_start_prepares_each_song_and_restart_resets_timeline(self):
         gui = self.make_gui(['stationary_hall', 'stationary_stream'])
         gui.runState = False
+        gui.song_editor_widget = Mock()
+        gui.song_editor_widget.confirm_transition.return_value = True
         gui.sourceList = [0, 1]
         gui.sources = []
         for count in (8, 10):
             source = Mock(path='test.xml', repetitions='v1', variants=['cs'])
-            source.loadSong.return_value = Song('Test', [SongVariant('cs', [
+            source.song = Song('Test', [SongVariant('cs', [
                 SongSection('v1', [str(i) for i in range(count)])])])
+            source.loadSong.side_effect = AssertionError('Projection must use the saved snapshot')
             source.constructLines.return_value = ['cs']
             gui.sources.append(source)
         for name in ('openProjs', 'addProj', 'delProj', 'fullscreenCheck',
@@ -177,6 +180,9 @@ class ProjectionTests(unittest.TestCase):
         self.assertTrue(gui.runState)
         self.assertEqual([len(p.cues) for p in gui.stationary_navigation.plans], [2, 3])
         for source in gui.sources:
+            source.constructLines.assert_not_called()
+        for source in gui.onlineSources:
+            source.loadSong.assert_not_called()
             source.constructLines.assert_called_once_with([{'type': 'long'}])
         gui.nextStep()
         gui.nextSlide()

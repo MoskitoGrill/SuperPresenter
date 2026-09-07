@@ -1,4 +1,9 @@
 import os
+from copy import deepcopy
+import xml.etree.ElementTree as ET
+from superpresenter.domain.song import Song
+from superpresenter.services.song_repository import SongRepository, SongLoadError
+from superpresenter.services.song_edit_session import validate_editor_fields
 import tkinter as tk
 from os import path
 from screeninfo import get_monitors
@@ -10,22 +15,13 @@ from tkinter import messagebox as tkmsg
 import time
 import math
 from PIL import ImageTk, Image
-from superpresenter.services.song_repository import SongRepository
 from superpresenter.services.construct_parser import parse_construct, ConstructError
 from superpresenter.services.stationary_navigation import (
     CueNavigation, StationaryPageWidget, build_plan, style_mode,
 )
 
 
-class WidgetSource():
-    def loadSong(self):
-        """Opt-in shared model for future consumers; legacy display stays unchanged.
-
-        Read the current file on each call, so editor saves are visible. Errors
-        use SongRepositoryError rather than the legacy validate() bit mask.
-        """
-        return SongRepository().load(self.path)
-
+class _LegacyWidgetSource():
     def __init__(self, path:str):
         self.fileName = readFileName(path)
         try:
@@ -687,6 +683,82 @@ class WidgetSource():
                 mem.append(a)
         return mem.pop(), mem.pop()
 
+class WidgetSource(_LegacyWidgetSource):
+    """Presentation adapter over the same Song that the editor uses.
+
+    The old line parser only imports malformed legacy files; subsequent editing
+    and presentation use the resulting shared model.
+    """
+    def __init__(self, path, song=None):
+        super().__init__(path)
+        self.load_warning = None
+        self.song = deepcopy(song) if song is not None else None
+        if self.song is None:
+            try:
+                self.song = SongRepository().load(path)
+            except SongLoadError as exc:
+                if not isinstance(exc.cause, ET.ParseError):
+                    self.err = 1
+                    self.load_warning = str(exc)
+                    return
+                try:
+                    variants = super().importVariants()
+                    sections = super().importSections(variants)
+                    slide = super().importSlide(variants, sections)
+                    reps = super().importRepetitions()
+                    if not variants or not sections:
+                        raise ValueError("Soubor neobsahuje varianty a sekce.")
+                    main = next((name for name, rep in reps.items() if str(rep.get('main', '')).lower() in ('1', '1.0', 'true', 'yes')), 'default' if 'default' in reps else next(iter(reps), ''))
+                    self.song = Song.from_texts(super().importSlideName(),
+                        {lang: {sid: '\n'.join(slide[lang][sid]['lines']) for sid in sections if sid in slide[lang]} for lang in variants},
+                        {name: rep['guide'] for name, rep in reps.items()}, main)
+                    self.load_warning = str(exc)
+                except Exception as legacy_exc:
+                    self.err = 1
+                    self.load_warning = f"{exc}; {legacy_exc}"
+            except (OSError, ValueError) as exc:
+                self.err = 1
+                self.load_warning = str(exc)
+        if self.song is not None:
+            self.err = 0
+            self.repetitions = self.song.guide
+
+    def loadSong(self):
+        """Read the original ordered model for existing repository consumers."""
+        return SongRepository().load(self.path)
+
+    def importSlideName(self):
+        return self.song.title or self.fileName
+
+    def importVariants(self):
+        return list(self.song.variant_texts)
+
+    def importSections(self, variants):
+        return list(dict.fromkeys(sid for lang in variants for sid in self.song.variant_texts.get(lang, {})))
+
+    def importRepetitions(self):
+        return {name: {'guide': guide, 'main': '1' if name == self.song.main_repetition else '0'}
+                for name, guide in self.song.repetition_texts.items()}
+
+    def importSlide(self, variants, sections):
+        slide = dict(self.song.attributes)
+        slide['name'] = self.importSlideName()
+        for i, variant in enumerate(self.song.variants, 1):
+            lang = variant.name or f"variant {i}"
+            if lang not in variants:
+                continue
+            data = dict(variant.attributes)
+            for j, section in enumerate(variant.sections, 1):
+                sid = section.identifier or f"s{j}"
+                if sid in sections:
+                    attrs = dict(section.attributes)
+                    content = '\n'.join(section.lines).strip()
+                    attrs['lines'] = [clearEmpties(line) for line in content.splitlines() if clearEmpties(line)]
+                    data[sid] = attrs
+            slide[lang] = data
+        return slide
+
+
 class SortingWin():
     def __init__(self, masterWin:tk.Tk, winStyle, lines, positions):
         self.win = tk.Toplevel(masterWin)
@@ -814,7 +886,6 @@ class GUI():
         self.assign()
         
         self.draft_open = False
-        self.draft_state = None
         
     def setStyle(self, styleName=''):
         with open(self.dir + '\\gui_style.json', 'r', encoding='utf-8') as f:
@@ -949,7 +1020,7 @@ class GUI():
         self.win.title(self.title)
         self.win.resizable(0,0)
         self.win.geometry('+20+20')
-        from song_editor import SongEditor
+        from song_editor import SongEditor, add_title_placeholder
 
         ##### halve window
         self.leftFrame = tk.Frame(self.win)
@@ -1037,39 +1108,15 @@ class GUI():
         self.changeOrder = tk.Button(self.sourceNav, text='order')
         self.openPresentation = tk.Button(self.sourceNav, text='prezentace')
         self.sourceLab = tk.Label(self.sourceNav, text='-----')
-        self.sourceTitleEntry = tk.Entry(self.sourceNav, width=40)
+        self.song_title = tk.StringVar(master=self.win)
+        self.sourceTitleEntry = tk.Entry(self.sourceNav, width=40, textvariable=self.song_title)
+        add_title_placeholder(self.sourceTitleEntry, self.song_title)
         
         self.song_editor_frame = tk.Frame(self.sourceEdit)
         self.song_editor_frame.grid(column=0, row=0, sticky='nsew')
-        self.song_editor_widget = SongEditor(self.song_editor_frame, embedded=True)
-        self.song_editor_widget.title_entry = self.sourceTitleEntry
-        self.song_editor_widget.on_saved = self.on_editor_saved
-        
-        def _sync_embedded_rep(*_):
-            if hasattr(self, "song_editor_widget"):
-                _, txt = self.song_editor_widget.get_selected_repetition_text()
-
-                # zrcadlo do GUI pole
-                self.repIn.delete(0, 'end')
-                if txt:
-                    self.repIn.insert(0, txt)
-
-                # 1) Pokud jsme na draftu (neuložená píseň), nemáme co zapisovat do self.sources
-                if self._is_on_draft():
-                    # uložíme si to aspoň do paměti draftu, ať se to nestratí
-                    if self.draft_state is None:
-                        self.draft_state = {}
-                    self.draft_state['construct'] = txt or ''
-                    return
-
-                # 2) Jinak zapisujeme do aktuálního zdroje, ale jen když je index v mezích
-                if 0 <= self.sourceID < len(self.sourceList):
-                    src_idx = self.sourceList[self.sourceID]
-                    if 0 <= src_idx < len(self.sources):
-                        self.sources[src_idx].repetitions = txt or ''
-
-        self.song_editor_widget.selected_repetition.trace_add("write", _sync_embedded_rep)
-        self._sync_embedded_rep = _sync_embedded_rep 
+        self.song_editor_widget = SongEditor(
+            self.song_editor_frame, embedded=True, title_variable=self.song_title,
+            on_saved=self.on_editor_saved)
         # edit
         from song_editor import SongEditor
         # source changes
@@ -1081,7 +1128,11 @@ class GUI():
         self.repLab = tk.Label(self.repetitions, text='Construct')
         self.repImp = tk.Button(self.repetitions, text='import')
         self.repExp = tk.Button(self.repetitions, text='export')
-        self.repIn = tk.Entry(self.repetitions)
+        self.construct_variable = tk.StringVar(master=self.win)
+        self.repIn = tk.Entry(self.repetitions, textvariable=self.construct_variable)
+        self._syncing_song = False
+        self.construct_variable.trace_add("write", self._construct_changed)
+        self.song_editor_widget.on_changed = self._editor_changed
         # variants
         self.var1Lab = tk.Label(self.variants, text='Variant 1')    
         self.var2Lab = tk.Label(self.variants, text='Variant 2')
@@ -1195,10 +1246,8 @@ class GUI():
         self.addLangBtn.grid(column=3, row=0, padx=4)
 
     def on_closing(self):
-        if hasattr(self, "song_editor_win"):
-            if self.song_editor_win.poll() is None:  # pokud běží
-                self.song_editor_win.terminate()
-            
+        if not self._prepare_song_transition():
+            return
         # Zavřít editor prezentací, pokud běží
         if hasattr(self, "presentation_editor_win"):
             if self.presentation_editor_win.poll() is None:
@@ -1254,144 +1303,66 @@ class GUI():
     def _is_on_draft(self):
         return self.draft_open and self.sourceID == len(self.sourceList)
 
-    def _snapshot_draft(self):
-        """Uloží aktuální stav dočasné písně z embedded SongEditor do paměti."""
-        if not self._is_on_draft():
-            return
-        SE = self.song_editor_widget
-        # sekce
-        sections = []
-        for s in SE.sections:
-            sections.append({
-                'type': s['type'],
-                'num': s['num'],
-                'lang': s['lang'],
-                'content': s['widget'].get("1.0", "end-1c"),
-            })
-        # opakování (repetitions)
-        repetitions = {name: var.get() for name, var in SE.repetition_vars.items()}
-        selected_repetition = SE.selected_repetition.get()
-
-        self.draft_state = {
-            'title': self.sourceTitleEntry.get().strip(),
-            'sections': sections,
-            'repetitions': repetitions,
-            'selected_repetition': selected_repetition,
-            'construct': self.repIn.get().strip(),
-            'languages': SE.get_existing_languages(),
-        }
+    def _prepare_song_transition(self):
+        return self.song_editor_widget.confirm_transition()
 
     def _update_new_button_state(self):
-        # disable "new", když je otevřený draft
-        if hasattr(self, "newSource"):
-            self.newSource.configure(state=('disabled' if self.draft_open else 'normal'))
+        self.newSource.configure(state='normal')
 
-    def _restore_draft(self):
-        """Obnoví dočasnou píseň zpět do embedded SongEditoru."""
-        SE = self.song_editor_widget
+    def _construct_changed(self, *_):
+        if not self._syncing_song:
+            self.song_editor_widget.set_selected_repetition_text(self.construct_variable.get())
 
-        # čistý start editoru (ponechá default opakování)
-        SE.new_song()
+    def _editor_changed(self, song):
+        self._syncing_song = True
+        try:
+            self.construct_variable.set(song.guide)
+            languages = list(song.variant_texts)
+            for index, combo in enumerate((self.var1Combo, self.var2Combo, self.var3Combo)):
+                choices = languages if index == 0 else ['-----'] + languages
+                current = combo.get()
+                combo['values'] = choices
+                if current not in choices:
+                    combo.set(choices[0] if choices else '')
+        finally:
+            self._syncing_song = False
 
-        if not self.draft_state:
-            # prázdný draft
-            self.sourceTitleEntry.delete(0, 'end')
-            self.repIn.delete(0, 'end')
-            self.var1Combo['values'] = []
-            self.var2Combo['values'] = []
-            self.var3Combo['values'] = []
-            self.var1Combo.set('')
-            self.var2Combo.set('')
-            self.var3Combo.set('')
-            return
-
-        ds = self.draft_state
-
-        # název
-        self.sourceTitleEntry.delete(0, 'end')
-        if ds.get('title'):
-            self.sourceTitleEntry.insert(0, ds['title'])
-
-        # opakování – nejdřív smaž vše kromě "default"
-        for name in list(SE.repetition_frames.keys()):
-            if name != "default":
-                SE.remove_repetition(name, SE.repetition_frames[name])
-        # nastav default text
-        SE.repetition_entry.set(ds.get('repetitions', {}).get('default', ''))
-        # přidej ostatní
-        for name, val in ds.get('repetitions', {}).items():
-            if name == "default":
-                continue
-            SE.add_repetition(name, val)
-        # zvolený repet
-        if ds.get('selected_repetition'):
-            SE.selected_repetition.set(ds['selected_repetition'])
-
-        # sekce
-        for sec in ds.get('sections', []):
-            SE.add_section(sec['type'], sec['num'], sec['content'], sec.get('lang', 'čeština'))
-
-        # Construct do entry
-        self.repIn.delete(0, 'end')
-        if ds.get('construct'):
-            self.repIn.insert(0, ds['construct'])
-
-        # varianty podle známých jazyků (ať to není prázdné)
-        langs = ds.get('languages') or SE.get_existing_languages()
-        self.var1Combo['values'] = langs
-        self.var2Combo['values'] = ['-----'] + langs
-        self.var3Combo['values'] = ['-----'] + langs
-        self.var1Combo.set(langs[0] if langs else '')
-        self.var2Combo.set('-----')
-        self.var3Combo.set('-----')
     def total_sources(self):
-        """Počet položek v horní navigaci – uložené + případná dočasná."""
         return len(self.sourceList) + (1 if self.draft_open else 0)
 
     def viewDraft(self, *e):
-        """Zobrazení dočasné (neuložené) písně v UI."""
-        total = self.total_sources()
-        self.sourceNum.configure(text=f'{self.sourceID+1} / {total}')
+        self.sourceNum.configure(text=f'{self.sourceID+1} / {self.total_sources()}')
         self.sourceLab.config(text='(neuložená píseň)')
-        
-        # v dočasné zatím nejsou varianty ani opakování
-        self.var1Combo['values'] = []
-        self.var2Combo['values'] = []
-        self.var3Combo['values'] = []
-        self.var1Combo.set('')
-        self.var2Combo.set('')
-        self.var3Combo.set('')
+        self._editor_changed(self.song_editor_widget.snapshot())
 
-        self.repIn.delete(0, 'end')
-        self.sourceTitleEntry.delete(0, 'end')
-        self.sourceLab.config(text='(neuložená píseň)')
-
-        self._restore_draft()
-        
-    def on_editor_saved(self, path, title=None):
-        """Editor právě uložil píseň – přidej ji k přehrání a vyber ji."""
-        # Jestli byla otevřená dočasná píseň, tak ji tímto potvrzením „uzavřeme“
-        if self.draft_open:
-            self.draft_open = False
-            self._update_new_button_state()
-            
-        # Je ten soubor už mezi self.sources?
+    def on_editor_saved(self, song, path, renamed_from=None):
+        """Publish a fresh saved snapshot; running presentations retain their snapshot."""
+        same_path = lambda a, b: os.path.normcase(os.path.abspath(a)) == os.path.normcase(os.path.abspath(b))
+        selected_languages = [combo.get() for combo in (self.var1Combo, self.var2Combo, self.var3Combo)]
+        current = self.sourceList[self.sourceID] if 0 <= self.sourceID < len(self.sourceList) else None
         idx = None
-        for i, s in enumerate(self.sources):
-            if getattr(s, 'path', '') == path:
-                idx = i
-                break
-
+        for i, source in enumerate(self.sources):
+            if same_path(source.path, path) or (renamed_from and same_path(source.path, renamed_from)):
+                updated = WidgetSource(path, song)
+                languages = updated.importVariants()
+                choices = selected_languages if i == current else source.variants
+                updated.variants = [value if value in languages else (languages[0] if j == 0 and languages else '-----') for j, value in enumerate(choices)]
+                self.sources[i] = updated
+                if idx is None:
+                    idx = i
         if idx is None:
-            # Nový soubor – standardně ho načti (loadSource už přidá i do sourceList a nastaví výběr)
-            self.loadSource(path)
-        else:
-            # Soubor už znám – zajisti, aby byl v playlistu a vyber ho
-            if idx not in self.sourceList:
-                self.sourceList.append(idx)
-            self.sourceID = self.sourceList.index(idx)
-            self.viewSource()
-            
+            updated = WidgetSource(path, song)
+            languages = updated.importVariants()
+            updated.variants = [value if value in languages else (languages[0] if j == 0 and languages else '-----') for j, value in enumerate(selected_languages)]
+            self.sources.append(updated)
+            idx = len(self.sources) - 1
+        if idx not in self.sourceList:
+            self.sourceList.append(idx)
+        self.draft_open = False
+        self.sourceID = self.sourceList.index(idx)
+        self._update_new_button_state()
+        self.viewSource(reload_editor=False)
+
     def run(self):
         tk.mainloop()
 
@@ -1447,7 +1418,7 @@ class GUI():
     def _testProj(self):
         self.newProjector()
         self.loadSource(
-            'C:\\Users\\gurl3\Hobby\\python_tests\\'+\
+            'C:\\Users\\gurl3\\Hobby\\python_tests\\'+\
                 'super_presenter\\songs\\vsade_tam_kde_su.xml'
         )
         vars = self.sources[-1].importVariants()
@@ -1457,7 +1428,7 @@ class GUI():
         self.repIn.insert(0, '(v1 v2.1:3 (v2.4)*3)v1')
         self.saveRepetitions()
         self.loadSource(
-            'C:\\Users\\gurl3\Hobby\\python_tests\\'+\
+            'C:\\Users\\gurl3\\Hobby\\python_tests\\'+\
                 'super_presenter\\songs\\vsade_tam_kde_su_2.xml'
         )
         vars = self.sources[-1].importVariants()
@@ -1536,98 +1507,52 @@ class GUI():
 
     # source options
     def addSource(self, *e):
-        self.saveRepetitions()
-        if self._is_on_draft():
-            self._snapshot_draft()
-        songs_folder = os.path.join(self.dir, "songs")  # složka vedle super_presenter.py
-        paths = filedialog.askopenfilenames(
-            title='Otevřít píseň',
-            initialdir=songs_folder,
-            filetypes=(
-                ('Textové soubory', ('*.xml', '*.txt')),
-                ('Všechny soubory', ('*.*'))
-            )
-        )
+        paths = filedialog.askopenfilenames(title='Otevřít píseň', initialdir=os.path.join(self.dir, "songs"),
+            filetypes=(('Textové soubory', ('*.xml', '*.txt')), ('Všechny soubory', ('*.*'))))
         for path in paths:
-            self.loadSource(path)
-
+            if not self.loadSource(path):
+                break
 
     def loadSource(self, path):
         src = WidgetSource(path)
-        if src.err == 1:
-            tkmsg.showerror('Source loading error', f'Unable to load: \n {src.fileName}')
-            return
-
-        ok, vars, _ = self.validateSource(src)
-        if not ok:
-            return
-
-        src.variants = [vars[0], '-----', '-----']
+        if src.err:
+            tkmsg.showerror('Chyba načítání', f'Nelze načíst {path}:\n{src.load_warning or "Soubor není dostupný."}')
+            return False
+        try:
+            validate_editor_fields(src.song)
+        except ValueError as exc:
+            tkmsg.showerror('Chyba načítání', str(exc))
+            return False
+        ok, variants, _ = self.validateSource(src)
+        if not ok or not self._prepare_song_transition():
+            return False
+        if src.load_warning:
+            tkmsg.showwarning('Starší formát písně', f'{path}\nSoubor byl načten tolerantním importem. Uložení vytvoří platné XML.\n{src.load_warning}')
+        src.variants = [variants[0], '-----', '-----']
+        self.draft_open = False
         self.sources.append(src)
-
-        # Do playlistu si uložíme index do self.sources…
         self.sourceList.append(len(self.sources) - 1)
-        # …ale vybranou pozici musíme nastavit jako index do self.sourceList
         self.sourceID = len(self.sourceList) - 1
-
         self.viewSource()
+        return True
 
-    def viewSource(self, *e):
-        if self.draft_open and self.sourceID == len(self.sourceList):
+    def viewSource(self, *e, reload_editor=True):
+        if self._is_on_draft():
             self.viewDraft()
             return
-        if self.sourceID >= 0:
+        if 0 <= self.sourceID < len(self.sourceList):
             src = self.sources[self.sourceList[self.sourceID]]
+            if reload_editor and not self.song_editor_widget.load_song(src.song, src.path):
+                return False
             self.sourceNum.configure(text=f'{self.sourceID+1} / {self.total_sources()}')
-            vars = src.importVariants()
-            self.var1Combo['values'] = vars
-            self.var2Combo['values'] = ['-----'] + vars
-            self.var3Combo['values'] = ['-----'] + vars
-            self.var1Combo.set(src.variants[0])
-            self.var2Combo.set(src.variants[1])
-            self.var3Combo.set(src.variants[2])
-            self.repIn.delete(0, 'end')
-            self.sourceTitleEntry.delete(0, 'end')
-            self.sourceTitleEntry.insert(0, src.importSlideName())            
-            try:
-                self.song_editor_widget.load_file_from_path(src.path)
-            except Exception as e:
-                tkmsg.showerror("Chyba", f"Editor nedokázal načíst píseň:\n{e}")
-            
-            repetitions = src.importRepetitions()
-            def pick_main(reps: dict) -> str:
-                for nm, d in reps.items():
-                    v = d.get("main", "")
-                    if isinstance(v, (int, float)) and v > 0:
-                        return nm
-                    if isinstance(v, str) and v.strip().lower() in ("1", "true", "yes"):
-                        return nm
-                if "default" in reps:
-                    return "default"
-                if not (0 <= self.sourceID < len(self.sourceList)):
-                    self.viewSource0()
-                    return
-                return next(iter(reps), "")
+            self.sourceLab.config(text=src.fileName)
+            languages = src.importVariants()
+            for i, combo in enumerate((self.var1Combo, self.var2Combo, self.var3Combo)):
+                combo['values'] = languages if i == 0 else ['-----'] + languages
+                combo.set(src.variants[i])
+            return True
+        return False
 
-            sel = pick_main(repetitions)
-            text = repetitions.get(sel, {}).get("guide", "").strip()
-
-            self.repIn.delete(0, 'end')
-            if text:
-                self.repIn.insert(0, text)
-                src.repetitions = text
-            else:
-                src.repetitions = ""
-            if hasattr(self, "song_editor_widget"):
-                _, text_from_editor = self.song_editor_widget.get_selected_repetition_text()
-                self.repIn.delete(0, 'end')
-                if text_from_editor:
-                    self.repIn.insert(0, text_from_editor)
-                    src.repetitions = text_from_editor
-
-        else:
-            pass
-       
     def validateSource(self, src:WidgetSource):
         err, vars, secs = src.validate()
         if err > 0:
@@ -1656,124 +1581,66 @@ class GUI():
             return 1, vars, secs
 
     def saveRepetitions(self, *e):
-        if not (0 <= self.sourceID < len(self.sourceList)):
-            return
-        idx = self.sourceList[self.sourceID]
-        if 0 <= idx < len(self.sources):
-            self.sources[idx].repetitions = self.repIn.get()
+        self.song_editor_widget.set_selected_repetition_text(self.repIn.get())
 
     def prevSourceFun(self, *e):
         if self.sourceID > 0:
-            if self._is_on_draft():
-                self._snapshot_draft()
-            self.saveRepetitions()
-            self.sourceID -= 1
-            if self.draft_open and self.sourceID == len(self.sourceList):
-                self.viewDraft()
-            else:
-                self.viewSource()
+            target = self.sourceList[self.sourceID - 1]
+            if not self._prepare_song_transition():
+                return
+            self.draft_open = False
+            self.sourceID = self.sourceList.index(target)
+            self.viewSource()
 
     def nextSourceFun(self, *e):
-        max_idx = self.total_sources() - 1
-        if self.sourceID < max_idx:
-            if self._is_on_draft():
-                self._snapshot_draft()
-            self.saveRepetitions()
-            self.sourceID += 1
-            if self.draft_open and self.sourceID == len(self.sourceList):
-                self.viewDraft()
-            else:
-                self.viewSource()
+        if self.sourceID + 1 < len(self.sourceList):
+            target = self.sourceList[self.sourceID + 1]
+            if not self._prepare_song_transition():
+                return
+            self.draft_open = False
+            self.sourceID = self.sourceList.index(target)
+            self.viewSource()
+
+    def _set_variant(self, index, combo):
+        if 0 <= self.sourceID < len(self.sourceList):
+            source = self.sources[self.sourceList[self.sourceID]]
+            if combo.get() in source.song.variant_texts or (index > 0 and combo.get() == '-----'):
+                source.variants[index] = combo.get()
 
     def setVariant1(self, *e):
-        self.sources[self.sourceList[self.sourceID]].variants[0] = \
-            self.var1Combo['values'][self.var1Combo.current()]
+        self._set_variant(0, self.var1Combo)
 
     def setVariant2(self, *e):
-        self.sources[self.sourceList[self.sourceID]].variants[1] = \
-            self.var2Combo['values'][self.var2Combo.current()]
+        self._set_variant(1, self.var2Combo)
 
     def setVariant3(self, *e):
-        self.sources[self.sourceList[self.sourceID]].variants[2] = \
-            self.var3Combo['values'][self.var3Combo.current()]
+        self._set_variant(2, self.var3Combo)
 
     def closeSourceFun(self, *e):
-        if self.sourceID < 0:
+        if not self._prepare_song_transition():
             return
-
-        # 1) Pokud jsme na dočasné (neuložené) písni → zruš draft
-        if self.draft_open and self.sourceID == len(self.sourceList):
+        if self._is_on_draft():
             self.draft_open = False
-            self._update_new_button_state()
-            if self.sourceList:
-                # skoč na poslední uloženou položku
-                self.sourceID = min(self.sourceID, len(self.sourceList) - 1)
-                self.viewSource()
-            else:
-                # v seznamu nic nezbylo
-                self.sourceID = -1
-                self.viewSource0()
-            return
-
-        # 2) Jinak odebíráme aktuální uloženou/přidanou píseň ze seznamu
-        if 0 <= self.sourceID < len(self.sourceList):
-            # pro jistotu uložíme případně upravený "Construct"
-            self.saveRepetitions()
-
-            # odeber aktuální položku z playlistu (self.sourceList)
+        elif 0 <= self.sourceID < len(self.sourceList):
             self.sourceList.pop(self.sourceID)
-
-            if len(self.sourceList) == 0:
-                # v seznamu už nejsou žádné uložené písně
-                if self.draft_open:
-                    # zůstává jen draft → přepni na něj
-                    self.sourceID = 0  # draft má index len(sourceList) == 0
-                    self.viewDraft()
-                else:
-                    # nic nezbylo
-                    self.sourceID = -1
-                    self.viewSource0()
-            else:
-                # oprav index po odebrání poslední položky
-                if self.sourceID >= len(self.sourceList):
-                    if self.draft_open:
-                        # přesun na draft na konci
-                        self.sourceID = len(self.sourceList)
-                        self.viewDraft()
-                        return
-                    else:
-                        self.sourceID = len(self.sourceList) - 1
-
-                # zobraz další/ předchozí platnou položku
-                self.viewSource()
+        self.sourceID = min(self.sourceID, len(self.sourceList) - 1)
+        if self.sourceID >= 0:
+            self.viewSource()
+        else:
+            self.viewSource0()
 
     def viewSource0(self, *e):
-        # horní čítače a popisky
+        if not self.song_editor_widget.new_song():
+            return False
         self.sourceNum.configure(text='0 / 0')
         self.sourceLab.config(text='-----')
-
-        # vyprázdni pole
-        self.sourceTitleEntry.delete(0, 'end')
-        self.repIn.delete(0, 'end')
-
-        # vyprázdni varianty
-        for combo in (self.var1Combo, self.var2Combo, self.var3Combo):
-            combo['values'] = []
-            combo.set('')
-
-        # úplně vyresetuj vložený editor písní
-        try:
-            if hasattr(self, "song_editor_widget"):
-                self.song_editor_widget.new_song()  # čisté plátno jako po startu
-        except Exception as ex:
-            print("SongEditor reset failed:", ex)
-
-        # jistota: žádný draft není otevřený a tlačítko 'new' je povolené
         self.draft_open = False
-        self.draft_state = None
         self._update_new_button_state()
+        return True
 
     def sortSources(self, *e):
+        if not self._prepare_song_transition():
+            return
         if len(self.sourceList) > 0:
             self.sorter = SortingWin(self.win, self.sorterStyle, 
                 [self.sources[x].importSlideName() for x in self.sourceList], self.sourceList)
@@ -1782,7 +1649,12 @@ class GUI():
     def closeSorter(self, *e):
         a = tkmsg.askyesnocancel('Save', 'Save current order')
         if a == True:
+            if not self._prepare_song_transition():
+                return
+            current = self.sourceList[self.sourceID] if 0 <= self.sourceID < len(self.sourceList) else None
             self.sourceList = self.sorter.positions
+            if current in self.sourceList:
+                self.sourceID = self.sourceList.index(current)
             self.sorter.win.destroy()
             del self.sorter
             self.viewSource()
@@ -1793,6 +1665,8 @@ class GUI():
             return
 
     def runButtFun(self, *e):
+        if not self.runState and not self._prepare_song_transition():
+            return
         # Tlačítko dočasně vypnout – ale VŽDY ho na konci znovu povolit
         self.openProjs.configure(state='disabled')
         try:
@@ -1832,17 +1706,13 @@ class GUI():
                     self.saveRepetitions()
 
                 self.prevVars = []
-                self.onlineSources = [self.sources[idx] for idx in self.sourceList]
+                self.onlineSources = [deepcopy(self.sources[idx]) for idx in self.sourceList]
 
                 # 3. PŘÍPRAVA ZDROJŮ (PÍSNÍ)
                 construct_error = None
                 for src in self.onlineSources:
                     # Výběr správného konstruktu (opakování)
-                    if hasattr(self, "song_editor_widget") and self.song_editor_widget.file_path == src.path:
-                        _, editor_guide = self.song_editor_widget.get_selected_repetition_text()
-                        guide = (editor_guide or "").strip()
-                    else:
-                        guide = (src.repetitions or "").strip()
+                    guide = (src.repetitions or '').strip()
 
                     # Pokud není Construct definován, zkusíme najít hlavní (main) v XML
                     if not guide:
@@ -1874,7 +1744,7 @@ class GUI():
                         vars_ = src.constructLines(types)
                         if self.stationary_active:
                             plan, src.cue_legacy_steps = build_plan(
-                                src.loadSong(),
+                                src.song,
                                 [v for v in src.variants if v != '-----'], guide)
                             stationary_plans.append(plan)
                     except Exception as ex:
@@ -2587,19 +2457,13 @@ class GUI():
         return types
 
     def newSongFun(self, *e):
-        # pokud už je rozpracovaná píseň, nepovol další
-        if self.draft_open:
-            tkmsg.showinfo('Neuložená píseň', 'Nejprve prosím ulož nebo zavři rozpracovanou píseň.')
+        if not self.song_editor_widget.new_song():
             return
-
-        if hasattr(self, "song_editor_widget"):
-            self.song_editor_widget.new_song()
-
         self.draft_open = True
-        self.draft_state = None  # nový, prázdný snapshot
         self.sourceID = len(self.sourceList)
-        self._update_new_button_state()   # ← tady vypneme "new"
+        self._update_new_button_state()
         self.viewDraft()
+
     def _select_paged_block(self):
         if not getattr(self, 'paged_active', False):
             return

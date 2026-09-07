@@ -826,3 +826,226 @@ Ověření: všech 80 testů prošlo; syntaktická kompilace upravených modulů
  a git diff --check prošly. Přetrvávají dvě původní SyntaxWarning pro \H.
 Samostatný linter není nastaven. Skutečné GUI nebylo vizuálně ověřeno;
 doporučený další krok je restart aplikace a kontrola kontrastu na monitoru.
+
+---
+
+# SuperPresenter – poznámky pro další etapy
+
+## Etapa: životní cyklus Song Editoru (6. 9. 2026)
+
+### Výchozí stav
+
+Výchozí commit: `4e4472b` (Nová mechanika pro stream). Pracovní strom byl čistý.
+V tomto checkoutu nebyl README ani zdrojové soubory modelu, repository a testů
+z předchozích etap. Ve složkách `superpresenter` a `tests` byly pouze jejich
+`__pycache__`; ty nejsou náhradou zdrojových souborů. Tato etapa proto doplňuje
+malou společnou datovou vrstvu. Neobnovuje nesouvisející předchozí etapy.
+
+### Implementováno
+
+- `superpresenter/domain/song.py`: společný `Song` pro editor i hlavní aplikaci,
+  jazyky, sekce, pojmenovaná repetition a hlavní repetition; XML šablona zachovává
+  další atributy a metadata platných vstupů.
+- `superpresenter/services/song_repository.py`: načítání XML, validace názvu,
+  převod názvu na soubor, ochrana kolizí, zápis do dočasného souboru ve stejném
+  adresáři, flush/fsync a atomické nahrazení. Nový cíl se zveřejňuje atomickým
+  hardlinkem bez možnosti přepsat souběžně vzniklý soubor.
+- `superpresenter/services/song_edit_session.py`: jeden model stavu pro draft
+  i existující píseň, čistý snapshot, dirty state, uložení kopie/přejmenování.
+  Odstranění sekce přečísluje odpovídající sekce ve všech jazycích i odkazy
+  ve všech repetition, včetně rozsahů řádků a vnořených prázdných skupin.
+- `song_editor.py`: jediná cesta načítání, indikace neuložených změn,
+  detekce změn textu i vložením ze schránky, názvu, jazyků, sekcí a repetition.
+  Přechody nabízejí Uložit / Zahodit / Storno. Změna názvu souboru nabízí
+  přejmenování nebo kopii; kolize vyžaduje souhlas. Chyba načtení zachová
+  rozpracovanou píseň. Chyby ukládání a callbacků se zobrazují konkrétně;
+  neúspěšná synchronizace se před dalším přechodem opakuje.
+- `super_presenter.py`: `WidgetSource` adaptuje společný Song na existující
+  rozhraní promítání. Název se váže přes StringVar předanou konstruktoru,
+  editor se nepřepojuje nahrazováním jeho interních widgetů. Construct zrcadlí
+  vybrané repetition oběma směry a je součástí dirty state. Seznam jazyků se
+  aktualizuje při editaci a výběr zůstává zachován při uložení.
+  Hlavní aplikace publikuje uložený model callbackem, včetně obnovení již
+  otevřených souborů a jejich cest po přejmenování. Oddělený systém snapshotů
+  draftu byl odstraněn; `draft_open` slouží jen jako informace pro navigaci.
+- Ochrana změn platí pro jinou píseň, nový draft, zavření písně a aplikace.
+  Také před spuštěním promítání se vyřeší neuložené změny. Běžící promítání
+  používá vlastní snapshot, aktualizovaná data se použijí při dalším spuštění.
+- Samostatné spuštění `song_editor.py` zůstalo zachováno; má vlastní pole názvu
+  a ochranu zavření. Hlavní aplikace už násilně neukončuje samostatný editor.
+- `presentation_presenter.py`, knihovna písní a konfigurace nebyly upraveny.
+  Rozložení vloženého editoru zůstalo zachováno, přibyl stavový popisek.
+
+### Ověření
+
+Python je dostupný jako `.venv\Scripts\python.exe` (3.12.14).
+
+```powershell
+# Datová část bez GUI:
+.venv\Scripts\python.exe -B -m unittest discover -s tests -p test_song_editor_data.py -v
+
+# Všechny testy, včetně skrytých oken Tk a celé knihovny:
+.venv\Scripts\python.exe -B -m unittest discover -s tests -v
+
+git diff --check
+```
+
+Závěrečný výsledek: všech 26 testů prošlo.
+
+Testy pokrývají životní cyklus a Storno, neúspěšné ukládání, kolize,
+přejmenování/kopie, chyby callbacků a jejich opakování, synchronizaci Construct,
+jazyků, zachování metadat i start editoru a hlavního okna. Test knihovny kontroluje
+načtení všech 858 XML písní, shodu modelu po uložení do dočasných souborů
+na disku a shodu viditelného textu s původním importérem (po dekódování XML entit
+a odstranění okrajových mezer). Originály testy nepřepisují.
+
+Byla provedena syntaktická kompilace změněných Python souborů bez zápisu
+`__pycache__` a kontrola diffu. Ruff/Pyflakes/Flake8 nejsou v prostředí nainstalované.
+Tk testy v sandboxu nemohly načíst existující Tcl knihovnu; mimo sandbox fungují.
+
+### Známá omezení a další krok
+
+- Čtyři existující XML soubory jsou neplatné. Hlavní aplikace je načte původním
+  tolerantním importérem do společného Song a zobrazí upozornění. Až výslovné
+  uložení vytvoří platné XML. Samostatný editor používá striktní repository
+  a neplatné XML odmítne, aniž by přepsal rozpracovanou píseň.
+  Jde o `hlas_tvuj_kdyz_vola_mne.xml`, `Jen v tebe důvěr mám.xml`,
+  `jsi_slavy kral.xml` a `odpustils_mi_(suchdol_version).xml`.
+  Tolerantní import nezaručuje zachování nestandardních metadat poškozeného XML.
+- Přejmenování je bezpečný zápis nového souboru následovaný odstraněním starého;
+  není to transakce dvou souborů. Pokud odstranění selže, zůstanou obě kopie,
+  editor zůstane změněný a chyba uvede obě cesty.
+- Atomické zveřejnění nového souboru vyžaduje podporu hardlinků (např. NTFS).
+  Nepodporovaný disk vrátí konkrétní chybu; existující cíle se nahrazují `os.replace`.
+- Není přidána automatická obnova po pádu aplikace ani řízení souběžných editací
+  téhož souboru v jiném procesu. Ochrana se vztahuje na běžné uživatelské přechody.
+- Navazující krok: ruční zkouška běžné práce se skutečnými projektory
+  (editace → Storno/Uložit/Zahodit → nové spuštění promítání). Potom lze
+  samostatně řešit opravu čtyř neplatných písní a odstranění tolerantního importéru.
+
+## Začlenění do dev (6. 9. 2026)
+
+Původní uspořádaný model Song a SongRepository z etapy 3 zůstávají zachovány.
+Nový editor a prezentér používají EditableSong (domain/editable_song.py) a
+SongEditorRepository (services/song_editor_repository.py). Výše uvedené poznámky
+k životnímu cyklu popisují původní implementaci na Sbor; při přenosu do dev
+byly její model a repository přejmenovány, aby nepřepsaly existující rozhraní.
+WidgetSource.loadSong() nadále vrací původní model načtený ze souboru.
+
+Po začlenění prošlo všech 50 testů (`python -B -m unittest discover -s tests -v`),
+včetně původního repository, validátoru, kompatibility knihovny písní a GUI editoru.
+
+## Nápověda názvu a vynechané sekce (7. 9. 2026)
+
+- Prázdné pole názvu zobrazuje „Název zde“ v hlavní aplikaci i samostatném editoru.
+  Kliknutí nebo vstup klávesnicí do pole nápovědu skryje; po opuštění prázdného
+  pole se vrátí. Nápověda není součástí modelu a nemění dirty state.
+- Před uložením se kontroluje každé pojmenované opakování zvlášť. Dialog vypíše
+  sekce, které nejsou použité (například Refrén 1 při `v1 v2 v1`). Volba Ano
+  uloží i záměrně vynechané sekce, Ne ponechá editor otevřený bez zápisu.
+- Kontrola pokrývá skupiny, násobení, řádkové rozsahy i sousední odkazy `v1v2`.
+  Stejné sekce v různých jazycích se ve varování neopakují. Jde o upozornění na
+  vynechání, nikoli úplnou validaci syntaxe nebo rozbalení konstruktu.
+- Dotčené soubory: `song_editor.py`, `super_presenter.py`,
+  `superpresenter/services/song_edit_session.py`, `tests/test_song_editor_data.py`,
+  `tests/test_song_editor_integration.py` a tento README.
+- Ověření: 57 testů prošlo (`.venv/Scripts/python.exe -B -m unittest discover -s tests`),
+  včetně kontroly knihovny a GUI. První běh narazil na chyby přístupu k dočasnému
+  souboru knihovny; opakovaný běh prošel. Test kliknutí vyžaduje mapované okno,
+  proto ho umisťuje mimo obrazovku. Provedena také kontrola syntaxe a diffu.
+- Navazující krok: vyzkoušet vlastní pojmenovaná opakování jednotlivých kapel.
+  Původní rozpracované změny a pomocné skripty nalezené na začátku zůstaly zachované.
+
+### Vzhled nápovědy názvu (7. 9. 2026)
+
+Nápověda „Název zde“ je vycentrovaná a světle šedá (`#aaaaaa`). Skutečný název
+ani chování pole se nemění. Upraven `song_editor.py`; všech 18 integračních
+GUI testů prošlo, stejně jako kontrola syntaxe a diffu. Bez nových známých omezení.
+
+## Dokončení etapy 9: jeden Song a SongRepository (7. 9. 2026)
+
+Tato část nahrazuje poznámku „Začlenění do dev“ o dvou souběžných datových
+rozhraních. Editor, editovací session a WidgetSource nyní používají přímo
+`superpresenter.domain.song.Song` a `superpresenter.services.song_repository.SongRepository`.
+`EditableSong` a `SongEditorRepository` byly odstraněny. Původní API repository
+z etapy 3 zůstává použitelné, včetně `WidgetSource.loadSong()`.
+
+### Změny
+
+- Song nabízí odvozené textové pohledy pro existující UI a tovární metodu pro
+  draft/legacy import. Tyto pohledy nejsou druhý uložený stav ani druhý datový model.
+- `update_song_fields` přenáší změny widgetů do kopie společného modelu. Pokud se
+  pole nezměnilo, ponechá jeho původní řádky včetně mezer, prázdných řádků a atributů.
+  Zachovává pořadí variant, sekcí, umístění repetition a metadata kořene XML.
+- Společná repository převzala generování názvů souborů a ochranu kolizí.
+  Výchozí `save(song, path)` zachovává původní chování etapy 3; editor předává
+  `overwrite` výslovně podle zvoleného cíle a potvrzení uživatele. Zápis používá
+  dočasný soubor, flush/fsync a atomické zveřejnění/náhradu. Chyby mají cestu a příčinu.
+- Prázdný název dál odmítá editor i editovací session; repository ponechává možnost
+  bezeztrátově převést starší píseň s prázdným názvem pro jiné datové nástroje.
+- Tři existující písně mají stejné jméno repetition uvnitř varianty i v kořeni.
+  Pole nadále ukazuje poslední hodnotu; ostatní záznamy se zachovávají. Úprava
+  zobrazeného pole nesmaže původní vnořené repetition. Duplicitní názvy variant
+  nebo sekcí, které editor nemůže bezpečně zobrazit, odmítne s konkrétní chybou.
+- Vzhled, nápověda názvu, upozornění na vynechané sekce, dirty state, dialogy
+  přejmenování/kopie a uložené snapshoty pro hlavní aplikaci zůstaly zachované.
+  V `super_presenter.py` se změnila jen datová integrace. Vykreslování projekce,
+  `presentation_presenter.py` ani soubory písní nebyly změněny.
+
+### Ověření a navazující krok
+
+Všech 63 testů prošlo příkazem `.venv/Scripts/python.exe -B -m unittest discover -s tests`.
+Regrese zahrnuje celou knihovnu 858 XML písní, nyní také převod dat do polí editoru
+bez změny a zpět. Nový `tests/test_shared_editor_model.py` ověřuje surové řádky,
+metadata, vnořené/duplicitní repetition a cestu uložené kopie. Prošly také stávající
+GUI testy a testy původního repository. Provedena kontrola syntaxe Pythonu a diffu.
+
+Dotčené soubory: `song_editor.py`, `super_presenter.py`, `superpresenter/domain/song.py`,
+`superpresenter/services/song_repository.py`, `superpresenter/services/song_edit_session.py`,
+README a testy editoru/repository/kompatibility; přidán `tests/test_shared_editor_model.py`.
+Odstraněny `superpresenter/domain/editable_song.py` a `superpresenter/services/song_editor_repository.py`.
+
+Etapa 9 je tím dokončena i po stránce společného modelu. Doporučený další krok
+je ruční provozní zkouška uložit/přepnout/spustit na skutečných projektorech.
+Stávající omezení (žádný autosave po pádu, hardlinky pro nový soubor) zůstávají.
+Předchozí rozpracované úpravy a pomocné skripty nebyly odstraněny ani vráceny.
+
+## Přenos kompletní etapy 9 na větev test (7. 9. 2026)
+
+Správná cílová větev této etapy je `test`. Etapa 9 včetně všech doplňků byla
+přenesena z `dev` (`78bdea3` a `fd147c3`) na základ etapy 8 (`9ac1952`).
+Původní rozpracované slučování opačným směrem bylo nejprve zálohováno a ukončeno.
+Záloha pracovních souborů, diffu a indexu je v místní složce
+`C:/Users/moski/AppData/Local/Temp/SuperPresenter-etapa9-transfer-nb0ru8mz`.
+Větev `dev` zůstala na `fd147c3`; její historie nebyla přepsána.
+
+Přenesený rozsah:
+
+- vložený i samostatný Song Editor, sjednocené načítání a jeden stav draftu;
+- dirty state a Uložit / Zahodit / Storno při přepnutí, zavření, novém draftu
+  a ukončení aplikace; kontrola také před spuštěním projekce;
+- bezpečné ukládání, prázdný název, kolize, volba přejmenovat/uložit kopii,
+  konkrétní chyby a opakování chybného callbacku;
+- synchronizace názvu, jazyků, sekcí a repetition přes společný Song/Repository;
+- šedá vycentrovaná nápověda „Název zde“, která zmizí po vstupu do pole;
+- potvrditelné upozornění na vynechané sekce v každém pojmenovaném repetition;
+- související datové/GUI testy a kompletní dokumentace změn.
+
+Při řešení konfliktů v README a `super_presenter.py` byly zachovány etapy 4–8:
+construct parser, připnuté řádky, stacionární stránky, navigace a časová osa.
+Stacionární plán používá stejný uložený model z `onlineSources` jako ostatní
+režimy, bez nového čtení souboru uprostřed přípravy projekce. Kontrola vynechaných
+sekcí rozpoznává také `@v1.1`; odstranění sekce odstraní i její značku připnutí
+nebo správně přečísluje přeživší připnutý odkaz. Test navigace ověřuje přípravu
+kopií zdrojů a zákaz opětovného načítání modelu z disku.
+
+Ověření na větvi `test`: všech **121 testů prošlo** příkazem
+`.venv/Scripts/python.exe -B -m unittest discover -s tests` (GUI mimo sandbox).
+Prošla syntaktická kompilace 24 Python souborů a kontrola diffu. Porovnání AST
+potvrdilo zachování vykreslovacích tříd i metod parseru/sestavování řádků z etapy 8.
+`presentation_presenter.py`, soubory písní, styly a servisní moduly etap 4–8
+zůstaly proti `9ac1952` beze změny. Testy nadále zahrnují knihovnu 858 XML písní.
+
+Přenos je dokončen místním merge commitem na `test`; push není součástí této operace.
+Doporučený navazující krok je běžná ruční zkouška editoru a skutečných projektorů
+na větvi `test`. Stávající omezení etapy 9 zůstávají stejná.

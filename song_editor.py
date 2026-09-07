@@ -1,15 +1,64 @@
 import tkinter as tk
 from tkinter import filedialog, messagebox, simpledialog, ttk
-import xml.etree.ElementTree as ET
-import xml.dom.minidom
+from copy import deepcopy
+from pathlib import Path
+from superpresenter.domain.song import Song
+from superpresenter.services.song_edit_session import SongEditSession, update_song_fields, validate_editor_fields
 import os
-import unicodedata
 import re
 
 
+def add_title_placeholder(entry, variable):
+    """Display a hint without inserting it into the song's title variable."""
+    hint = tk.Label(entry, text="Název zde", cursor="xterm", takefocus=False)
+    active = False
+
+    def refresh(*_):
+        if not variable.get() and not active:
+            hint.configure(background=entry.cget("background"),
+                           foreground="#aaaaaa", font=entry.cget("font"))
+            hint.place(relx=0.5, rely=0.5, anchor="center")
+        else:
+            hint.place_forget()
+
+    def focus_in(event=None):
+        nonlocal active
+        active = True
+        hint.place_forget()
+
+    def focus_out(event=None):
+        nonlocal active
+        active = False
+        refresh()
+
+    def click(event):
+        focus_in()
+        entry.focus_set()
+        return "break"
+
+    hint.bind("<Button-1>", click)
+    entry.bind("<Button-1>", focus_in, add="+")
+    entry.bind("<FocusIn>", focus_in, add="+")
+    entry.bind("<FocusOut>", focus_out, add="+")
+    entry.bind("<Configure>", refresh, add="+")
+    trace = variable.trace_add("write", refresh)
+    entry.bind("<Destroy>", lambda event: variable.trace_remove("write", trace)
+               if event.widget == entry else None, add="+")
+    refresh()
+    return hint
+
+
 class SongEditor:
-    def __init__(self, root, embedded=False):
+    def __init__(self, root, embedded=False, title_variable=None, on_saved=None, on_changed=None):
         self.root = root
+        self.session = SongEditSession()
+        self._loading = True
+        self._pending_saved = None
+        self.on_saved = on_saved
+        self.on_changed = on_changed
+        self.title_variable = title_variable if title_variable is not None else tk.StringVar(master=root)
+        self.status_variable = tk.StringVar(master=root)
+        self.manual_repetition_edit = False
         self.embedded = embedded 
         if not embedded:
             self.root.title("Editor písní")
@@ -35,7 +84,90 @@ class SongEditor:
         self.apply_base_style()
         self.build_ui()
 
-        self.manual_repetition_edit = False
+        self.title_variable.trace_add("write", self._changed)
+        self.selected_repetition.trace_add("write", self._changed)
+        self._loading = False
+        self._render_song()
+        if not embedded:
+            self.root.protocol("WM_DELETE_WINDOW", self.close_window)
+
+    def snapshot(self):
+        variants = {name: {} for name, sections in self.session.song.variant_texts.items() if not sections}
+        for section in self.sections:
+            variants.setdefault(section['lang'], {})[section['sid']] = section['widget'].get("1.0", "end-1c")
+        return update_song_fields(self.session.song, self.title_variable.get(), variants,
+                                  {name: var.get() for name, var in self.repetition_vars.items()},
+                                  self.selected_repetition.get())
+
+    @property
+    def dirty(self):
+        self.session.song = self.snapshot()
+        return self.session.dirty
+
+    def _changed(self, *_):
+        if self._loading:
+            return
+        self.session.song = self.snapshot()
+        self.status_variable.set("Neuloženo" if self.session.dirty else "")
+        if self.on_changed:
+            try:
+                self.on_changed(deepcopy(self.session.song))
+            except Exception as exc:
+                messagebox.showerror("Chyba synchronizace", str(exc), parent=self.root)
+
+    def confirm_transition(self):
+        if self._pending_saved and not self._notify_saved():
+            return False
+        if not self.dirty:
+            return True
+        choice = messagebox.askyesnocancel(
+            "Neuložené změny", "Uložit změny písně?\nAno = uložit, Ne = zahodit, Storno = zůstat.", parent=self.root)
+        if choice is None:
+            return False
+        if choice:
+            return self.save_file()
+        self.session.song = deepcopy(self.session.clean_song)
+        self._render_song()
+        return True
+
+    def close_window(self):
+        if self.confirm_transition():
+            self.root.destroy()
+
+    def _render_song(self):
+        self._loading = True
+        try:
+            song = self.session.song
+            self.clear_editor()
+            self.title_variable.set(song.title)
+            self.manual_repetition_edit = True
+            for lang, sections in song.variant_texts.items():
+                for sid, content in sections.items():
+                    match = re.fullmatch(r"([a-zA-Z]+)([0-9]+)", sid)
+                    typ, num = (match[1], int(match[2])) if match else (sid, 0)
+                    self.add_section(typ, num, content, lang, sid=sid)
+            for name, value in song.repetition_texts.items():
+                self.add_repetition(name, value)
+            self.repetition_entry = self.repetition_vars.get("default", tk.StringVar(master=self.root))
+            self.selected_repetition.set(song.main_repetition)
+            self.file_path = str(self.session.path) if self.session.path else None
+            self.original_title = self.session.clean_song.title
+            self.manual_repetition_edit = bool(self.session.path or song.guide)
+            self.current_variant = "čeština"
+            self.status_variable.set("Neuloženo" if self.session.dirty else "")
+        finally:
+            self._loading = False
+        self._changed()
+
+    def set_selected_repetition_text(self, text):
+        name = self.selected_repetition.get()
+        if name not in self.repetition_vars:
+            self.add_repetition("default", text)
+            self.selected_repetition.set("default")
+            self.repetition_entry = self.repetition_vars["default"]
+        elif self.repetition_vars[name].get() != text:
+            self.repetition_vars[name].set(text)
+        self.manual_repetition_edit = True
 
     def apply_base_style(self):
         self.root.configure(bg=self.bg_color)
@@ -60,6 +192,11 @@ class SongEditor:
 
             tk.Button(top_frame, text=" + ", command=self.load_file, font=self.font).pack(side='left', padx=5)
             tk.Button(top_frame, text="Nová píseň", command=self.new_song, font=self.font).pack(side='left', padx=5)
+
+        if not self.embedded:
+            self.title_entry = tk.Entry(self.root, textvariable=self.title_variable, font=self.font)
+            self.title_entry.pack(fill='x', padx=5)
+            add_title_placeholder(self.title_entry, self.title_variable)
 
         canvas_frame = tk.Frame(self.root)
         canvas_frame.pack(fill='both', expand=True)
@@ -114,6 +251,8 @@ class SongEditor:
         tk.Button(ctrl_frame, text="Uložit",
                 command=self.save_file, font=self.font).pack(pady=2)
 
+        tk.Label(ctrl_frame, textvariable=self.status_variable, font=self.font).pack()
+
         self.add_repetition("default")
         self.repetition_entry = self.repetition_vars["default"]
 
@@ -128,7 +267,7 @@ class SongEditor:
 
 
     def get_existing_languages(self):
-        return list(set(s['lang'] for s in self.sections)) or ["čeština"]
+        return list(dict.fromkeys(s['lang'] for s in self.sections)) or ["čeština"]
 
     def get_next_section_number(self, sec_type):
         existing = [s['num'] for s in self.sections if s['type'] == sec_type]
@@ -139,10 +278,11 @@ class SongEditor:
         for lang in self.get_existing_languages():
             self.add_section(sec_type, num, "", lang)
 
-    def add_section(self, sec_type, num=None, content="", lang="čeština"):
+    def add_section(self, sec_type, num=None, content="", lang="čeština", sid=None):
         if num is None:
             num = self.get_next_section_number(sec_type)
 
+        sid = sid or f"{sec_type}{num}"
         label = f"{'Sloka' if sec_type == 'v' else 'Refrén' if sec_type == 'r' else 'Bridge'} {num}"
         if lang != "čeština":
             label += f" – {lang}"
@@ -181,15 +321,27 @@ class SongEditor:
             lines = text.get("1.0", "end-1c").split("\n")
             text.configure(height=max(1, len(lines)))
 
+        def modified(event):
+            if text.edit_modified():
+                text.edit_modified(False)
+                resize_text(event)
+                self._changed()
+        text.edit_modified(False)
+        text.bind("<<Modified>>", modified)
         text.bind("<KeyRelease>", resize_text)
         resize_text(None)
 
         if not self.manual_repetition_edit and lang == "čeština":
-            ordered = [f"{s['type']}{s['num']}" for s in self.sections if s['lang'] == "čeština"]
+            if "default" not in self.repetition_vars:
+                self.add_repetition("default")
+                self.repetition_entry = self.repetition_vars["default"]
+                self.selected_repetition.set("default")
+            ordered = [s['sid'] for s in self.sections if s['lang'] == "čeština"]
             ordered.append(f"{sec_type}{num}")
             self.repetition_entry.set(" ".join(ordered))
 
-        self.sections.append({'type': sec_type, 'num': num, 'widget': text, 'frame': frame, 'lang': lang})
+        self.sections.append({'sid': sid, 'type': sec_type, 'num': num, 'widget': text, 'frame': frame, 'lang': lang})
+        self._changed()
 
     def open_language_dialog(self):
         lang_win = tk.Toplevel(self.root)
@@ -217,61 +369,28 @@ class SongEditor:
         tk.Button(lang_win, text="Přidat", command=confirm, font=self.font).pack(pady=5)
 
     def create_language_variant(self, lang):
+        if lang in self.get_existing_languages():
+            messagebox.showinfo("Jazyk", "Tento jazyk již existuje.", parent=self.root)
+            return
         original = [s for s in self.sections if s['lang'] == "čeština"]
         self.current_variant = lang
         for s in original:
             content = s['widget'].get("1.0", "end").strip()
-            self.add_section(s['type'], s['num'], content, lang)
+            self.add_section(s['type'], s['num'], content, lang, sid=s['sid'])
 
     def remove_section(self, frame):
-        target_section = None
-        # Najdeme sekci k odstranění podle rámce
-        for s in self.sections:
-            if s['frame'] == frame:
-                target_section = s
-                break
-
-        if not target_section:
-            return
-
-        sec_type, sec_num = target_section['type'], target_section['num']
-
-        # Odstraníme všechny sekce stejného typu a čísla ve všech jazycích
-        sections_to_remove = [s for s in self.sections if s['type'] == sec_type and s['num'] == sec_num]
-
-        for s in sections_to_remove:
-            s['frame'].destroy()
-            self.sections.remove(s)
-
-        # Přečíslování všech následujících sekcí stejného typu napříč všemi jazyky
-        for s in self.sections:
-            if s['type'] == sec_type and s['num'] > sec_num:
-                old_num = s['num']
-                new_num = old_num - 1
-                s['num'] = new_num
-
-                # Aktualizace popisku (LabelFrame)
-                new_label = f"{'Sloka' if sec_type == 'v' else 'Refrén' if sec_type == 'r' else 'Bridge'} {new_num}"
-                if s['lang'] != "čeština":
-                    new_label += f" – {s['lang']}"
-
-                s['frame'].config(text=new_label)
-
-        # Aktualizace opakování, pokud nebylo ručně upraveno
-        if not self.manual_repetition_edit:
-            ordered = [f"{s['type']}{s['num']}" for s in self.sections if s['lang'] == "čeština"]
-            self.repetition_entry.set(" ".join(ordered))
+        target = next((section for section in self.sections if section['frame'] == frame), None)
+        if target is not None:
+            self.session.song = self.snapshot()
+            self.session.remove_section(target['sid'])
+            self._render_song()
 
     def new_song(self):
-        self.clear_editor()
-        self.title_entry.delete(0, 'end')
-        for s in self.sections:
-            s['widget'].master.destroy()
-        self.sections = []
-        self.repetition_entry.set("")
-        self.file_path = None
-        self.original_title = None
-        self.current_variant = "čeština"
+        if not self.confirm_transition():
+            return False
+        self.session.reset(Song.from_texts())
+        self._render_song()
+        return True
 
     def mark_repetition_as_manual(self):
         self.manual_repetition_edit = True
@@ -282,6 +401,9 @@ class SongEditor:
             self.add_repetition(name)
 
     def add_repetition(self, name, value=""):
+        if name in self.repetition_vars:
+            self.repetition_vars[name].set(value)
+            return
         frame = tk.Frame(self.repetition_container, bg=self.bg_color)
         frame.pack(fill='x', pady=2)
         tk.Label(frame, text=name, font=self.font, bg=self.bg_color, fg='white').pack(side='left')
@@ -314,6 +436,8 @@ class SongEditor:
         self.repetition_frames[name] = frame
         self.repetition_vars[name] = var
         self.repetitions[name] = value
+        var.trace_add("write", self._changed)
+        self._changed()
 
     def remove_repetition(self, name, frame):
         if name in self.repetition_frames:
@@ -324,18 +448,12 @@ class SongEditor:
         if self.selected_repetition.get() == name:
             fallback = "default" if "default" in self.repetition_vars else (next(iter(self.repetition_vars), ""))
             self.selected_repetition.set(fallback)
+        self._changed()
             
-    def nazev_na_soubor(self, text):
-        text = unicodedata.normalize('NFD', text).encode('ascii', 'ignore').decode('utf-8')
-        text = text.lower()
-        text = re.sub(r'\s+', '_', text)
-        text = re.sub(r'[^a-z0-9_]', '', text)
-        return text + '.xml'
-
     def validate_line_counts(self):
         section_map = {}
         for s in self.sections:
-            key = (s['type'], s['num'])
+            key = (s['type'], s['sid'])
             lines = s['widget'].get("1.0", "end").strip().split('\n')
             count = len(lines)
             if key not in section_map:
@@ -351,181 +469,99 @@ class SongEditor:
         return name, (var.get().strip() if var else "")
     
     def save_file(self):
+        if self._pending_saved and not self._notify_saved():
+            return False
+        self.session.song = self.snapshot()
         valid, key, expected, actual = self.validate_line_counts()
         if not valid:
-            section_type = {'v': 'Sloka', 'r': 'Refrén', 'b': 'Bridge'}.get(key[0], key[0])
-            messagebox.showerror("Chyba", f"{section_type} {key[1]} má různý počet řádků mezi variantami!\nOčekáváno: {expected}, nalezeno: {actual}")
-            return
-
-        current_title = self.title_entry.get()
-        new_filename = self.nazev_na_soubor(current_title)
-
-        if self.original_title == current_title and self.file_path:
-            save_path = self.file_path
-        else:
-            save_path = os.path.join(self.songs_dir, new_filename)
-
-        slide = ET.Element("slide")
-        slide.set("name", current_title)
-
-        variants = {}
-        for s in self.sections:
-            lang = s['lang']
-            if lang not in variants:
-                variants[lang] = []
-            variants[lang].append(s)
-
-        for lang, items in variants.items():
-            variant = ET.SubElement(slide, "variant")
-            variant.set("name", lang)
-            for s in items:
-                sec = ET.SubElement(variant, "section")
-                sec.set("name", f"{s['type']}{s['num']}")
-                sec.text = "\n" + s['widget'].get("1.0", "end").strip() + "\n"
-
-        for name, var in self.repetition_vars.items():
-            repetition = ET.SubElement(slide, "repetition")
-            repetition.set("name", name)
-            # <<< ulož informaci o hlavním opakování
-            if name == self.selected_repetition.get():
-                repetition.set("main", "1")
-            # >>>
-            repetition.text = var.get()
-
+            messagebox.showerror("Chyba", f"Sekce {key[1]} má různý počet řádků mezi jazyky: {expected} a {actual}.", parent=self.root)
+            return False
+        old_path = self.session.path
+        rename = False
         try:
-            xml_str = ET.tostring(slide, encoding='utf-8')
-            parsed = xml.dom.minidom.parseString(xml_str)
-            with open(save_path, 'w', encoding='utf-8') as f:
-                f.write(parsed.toprettyxml(indent='    '))
+            title = self.session.song.title
+            if not title.strip():
+                raise ValueError("Název písně nesmí být prázdný.")
+            if old_path and title == self.session.clean_song.title:
+                target = old_path
+            else:
+                target = (old_path.parent if old_path else Path(self.songs_dir)) / self.session.repository.filename(title)
+            if old_path and target.resolve() != old_path.resolve():
+                decision = messagebox.askyesnocancel("Změna názvu", "Přejmenovat původní soubor?\nAno = přejmenovat, Ne = uložit kopii, Storno = zrušit uložení.", parent=self.root)
+                if decision is None:
+                    return False
+                rename = decision
+            same = old_path is not None and target.resolve() == old_path.resolve()
+            overwrite = same
+            if target.exists() and not same:
+                overwrite = messagebox.askyesno("Soubor již existuje", f"Přepsat soubor?\n{target}", parent=self.root)
+                if not overwrite:
+                    return False
+            missing = self.session.omitted_sections()
+            if missing:
+                def section_label(sid):
+                    match = re.fullmatch(r"([vrb])([0-9]+)", sid)
+                    return f"{ {'v': 'Sloka', 'r': 'Refrén', 'b': 'Bridge'}[match[1]]} {match[2]} ({sid})" if match else sid
+                details = "\n".join(f"{name}: {', '.join(section_label(sid) for sid in sections)}"
+                                    for name, sections in missing.items())
+                if not messagebox.askyesno(
+                        "Vynechané sekce v opakování",
+                        "V těchto opakováních nejsou použity některé sekce písně:\n\n"
+                        + details + "\n\nVynechání může být záměrné. Přesto uložit?",
+                        icon="warning", parent=self.root):
+                    return False
+            self.session.save(target, overwrite=overwrite, rename=rename)
+        except Exception as exc:
+            messagebox.showerror("Chyba ukládání", f"Píseň se nepodařilo uložit:\n{exc}", parent=self.root)
+            return False
+        self.file_path = str(self.session.path)
+        self.original_title = self.session.song.title
+        self.status_variable.set("")
+        self._pending_saved = (deepcopy(self.session.song), self.file_path, str(old_path) if rename and old_path else None)
+        return self._notify_saved()
 
-            messagebox.showinfo("Uloženo", f"Soubor byl uložen jako:\n{os.path.basename(save_path)}")
-            self.file_path = save_path
-            self.original_title = current_title
-            
-            if hasattr(self, "on_saved") and callable(getattr(self, "on_saved")):
-                try:
-                    self.on_saved(save_path, current_title)
-                except Exception:
-                    pass
-                
-        except Exception as e:
-            messagebox.showerror("Chyba", f"Nepodařilo se uložit soubor:\n{e}")
+    def _notify_saved(self):
+        pending = self._pending_saved
+        self._pending_saved = None  # callback may refresh this editor through load_song
+        if self.on_saved and pending:
+            try:
+                self.on_saved(*pending)
+            except Exception as exc:
+                self._pending_saved = pending
+                self.status_variable.set("Uloženo, chyba synchronizace")
+                messagebox.showerror("Chyba synchronizace", f"Soubor je uložen v {pending[1]}, ale hlavní aplikaci se nepodařilo aktualizovat:\n{exc}", parent=self.root)
+                return False
+        return True
 
     def load_file(self):
-        file_path = filedialog.askopenfilename(
-            initialdir=self.songs_dir,
-            filetypes=[("XML soubory", "*.xml")]
-        )
-        
-        if not file_path:
-            return
+        file_path = filedialog.askopenfilename(initialdir=self.songs_dir, filetypes=[("Písně", "*.xml *.txt")])
+        return self.load_file_from_path(file_path) if file_path else False
 
+    def load_file_from_path(self, file_path):
         try:
-            tree = ET.parse(file_path)
-            root = tree.getroot()
-            self.clear_editor()
-            self.file_path = file_path
-            self.original_title = root.attrib.get('name', '')
-            self.title_entry.delete(0, 'end')
-            for s in self.sections:
-                s['widget'].master.destroy()
-            self.sections = []
-            self.repetition_entry.set("")
-            self.title_entry.insert(0, self.original_title)
+            song = self.session.repository.load(file_path)
+        except Exception as exc:
+            messagebox.showerror("Chyba načítání", f"Nelze načíst {file_path}:\n{exc}", parent=self.root)
+            return False
+        return self.load_song(song, file_path)
 
-            for variant in root.findall("variant"):
-                lang = variant.attrib.get("name", "čeština")
-                for section in variant.findall("section"):
-                    sid = section.attrib.get('name')
-                    if not sid:
-                        continue
-                    typ = sid[0]
-                    num = int(sid[1:])
-                    content = section.text.strip() if section.text else ""
-                    self.add_section(typ, num, content, lang)
-
-            selected_from_file = None  # <- který má být hlavní podle XML
-
-            repetitions_sorted = sorted(
-                root.findall("repetition"),
-                key=lambda r: 0 if r.attrib.get("name") == "default" else 1
-            )
-            for r in repetitions_sorted:
-                name = r.attrib.get("name", "default")
-                value = r.text.strip() if r.text else ""
-
-                if name == "default":
-                    self.repetition_entry.set(value)  # default už existuje z build_ui()
-                else:
-                    self.add_repetition(name, value)
-
-                # zapamatuj si hlavní z XML
-                if str(r.attrib.get("main", "")).lower() in ("1", "true", "yes"):
-                    selected_from_file = name
-
-            # po vytvoření řádků nastav radio (když v XML chybí, padni na 'default')
-            self.selected_repetition.set(selected_from_file or "default")
-
-            self.current_variant = "čeština"
-
-        except Exception as e:
-            messagebox.showerror("Chyba", f"Nepodařilo se načíst soubor:\n{e}")
+    def load_song(self, song, file_path=None):
+        try:
+            validate_editor_fields(song)
+        except ValueError as exc:
+            messagebox.showerror("Chyba načítání", str(exc), parent=self.root)
+            return False
+        if not self.confirm_transition():
+            return False
+        self.session.reset(song, file_path)
+        self._render_song()
+        return True
 
     def run_error_fix(self):
         import subprocess
         import sys
         path = os.path.join(os.path.dirname(__file__), 'oprava_xml_tagu.py')
         subprocess.Popen([sys.executable, path])
-
-    def load_file_from_path(self, file_path):
-        try:
-            tree = ET.parse(file_path)
-            root = tree.getroot()
-            self.clear_editor()
-            self.file_path = file_path
-            self.original_title = root.attrib.get('name', '')
-            self.title_entry.delete(0, 'end')
-            for s in self.sections:
-                s['widget'].master.destroy()
-            self.sections = []
-            self.repetition_entry.set("")
-            self.title_entry.insert(0, self.original_title)
-
-            for variant in root.findall("variant"):
-                lang = variant.attrib.get("name", "čeština")
-                for section in variant.findall("section"):
-                    sid = section.attrib.get('name')
-                    if not sid:
-                        continue
-                    typ = sid[0]
-                    num = int(sid[1:])
-                    content = section.text.strip() if section.text else ""
-                    self.add_section(typ, num, content, lang)
-
-            selected_from_file = None  # <- který má být hlavní podle XML
-
-            repetitions_sorted = sorted(
-                root.findall("repetition"),
-                key=lambda r: 0 if r.attrib.get("name") == "default" else 1
-            )
-            for r in repetitions_sorted:
-                name = r.attrib.get("name", "default")
-                value = r.text.strip() if r.text else ""
-                if name == "default":
-                    self.repetition_entry.set(value)  # default už existuje z build_ui()
-                else:
-                    self.add_repetition(name, value)
-
-                # zapamatuj si hlavní z XML
-                if str(r.attrib.get("main", "")).lower() in ("1", "true", "yes"):
-                    selected_from_file = name
-
-            # po vytvoření řádků nastav radio (když v XML chybí, padni na 'default')
-            self.selected_repetition.set(selected_from_file or "default")
-
-            self.current_variant = "čeština"
-        except Exception as e:
-            messagebox.showerror("Chyba", f"Nepodařilo se načíst soubor:\n{e}")
 
     def clear_editor(self):
         # 1. Smazat grafické prvky sekcí
@@ -542,11 +578,6 @@ class SongEditor:
         self.repetition_vars = {}
         self.repetitions = {}
         
-        # 4. Znovu vytvořit základní 'default' řádek, který tam musí být vždy
-        self.add_repetition("default")
-        self.repetition_entry = self.repetition_vars["default"]
-        self.selected_repetition.set("default")
-
 if __name__ == "__main__":
     root = tk.Tk()
     root.resizable(False, False)
