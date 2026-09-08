@@ -11,7 +11,12 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 
 class ImportSmokeTests(unittest.TestCase):
     def test_imports_without_gui(self):
-        for module_name in ("super_presenter", "song_editor"):
+        for module_name in (
+            "super_presenter", "song_editor", "superpresenter.app",
+            "superpresenter.ui.main_window", "superpresenter.ui.projector_window",
+            "superpresenter.ui.projector_widgets", "superpresenter.ui.source_sorter",
+            "superpresenter.ui.song_editor_panel",
+        ):
             with self.subTest(module=module_name):
                 # Keep real imports/dependencies; fail if an import starts Tk.
                 code = """

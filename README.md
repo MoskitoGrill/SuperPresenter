@@ -56,7 +56,8 @@ Existující EXE zůstává zachované, ale tento postup spouští aktuální zd
 
 ## Struktura projektu
 
-- `super_presenter.py` – hlavní aplikace a promítání.
+- `super_presenter.py` – kompatibilní spouštěč; aplikace je v `superpresenter/app.py`
+  a `superpresenter/ui/`, datová logika v `superpresenter/domain/` a `superpresenter/services/`.
 - `song_editor.py` – samostatný i vložený editor písní.
 - `presentation_presenter.py` – starý modul, mimo rozsah této přípravy.
 - `songs/` – soubory písní.
@@ -1096,3 +1097,88 @@ písně, Ctrl+S a undo/redo. Prošla kontrola syntaxe 26 Python souborů a
 `git diff --check`. Fyzické projektory nebyly ověřovány.
 Doporučený navazující krok: restart aplikace a běžná uživatelská zkouška zkratek
 a ukládání na větvi `test`. Tyto doplňky zatím nejsou commitnuté ani pushnuté.
+
+## Etapa 10 – rozdělení hlavní aplikace do modulů (8. 9. 2026)
+
+Výchozí stav: větev `test`, commit `6094cf0`, dokončené předchozí etapy včetně
+obnovy editoru. Předem změněný `__pycache__/song_editor.cpython-312.pyc` zůstal
+beze zásahu. `presentation_presenter.py`, písně, JSON konfigurace, obrázky,
+spouštěcí BAT a samostatný editor nebyly upravovány.
+
+### Mapa závislostí a provedené přesuny
+
+Původní soubor měl 3 338 řádků. `GUI` vytvářelo `SortingWin`, `ProjWindow`
+a `WidgetSource`; projektor vytvářel čtyři projekční widgety a používal callbacky
+hlavního okna. `WidgetSource` závisel na Song, repository, construct parseru
+a pomocných funkcích tolerantního XML importu. Editorové callbacky sdílely stav
+GUI a publikovaly uložené snapshoty. Tyto vztahy a algoritmy zůstávají zachované.
+
+| Soubor | Odpovědnost a závislosti |
+| --- | --- |
+| `super_presenter.py` | 19řádkový spouštěč a kompatibilní exporty původních tříd a pomocných funkcí. |
+| `superpresenter/app.py` | Logging, vytvoření GUI, nabídka obnovy editoru a hlavní smyčka. |
+| `superpresenter/paths.py` | Kořen projektu pro původní cesty k prostředkům. |
+| `superpresenter/ui/main_window.py` | GUI, rozložení, ovládání prezentace a koordinace existující navigace. |
+| `superpresenter/ui/song_editor_panel.py` | SongEditorPanel: zděděné callbacky vloženého editoru, draft, varianty a publikování uloženého modelu. Vlastní editorové widgety dál poskytuje `song_editor.py`. |
+| `superpresenter/ui/source_sorter.py` | SortingWin a přesouvání položek. |
+| `superpresenter/ui/projector_widgets.py` | Widget_OneLine, Widget_FlowLines, Widget_StanzaPaged a Widget_Image. |
+| `superpresenter/ui/projector_window.py` | ProjWindow, projekční okno, widgety a překrytí sbírky. |
+| `superpresenter/services/presentation_session.py` | WidgetSource, nezbytný _LegacyWidgetSource a XML pomocné funkce; načtení/snapshot a původní sestavování textů bez Tkinteru. |
+| `superpresenter/ui/__init__.py` | Balíček UI, bez inicializace oken. |
+
+Importy směřují ze spouštěče přes app a hlavní okno do projektoru, widgetů
+a služeb; žádný z těchto modulů neimportuje původní spouštěč. Typový odkaz
+projektoru na GUI je pouze pod `TYPE_CHECKING`, za běhu se neimportuje.
+Datové moduly neimportují Tkinter. Dědění SongEditorPanel zachovává původní
+jména metod a tentýž stav GUI, nevytváří druhou kopii dat ani nový životní cyklus.
+
+Zůstává stejné spuštění přes BAT nebo `python super_presenter.py`. GUI.dir
+a cesta Widget_Image jsou ukotvené ke stejnému kořeni jako před přesunem,
+nikoli k podsložce UI. Formáty ani význam cest v JSON se nemění. Vzhled,
+klávesové zkratky, parser, generátor stránek a pravidla navigace nebyly měněny.
+
+Dva nahodilé printy nahrazuje standardní logging do konzole; diagnostika cue
+nadále vyžaduje `SUPERPRESENTER_CUE_DEBUG=1`. Konkrétní výjimky byly doplněny
+jen u čtení textu, převodu float a vybraných operací Tk. Obecné ochranné bloky
+kolem starého parseru a přípravy/provozu projekce zůstávají, protože jejich
+zúžení bez samostatného ověření všech historických vstupů by mohlo změnit chování.
+Odstraněné soukromé `_testList` a `_testProj` neměly žádné volající v aktivním
+kódu ani testech; druhá obsahovala pevné testovací cesty původního autora.
+Odstraněn i její zakomentovaný start a importy nepotřebné v nových modulech.
+
+### Ověření
+
+Python je dostupný jako `.venv/Scripts/python.exe` (příkaz `python` není v PATH).
+Po každém celku byly spuštěny příslušné regrese: adaptér – 21 testů parseru;
+řazení – 27 integračních testů editoru; widgety a projektor – po 27 testech
+stránkování/navigace; hlavní okno a callbacky – 27 integračních testů editoru.
+
+Kompletní sada: **142 testů prošlo**, včetně knihovny 858 XML písní, parseru,
+stránkování, navigace, GUI editoru a obnovy. Nový `tests/test_module_boundaries.py`
+ověřuje datové importy bez GUI závislostí, identitu kompatibilních exportů,
+pořadí startu obnovy/smyčky, cestu obrázků a zákaz zpětných importů spouštěče.
+`tests/test_imports.py` nyní ověřuje i nové UI moduly samostatně v čerstvých
+procesech se zakázaným vytvořením Tk okna.
+
+```powershell
+.venv/Scripts/python.exe -B -m unittest discover -s tests
+git diff --check
+```
+
+Testy vyžadovaly běh mimo sandbox kvůli přístupu k instalovaným závislostem/Tcl.
+Výchozí kompletní běh ještě před změnami zaznamenal opakované `WinError 5`
+při náhradě dočasných XML souborů; závěrečný kompletní běh již prošel.
+Provedena syntaktická kompilace 36 aktivních Python souborů v paměti bez zápisu
+bytecode a kontrola globálních odkazů nových modulů. Porovnání AST proti HEAD
+potvrdilo 125 přesně zachovaných metod; rozdíly jsou pouze popsané cesty,
+logging, konkrétní výjimky a odstraněné testovací metody. Samostatný linter
+není nakonfigurovaný a Ruff/Pyflakes/Flake8 nejsou nainstalované.
+
+### Omezení a navazující krok
+
+Fyzické projektory nebyly interaktivně ověřeny. Doporučený další krok:
+spustit běžným BAT a ručně ověřit editor, řazení, oba stacionární režimy,
+legacy projekci, obrázky/sbírku a klávesové ovládání na skutečných monitorech.
+Hlavní okno stále koordinuje prezentační stav; jeho další případné oddělení
+vyžaduje samostatnou etapu. Tolerantní import a známá omezení historických
+písní i algoritmů z předchozích etap zůstávají zachována.
