@@ -3,7 +3,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 import tkinter as tk
 from tkinter import font as tkFont
-from os import path
+from superpresenter.services.projection_config import resource_path
 from superpresenter.services.stationary_navigation import StationaryPageWidget, style_mode
 from superpresenter.ui.projector_widgets import Widget_OneLine, Widget_FlowLines, Widget_StanzaPaged, Widget_Image
 if TYPE_CHECKING:
@@ -12,7 +12,7 @@ if TYPE_CHECKING:
 
 class ProjWindow():
     COLLECTION_CFG = {
-        'source': 'sbirka_qr.png',  # výchozí fallback v kořeni projektu
+        'source': 'images/sbirka_qr.png',
         'relx': 0.65,
         'rely': 0.30,
         'size': 360,
@@ -25,6 +25,7 @@ class ProjWindow():
         self.style = 0
         self.fullscreen = 1
         self.winPlacement = ''
+        self.window_position = None
         self.animation = 0
 
         # nově:
@@ -55,7 +56,7 @@ class ProjWindow():
         if self.fullscreen:
             mon = self.master.monitors[self.monitor]
             self.win.overrideredirect(1)
-            self.win.geometry(f'{mon.width}x{mon.height}+{mon.x}+{mon.y}')
+            self.win.geometry(f'{mon.width}x{mon.height}{mon.x:+d}{mon.y:+d}')
             try:
                 self.win.configure(background=stl['win']['background'])
             except (KeyError, tk.TclError):
@@ -63,7 +64,7 @@ class ProjWindow():
             # self.win.attributes('-fullscreen', True)
         elif self.winPlacement == '':
             mon = self.master.monitors[self.monitor]
-            self.win.geometry(f'+{mon.x}+{mon.y}')
+            self.win.geometry(f'{mon.x:+d}{mon.y:+d}')
             self.win.config(stl["win"])
         else:
             self.win.geometry(self.winPlacement)
@@ -153,7 +154,9 @@ class ProjWindow():
 
     def stopProjection(self):
         try:
-            self.winPlacement = f'+{self.win.winfo_x()}+{self.win.winfo_y()}'
+            if not self.fullscreen:
+                self.window_position = [self.win.winfo_x(), self.win.winfo_y()]
+                self.winPlacement = f'{self.window_position[0]:+d}{self.window_position[1]:+d}'
             self.win.destroy()
             del self.win
         except (AttributeError, tk.TclError):
@@ -224,10 +227,7 @@ class ProjWindow():
         if cfg is None:
             return  # tento styl sbírku nepodporuje
 
-        src = cfg.get('source', 'sbirka_qr.png')
-        if not path.isabs(src):
-            src = path.join(self.master.dir, src.lstrip('\\/'))
-        src = path.normpath(src)
+        src = resource_path(cfg['source'], self.master.dir)
 
         img = Image.open(src)
         sz = int(cfg.get('size', 360))

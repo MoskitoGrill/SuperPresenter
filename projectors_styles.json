@@ -86,7 +86,7 @@
                 {
                     "type": "image",
                     "x": 0, "y": 0, "anchor": "nw",
-                    "source": "\\images\\stream_bg.png"
+                    "source": "images/stream_bg.png"
                 },
                 
     
@@ -169,12 +169,12 @@
                     "x": 960,
                     "y": 330,
                     "anchor": "center",
-                    "source": "\\images\\fade_fg.png",
+                    "source": "images/fade_fg.png",
                     "topmost": 1
                 }
             ],
             "collection": {
-            "source": "\\images\\sbirka_qr.png",
+            "source": "images/sbirka_qr.png",
             "size": 360,
             "relx": 0.87,
             "rely": 0.55,
@@ -224,7 +224,7 @@
                     "x": 0,
                     "y": 0,
                     "anchor": "nw",
-                    "source": "\\images\\stream_bg.png"
+                    "source": "images/stream_bg.png"
                 },
                 {
                     "type":"one_line",
@@ -285,7 +285,7 @@
                     "y": 0,
                     "anchor": "nw",
                     "resize": [640, 360],
-                    "source": "\\images\\stream_bg.png"
+                    "source": "images/stream_bg.png"
                 },
                 {
                     "type":"one_line",
@@ -364,7 +364,7 @@
                     "y": 110,
                     "anchor": "center",
                     "resize": [640, 720],
-                    "source": "\\images\\fade_fg.png",
+                    "source": "images/fade_fg.png",
                     "topmost": 1
                 }
             ]

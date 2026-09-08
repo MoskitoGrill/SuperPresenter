@@ -400,7 +400,7 @@ class StartupTests(unittest.TestCase):
             root = original_tk()
             root.withdraw()
             return root
-        with patch('super_presenter.tk.Tk', side_effect=hidden_root), patch.object(GUI, 'getMonitors'), patch.object(GUI, 'newProjector'), patch('super_presenter.tkmsg.showerror') as error:
+        with patch('super_presenter.tk.Tk', side_effect=hidden_root), patch.object(GUI, 'getMonitors'), patch.object(GUI, 'newProjector'), patch.object(GUI, 'init_profiles'), patch.object(GUI, 'start_monitor_watch'), patch('super_presenter.tkmsg.showerror') as error:
             gui = GUI()
             try:
                 self.assertTrue(gui.sourceTitleEntry.winfo_children())

@@ -2,7 +2,7 @@
 import tkinter as tk
 import math
 from PIL import ImageTk, Image
-from superpresenter.paths import PROJECT_ROOT
+from superpresenter.services.projection_config import resource_path
 
 
 class Widget_OneLine():
@@ -373,10 +373,7 @@ class Widget_StanzaPaged():
 class Widget_Image():
     def __init__(self, canvas: tk.Canvas, style:dict, win):
         self.canvas = canvas
-        source = style['source']
-        if source[0] != '\\':
-            source = '\\' + source
-        source = PROJECT_ROOT + source
+        source = resource_path(style['source'])
         image = Image.open(source)
         if 'resize' in style.keys():
             image = image.resize((style['resize'][0],style['resize'][1]), 1)

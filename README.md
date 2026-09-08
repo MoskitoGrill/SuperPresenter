@@ -1182,3 +1182,407 @@ legacy projekci, obrázky/sbírku a klávesové ovládání na skutečných moni
 Hlavní okno stále koordinuje prezentační stav; jeho další případné oddělení
 vyžaduje samostatnou etapu. Tolerantní import a známá omezení historických
 písní i algoritmů z předchozích etap zůstávají zachována.
+
+## Etapa 11 – monitory a projekční profily (8. 9. 2026)
+
+Výchozí repozitář byl čistý na commitu `1560311` (etapa 10). Předchozí etapy,
+písně a `presentation_presenter.py` zůstaly beze změn.
+
+### Ovládání
+
+Rozložení a přepínače zůstávají na původním místě. Aplikace automaticky ukládá
+poslední rozložení po přidání/odebrání výstupu, změně monitoru, stylu,
+fullscreen nebo QR sbírky, dále při zastavení projekce a běžném zavření.
+Při příštím spuštění je obnoví; samotné promítání se stále zapíná přes F5.
+Poloha přesunutého běžného okna se zachytí při Save, zastavení či zavření.
+
+- **save** otevře dialog pro uložení celého rozložení do pojmenovaného JSON
+  profilu, například `Běžná bohoslužba.json` nebo `Velikonoce.json`.
+- **load** načte zvolený profil. Během promítání požádá nejprve o jeho zastavení.
+  Úspěšné načtení se stane také posledním rozložením pro další spuštění.
+- Pro běžný provoz nastavte sál i stream a uložte také pojmenovaný běžný profil.
+  Pro Velikonoce odeberte stream a uložte zvláštní profil. Po akci načtěte běžný.
+- Bez uloženého nastavení zůstává jeden výstup, první stacionární sálový styl,
+  fullscreen zapnutý a QR vypnuté. Nově se přednostně vybere neprimární monitor,
+  jinak hlavní (případně první dostupný). Aplikace nedokáže poznat, zda je
+  neprimární displej skutečně projektor; při více externích jej vyberte ručně.
+
+Skutečné názvy monitorů se již nepřepisují. Nabídka ukazuje polohové označení a souřadnice (viz upřesnění níže). Párování preferuje jejich úplnou shodu, potom jedinečnou
+shodu názvu a rozlišení; geometrie pomáhá při nedostupném
+názvu, ale nepřebírá jinak pojmenovaný monitor. Nejednoznačnost se nepovažuje
+za shodu. Při chybějícím monitoru dialog vypíše dotčené výstupy a nabídne
+**běžné okno na hlavním displeji, bez fullscreen a bez staré pozice**.
+Odmítnutí ponechá současné rozložení. Monitory se znovu zjistí při Load i před F5.
+Odpojení za již běžící projekce se průběžně nesleduje.
+
+### Umístění a formát verze 1
+
+Windows: `%APPDATA%/SuperPresenter/last-layout.json`; výchozí složka pojmenovaných
+profilů je `%APPDATA%/SuperPresenter/profiles/`. Dialog dovolí profil přenést
+jinam. Mimo Windows se používá `$XDG_CONFIG_HOME/SuperPresenter`, jinak
+`~/.config/SuperPresenter`. Testy zapisují pouze do dočasných složek.
+
+```json
+{
+  "version": 1,
+  "outputs": [
+    {
+      "style": "chvály sál – stacionární",
+      "monitor": {"name": "DISPLAY2", "x": 1920, "y": 0, "width": 1920, "height": 1080},
+      "fullscreen": true,
+      "collection": false,
+      "window_position": null
+    }
+  ]
+}
+```
+
+`outputs` uchovává pořadí 1–5 výstupů. Styl je identifikován jedinečným názvem,
+nikoli indexem; jeho typ/režim a renderovací volby poskytuje validovaný katalog
+stylů. `window_position` je volitelná dvojice celých souřadnic běžného okna;
+pozice mimo vybraný monitor se ignoruje. Časování animace, textové zdroje,
+fonty a rozměry plátna nejsou ovládacími volbami jednotlivých výstupů a zůstávají
+v katalogu. Profil nekopíruje obrázky ani definice stylů, proto cílová instalace
+musí obsahovat stejné pojmenované styly. Neznámá verze nebo styl je konkrétní
+chyba; profil se neaplikuje částečně. Další verze bude vyžadovat explicitní
+migraci, nikoli odhad struktury.
+
+Zápis používá dočasný soubor ve stejné složce a atomickou náhradu. Chyby se
+zobrazují obsluze. Po vadné nebo odmítnuté automatické obnově samotné zavření
+nepřepíše původní soubor; až explicitní úprava rozložení nebo úspěšný Load
+potvrdí nový stav. Původní projektový `settings.json` s jediným `monitor_index`
+zůstává nedotčený jako nepoužívaný historický soubor. Index neobsahuje dost
+informací pro bezpečnou migraci více výstupů, a proto se neimportuje.
+
+### Validace a cesty
+
+Nová služba `superpresenter/services/projection_config.py` neimportuje GUI,
+Pillow ani screeninfo. Validuje strukturu profilů a katalogu, jedinečná jména,
+režimy, zdroje textu, widgety, odkazy na fonty, číselné volby, QR a existenci
+obrázků. Chyba katalogu uvádí jméno stylu a problém/pole; neplatný katalog
+zastaví start s dialogem, aby se nepromítala neúplná konfigurace. Hodnoty
+specifické pro Tk (například dostupnost fontu či název barvy) definitivně
+ověřuje Tk při tvorbě projektoru; také jeho chyba uvádí styl.
+
+`projectors_styles.json` zůstává v aplikaci jako sdílený katalog dodávaných
+stylů. Všechny jeho obrázky používají `images/...`, relativně ke kořeni aplikace.
+Oba obrazové renderery používají společný resolver založený na `pathlib`;
+pracovní adresář nemá vliv. Absolutní cesty, cesty od kořene disku a `..` se
+odmítají. Vlastní staré styly s `\\images\\...` převeďte na `images/...`.
+
+Změněné soubory: `superpresenter/services/projection_config.py` (nový),
+`superpresenter/ui/projection_profiles.py` (nový), `superpresenter/ui/main_window.py`,
+`superpresenter/ui/projector_window.py`, `superpresenter/ui/projector_widgets.py`,
+`projectors_styles.json`, `tests/test_projection_config.py` (nový), `README.md`.
+Opraveno také odebrání právě vybraného posledního projektoru a formátování
+záporných souřadnic projekčních oken.
+
+### Ověření a další krok
+
+Python je dostupný v `.venv/Scripts/python.exe`. Kompletní sada se spouští:
+
+```powershell
+.venv/Scripts/python.exe -B -m unittest discover -s tests
+```
+
+Nové testy bez otevírání GUI pokrývají JSON round-trip, Unicode, chybnou verzi,
+booleany, neznámé styly, chybějící soubory, neúspěšný atomický zápis, přenositelné
+cesty, chyby katalogu, pořadí i nejednoznačnost monitorů, zrušení a přijetí
+fallbacku, neměnnost názvů monitorů, více výstupů, první start a ochranu vadného
+posledního nastavení. Součástí je import a načtení katalogu se zakázanými GUI
+závislostmi. Testy se kvůli přístupu k instalovanému screeninfo/Tcl spouštějí
+mimo sandbox; první běh uvnitř sandboxu selhal na importu screeninfo.
+
+Fyzické projektory ani interaktivní dialogy nebyly v této etapě ručně ověřeny.
+Doporučený další krok: na sborovém PC nastavit sál + stream, restartovat aplikaci,
+vyzkoušet oba pojmenované profily, QR, okno na monitoru vlevo a odpojený projektor.
+Stejně pojmenované a geometricky nerozlišitelné displeje nelze bez EDID/seriového
+čísla spolehlivě identifikovat; aplikace při nejednoznačnosti nabídne fallback.
+
+Závěrečný výsledek: **161 testů prošlo** (142 původních + 19 nových).
+Syntaktická kompilace **39 aktivních Python souborů** v paměti prošla,
+`git diff --check` je čistý. Samostatný linter není nakonfigurovaný.
+Validátor 858 písní vrací kód 1: **5 obsahových chyb a 77 varování**;
+XML soubory ani validátor nebyly změněny, jejich nálezy zůstávají mimo tuto etapu.
+Kontrola diffu potvrdila nedotčené `songs/`, `settings.json` a
+`presentation_presenter.py`. Testy fyzického promítání nenahrazují.
+
+
+### Upřesnění etapy 11 – názvy podle polohy
+
+Nabídka monitorů nově zobrazuje například `Hlavní (0, 0)`,
+`Vlevo (-1920, 0)` a `Vpravo (1920, 0)`. Systémové názvy DISPLAY ani rozlišení
+se nezobrazují. Polohy se určují ze souřadnic vůči hlavní obrazovce; hlavní
+nemusí být fyzicky uprostřed. Při více monitorech na stejné straně přibude
+`Vlevo – 1. zleva`, `Vlevo – 2. zleva` atd., počítáno od nejlevějšího
+monitoru dané skupiny. Podporované jsou i polohy nahoře, dole a diagonálně;
+více monitorů nad sebou se čísluje shora. Souřadnice jsou vždy uvedeny.
+
+Názvy i dostupné monitory se přepočítají při rozbalení nabídky, při načtení
+profilu a před startem projekce. Rozbalení zachová vybraný projekční výstup;
+pokud jeho monitor chybí, platí dosavadní dialog bezpečného fallbacku.
+Během promítání je nabídka nadále vypnutá. Technická identita v uložených
+profilech zůstává stejná, změna označení nenarušuje jejich kompatibilitu.
+
+Upraveny `projection_config.py`, `projection_profiles.py`, `main_window.py`,
+`tests/test_projection_config.py` a tento README. Navíc byl izolován test
+`test_main_window_wiring` v `tests/test_song_editor_integration.py` od
+skutečných uživatelských profilů: první běh odhalil, že po jejich vytvoření
+test editoru načítal reálné nastavení navzdory mockovaným monitorům.
+Přidány kontroly polohových názvů, přepočtu při změně počtu monitorů,
+svislého rozložení a zachování vybraného výstupu při obnově nabídky.
+Ruční ověření připojování monitorů zůstává doporučeným navazujícím krokem.
+
+Ověření upřesnění: **164 testů prošlo**, syntaktická kompilace 39 aktivních
+Python souborů a `git diff --check` prošly. Samostatný linter není
+nakonfigurovaný. Písně a `presentation_presenter.py` zůstaly beze změn.
+
+### Upřesnění etapy 11 – editor monitorů a vlastní názvy
+
+Původní tlačítko **save** v hlavním okně je nahrazeno **edit**. Otevírá
+samostatné modální okno „Monitory a projekční výstupy“. Nahoře je mapa
+obrazovek odpovídající souřadnicím a poměrům jejich rozměrů; pod ní jsou
+karty řazené podle polohy vlevo/vpravo a nahoře/dole. Karty mají čitelné stejné
+šířky, nemusí odpovídat fyzické velikosti monitorů. Větší rozložení se posouvá
+vodorovným a svislým posuvníkem.
+
+Každá připojená obrazovka se objeví automaticky. Na kartě lze:
+
+- zadat vlastní název (například „Sál“, „Stream“, „Obsluha“); prázdný název
+  obnoví automatické pojmenování podle polohy,
+- vybrat styl nebo **Nepromítat**, což na monitoru nevytvoří projekční okno,
+- nastavit fullscreen a QR sbírky; QR je dostupné u stylů, které jej podporují,
+- přidat další výstup na stejnou obrazovku. Stávající vícenásobné výstupy se
+  neztrácejí; každý má vlastní výběr stylu. Maximum zůstává pět aktivních výstupů.
+
+Názvy jsou vidět také v hlavní nabídce monitorů, stále se souřadnicemi.
+Systémový název ani rozlišení se do popisků nevracejí. Vlastní název nemění
+hardwarovou identitu používanou k přiřazení výstupu. Názvy mohou mít nejvýše
+80 znaků, bez řídicích znaků; ukládají se i pro obrazovku s volbou Nepromítat.
+
+- **save** aplikuje celý návrh, uloží poslední nastavení pro další spuštění
+  a zavře editor. Při chybě zápisu ponechá původní rozložení a otevřený návrh.
+- **Uložit profil…** uloží návrh do pojmenovaného souboru pro zvláštní událost,
+  ale samo nezmění aktuální rozložení ani nezavře editor.
+- **Zrušit**, Escape nebo zavření okna zahodí neaplikované úpravy.
+- Původní **load** zůstává v hlavním okně. Editor i Load vyžadují zastavenou
+  projekci. Je dovoleno vypnout všechny výstupy; F5 pak vysvětlí, že je třeba
+  nejprve některému monitoru vybrat styl.
+
+Editor pracuje s kopií rozložení. Při jeho otevření se zjistí připojené monitory.
+Změní-li se zapojení během úprav, save odmítne aplikaci na jinou sestavu;
+návrh lze exportovat do profilu a editor znovu otevřít. Fyzické monitory se
+přidávají připojením a povolením obrazovky v systému, nikoli vytvořením
+virtuálního monitoru v aplikaci. Obnova chybějícího monitoru při otevření editoru
+používá dosavadní potvrzovaný bezpečný fallback.
+
+#### Formát verze 2
+
+Nové snapshoty mají `version: 2`, `outputs` dovoluje 0–5 výstupů a přibývá
+`monitor_names`, seznam objektů například:
+
+```json
+{
+  "monitor": {"name": "DISPLAY2", "x": 1920, "y": 0, "width": 1920, "height": 1080},
+  "label": "Sál"
+}
+```
+
+Formát jednotlivých výstupů se nemění. Soubory verze 1 se dál validují a načítají;
+při dalším uložení aplikací přejdou do verze 2. Starší aplikace podporující jen
+verzi 1 nové soubory neotevře. Názvy jsou součástí konkrétního profilu, proto
+načtení jiného profilu obnoví i jeho názvy; starý profil bez názvů použije
+polohové označení. Jména odpojených monitorů se při editaci zachovávají.
+
+Změněny `superpresenter/services/projection_config.py`,
+`superpresenter/ui/projection_profiles.py`, `superpresenter/ui/main_window.py`,
+`tests/test_projection_config.py` a README. Nové soubory:
+`superpresenter/services/projection_editor_model.py` (model návrhu bez GUI),
+`superpresenter/ui/projection_editor.py` (Tk editor),
+`tests/test_projection_editor.py` (datové a integrační testy).
+Zachovány všechny existující změny předchozích etap, písně i
+`presentation_presenter.py` zůstávají nedotčené.
+
+Integrační testy skutečných Tk widgetů ověřují přejmenování, vypnutí výstupu,
+zrušení návrhu, save, chybu zápisu, export profilu a rozmístění mapy/karet.
+Datové testy navíc pokrývají migraci verze 1, více výstupů na jednom monitoru,
+neaktivní i odpojené monitory, přemístění pojmenovaného monitoru, limit výstupů,
+validaci jmen, změnu zapojení před save a uložení prázdného rozložení.
+Doporučený další krok: na sborovém PC ověřit přejmenování Sál/Stream,
+profil bez streamu a znovunačtení po restartu. Testy používají skrytá Tk okna
+a dočasné složky; skutečné projektory nebyly interaktivně ověřeny.
+
+Závěrečné ověření editoru: **180 testů prošlo**, včetně 16 nových datových
+ a Tk integračních testů. Syntaktická kompilace **42 aktivních Python souborů**
+v paměti a `git diff --check` prošly. Python z `.venv` je dostupný; testy
+běžely mimo sandbox kvůli instalovaným závislostem/Tcl. Samostatný linter
+není nakonfigurovaný. Diff potvrzuje nedotčené písně, `settings.json`
+a `presentation_presenter.py`.
+
+### Upřesnění etapy 11 – přepínání a přejmenování profilů v editoru
+
+Editor má nahoře výběr **Profil**, tlačítko **+ Nový profil** a pole **Název**.
+Načítá JSON profily z uživatelské složky `SuperPresenter/profiles/`. Bez
+odpovídajícího uloženého profilu nabídne současné rozložení jako nový návrh
+`Profil 1`, případně další volné číslo. Nový profil kopíruje uložené rozložení
+vybraného profilu a dostane další volný název `Profil N`. Název lze přepsat;
+uloží se tlačítkem Save nebo Save and use. Duplicitní názvy bez ohledu na
+velikost písmen se odmítají.
+
+- **Save** uloží vybraný profil a ponechá editor otevřený. Lze hned přepnout
+  na jiný profil, upravit jej a opět uložit. Aktuální projekční rozložení
+  aplikace se tím nemění.
+- **Save and use** uloží vybraný profil, použije ho jako aktuální rozložení,
+  zapamatuje jej pro příští start a zavře editor. Pokud uložení profilu uspěje,
+  ale jeho použití selže (například se změnilo zapojení), profil zůstane uložený
+  a editor otevřený s chybou; aktuální rozložení se nepřepne.
+- Přepnutí profilu, vytvoření nového a zavření editoru při neuložených úpravách
+  nabídne uložit / zahodit / zrušit. Chyba uložení zabrání přechodu a návrh zůstane.
+- Výběr profilu v editoru sám neaktivuje promítání ani nemění současné rozložení.
+
+Přidávání dalších výstupů na stejné obrazovce bylo odstraněno. Každá karta má
+jeden výběr stylu nebo Nepromítat. U staršího profilu s více výstupy na jedné
+připojené obrazovce editor viditelně upozorní na převod: nabídne první styl,
+obsluha může zvolit jiný, a až Save uloží jeden zvolený výstup. Načtení souboru
+samotné jeho obsah nemění. Výstupy odpojených monitorů se při editaci jiného
+profilu zachovají, aby se jejich konfigurace neztratila. Takový profil lze
+uložit; před Save and use je třeba monitor připojit nebo použít hlavní Load,
+který nabízí dosavadní bezpečný fallback.
+
+Profily nadále používají verzi 2, doplněnou o volitelné `profile_name`.
+Starší soubory bez tohoto pole se zobrazí názvem souboru. Nový soubor má
+čitelný název odvozený z prvního uloženého názvu profilu; znaky nevhodné pro
+soubor se nahradí. Při pozdějším přejmenování se změní `profile_name` ve stejném
+souboru, takže nevznikne kopie; fyzický název souboru zůstane původní. V editoru
+se vždy ukazuje aktuální název profilu. Chybný soubor zůstane ve výběru a při
+pokusu o otevření ukáže konkrétní chybu bez nahrazení současného návrhu.
+
+Změněny `superpresenter/ui/projection_editor.py`,
+`superpresenter/ui/projection_profiles.py`,
+`superpresenter/services/projection_editor_model.py`,
+`superpresenter/services/projection_config.py`, `tests/test_projection_editor.py`
+a README; přidán `superpresenter/services/projection_profile_catalog.py`.
+Testy pokrývají úpravu více profilů po sobě, přejmenování bez kopie, automatická
+čísla, kolize názvů, zrušené přepnutí, chybu Save, oddělení Save od použití,
+starší i vadné soubory a bezpečné odvození cesty z názvu.
+
+Doporučený další krok: v editoru vytvořit běžný profil a profil bez streamu,
+oba uložit, přepnout mezi nimi a přes Save and use ověřit použití na skutečných
+monitorech. Předchozí změny zůstaly zachované; písně ani
+`presentation_presenter.py` se neměnily.
+
+Závěrečné ověření této úpravy: **189 testů prošlo**, syntaktická kontrola
+**43 aktivních Python souborů** v paměti a `git diff --check` prošly.
+Python z `.venv` je dostupný. Testy běžely mimo sandbox kvůli Tcl/Tk a
+instalovaným závislostem; samostatný linter není nakonfigurovaný.
+
+### Upřesnění etapy 11 – QR v editoru a mazání profilů
+
+Z editoru monitorů byl odstraněn přepínač QR sbírky. Fullscreen zůstává.
+Existující hodnota QR v profilu se při editaci zachovává kvůli kompatibilitě;
+tato úprava nemění ovládání sbírky v hlavním okně ani renderer.
+
+Nahoře je tlačítko **Smazat profil**. Potvrzení uvádí název vybraného profilu
+ a upozorňuje i na zahození jeho neuložených úprav. Smaže pouze vybraný JSON
+ve spravované složce profilů; používané rozložení ani last-layout.json nemění.
+Po smazání se otevře další čitelný profil, případně vznikne neuložený návrh
+Profil 1 z aktuálního rozložení. Chyba mazání zachová výběr i návrh.
+Mazání není vratné přes editor; důležitý profil předem zálohujte.
+
+Dotčené soubory: `superpresenter/ui/projection_editor.py`,
+`superpresenter/services/projection_profile_catalog.py`,
+`tests/test_projection_editor.py` a README. Doplněny testy absence QR přepínače,
+zachování fullscreen/uložené QR hodnoty, potvrzení a zrušení mazání,
+chyby mazání, posledního profilu a odmítnutí mazání mimo složku profilů.
+Doporučený navazující krok: vyzkoušet smazání pomocného profilu v editoru.
+
+Ověření: **195 testů prošlo**, syntaktická kompilace **43 aktivních Python
+souborů** a `git diff --check` prošly. Python je dostupný v `.venv`;
+samostatný linter není nakonfigurovaný. Testy používají dočasné soubory
+a skrytá Tk okna. Písně a `presentation_presenter.py` zůstávají nedotčené.
+
+### Upřesnění etapy 11 – kompaktní vzhled editoru
+
+Editor monitorů používá šedé pozadí hlavního okna, tmavě šedá tlačítka,
+bílé popisky a stejný základní font `listfont` / `buttfont` (Courier New 14).
+Styly mají vlastní prefix Projection, takže nepřepisují vzhled ostatních oken.
+Ovládání profilů je ve dvou řádcích, informace a akční tlačítka dole také.
+
+Výchozí šířka se odvozuje od skutečně potřebné šířky karet a hlavičky: pro jeden
+monitor je okno užší, více monitorů vedle sebe dostane více prostoru, nejvýše
+šířku displeje s okrajem. Výška se odvozuje od obsahu a dostupné obrazovky;
+posuvníky zpřístupní obsah, který se nevejde. Okno lze dále ručně zvětšovat.
+
+Každá obrazovka má nyní náhled přímo nad svým nastavením ve společné kartě.
+Nastavení je přesně o 24 px širší než náhled, tedy 12 px na každé straně.
+Celá sestava karet se v okně centruje a při posouvání zůstává zarovnání stejné.
+Polohy karet vlevo/vpravo a nahoře/dole nadále odpovídají pořadí systémových
+souřadnic. Náhledy mají sjednocenou čitelnou velikost, nejsou už měřítkovou mapou
+poměrů rozlišení monitorů. Vlastní název i souřadnice zůstávají viditelné.
+
+Změněny `superpresenter/ui/projection_editor.py`,
+`tests/test_projection_editor.py` a README. Doplněny kontroly fontu/barvy,
+symetrických okrajů a užšího okna pro jeden monitor. Doporučený další krok:
+ručně ověřit vzhled na používaném monitoru a při jeho nastavení DPI;
+testy geometrie pracují s Tk okny mimo viditelnou plochu.
+
+Ověření vzhledu: **198 testů prošlo**, syntaktická kontrola **43 aktivních
+Python souborů** a `git diff --check` prošly. První kompletní běh odhalil
+chybu měření skrytého Tk okna (1×1); test nyní měří rozložené okno mimo
+viditelnou plochu. Python v `.venv` je dostupný, samostatný linter není
+nakonfigurovaný. Profily, písně ani `presentation_presenter.py` tato vizuální
+úprava nemění.
+
+### Upřesnění vzhledu – spodní tlačítka
+
+Spodní akce editoru jsou vycentrované a pojmenované **Uložit**, **Použít**
+a **Zrušit**. Význam se nemění: Uložit ukládá vybraný profil; Použít jej
+uloží a aktivuje. Také nápověda používá české názvy. Tlačítka editoru mají
+plochý styl bez světlého orámování, včetně aktivního/stisknutého stavu.
+Změněny `superpresenter/ui/projection_editor.py` a README. Doporučený další
+krok: vizuálně ověřit běžný i aktivní stav tlačítek při používaném DPI.
+
+Ověření: **198 testů prošlo**, syntaktická kontrola **43 aktivních Python
+souborů** a `git diff --check` prošly. Samostatný linter není nakonfigurovaný.
+Písně a `presentation_presenter.py` zůstávají beze změny.
+
+### Upřesnění etapy 11 – monitory bez restartu aplikace
+
+Aplikace každé **2 sekundy** zjišťuje aktuálně připojené a systémem povolené
+obrazovky. Nově připojený projektor se automaticky objeví v hlavní nabídce
+monitorů i v již otevřeném editoru. V editoru začíná nový monitor s volbou
+Nepromítat; obsluha mu vybere styl a stiskne Použít. Výstupy se automaticky
+nepřidělují nově připojenému zařízení. Interval není okamžitá systémová událost:
+k prodlevě se přičítá doba, než monitor rozpozná operační systém.
+
+Při změně pořadí se existující výstupy znovu přiřadí podle technické identity,
+nikoli podle starého indexu. Přidání nepoužívané obrazovky nepřerušuje projekci.
+Pokud používaný monitor zmizí nebo změní polohu či rozlišení, aplikace promítání
+zastaví a upozorní obsluhu. Odpojený monitor nabídne dosavadní potvrzovaný
+fallback; projekce se po změně sama nespustí. Automatická obnova nepřepisuje
+poslední uložené rozložení nouzovým stavem. Odmítnutí fallbacku nevyvolává znovu
+stejný dialog každé dvě sekundy; lze znovu otevřít nabídku/Load nebo změnit zapojení.
+
+Otevřený editor aktualizuje karty i velikost okna a uchová rozpracované názvy,
+styly a fullscreen. Odpojený výstup uchová v návrhu a po opětovném připojení
+jej znovu zobrazí. Neplatné rozpracované údaje se nezahazují: editor vypíše,
+že se seznam obnoví po jejich opravě. Během otevřeného editoru se přes něj
+neotevírá automatický fallback dialog hlavního okna. Chyba detekce ani prázdný
+výsledek nepřepíšou známou konfiguraci; další kontrola proběhne později.
+Časovač běží v Tk hlavní smyčce a při ukončení aplikace se ruší.
+
+Změněny `superpresenter/ui/projection_profiles.py`,
+`superpresenter/ui/projection_editor.py`, `superpresenter/ui/main_window.py`,
+`tests/test_projection_editor.py`, `tests/test_song_editor_integration.py`
+a README. Přidán `tests/test_monitor_refresh.py`. Integrační test editoru písní
+má detekci monitorů izolovanou, aby nepracoval s reálnou sestavou uživatele.
+Doplněno devět testů pro připojení, přečíslování, odpojení/přemístění aktivního
+výstupu, dočasnou chybu detekce, obnovu návrhu a zrušení časovače.
+
+Ověření: **207 testů prošlo**. Připojování a odpojování se simuluje; fyzický
+projektor nebyl v této etapě připojován. Doporučený další krok: nechat aplikaci
+i editor otevřené, připojit projektor, vyčkat několik sekund a přiřadit mu styl.
+Písně a `presentation_presenter.py` zůstávají nedotčené.
+
+Syntaktická kontrola **44 aktivních Python souborů** a `git diff --check`
+prošly. Python z `.venv` je dostupný; samostatný linter není nakonfigurovaný.

@@ -2,7 +2,6 @@
 import os
 from copy import deepcopy
 import tkinter as tk
-from screeninfo import get_monitors
 import json
 import logging
 from tkinter import font as tkFont
@@ -10,6 +9,9 @@ from tkinter import ttk, filedialog
 from tkinter import messagebox as tkmsg
 import time
 from superpresenter.paths import PROJECT_ROOT
+from pathlib import Path
+from superpresenter.services.projection_config import ConfigError, load_styles, default_monitor
+from superpresenter.ui.projection_profiles import ProjectionProfiles
 from superpresenter.services.song_edit_session import validate_editor_fields
 from superpresenter.services.construct_parser import ConstructError
 from superpresenter.services.stationary_navigation import CueNavigation, build_plan, style_mode
@@ -25,7 +27,7 @@ def doNothing(*e):
     pass
 
 
-class GUI(SongEditorPanel):
+class GUI(ProjectionProfiles, SongEditorPanel):
     def __init__(self):
         self.title = 'Super Presenter v.0.2'
         self.dir = PROJECT_ROOT
@@ -63,8 +65,10 @@ class GUI(SongEditorPanel):
         self.getProjectorStyles()
 
         self.newProjector()
+        self.init_profiles()
 
         self.assign()
+        self.start_monitor_watch()
 
         self.draft_open = False
 
@@ -248,7 +252,7 @@ class GUI(SongEditorPanel):
         self.addProj = tk.Button(self.projNav, text='+')
         self.delProj = tk.Button(self.projNav, text='del')
         self.loadProjs = tk.Button(self.projNav, text='load')
-        self.saveProjs = tk.Button(self.projNav, text='save')
+        self.saveProjs = tk.Button(self.projNav, text='edit')
         # projection settings
         self.chooseProjLabel = tk.Label(self.projSet, text='Display')
         self.chooseStyleLabel = tk.Label(self.projSet, text='Style')
@@ -434,6 +438,8 @@ class GUI(SongEditorPanel):
             if self.presentation_editor_win.poll() is None:
                 self.presentation_editor_win.terminate()
 
+        self.stop_monitor_watch()
+        self.persist_layout(explicit=False)
         self.win.destroy()
 
     def assign(self):
@@ -453,14 +459,15 @@ class GUI(SongEditorPanel):
         self.openPresentation.configure(command=self.openPresentationEditor)
 
 
-        self.saveProjs.configure(state='disabled')
-        self.loadProjs.configure(state='disabled')
+        self.saveProjs.configure(command=self.edit_profiles)
+        self.loadProjs.configure(command=self.load_profile)
         # self.changeOrder.configure(state='disabled')
         self.repExp.configure(state='disabled')
         self.repImp.configure(state='disabled')
 
         self.stepsList.bind('<<ListboxSelect>>',self.stepSelect)
         self.stepsList.bind('<Button-1>', self._stationary_click)
+        self.chooseProj.configure(postcommand=self.refresh_monitor_choices)
         self.chooseProj.bind('<<ComboboxSelected>>', self.changeProjector)
         self.chooseStyle.bind('<<ComboboxSelected>>', self.changeStyle)
         self.stepsLang.bind('<<ComboboxSelected>>', self.stepsLangUpdate)
@@ -502,37 +509,16 @@ class GUI(SongEditorPanel):
         path = os.path.join(self.dir, 'presentation_presenter.py')
         self.presentation_editor_win = subprocess.Popen([sys.executable, path])
 
-    def getMonitors(self):
-        self.monitors = get_monitors()
-        self.monitors.sort(key=lambda m: m.x)
-
-        id = 0
-        monitorList = []
-        for mon in self.monitors:
-            id += 1
-            mon.name = f'disp{id} ({mon.x},{mon.y})'
-            monitorList.append(mon.name)
-
-        self.chooseProj['values'] = monitorList
-
-        if monitorList:
-            self.chooseProj.set(monitorList[0])
-
     def getProjectorStyles(self):
-        with open(self.dir + '\\projectors_styles.json', 'r', encoding='utf-8') as f:
-            dta = json.loads(f.read())
-        self.animationParams = dta['animation']
-        dta = dta['styles']
-        self.projStyles = []
-        names = []
-        for style in dta:
-            self.projStyles.append(style)
-            names.append(style['name'])
-        self.chooseStyle['values'] = names
-
-
-
-        # self.stepGoTo(0)
+        try:
+            data = load_styles(Path(self.dir) / 'projectors_styles.json', self.dir)
+        except ConfigError as exc:
+            tkmsg.showerror('Chyba projekčních stylů', str(exc))
+            self.win.destroy()
+            raise
+        self.animationParams = data['animation']
+        self.projStyles = data['styles']
+        self.chooseStyle['values'] = [style['name'] for style in self.projStyles]
 
     # projectors options
     def newProjector(self,*e):
@@ -540,16 +526,21 @@ class GUI(SongEditorPanel):
         if l < 5:
             new_proj = ProjWindow(self)
 
-            if l > 0 and hasattr(self, 'monitors'):
-                new_proj.monitor = len(self.monitors) - 1
-            else:
-                new_proj.monitor = 0
+            new_proj.monitor = default_monitor(self.monitors)
 
             self.projectors.append(new_proj)
             self.projectorID = l
             self.openProjector()
+            self.persist_layout()
 
     def openProjector(self):
+        if not self.projectors:
+            self.projsLabel.configure(text='0 / 0')
+            self.chooseProj.set('')
+            self.chooseStyle.set('')
+            self.fullscreenCheck.deselect()
+            self.collectionCheck.deselect()
+            return
         proj = self.projectors[self.projectorID]
         self.projsLabel.configure(
             text= f'{self.projectorID+1} / {len(self.projectors)}')
@@ -569,24 +560,29 @@ class GUI(SongEditorPanel):
         if self.projectorID >=0:
             self.projectors[self.projectorID].style = \
                 self.chooseStyle.current()
+            self.persist_layout()
 
     def changeProjector(self, *e):
         if self.projectorID >=0:
             self.projectors[self.projectorID].monitor = \
                 self.chooseProj.current()
+            self.projectors[self.projectorID].winPlacement = ''
+            self.projectors[self.projectorID].window_position = None
+            self.persist_layout()
 
     def changeFullscreen(self, *e):
         if self.projectorID >=0:
             self.projectors[self.projectorID].fullscreen = \
                 self.fullscreenState.get()
+            self.persist_layout()
 
     def delProjector(self, *e):
         l = len(self.projectors)
         if l > 1:
-            if self.projectorID >= l-1:
-                self.projectorID = l-2
             self.projectors.pop(self.projectorID)
+            self.projectorID = min(self.projectorID, l - 2)
             self.openProjector()
+            self.persist_layout()
 
     def nextProjector(self, *e):
         if self.projectorID < len(self.projectors)-1:
@@ -745,8 +741,14 @@ class GUI(SongEditorPanel):
             return
 
     def runButtFun(self, *e):
+        if not self.runState and not self.projectors:
+            tkmsg.showinfo('Promítání', 'Není zapnutý žádný výstup. Vyberte styl v editoru monitorů (edit).')
+            return
         if not self.runState and not self._prepare_song_transition():
             return
+        if not self.runState and getattr(self, '_profiles_ready', False):
+            if not self.restore_profile(None, data=self.layout_snapshot()):
+                return
         # Tlačítko dočasně vypnout – ale VŽDY ho na konci znovu povolit
         self.openProjs.configure(state='disabled')
         try:
@@ -769,7 +771,7 @@ class GUI(SongEditorPanel):
                 except Exception:
                     tkmsg.showerror('Error in projector styles',
                                     'Error occurred while loading styles for projectors\n'
-                                    'Check "projector_styles.json"')
+                                    'Check "projectors_styles.json"')
                     self.runState = False
                     self._cleanup_after_stop()
                     return
@@ -856,7 +858,7 @@ class GUI(SongEditorPanel):
                     except Exception as e:
                         tkmsg.showerror('Error in projector styles',
                             f'Error occurred while constructing "{self.projStyles[proj.style]["name"]}"\n'
-                            'Check "projector_styles.json"\n\n' + str(e))
+                            'Check "projectors_styles.json"\n\n' + str(e))
                         self.runState = False
                         self._cleanup_after_stop()
                         return
@@ -894,6 +896,7 @@ class GUI(SongEditorPanel):
         # zavři okna projektorů
         for proj in self.projectors:
             proj.stopProjection()
+        self.persist_layout(explicit=False)
 
         # reset běhového stavu
         self.onlineSources = []
@@ -1589,6 +1592,7 @@ class GUI(SongEditorPanel):
             show = self.collectionState.get()
             proj = self.projectors[self.projectorID]
             proj.collection = show  # vždy ulož
+            self.persist_layout()
 
             # je-li okno/Canvas už otevřený, zkus rovnou přepnout
             try:
