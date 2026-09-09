@@ -448,7 +448,7 @@ class _LegacyWidgetSource():
                 pairmap = []
                 if len(lns) == 1:
                     groups = self._build_group_lengths(slide)
-                    src = lns[0]
+                    src = [lns[0][step] for step in stp]
                     a, b = [], []
                     pos = 0
                     for L in groups:
@@ -471,14 +471,8 @@ class _LegacyWidgetSource():
                 if pairmap:
                     lines['short2pairmap'] = pairmap
 
-                # Přepíšeme seznam pro UI na dvojřádky
-                new_ui_list = []
-                for i in range(len(a)):
-                    line1 = a[i]
-                    line2 = b[i] if b[i] else ""
-                    new_ui_list.append(f"{line1} / {line2}".strip())
-
-                final_vars = new_ui_list
+                # Keep language metadata separate from the rendered pairs.
+                # a/b only exist in the single-language branch above.
 
         self.lines = lines
         return final_vars

@@ -52,10 +52,12 @@ class GUI(ProjectionProfiles, SongEditorPanel):
         self.runState = False
 
         self.win = tk.Tk()
+        self.win.report_callback_exception = self._report_callback_exception
         self.initWins()
         try:
             self.setStyle()
         except:
+            logger.exception('GUI style loading failed')
             tkmsg.showerror('Error loading styles',
                 'Unknown error occured while loading GUI styles\n'+\
                     'Check "gui_styles.json" file.')
@@ -71,6 +73,16 @@ class GUI(ProjectionProfiles, SongEditorPanel):
         self.start_monitor_watch()
 
         self.draft_open = False
+
+    def _report_callback_exception(self, exc_type, exc, traceback):
+        logger.error('UI callback failed', exc_info=(exc_type, exc, traceback))
+        try:
+            if self.runState:
+                self.runState = False
+                self._cleanup_after_stop()
+        finally:
+            # Preserve Tk's existing error reporting; do not introduce a dialog.
+            tk.Tk.report_callback_exception(self.win, exc_type, exc, traceback)
 
     def setStyle(self, styleName=''):
         with open(self.dir + '\\gui_style.json', 'r', encoding='utf-8') as f:
@@ -439,6 +451,9 @@ class GUI(ProjectionProfiles, SongEditorPanel):
                 self.presentation_editor_win.terminate()
 
         self.stop_monitor_watch()
+        if self.runState:
+            self.runState = False
+            self._cleanup_after_stop()
         self.persist_layout(explicit=False)
         self.win.destroy()
 
@@ -605,11 +620,13 @@ class GUI(ProjectionProfiles, SongEditorPanel):
     def loadSource(self, path):
         src = WidgetSource(path)
         if src.err:
+            logger.error('Source loading failed: %s: %s', path, src.load_warning)
             tkmsg.showerror('Chyba načítání', f'Nelze načíst {path}:\n{src.load_warning or "Soubor není dostupný."}')
             return False
         try:
             validate_editor_fields(src.song)
         except ValueError as exc:
+            logger.exception('Invalid song: %s', path)
             tkmsg.showerror('Chyba načítání', str(exc))
             return False
         ok, variants, _ = self.validateSource(src)
@@ -769,6 +786,7 @@ class GUI(ProjectionProfiles, SongEditorPanel):
                 try:
                     types = self.getSourceTypes()
                 except Exception:
+                    logger.exception('Projector style loading failed')
                     tkmsg.showerror('Error in projector styles',
                                     'Error occurred while loading styles for projectors\n'
                                     'Check "projectors_styles.json"')
@@ -830,6 +848,7 @@ class GUI(ProjectionProfiles, SongEditorPanel):
                                 [v for v in src.variants if v != '-----'], guide)
                             stationary_plans.append(plan)
                     except Exception as ex:
+                        logger.exception('Source construction failed: %s', src.path)
                         tkmsg.showerror('Error in projector styles',
                             'Error occurred while constructing source text\n'
                             'Check "projectors_styles.json"\n' + str(ex))
@@ -856,6 +875,7 @@ class GUI(ProjectionProfiles, SongEditorPanel):
                         proj.project()
                         proj.set_collection_visible(getattr(proj, "collection", False))
                     except Exception as e:
+                        logger.exception('Projector startup failed')
                         tkmsg.showerror('Error in projector styles',
                             f'Error occurred while constructing "{self.projStyles[proj.style]["name"]}"\n'
                             'Check "projectors_styles.json"\n\n' + str(e))
@@ -869,17 +889,27 @@ class GUI(ProjectionProfiles, SongEditorPanel):
                 # --- STOP PREZENTACE ---
                 self._cleanup_after_stop()
 
+        except Exception:
+            logger.exception('Presentation state change failed')
+            self.runState = False
+            self._cleanup_after_stop()
+            raise
         finally:
             # VŽDY povolit tlačítko zpět, i když kód spadne
             self.openProjs.configure(state='normal')
 
     def _display_construct_error(self, slide_name, err):
         """Pomocná metoda pro zobrazení chyb v konstruktu"""
+        logger.error('Invalid construct in %s: %s', slide_name, err)
         tkmsg.showerror('Error constructing text',
                         f'Error in source "{slide_name}"\n'
                         'Check construct input.\n' + str(err))
 
     def _cleanup_after_stop(self):
+        timer = getattr(self, '_animation_timer', None)
+        if timer is not None:
+            self.win.after_cancel(timer)
+            self._animation_timer = None
         self.openProjs.config(self.offStyle)
         self.win.bind('<Escape>', doNothing)
 
@@ -895,7 +925,10 @@ class GUI(ProjectionProfiles, SongEditorPanel):
 
         # zavři okna projektorů
         for proj in self.projectors:
-            proj.stopProjection()
+            try:
+                proj.stopProjection()
+            except Exception:
+                logger.exception('Projector shutdown failed')
         self.persist_layout(explicit=False)
 
         # reset běhového stavu
@@ -979,15 +1012,8 @@ class GUI(ProjectionProfiles, SongEditorPanel):
                 pos += L
             self.paged_starts = starts
 
-        # 5) počet kroků (0 = úvod, poslední = konec)
-        long_count = len(src.lines.get('longsteps', []))
-        if self.pair2_active:
-            step_count = len(src.lines.get('short2steps', []))
-        elif self.paged_active:
-            step_count = len(self.paged_starts)
-        else:
-            step_count = long_count
-        self.noOfSteps = step_count + 1
+        # These are Listbox row indices, not compressed pair/page indices.
+        self.noOfSteps = len(src.lines.get('longsteps', [])) + 1
 
         # 6) naplň náhled
         self.stepsList.insert('end','-----')
@@ -998,6 +1024,8 @@ class GUI(ProjectionProfiles, SongEditorPanel):
         self.stepUpdate()
 
     def stepsLangUpdate(self, *e):
+        if not self.runState or not self.onlineSources:
+            return
         self.prevVars[self.runningSlide][0] = self.stepsLang.current()
         self.loadSteps()
 
@@ -1071,9 +1099,6 @@ class GUI(ProjectionProfiles, SongEditorPanel):
         self.stepUpdate()
         self.stepGoTo()
 
-    def _line_to_pair(self, s):
-        return 0 if s == 0 else ((s - 1) // 2) + 1
-
     def _pair_index_for_list_index(self, list_idx):
         """Vrátí index páru pro index v listboxu (včetně offsetu 1 kvůli '-----')."""
         k = list_idx - 1
@@ -1107,7 +1132,7 @@ class GUI(ProjectionProfiles, SongEditorPanel):
             self.t = t
             self.animation = 1
             self.animated = list(range(len(self.projectors)))
-            self.win.after(self.animationParams['dt'], self.animmator)
+            self._animation_timer = self.win.after(self.animationParams['dt'], self.animmator)
 
     def _sync_stationary_navigation(self):
         nav = self.stationary_navigation
@@ -1214,45 +1239,8 @@ class GUI(ProjectionProfiles, SongEditorPanel):
         if os.environ.get('SUPERPRESENTER_CUE_DEBUG') == '1':
             logger.info('[stationary] %s', nav.diagnostic())
 
-    def _update_projectors(self, anim=1):
-        """Pomocná metoda, která bezpečně aktualizuje všechna okna projektorů."""
-        for proj in self.projectors:
-            try:
-                mode = style_mode(self.projStyles[proj.style])
-
-                if mode == 'stationary_stream':
-                    if getattr(self, 'pair2_active', False):
-                        if self.currentStep == 0:
-                            send_idx = 0
-                        elif self.currentStep >= self.noOfSteps:
-                            send_idx = len(self.pair2_map)
-                        else:
-                            pi = self._pair_index_for_list_index(self.currentStep)
-                            send_idx = pi if pi is not None else 0
-                        proj.switch(send_idx, anim)
-                    else:
-                        proj.switch(self.currentStep, anim)
-                else:
-                    # SÁL: Zjistíme sloku podle pairmap
-                    pairmap = self.onlineSources[self.runningSlide].lines.get('short2pairmap')
-                    if pairmap and self.currentStep < len(pairmap):
-                        real_line_index = pairmap[self.currentStep][0]
-                        long_step = self.get_long_step_from_line(real_line_index)
-                        proj.switch(long_step, anim)
-                    else:
-                        # Pokud není stream aktivní nebo chybí mapování, sál jde 1:1
-                        proj.switch(self.currentStep, anim)
-            except Exception as e:
-                # Pokud by cokoli selhalo, zkusíme aspoň základní přepnutí, aby program nespadl
-                logger.exception("Projector update failed")
-                proj.switch(self.currentStep, anim)
-
-    def animmator(self):
-        if self.animation != 1:
-            return
-        stillanimated = []
-
-        # spočti send_idx stejně jako v stepGoTo
+    def _legacy_step_indices(self):
+        # Shared indices for immediate and animated legacy updates.
         if getattr(self, 'pair2_active', False):
             pair_len = len(self.onlineSources[self.runningSlide].lines.get('short2steps', []))
             long_len = len(self.onlineSources[self.runningSlide].lines.get('longsteps', []))
@@ -1269,6 +1257,20 @@ class GUI(ProjectionProfiles, SongEditorPanel):
         else:
             send_idx = (None, self.currentStep)
 
+        return send_idx
+
+    def _update_projectors(self, anim=1):
+        indices = self._legacy_step_indices()
+        for proj in self.projectors:
+            proj.switch(indices, anim)
+
+    def animmator(self):
+        self._animation_timer = None
+        if self.animation != 1:
+            return
+        stillanimated = []
+        send_idx = self._legacy_step_indices()
+
         for idx in self.animated:
             a = self.projectors[idx].switch(send_idx, 1)
             if a:
@@ -1277,7 +1279,7 @@ class GUI(ProjectionProfiles, SongEditorPanel):
             self.animation = 0
             return
         self.animated = stillanimated
-        self.win.after(self.animationParams['dt'], self.animmator)
+        self._animation_timer = self.win.after(self.animationParams['dt'], self.animmator)
 
     def nextSlide(self):
         if self.runState and getattr(self, 'stationary_active', False):
@@ -1600,16 +1602,3 @@ class GUI(ProjectionProfiles, SongEditorPanel):
             except Exception:
                 # okno zatím neběží → nic, stav je uložený a promítne se při startu
                 pass
-
-    def get_long_step_from_line(self, line_idx):
-        try:
-            src = self.onlineSources[self.runningSlide]
-            groups = src.lines.get('group_lengths', [])
-            current_total = 0
-            for i, length in enumerate(groups):
-                current_total += length
-                if line_idx < current_total:
-                    return i
-        except:
-            pass
-        return 0

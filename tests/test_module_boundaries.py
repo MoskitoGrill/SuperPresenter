@@ -44,7 +44,7 @@ for name in ('presentation_session', 'construct_parser', 'stationary_pages',
         calls = Mock()
         calls.attach_mock(gui.song_editor_widget.start_recovery, 'recovery')
         calls.attach_mock(gui.run, 'run')
-        with patch.object(app, 'GUI', return_value=gui), patch.object(app.logging, 'basicConfig'):
+        with patch.object(app, 'GUI', return_value=gui), patch.object(app, 'configure_logging'):
             app.main()
         self.assertEqual([call[0] for call in calls.mock_calls], ['recovery', 'run'])
         gui.song_editor_widget.start_recovery.assert_called_once_with(

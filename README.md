@@ -1586,3 +1586,173 @@ Písně a `presentation_presenter.py` zůstávají nedotčené.
 
 Syntaktická kontrola **44 aktivních Python souborů** a `git diff --check`
 prošly. Python z `.venv` je dostupný; samostatný linter není nakonfigurovaný.
+
+## Etapa 12 – obnovená stabilizace pouze na pozadí (9. 9. 2026)
+
+Tato verze obnovuje technické opravy po nechtěném zahození předchozí stabilizace.
+Podle nového zadání **nemění popisky, tlačítka, grafiku, rozložení, klávesové
+zkratky ani způsob ovládání**. Tlačítko `prezentace` i jeho spouštěcí příkaz
+zůstávají zachované. `presentation_presenter.py` bude řešen samostatně a nebyl
+upraven. Oproti zahozenému pokusu se do původního streamu nepřidává nový prázdný
+krok mezi písněmi a nepřidávají se nové chybové dialogy.
+
+Výchozí commit: `3979f14`. Při zahájení byla přítomna pouze změna sledovaného
+`__pycache__/song_editor.cpython-312.pyc`; byla ponechána. Historie etap výše
+zůstává zachovaná. Písně, styly a uživatelská nastavení se nemění.
+
+### Co bylo opraveno
+
+- Třídění pracuje s kopií pořadí. Dosavadní dialog uložit/zahodit/zrušit tak
+  skutečně rozhoduje, zda se změna publikuje do playlistu; zahození už nemění
+  pořadí na pozadí. Zachová se vybraná píseň. Pozice mimo začátek seznamu se
+  omezí na první položku.
+- Původní pohyblivé režimy sdílejí výpočet indexů pro animované a okamžité
+  přepnutí. Odstraněna chybná speciální větev stacionárního streamu ve staré
+  cestě a odhad sloky ze špatně indexované mapy párů. Stacionární režimy
+  nadále používají svou společnou časovou osu.
+- Interní koncový index odpovídá řádkům náhledu, nikoli počtu komprimovaných
+  párů/stránek. Poslední pár původního streamu se už neposuzuje jako konec
+  před jeho zobrazením. Po posledním páru se dál přechází rovnou na další
+  píseň; metody nextStep/prevStep a přepínání písní nebyly změněny.
+- Konstrukce streamu nevrací texty dvojřádků jako metadata jazyků. Tato záměna
+  vypínala párovou navigaci; při více jazycích navíc používala neinicializované
+  proměnné. Do stávajícího výběru se vracejí správná jazyková data, bez změny
+  samotného widgetu nebo jeho popisku.
+- Před párováním streamu se rozbalí existující mapa opakování. Opakované řádky
+  tak nezpůsobí IndexError při delší sekvenci kroků než počet uložených textů.
+  Původní značky opakování včetně `×3` zůstávají zachované.
+- Zastavení i ukončení ruší čekající animaci a zavírají projekční okna;
+  selhání jednoho výstupu nebrání pokusu zavřít další. Při nečekané chybě
+  startu se nejprve uklidí stav a chyba pokračuje do dosavadní obsluhy.
+  Tk callback se zaloguje, případná projekce zastaví a použije se původní
+  Tk reportování chyby. Nové dialogy se neotevírají.
+- Opožděná událost výběru jazyka náhledu po zastavení se bezpečně ignoruje.
+  Ochrana neuložených změn i ukončování otevřeného editoru prezentací zůstávají.
+- Doplněny logy chyb načítání, konstrukce prezentace, ukládání, synchronizace
+  a ukončení. Výjimky mají traceback; načítání a ukládání uvádí cestu.
+- Odstraněny nepoužívané `_line_to_pair`, `get_long_step_from_line` (po opravě
+  mapování), `positions0`, demonstrační spuštění časové osy a jednorázové
+  přepisovací skripty `.update_editor_hints.py` a `.update_hint_tests.py`.
+  Parserová testovací reference a používané kompatibilní větve zůstaly.
+  V dotčených aktivních souborech nebyly nalezeny zakomentované lokální cesty.
+
+### Logování a opakování kontrol
+
+Při startu hlavní aplikace i samostatného editoru vzniká UTF-8 log
+`%APPDATA%/SuperPresenter/logs/superpresenter.log`. Rotuje po 2 MB, uchovává
+nejvýše tři zálohy. Obsahuje čas, závažnost a modul. Import knihoven soubor
+nevytváří. Pokud nelze otevřít log, použije se konzole; samotná chyba logování
+nezablokuje start. Pro zachování rozhraní se neměnily existující texty dialogů.
+
+```bat
+.venv\Scripts\python.exe -B -m unittest discover -s tests -v
+.venv\Scripts\python.exe -B scripts/validate_songs.py --details
+.venv\Scripts\python.exe -B scripts/check_python.py
+git diff --check
+```
+
+Python **3.12.14 v `.venv` je dostupný**. Testy byly spuštěny mimo sandbox kvůli
+přístupu k instalovaným závislostem a Tcl/Tk. Výchozích **207 testů prošlo**;
+závěrem prošlo všech **222 testů** (15 nových), bez přeskočení. Záměrně
+simulované chyby mohou vypsat tracebacky do konzole; výsledek celé sady je `OK`.
+Test startu mockuje novou konfiguraci logování, aby nepsal do uživatelského logu.
+
+Statická kontrola **47 aktivních Python souborů a 63 importovaných modulů**
+prošla. Kompiluje se v paměti, nevzniká pycache. Kontrola rozlišuje platformní
+`fcntl`/`msvcrt`; neověřuje typy ani všechny dynamické atributy. Skutečné importy
+hlavních modulů navíc kontroluje existující procesově izolovaný test. Samostatně
+prošla syntaxe `presentation_presenter.py` a `oprava_xml_tagu.py`, bez jejich
+spuštění nebo změny. Samostatný linter není nakonfigurován. `git diff --check`
+prošel; rozdíl ve sledovaném pycache pochází už z výchozího stavu.
+
+### Co je automaticky a ručně ověřeno
+
+| Scénář | Rozsah ověření |
+| --- | --- |
+| Jedna a více písní | Hlavní GUI, jedno- i dvoupísňový běh, databázová kompatibilita |
+| Pořadí playlistu | Potvrzení a zahození změny, zachování vybrané písně |
+| Jazykové varianty | Výběr a obsah stránky, dvoujazyčný původní stream, kombinace jazyků ve stávajících testech |
+| Původní sál a stream | Skutečná Tk/Canvas okna všech čtyř pohyblivých stylů; okamžité a animované indexy |
+| Stacionární sál, stream a oba současně | Tk okna i datové kontroly společné časové osy |
+| Vpřed/zpět a přechody mezi písněmi | Navigace v GUI, poslední pár původního streamu a návrat na předchozí píseň |
+| Více než 8 řádků, dělení po 4 | Desetiřádková píseň, stávající datové testy obsahu a hranic stránek |
+| Připnuté řádky | Stávající parserové, stránkovací a integrační testy |
+| Editace, uložení, neuložené změny | Tk editor, round-trip, atomický zápis a simulované chyby; zrušení zavření |
+| Více monitorů | Simulované připojení/odpojení, profily a topologie ve stávajících testech |
+| Ukončení během prezentace | Zavření projekčních oken, zrušení animace a monitorového časovače |
+| Chyba a restart | Úklid po selhání startu/callbacku, opětovné spuštění, log a rotace |
+| Tlačítko prezentací | Původní text, umístění v gridu a spuštění stejného souboru; proces je v testu mockovaný |
+
+Navíc proběhlo porovnání AST s výchozím commitem: **14 definic vzhledu,
+ovládání, navigace a otevření presentation presenteru je totožných**.
+V upravených GUI souborech jsou stejné všechny existující výskyty nastavování
+vzhledu/rozložení, vazeb a dialogů. Nedotčené jsou `gui_style.json`,
+`projectors_styles.json`, `settings.json` a `presentation_presenter.py`.
+
+Ruční kontrola zahrnovala kód, diff a návaznosti odstraněných funkcí.
+**Interaktivní ruční zkouška na fyzické projekční sestavě neproběhla.**
+Automatická Tk okna byla mimo viditelnou plochu, monitory simulované a písně
+v dočasné složce. Čitelnost, animaci na plátně, HDMI/hotplug, DPI, skutečný
+fullscreen, zachytávání streamu, dlouhodobý provoz a distribuční EXE to neověřuje.
+
+### XML a známá omezení
+
+Validováno všech **858 XML: 0 syntaktických chyb, 5 obsahových chyb a 77 varování**.
+Validátor vrací **1** kvůli stejným obsahovým nálezům jako před stabilizací:
+
+- `songs/.xml`: prázdný název.
+- `songs/chci_oslavovat+hevenu_salom.xml`: prázdná sekce `v3` druhé varianty.
+- `songs/je_jeden_hlas_co_mel_by_znit.xml`: neexistující `r1` druhého opakování.
+- `songs/Kancionálky/110 - Pán Jeºíτ p²ijde zas.xml`: neexistující `v4`.
+- `songs/moc_cest_a_slava.xml`: neexistující `r1`.
+
+Varování: 13 chybějících opakování a 64 složených výrazů nevyhodnocovaných
+jednoduchým validátorem. Neznamenají automaticky neplatný construct; parser má
+samostatné testy. Obsah ani zamýšlené odkazy nebyly domýšleny. Správce písní musí
+nálezy rozhodnout před jejich použitím. Round-trip databáze ověřuje zachování
+modelu a originálů, nikoli obsahovou správnost každé písně.
+
+### Krátký manuální checklist před akcí
+
+- [ ] Zálohovat písně, styly a uživatelské profily; zvolit ověřený playlist.
+- [ ] Připojit projektor i stream, v systému zapnout rozšířenou plochu;
+  dosavadním `edit` ověřit monitor, styl, fullscreen a použít správný profil.
+- [ ] Načíst jednu i více písní, jazyky a pořadí. Zkusit také zahození změny pořadí.
+- [ ] Projít původní sál/stream a stacionární sál/stream jednotlivě i současně.
+  Ověřit čitelnost, správný monitor a přechody vpřed/zpět mezi písněmi.
+- [ ] Promítnout sloku delší než 8 řádků, stream po 4 řádcích, opakování
+  a připnutý řádek; ověřit poslední řádky a návrat zpět.
+- [ ] Na kopii písně ověřit editaci, uložení, znovunačtení a neuložené změny
+  s uložit/zahodit/zrušit. Originál musí zůstat zachovaný.
+- [ ] Před akcí zkusit odpojení a návrat monitoru, F5/Escape, zavření během
+  prezentace a restart. Zkontrolovat log a mít záložní provozní kopii.
+
+### EXE a doporučený další krok
+
+EXE nebylo vytvořeno ani aktualizováno. Nejprve doporučeno testovací **onedir**
+sestavení na cílových Windows s konzolí; windowed sestavení až po ověření.
+Zafixovat ověřené verze závislostí, připravit `.spec`, přibalit potřebné Tcl/Tk,
+Pillow, screeninfo, JSON styly/nastavení a obrázky podle stylů. Editovatelné písně
+musejí zůstat v trvalém zapisovatelném umístění; před onefile balením oddělit
+uživatelská data od přibalených zdrojů, které se rozbalují do dočasné složky.
+Viz [režimy PyInstalleru](https://pyinstaller.org/en/stable/operating-mode.html)
+a [cesty za běhu](https://pyinstaller.org/en/stable/runtime-information.html).
+
+Otestovat čistý počítač bez Pythonu, diakritiku v cestách, jiný pracovní adresář,
+uložení/restart a fyzické výstupy. Přechod do presentation presenteru zůstává
+ve zdrojové aplikaci; jeho subprocess používá `sys.executable`, což v EXE není
+Python interpreter. Jeho samostatné balení a spuštění bude potřeba vyřešit
+v navazujícím projektu, nikoli odstranit jeho tlačítko. Další krok je fyzická
+zkouška podle checklistu, rozhodnutí obsahových nálezů a následné samostatné
+opravy presentation presenteru a distribuce.
+
+### Dotčené soubory
+
+Upraveny `superpresenter/ui/main_window.py` (pouze vnitřní logika),
+`superpresenter/ui/source_sorter.py` (kopie pořadí),
+`superpresenter/services/presentation_session.py`,
+`superpresenter/services/stationary_pages.py`, `superpresenter/app.py`,
+`song_editor.py`, `tests/test_module_boundaries.py` a README.
+Přidány `superpresenter/logging_setup.py`, `scripts/check_python.py`,
+`tests/test_release_stability.py`. Odstraněny `.update_editor_hints.py`
+a `.update_hint_tests.py`. Předexistující změna pycache byla ponechána.

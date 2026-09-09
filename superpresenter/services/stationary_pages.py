@@ -226,10 +226,3 @@ def format_timeline(plan: PresentationPlan) -> str:
         f' [{cue.navigation_id}]'
         for cue in plan.cues
     )
-
-
-if __name__ == '__main__':
-    print(format_timeline(generate_pages([
-        LogicalSection('v1-first', tuple(SourceLine(str(i + 1), 'v1', i)
-                                        for i in range(10))),
-    ])))

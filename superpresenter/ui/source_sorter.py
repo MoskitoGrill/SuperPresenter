@@ -19,8 +19,7 @@ class SortingWin():
             weight=winStyle['font']['weight'])
         self.lines = []
         self.labels = []
-        self.positions = positions
-        self.positions0 = positions
+        self.positions = list(positions)
         idx = 0
         self.win.bind('<B1-Motion>',self.motion)
         for line in lines:
@@ -73,8 +72,8 @@ class SortingWin():
 
     def place(self, *e):
         self.selected = 0
-        idx = min(int(self.x/self.w)*self.rows + int(self.y/self.h),
-            len(self.lines)-1)
+        idx = max(0, min(int(self.x/self.w)*self.rows + int(self.y/self.h),
+            len(self.lines)-1))
         line = self.lines.pop(self.idx)
         self.lines.insert(idx, line)
         pos = self.positions.pop(self.idx)

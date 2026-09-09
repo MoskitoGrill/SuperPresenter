@@ -1,3 +1,4 @@
+import logging
 import tkinter as tk
 from tkinter import filedialog, messagebox, simpledialog, ttk
 from copy import deepcopy
@@ -593,6 +594,7 @@ class SongEditor:
             return False
         old_path = self.session.path
         rename = False
+        target = old_path
         try:
             title = self.session.song.title
             if not title.strip():
@@ -635,6 +637,7 @@ class SongEditor:
                     return False
             self.session.save(target, overwrite=overwrite, rename=rename)
         except Exception as exc:
+            logging.getLogger(__name__).exception("Song save failed: %s", target)
             messagebox.showerror("Chyba ukládání", f"Píseň se nepodařilo uložit:\n{exc}", parent=self.root)
             return False
         self.file_path = str(self.session.path)
@@ -651,6 +654,7 @@ class SongEditor:
             try:
                 self.on_saved(*pending)
             except Exception as exc:
+                logging.getLogger(__name__).exception("Saved song synchronization failed")
                 self._pending_saved = pending
                 self.status_variable.set("Uloženo, chyba synchronizace")
                 messagebox.showerror("Chyba synchronizace", f"Soubor je uložen v {pending[1]}, ale hlavní aplikaci se nepodařilo aktualizovat:\n{exc}", parent=self.root)
@@ -665,6 +669,7 @@ class SongEditor:
         try:
             song = self.session.repository.load(file_path)
         except Exception as exc:
+            logging.getLogger(__name__).exception("Song loading failed: %s", file_path)
             messagebox.showerror("Chyba načítání", f"Nelze načíst {file_path}:\n{exc}", parent=self.root)
             return False
         return self.load_song(song, file_path)
@@ -703,6 +708,8 @@ class SongEditor:
         self.repetitions = {}
         
 if __name__ == "__main__":
+    from superpresenter.logging_setup import configure_logging
+    configure_logging()
     root = tk.Tk()
     root.resizable(False, False)
     app = SongEditor(root)
