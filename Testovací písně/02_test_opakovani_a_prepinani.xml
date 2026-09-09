@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="TEST 02 – opakování a přechody">
+    <variant name="čeština">
+        <section name="v1">
+V1 CZ – řádek 1 ze 6
+V1 CZ – řádek 2 ze 6
+V1 CZ – řádek 3 ze 6
+V1 CZ – řádek 4 ze 6
+V1 CZ – řádek 5 ze 6
+V1 CZ – řádek 6 ze 6
+        </section>
+        <section name="r1">
+R1 CZ – řádek 1 ze 7
+R1 CZ – řádek 2 ze 7
+R1 CZ – řádek 3 ze 7
+R1 CZ – řádek 4 ze 7
+R1 CZ – řádek 5 ze 7
+R1 CZ – řádek 6 ze 7
+R1 CZ – řádek 7 ze 7
+        </section>
+        <section name="v2">
+V2 CZ – řádek 1 ze 6
+V2 CZ – řádek 2 ze 6
+V2 CZ – řádek 3 ze 6
+V2 CZ – řádek 4 ze 6
+V2 CZ – řádek 5 ze 6
+V2 CZ – řádek 6 ze 6
+        </section>
+        <section name="b1">
+B1 CZ – řádek 1 ze 3
+B1 CZ – řádek 2 ze 3
+B1 CZ – řádek 3 ze 3
+        </section>
+    </variant>
+    <variant name="український">
+        <section name="v1">
+V1 UK – рядок 1 з 6
+V1 UK – рядок 2 з 6
+V1 UK – рядок 3 з 6
+V1 UK – рядок 4 з 6
+V1 UK – рядок 5 з 6
+V1 UK – рядок 6 з 6
+        </section>
+        <section name="r1">
+R1 UK – рядок 1 з 7
+R1 UK – рядок 2 з 7
+R1 UK – рядок 3 з 7
+R1 UK – рядок 4 з 7
+R1 UK – рядок 5 з 7
+R1 UK – рядок 6 з 7
+R1 UK – рядок 7 з 7
+        </section>
+        <section name="v2">
+V2 UK – рядок 1 з 6
+V2 UK – рядок 2 з 6
+V2 UK – рядок 3 з 6
+V2 UK – рядок 4 з 6
+V2 UK – рядок 5 з 6
+V2 UK – рядок 6 з 6
+        </section>
+        <section name="b1">
+B1 UK – рядок 1 з 3
+B1 UK – рядок 2 з 3
+B1 UK – рядок 3 з 3
+        </section>
+    </variant>
+    <repetition name="celý test" main="1">v1 r1 @r1.7 v2 (b1)*2 r1</repetition>
+    <repetition name="rychlý test">v1 @v1.5:6 b1</repetition>
+</slide>
