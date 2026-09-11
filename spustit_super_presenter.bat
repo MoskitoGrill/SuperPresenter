@@ -6,7 +6,10 @@ if errorlevel 1 exit /b 1
 if exist ".venv\Scripts\python.exe" (
     ".venv\Scripts\python.exe" "super_presenter.py" %*
 ) else (
-    python "super_presenter.py" %*
+    echo Chybi mistni Python. Nejdrive spustte pripravit_prostredi.bat.
+    pause
+    popd
+    exit /b 1
 )
 set "result=%errorlevel%"
 if not "%result%"=="0" (
