@@ -1,0 +1,20 @@
+test_counter_and_reset_all_modes (test_main_controls.ControlsTests.test_counter_and_reset_all_modes) ... ok
+test_dirty_caption_save_and_xml_title (test_main_controls.ControlsTests.test_dirty_caption_save_and_xml_title) ... ok
+test_discard_draft_and_recovery_caption (test_main_controls.ControlsTests.test_discard_draft_and_recovery_caption) ... ok
+test_empty_song_boundaries (test_main_controls.ControlsTests.test_empty_song_boundaries) ... ok
+test_layout_and_dynamic_repetitions (test_main_controls.ControlsTests.test_layout_and_dynamic_repetitions) ... ok
+test_lock_restore_and_error_cleanup (test_main_controls.ControlsTests.test_lock_restore_and_error_cleanup) ... ok
+test_scrollbar_both_directions_and_manual_scroll (test_main_controls.ControlsTests.test_scrollbar_both_directions_and_manual_scroll) ... FAIL
+
+======================================================================
+FAIL: test_scrollbar_both_directions_and_manual_scroll (test_main_controls.ControlsTests.test_scrollbar_both_directions_and_manual_scroll)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\moski\Documents\Progr�mky\SuperPresenter\tests\test_main_controls.py", line 60, in test_scrollbar_both_directions_and_manual_scroll
+    self.assertAlmostEqual(gui.stepsXScroll.get()[0], gui.stepsList.xview()[0])
+AssertionError: 0.0 != 0.951 within 7 places (0.951 difference)
+
+----------------------------------------------------------------------
+Ran 7 tests in 2.521s
+
+FAILED (failures=1)

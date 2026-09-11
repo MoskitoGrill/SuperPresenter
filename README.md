@@ -1756,3 +1756,223 @@ Upraveny `superpresenter/ui/main_window.py` (pouze vnitřní logika),
 Přidány `superpresenter/logging_setup.py`, `scripts/check_python.py`,
 `tests/test_release_stability.py`. Odstraněny `.update_editor_hints.py`
 a `.update_hint_tests.py`. Předexistující změna pycache byla ponechána.
+
+## Etapa 13A – ovládání hlavního okna a vloženého editoru (10. 9. 2026)
+
+Výchozí větev `test`, HEAD `baa90bb`. Při zahájení už byly necommitované
+úpravy `song_editor.py`, `superpresenter/ui/main_window.py`,
+`superpresenter/ui/song_editor_panel.py`, `tests/test_song_editor_integration.py`,
+nový `tests/test_main_controls.py` a logy `test-13a.log` a
+`test-13a-controls.log`. Rozpracovaná implementace byla zachována a dokončena;
+staré logy zůstávají jako historické výsledky, nikoli závěrečné ověření.
+
+### Výsledek
+
+- Dirty state přidává prezentační hvězdičku k názvu a vedle editovatelného pole.
+  Uložení, zahození, přepnutí písně a obnova draftu aktualizují indikaci.
+  Hvězdička se nikdy nepřidává do StringVar názvu, modelu ani XML.
+- Levý Listbox má svislý i vodorovný posuvník. Změna kroku a načtení náhledu
+  vracejí xview na nulu; ruční posun funguje až na konec dlouhého řádku.
+- Počítadlo ukazuje `0 / y`, skutečné kroky `x / y` a koncový stav `Konec`.
+  Prázdná píseň začíná `0 / 0`. Počítají se existující kroky příslušného režimu,
+  bez úvodního a koncového prázdného stavu; navigace ani výstupy se nemění.
+- SongEditor vytváří tlačítka Sloka/Refrén/Bridge pod sekcemi a nad Opakováním
+  ve vloženém i samostatném použití. Za kontejnerem opakování je původní text
+  nápovědy a Uložit. Přidávání/odebírání opakování toto pořadí nemění.
+- Ve vloženém editoru je Přidat variantu vedle Variant 2; všechny tři výběry
+  jazyků zůstaly. Funkce přidání jazyka je původní.
+- Start uzamkne editaci, sekce, opakování, construct, varianty, playlist
+  a konfiguraci projekce. Pamatuje si původní stavy včetně disabled/readonly.
+  Navigace, náhled, zastavení a sbírka zůstávají dostupné. Ctrl+S a textové
+  undo/redo respektují zámek. Opožděný výběr prezentační varianty se ignoruje.
+  Již otevřené dialogy mají zamčené prvky; řazení nelze publikovat během běhu.
+  Zastavení i chyba startu/callbacku obnoví uložené stavy ovládání.
+
+### Soubory a ověření
+
+Implementace: `song_editor.py`, `superpresenter/ui/main_window.py`,
+`superpresenter/ui/song_editor_panel.py`.
+Testy: nový `tests/test_main_controls.py`, doplněné
+`tests/test_song_editor_integration.py` a `tests/test_stationary_navigation.py`.
+Dokumentace: tento README. Závěrečný lokální log: `stage13a-verification.log`.
+
+- `.venv\Scripts\python.exe -B -m unittest discover -s tests -v`:
+  **231 testů, OK, bez přeskočení**. GUI testy spuštěny mimo sandbox, kde
+  fungují screeninfo a Tkinter. Sada zahrnuje regresní databázové kontroly,
+  šest dodávaných stylů, kombinaci výstupů, layout samostatného editoru,
+  dirty indikaci, posuvník a obnovu ovládání po běžném i chybovém ukončení.
+  Mapovaný Listbox se testuje v okně mimo obrazovku: nezobrazené Tk okno
+  neposílá aktualizaci polohy do posuvníku. Testovací náhrady GUI byly doplněny
+  o nový stav běhu/zámku; skutečné zamykání ověřují integrační Tk testy.
+- `.venv\Scripts\python.exe -B scripts/validate_songs.py --details`:
+  **858 XML, 1 chyba, 77 varování**, návratový kód 1. Jediná chyba je očekávaný
+  prázdný název v `songs/.xml`, který zůstává beze změny. Varování: 13 chybějících
+  opakování a 64 výrazů mimo jednoduchou analýzu validátoru. Tento aktuální
+  výsledek nahrazuje historický počet pěti obsahových chyb uvedený výše.
+- `.venv\Scripts\python.exe -B scripts/check_python.py`:
+  **48 Python souborů, 64 importovaných modulů, 0 chyb**.
+- `git diff --check`: prošel. Bez změn v XML, parseru, službách stránkování,
+  navigaci, projekčních oknech, JSON konfiguraci a `presentation_presenter.py`.
+
+Fyzická projekční sestava, DPI a interaktivní vizuální zkouška nebyly ověřeny.
+EXE nebylo aktualizováno. Živé promítání rozepsaných změn, vyhledávání ani
+nastavení počtu řádků nebyly přidány. Změny nejsou commitované.
+Doporučeno krátce ověřit layout a dlouhý řádek na monitoru obsluhy, potom 13B.
+
+### PŘEDÁNÍ PRO DALŠÍ CHAT – Etapa 13B
+
+Pracuj v SuperPresenter na větvi test. Nejprve přečti Git status/diff a poslední
+předání README; zachovej všechny necommitované změny dokončené Etapy 13A.
+13A přidala dirty hvězdičku, horizontální posuvník a reset náhledu doleva,
+čítač 0 / y → x / y → Konec, přesun sekčních tlačítek/nápovědy/Přidat variantu
+ a zámek editace během projekce s obnovou původních stavů i po chybě.
+Pokračuj vyhledáváním písní v Etapě 13B podle konkrétního nového zadání.
+Respektuj dirty přechody a zámek; neměň presentation_presenter.py, XML,
+construct parser, limity 8/4 ani projekční grafiku. Počet řádků patří do 13C.
+Výchozí ověření: 231 unittest OK; validátor 858 XML, očekávaná chyba songs/.xml
+ a 77 varování; check_python 48 souborů/64 modulů/0 chyb; diff --check OK.
+Tk/screeninfo testy může být nutné spouštět mimo sandbox. Závěrečný log 13A
+je stage13a-verification.log; starší test-13a*.log obsahují neúspěšné pokusy.
+
+### Úprava 13A podle obsluhy – šířka, mezery a editace během projekce
+
+Toto upřesnění nahrazuje výše popsaný plošný zámek 13A. Při promítání se
+zamyká pouze nastavení projekce (výstupy, monitory, styly, profily, fullscreen).
+Editor písní, ukládání včetně Ctrl+S, undo/redo, sekce, opakování, jazykové
+varianty a správa/řazení playlistu zůstávají dostupné. Uložení a příprava dalších
+změn nemění snapshot ani časovou osu právě běžící prezentace; projeví se při
+novém spuštění. Původní stavy nastavení projekce se obnoví i po chybě.
+
+Roztažení okna způsobovala zejména dirtyLabel: převzala ze sourcesLabel také
+šířku celého názvu (v testovací sestavě 420 px). Indikátor má nyní šířku dvou
+znaků. Nápověda používá původní font vloženého zobrazení a může se zalomit
+v šířce 640 px, její obsah zůstává stejný. Nad Sloka/Refrén/Bridge je mezera
+20 px, před Přidat variantu rovněž 20 px. Zachovány všechny dřívější změny
+ i předexistující změna sledovaného pycache; presentation_presenter.py nedotčen.
+
+Pro další chat: 13B musí respektovat nově otevřenou editaci během projekce;
+nezavádět zpět plošný zámek. Zámek se týká jen konfigurace výstupů.
+
+Ověření tohoto upřesnění: 232 unittest OK (GUI mimo sandbox), včetně měření šířky a mezer a uložení během běhu bez změny plánu. check_python: 48 souborů, 64 modulů, 0 chyb. Validátor: 858 XML, očekávaná chyba songs/.xml a 77 varování. git diff --check prošel. Log: stage13a-layout-verification.log. Fyzické projektory nebyly zkoušeny.
+
+### Fullscreen za běhu (upřesnění 13A)
+
+Checkbox fullscreen zůstává dostupný i během prezentace. Jeho změna nyní
+okamžitě přepne existující projekční okno mezi bezrámovým zobrazením přes
+monitor a běžným oknem; dříve callback pouze ukládal příznak. Při prvním
+zmenšení použije 80 % rozměrů monitoru, při dalším návratu obnoví zapamatovanou
+geometrii okna. Canvas, aktuální krok ani připravený plán se nevytvářejí znovu.
+Tlačítko Přidat variantu má šířku 18 znaků, aby se celý popisek vešel.
+Pro další chat: fullscreen je výjimka ze zámku nastavení promítání.
+Upraveny main_window.py, test_main_controls.py a README. Uživatelský nový
+songs/kghigkgik.xml a všechny předexistující změny byly ponechány.
+
+Ověření: 233 unittest OK (mimo sandbox), check_python 48 souborů / 64 modulů / 0 chyb, git diff --check OK. Log: stage13a-fullscreen-verification.log. Fyzická projekční sestava nebyla zkoušena.
+
+## Etapa 13B – hledání podle názvu a textu
+
+Před implementací ověřeny Git status, historie a necommitnuté změny 13A
+(HEAD `baa90bb`). Platí poslední upřesnění 13A: playlist a editor jsou dostupné
+během prezentace, zamyká se konfigurace výstupů s výjimkou fullscreen.
+Vyhledávání tuto politiku zachovává; přidání neovlivní běžící snapshot ani plán.
+
+Vedle `order` je `⌕ Hledat`; původní `+` zůstává a tlačítko editoru prezentací
+má popisek `prez` se stejným callbackem. Samostatné okno zobrazuje název,
+místo shody (název/soubor/jazyk a sekce) a původní úryvek do 152 znaků.
+Dotaz se zpracuje po 200 ms nebo Enterem. Dvojklik/Přidat používá `loadSource`,
+včetně validace a potvrzení neuložených změn. Písně v aktuálním playlistu jsou
+označené a opakované přidání stejné cesty je odmítnuté; jiné soubory se stejným
+názvem zůstávají samostatnými písněmi.
+
+`superpresenter/services/song_search.py` neimportuje Tkinter. Paměťový index
+vzniká přes společný SongRepository a Song při otevření okna ve vlákně,
+Tk obsluhuje pouze hlavní vlákno. Prochází rekurzivně produkční `songs`
+pod kořenem projektu, nikoli sousední `Testovací písně`. Záměrný `songs/.xml`
+se tiše přeskočí; další neindexovatelné soubory se logují jednotlivě a okno
+ukáže jen počet. Dotazy už XML neparsují.
+
+Normalizace: Unicode casefold, odstranění diakritiky pouze latinky,
+sjednocení bílých znaků. Ukrajinské й/ї a ostatní nelatinkové znaky zůstávají
+zachované. Všechna slova dotazu musí být podřetězci jednoho prohledávaného
+pole, v libovolném pořadí; hledají se všechny sekce všech jazyků. Relevance:
+přesný název → začátek názvu → všechna slova v názvu → soubor → sekce.
+Při shodě relevance rozhoduje normalizovaný název, původní název a úplná cesta.
+
+**Obnova indexu:** zavřít a znovu otevřít Hledat. Nové okno vždy načte nový
+index, takže zahrne uložené změny, nové písně, přejmenování i externí úpravy.
+Pouhé přesunutí již otevřeného okna do popředí index neobnovuje. Během jeho
+otevření představují výsledky snapshot knihovny; přidání čte aktuální soubor.
+Není zavedená databáze, závislosti ani index při importu.
+
+Omezení: žádné fuzzy hledání ani skloňování; slova se nekombinují mezi různými
+sekcemi či jazyky. Dlouhý úryvek nemusí ukázat všechna daleko vzdálená slova.
+Index neověřuje celou prezentační použitelnost, kterou kontroluje stávající
+načítací cesta při přidání. Vizuální zkouška na fyzické projekční sestavě a EXE
+nebyly součástí ověření.
+
+Soubory 13B: nové `superpresenter/services/song_search.py`,
+`superpresenter/ui/song_search_window.py`, `tests/test_song_search.py`,
+`tests/test_song_search_window.py`; upravené `superpresenter/ui/main_window.py`,
+`tests/test_release_stability.py` (očekávaný popisek prez) a README.
+Log ověření: `stage13b-verification.log`. Předexistující úpravy, uživatelský
+`songs/kghigkgik.xml` i sledovaný pycache zachovány. `presentation_presenter.py`,
+Song Editor, XML, limity 8/4 a projekční logika touto etapou nezměněny.
+
+### PŘEDÁNÍ PRO DALŠÍ CHAT – Etapa 13C
+
+Pracuj v SuperPresenter; nejprve přečti Git status/diff a poslední části README.
+Zachovej necommitnuté změny 13A/13B a uživatelská data. 13B přidává Hledat
+vedle order, ponechává + a zkracuje prezentace na prez. Služba SongSearch
+indexuje pouze produkční songs přes SongRepository; okno načítá index ve
+vlákně a obnovuje jej při novém otevření. Přidávání používá loadSource,
+respektuje dirty potvrzení a odmítá stejnou cestu už přítomnou v playlistu.
+Platí konečné upřesnění 13A: během prezentace se smí upravovat editor/playlist,
+změny nemění běžící snapshot. Zamčené jsou výstupy kromě fullscreen.
+13C má navázat nastavením počtu řádků podle konkrétního zadání; dosavadní
+limity 8/4 nebyly v 13B změněny. Nezasahuj do presentation_presenter.py.
+Tk/screeninfo testy spouštěj mimo sandbox, pokud v něm nejsou dostupné.
+
+### Závěrečné ověření 13B (10. 9. 2026)
+
+- Celá sada `.venv\Scripts\python.exe -B -m unittest discover -s tests -v`:
+  **243 testů OK, bez přeskočení**, mimo sandbox (Tkinter/screeninfo).
+  První běh odhalil staré očekávání popisku prezentace a dočasné WinError 5
+  při atomickém přepisu dočasného XML v databázovém testu. Očekávání změněno
+  na prez; opakovaná celá sada prošla bez úpravy repository a XML dat.
+- Validátor produkce: **859 XML, 1 očekávaná chyba songs/.xml, 77 varování**,
+  návratový kód 1. O jeden soubor více oproti historickému souhrnu 13A kvůli
+  předexistujícímu uživatelskému songs/kghigkgik.xml.
+- `scripts/check_python.py`: **52 souborů, 67 modulů, 0 chyb**.
+- `git diff --check`: OK. `presentation_presenter.py` a sledované XML bez diffu.
+- Skutečný produkční index: **858 písní, 0 selhání**, záměrný .xml vynechán;
+  vytvoření přibližně **0,8 s**. Dotaz `poklad vzacnejsi` najde píseň
+  „Je jeden hlas, co měl by znít“, čeština / v1, s původním textem úryvku.
+
+### Upřesnění 13B – úryvky a vzhled
+
+Výsledky mají pouze Název písně a Úryvek, sloupec Shoda v byl odstraněn.
+Úryvek zachovává dva neprázdné řádky kolem nejlepší shody slov dotazu;
+na posledním řádku přidá předchozí. Dlouhé jednotlivé řádky se zkracují
+kolem shody (nejvýše 150 znaků plus výpustky na řádek). Při shodě názvu
+nebo souboru zobrazí odpovídající textovou sekci, případně začátek první
+neprázdné sekce. Pořadí výsledků se nemění.
+Okno přebírá aktuální barvy a fonty hlavního okna, vstupu a tlačítek.
+Výsledky mají výšku pro dva řádky a vodorovný posuvník pro dlouhý text.
+Změněné soubory: song_search.py, song_search_window.py, oba vyhledávací
+testy a README. Ověřeno 12 testy vyhledávání včetně skutečného Tk okna,
+shody na šestém a posledním řádku; statická kontrola a diff --check OK.
+Toto upřesnění nahrazuje původní popis jednorádkového úryvku a sloupce shody.
+
+Doplnění: dlouhý sousední řádek bez shody se zkrátí od začátku, nikoli
+od konce, aby úryvek zachoval srozumitelný kontext. Regresní test prošel.
+
+### Ovládání 13B – přesun výběru souborů
+
+Hlavní tlačítko `+` nyní otevírá vyhledávání; samostatné `Hledat` je odstraněno.
+Původní výběr souborů z disku je dostupný přes `+` vpravo vedle vstupu dotazu
+ve vyhledávacím okně. Používá původní addSource/loadSource včetně validace
+ a ochrany neuložených změn. Po návratu se aktualizuje označení playlistu.
+Obě tlačítka přebírají styl aplikace. Upraveny main_window.py,
+song_search_window.py, test_song_search_window.py a README.
+Ověřeno: 12 testů vyhledávání OK včetně vyvolání obou tlačítek a původního
+výběru souborů; check_python 52 souborů / 67 modulů / 0 chyb; diff --check OK.

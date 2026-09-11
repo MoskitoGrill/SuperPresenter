@@ -161,6 +161,9 @@ class ProjectionTests(unittest.TestCase):
     def test_start_prepares_each_song_and_restart_resets_timeline(self):
         gui = self.make_gui(['stationary_hall', 'stationary_stream'])
         gui.runState = False
+        # Widget state restoration is covered with real Tk in test_main_controls.
+        gui._lock_editing = Mock()
+        gui._unlock_editing = Mock()
         gui.song_editor_widget = Mock()
         gui.song_editor_widget.confirm_transition.return_value = True
         gui.sourceList = [0, 1]

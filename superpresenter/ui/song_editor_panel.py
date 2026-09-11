@@ -24,7 +24,14 @@ class SongEditorPanel:
             self.song_editor_widget.set_selected_repetition_text(self.construct_variable.get())
 
 
+    def _update_song_caption(self):
+        editor = self.song_editor_widget
+        suffix = ' *' if editor.dirty else ''
+        self.sourceLab.config(text=(editor.title_variable.get() or '(neuložená píseň)') + suffix)
+        self.dirtyLabel.config(text=suffix)
+
     def _editor_changed(self, song):
+        self._update_song_caption()
         self._syncing_song = True
         try:
             self.construct_variable.set(song.guide)

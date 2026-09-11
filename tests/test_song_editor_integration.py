@@ -263,6 +263,7 @@ class EditorIntegrationTests(unittest.TestCase):
 
     def make_gui(self):
         gui = GUI.__new__(GUI)
+        gui.runState = False
         gui.win = self.root
         gui.sources = [WidgetSource(str(self.path))]
         gui.sources[0].variants = ['cs', '-----', '-----']
@@ -273,6 +274,7 @@ class EditorIntegrationTests(unittest.TestCase):
         gui.newSource = tk.Button(self.root)
         gui.sourceNum = tk.Label(self.root)
         gui.sourceLab = tk.Label(self.root)
+        gui.dirtyLabel = tk.Label(self.root)
         gui.var1Combo = ttk.Combobox(self.root)
         gui.var2Combo = ttk.Combobox(self.root)
         gui.var3Combo = ttk.Combobox(self.root)
@@ -363,6 +365,14 @@ class StartupTests(unittest.TestCase):
             self.assertTrue(editor.title_entry.winfo_exists())
             self.assertTrue(root.protocol('WM_DELETE_WINDOW'))
             self.assertFalse(editor.dirty)
+            order = editor.root.pack_slaves()
+            self.assertLess(order.index(editor.canvas.master), order.index(editor.section_buttons_frame))
+            self.assertLess(order.index(editor.section_buttons_frame), order.index(editor.repetition_container))
+            self.assertLess(order.index(editor.repetition_container), order.index(editor.explain_label))
+            editor.section_buttons[0].invoke()
+            self.assertEqual(len(editor.sections), 1)
+            self.assertTrue(any(w.cget('text') == 'Přidat variantu'
+                                for w in editor.section_buttons_frame.winfo_children()))
             root.update_idletasks()
         finally:
             root.destroy()

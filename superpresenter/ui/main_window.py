@@ -166,7 +166,7 @@ class GUI(ProjectionProfiles, SongEditorPanel):
         self.addSlokaBtn.config(style['projButton'], width=6)
         self.addRefrenBtn.config(style['projButton'], width=6)
         self.addBridgeBtn.config(style['projButton'], width=6)
-        self.addLangBtn.config(style['projButton'], width=12)
+        self.addLangBtn.config(style['projButton'], width=18)
 
         ### source
         ## navigation
@@ -177,8 +177,9 @@ class GUI(ProjectionProfiles, SongEditorPanel):
         self.closeSource.config(style['projButton'])
         self.newSource.config(style['projButton'])
         self.changeOrder.config(style['projButton'], width=8)
-        self.openPresentation.config(style['projButton'], width=12)
+        self.openPresentation.config(style['projButton'], width=5)
         self.sourceLab.config(style['sourcesLabel'])
+        self.dirtyLabel.config(style['sourcesLabel'], width=2)
         try:
             lab_bg   = self.sourceLab.cget("background")
             lab_fg   = self.sourceLab.cget("foreground")
@@ -244,6 +245,8 @@ class GUI(ProjectionProfiles, SongEditorPanel):
         self.stepsScroll = tk.Scrollbar(self.stepsFrame,
                 orient='vertical', command=self.stepsList.yview)
         self.stepsList['yscrollcommand'] = self.stepsScroll.set
+        self.stepsXScroll = tk.Scrollbar(self.stepsFrame, orient='horizontal', command=self.stepsList.xview)
+        self.stepsList['xscrollcommand'] = self.stepsXScroll.set
         # buttons
         self.navFrame = tk.Frame(self.leftFrame)
         self.nextBtn = tk.Button(self.navFrame, text='>')
@@ -303,7 +306,7 @@ class GUI(ProjectionProfiles, SongEditorPanel):
         self.openSource = tk.Button(self.sourceNav, text='+')
         self.newSource = tk.Button(self.sourceNav, text='new')
         self.changeOrder = tk.Button(self.sourceNav, text='order')
-        self.openPresentation = tk.Button(self.sourceNav, text='prezentace')
+        self.openPresentation = tk.Button(self.sourceNav, text='prez')
         self.sourceLab = tk.Label(self.sourceNav, text='-----')
         self.song_title = tk.StringVar(master=self.win)
         self.sourceTitleEntry = tk.Entry(self.sourceNav, width=40, textvariable=self.song_title)
@@ -317,10 +320,9 @@ class GUI(ProjectionProfiles, SongEditorPanel):
         # edit
         from song_editor import SongEditor
         # source changes
-        self.addSlokaBtn = tk.Button(self.sourceChanges, text="Sloka", command=lambda: self.song_editor_widget.add_section_to_all_languages('v'))
-        self.addRefrenBtn = tk.Button(self.sourceChanges, text="Refrén", command=lambda: self.song_editor_widget.add_section_to_all_languages('r'))
-        self.addBridgeBtn = tk.Button(self.sourceChanges, text="Bridge", command=lambda: self.song_editor_widget.add_section_to_all_languages('b'))
-        self.addLangBtn = tk.Button(self.sourceChanges, text="Přidat jazyk", command=self.song_editor_widget.open_language_dialog)
+        self.addSlokaBtn, self.addRefrenBtn, self.addBridgeBtn = self.song_editor_widget.section_buttons
+        self.addLangBtn = tk.Button(self.variants, text="Přidat variantu", command=self.song_editor_widget.open_language_dialog)
+        self.dirtyLabel = tk.Label(self.sourceNav, text='')
         # repetitions
         self.repLab = tk.Label(self.repetitions, text='Construct')
         self.repImp = tk.Button(self.repetitions, text='import')
@@ -363,6 +365,7 @@ class GUI(ProjectionProfiles, SongEditorPanel):
 
         self.stepsList.grid(column=0,row=1,sticky=('n','s','e','w'))
         self.stepsScroll.grid(column=1,row=1, sticky=('n','s'))
+        self.stepsXScroll.grid(column=0, row=2, sticky='ew')
         # buttons
         self.navFrame.grid(column=0, row=1, pady=5)
         self.nextBtn.grid(row=0, column=3, sticky=('w','e'))
@@ -416,8 +419,7 @@ class GUI(ProjectionProfiles, SongEditorPanel):
         # self.repetitions.grid(column=0, row=1, sticky='ew', pady=(8, 0))
         self.variants.grid(column=0, row=2, sticky='ew', pady=(0, 8))
 
-        self.explainLabel = tk.Label(self.rightFrame, text="v = Sloka, r = Refrén, b = Bridge | (v) = 1 Opakování | (v)*x = x Opakování | v.x = Pouze x řádek")
-        self.explainLabel.grid(column=0, row=3, padx=5, pady=5, sticky='w')
+        self.explainLabel = self.song_editor_widget.explain_label
         ### source
         ## navigation
         self.sourceNum.grid(column=1, row=0, padx=3)
@@ -429,6 +431,7 @@ class GUI(ProjectionProfiles, SongEditorPanel):
         self.changeOrder.grid(column=6, row=0, sticky='e', padx=3)
         self.openPresentation.grid(column=7, row=0, sticky='e', padx=3)
         self.sourceTitleEntry.grid(column=0, row=2, columnspan=8, padx=3, pady=5, sticky='we')
+        self.dirtyLabel.grid(column=8, row=2, sticky='w')
         # variants
         self.var1Lab.grid(column=0, row=0, padx=10, pady= 3)
         self.var2Lab.grid(column=0, row=1, padx=10, pady= 3)
@@ -437,10 +440,7 @@ class GUI(ProjectionProfiles, SongEditorPanel):
         self.var2Combo.grid(column=1, row=1, padx=4, pady= 3)
         self.var3Combo.grid(column=1, row=2, padx=4, pady= 3)
 
-        self.addSlokaBtn.grid(column=0, row=0, padx=4)
-        self.addRefrenBtn.grid(column=1, row=0, padx=4)
-        self.addBridgeBtn.grid(column=2, row=0, padx=4)
-        self.addLangBtn.grid(column=3, row=0, padx=4)
+        self.addLangBtn.grid(column=2, row=1, padx=(20, 4))
 
     def on_closing(self):
         if not self._prepare_song_transition():
@@ -465,7 +465,7 @@ class GUI(ProjectionProfiles, SongEditorPanel):
         self.nextProj.configure(command=self.nextProjector)
         self.prevProj.configure(command=self.prevProjector)
         #sources options
-        self.openSource.configure(command=self.addSource)
+        self.openSource.configure(command=self.openSongSearch)
         self.prevSource.configure(command=self.prevSourceFun)
         self.nextSource.configure(command=self.nextSourceFun)
         self.closeSource.configure(command=self.closeSourceFun)
@@ -586,11 +586,23 @@ class GUI(ProjectionProfiles, SongEditorPanel):
             self.persist_layout()
 
     def changeFullscreen(self, *e):
-        if self.projectorID >=0:
-            self.projectors[self.projectorID].fullscreen = \
-                self.fullscreenState.get()
+        if self.projectorID >= 0:
+            proj = self.projectors[self.projectorID]
+            fullscreen = self.fullscreenState.get()
+            if self.runState and hasattr(proj, 'win'):
+                mon = self.monitors[proj.monitor]
+                if fullscreen and not proj.fullscreen:
+                    proj.windowed_geometry = proj.win.geometry()
+                proj.win.overrideredirect(fullscreen)
+                if fullscreen:
+                    proj.win.geometry(f'{mon.width}x{mon.height}{mon.x:+d}{mon.y:+d}')
+                else:
+                    geometry = getattr(proj, 'windowed_geometry', None)
+                    if geometry is None:
+                        geometry = f'{int(mon.width * 0.8)}x{int(mon.height * 0.8)}{mon.x:+d}{mon.y:+d}'
+                    proj.win.geometry(geometry)
+            proj.fullscreen = fullscreen
             self.persist_layout()
-
     def delProjector(self, *e):
         l = len(self.projectors)
         if l > 1:
@@ -610,6 +622,15 @@ class GUI(ProjectionProfiles, SongEditorPanel):
             self.openProjector()
 
     # source options
+    def openSongSearch(self):
+        from superpresenter.ui.song_search_window import SongSearchWindow
+        window = getattr(self, '_song_search_window', None)
+        if window is not None and window.win.winfo_exists():
+            window.win.lift()
+            window.entry.focus_set()
+            return
+        self._song_search_window = SongSearchWindow(self)
+
     def addSource(self, *e):
         paths = filedialog.askopenfilenames(title='Otevřít píseň', initialdir=os.path.join(self.dir, "songs"),
             filetypes=(('Textové soubory', ('*.xml', '*.txt')), ('Všechny soubory', ('*.*'))))
@@ -651,7 +672,7 @@ class GUI(ProjectionProfiles, SongEditorPanel):
             if reload_editor and not self.song_editor_widget.load_song(src.song, src.path):
                 return False
             self.sourceNum.configure(text=f'{self.sourceID+1} / {self.total_sources()}')
-            self.sourceLab.config(text=src.fileName)
+            self._update_song_caption()
             languages = src.importVariants()
             for i, combo in enumerate((self.var1Combo, self.var2Combo, self.var3Combo)):
                 combo['values'] = languages if i == 0 else ['-----'] + languages
@@ -776,11 +797,7 @@ class GUI(ProjectionProfiles, SongEditorPanel):
                 self.openProjs.config(self.onStyle)
                 self.win.bind('<Escape>', self.runButtFun)
 
-                self.addProj.configure(state='disabled')
-                self.delProj.configure(state='disabled')
-                self.fullscreenCheck.configure(state='disabled')
-                self.chooseProj.configure(state='disabled')
-                self.chooseStyle.configure(state='disabled')
+                self._lock_editing()
 
                 # 1. Načti typy zdrojů podle stylů
                 try:
@@ -905,6 +922,32 @@ class GUI(ProjectionProfiles, SongEditorPanel):
                         f'Error in source "{slide_name}"\n'
                         'Check construct input.\n' + str(err))
 
+    def _lock_editing(self):
+        """Remember exact states, including readonly and already disabled controls."""
+        if getattr(self, '_editing_states', None) is not None:
+            return
+        self._editing_states = []
+
+        def lock(widget):
+            if 'state' in widget.keys():
+                self._editing_states.append((widget, str(widget.cget('state'))))
+                widget.configure(state='disabled')
+            for child in widget.winfo_children():
+                lock(child)
+        for widget in (self.projNav, self.projSet):
+            lock(widget)
+        # Only projection settings are frozen; song edits target the next run.
+        editor = getattr(self, '_projection_editor', None)
+        if editor is not None and editor.win.winfo_exists():
+            lock(editor.win)
+
+    def _unlock_editing(self):
+
+        for widget, state in getattr(self, '_editing_states', None) or ():
+            if widget.winfo_exists():
+                widget.configure(state=state)
+        self._editing_states = None
+
     def _cleanup_after_stop(self):
         timer = getattr(self, '_animation_timer', None)
         if timer is not None:
@@ -913,11 +956,7 @@ class GUI(ProjectionProfiles, SongEditorPanel):
         self.openProjs.config(self.offStyle)
         self.win.bind('<Escape>', doNothing)
 
-        self.addProj.configure(state='normal')
-        self.delProj.configure(state='normal')
-        self.fullscreenCheck.configure(state='normal')
-        self.chooseProj.configure(state='readonly')
-        self.chooseStyle.configure(state='readonly')
+        self._unlock_editing()
 
         self.stepsList.delete(0, 'end')
         self.stepsLabel.configure(text='0 / 0')
@@ -1030,42 +1069,25 @@ class GUI(ProjectionProfiles, SongEditorPanel):
         self.loadSteps()
 
     def stepUpdate(self):
+        self.stepsList.xview_moveto(0)
         if getattr(self, 'stationary_active', False):
             nav = self.stationary_navigation
-            cue = nav.cue
-            self.stepsLabel.configure(text=(
-                f'Krok {nav.step}/{nav.last_step - 1} · '
-                f'Sál {cue.hall_page.index + 1} · Stream {cue.stream_page.index + 1}'
-                if cue else ('Úvod' if nav.step == 0 else 'Konec')))
-            return
-        if getattr(self, 'pair2_active', False):
-            if self.currentStep == 0:
-                cur = 0
-            elif self.currentStep >= self.noOfSteps:
-                cur = len(self.onlineSources[self.runningSlide].lines['short2steps'])
-            else:
-                pi = self._pair_index_for_list_index(self.currentStep)
-                cur = (pi + 1) if pi is not None else 0
-            total = len(self.onlineSources[self.runningSlide].lines['short2steps'])
-            self.stepsLabel.configure(text=f'{cur} / {total}')
-        elif getattr(self, 'paged_active', False):
-            if self.currentStep == 0:
-                cur = 0
-            elif self.currentStep >= self.noOfSteps:
-                cur = len(self.paged_starts)
-            else:
-                gi = self.currentStep - 1  # 0-based index řádku
-                pi = 0
-                for i, s in enumerate(self.paged_starts):
-                    if s <= gi:
-                        pi = i
-                    else:
-                        break
-                cur = pi + 1
-            total = len(self.paged_starts)
-            self.stepsLabel.configure(text=f'{cur} / {total}')
+            total = max(0, nav.last_step - 1)
+            current = nav.step
+            end = bool(nav.plans) and current == nav.last_step
         else:
-            self.stepsLabel.configure(text=f'{self.currentStep} / {self.noOfSteps}')
+            current = self.currentStep
+            end = current > 0 and current >= self.noOfSteps
+            if getattr(self, 'pair2_active', False):
+                total = len(self.pair2_map)
+                pair = self._pair_index_for_list_index(current)
+                current = pair + 1 if current > 0 and pair is not None else 0
+            elif getattr(self, 'paged_active', False):
+                total = len(self.paged_starts)
+                current = sum(start < current for start in self.paged_starts) if current else 0
+            else:
+                total = max(0, self.noOfSteps - 1)
+        self.stepsLabel.configure(text='Konec' if end else f'{current} / {total}')
 
     def stepSelect(self, e):
         if getattr(self, 'stationary_active', False):

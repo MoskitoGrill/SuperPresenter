@@ -333,14 +333,17 @@ class SongEditor:
 
         self.sections_frame = self.scrollable_frame
 
+        self.section_buttons_frame = tk.Frame(self.root)
+        self.section_buttons_frame.pack(pady=(20, 5))
+        self.section_buttons = []
+        for label, typ in [("Sloka", 'v'), ("Refrén", 'r'), ("Bridge", 'b')]:
+            button = tk.Button(self.section_buttons_frame, text=label,
+                               command=lambda t=typ: self.add_section_to_all_languages(t), font=self.font)
+            button.pack(side='left', padx=5)
+            self.section_buttons.append(button)
         if not self.embedded:
-            btn_frame = tk.Frame(self.root)
-            btn_frame.pack(pady=5)
-
-            for label, typ in [("Sloka", 'v'), ("Refrén", 'r'), ("Bridge", 'b')]:
-                tk.Button(btn_frame, text=label, command=lambda t=typ: self.add_section_to_all_languages(t), font=self.font).pack(side='left', padx=5)
-
-            tk.Button(btn_frame, text="Přidat jazyk", command=self.open_language_dialog, font=self.font).pack(side='left', padx=10)
+            tk.Button(self.section_buttons_frame, text="Přidat variantu",
+                      command=self.open_language_dialog, font=self.font).pack(side='left', padx=10)
 
         header_frame = tk.Frame(self.root)
         header_frame.pack(anchor='w', padx=5, pady=(6, 0))
@@ -353,10 +356,13 @@ class SongEditor:
         self.repetition_container = tk.Frame(self.root, bg=self.bg_color)
         self.repetition_container.pack(fill='x', padx=5)
 
-        if not self.embedded:
-            tk.Label(self.root,
-                    text="v = Sloka, r = Refrén, b = Bridge | (v) = 1 Opakování | (v)*x = x Opakování | v.x = Pouze x řádek",
-                    font=('Courier New', 10, 'italic'), fg='white', bg=self.bg_color).pack(anchor='w', padx=5)
+        self.explain_label = tk.Label(self.root,
+                text="v = Sloka, r = Refrén, b = Bridge | (v) = 1 Opakování | (v)*x = x Opakování | v.x = Pouze x řádek",
+                font=('TkDefaultFont' if self.embedded else ('Courier New', 10, 'italic')),
+                fg='white', bg=self.bg_color)
+        if self.embedded:
+            self.explain_label.configure(wraplength=640, justify='left')
+        self.explain_label.pack(anchor='w', padx=5)
 
         ctrl_frame = tk.Frame(self.root)
         ctrl_frame.pack(fill='x', pady=(2, 0))  

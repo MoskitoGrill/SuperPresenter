@@ -234,7 +234,7 @@ class ReleaseTests(unittest.TestCase):
         self.error.assert_not_called()
 
     def test_presentation_editor_button_keeps_its_original_command(self):
-        self.assertEqual(self.gui.openPresentation.cget('text'), 'prezentace')
+        self.assertEqual(self.gui.openPresentation.cget('text'), 'prez')
         self.assertEqual(self.gui.openPresentation.winfo_manager(), 'grid')
         with patch('subprocess.Popen') as launch:
             self.gui.openPresentation.invoke()
