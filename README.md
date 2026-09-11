@@ -32,12 +32,54 @@ zahrnuty. Verze balíčků zatím nejsou uzamčené.
 
 ## Spuštění
 
-Na Windows spusťte `spustit_super_presenter.bat`, například dvojklikem.
-Skript nastaví pracovní adresář podle své vlastní složky a upřednostní Python
-z místního `.venv`; pokud prostředí neexistuje, použije `python` z PATH.
-Funguje i při zavolání z jiného adresáře. Při chybě ponechá zprávu viditelnou.
+Na Windows spusťte **`spustit_super_presenter.exe`** ve složce projektu.
+Je to malý spouštěč aktuálního Python kódu, nikoli zabalená kopie aplikace.
+Nevyžaduje BAT a neotevírá konzoli. EXE ponechte vedle `super_presenter.py`.
 
-Přímé spuštění z kořene projektu:
+### První spuštění a hlavní panel Windows
+
+1. Nainstalujte Python 3.10+ s podporou Tcl/Tk a přidáním do PATH.
+2. Spusťte `pripravit_prostredi.bat`. Vytvoří místní `.venv` a nainstaluje
+   závislosti z `requirements.txt`; lze ho použít i pro jejich aktualizaci.
+3. Spusťte `spustit_super_presenter.exe`.
+4. Klikněte pravým tlačítkem na ikonu **běžící aplikace** na hlavním panelu
+   a zvolte **Připnout na hlavní panel**. Staré nefunkční připnutí nejdříve odepněte.
+
+Okno předává Windows vlastní identitu a příkaz pro opětovné spuštění EXE,
+aby připnutá aplikace spouštěla aktuální zdrojový kód. Pokud přesunete složku
+projektu, aplikaci spusťte z nového místa a připněte znovu.
+
+Při chybě EXE zobrazí zprávu. Diagnostika spouštěče je v
+`%LOCALAPPDATA%/SuperPresenter/logs/launcher.log` a při dalším spuštění se přepíše.
+Volba `spustit_super_presenter.exe --check` zkontroluje prostředí a importy bez
+otevření GUI; návratový kód je 0 při úspěchu, jinak 1. Nenahrazuje test GUI.
+
+### Aktualizace přes Git
+
+Zavřete aplikaci a proveďte `git pull` (s případným běžným vyřešením místních
+změn). Pokud se mění závislosti, spusťte `pripravit_prostredi.bat`. Potom
+spusťte aplikaci připnutou ikonou. `.venv` je místní a není součástí Gitu.
+Běžné změny Python kódu nevyžadují nové sestavení EXE.
+
+### Vlastní ikona a sestavení EXE
+
+Zatím se používá generická ikona `images/launcher-default.ico`.
+Vlastní ikonu uložte jako **`images/ikona.ico`** (skutečný formát ICO,
+například s velikostmi 16, 32, 48 a 256 px; pouhé přejmenování PNG nestačí).
+Při dalším spuštění ji aplikace použije pro okno a hlavní panel.
+Pro změnu ikony samotného EXE jej po zavření aplikace znovu sestavte:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/build_launcher.ps1
+```
+
+Skript používá kompilátor .NET Framework 4.x ve Windows a zdroj
+`scripts/WindowsLauncher.cs`; nevyžaduje PyInstaller ani Visual Studio.
+Do Gitu zahrňte také nové EXE a ikonu. Windows může mít ikonu připnutého
+zástupce v mezipaměti; po změně jej případně odepněte a znovu připněte.
+
+Pro diagnostiku lze použít `spustit_super_presenter.bat`, který nechá viditelnou
+konzoli, nebo přímo z kořene projektu:
 
 ```bat
 .venv\Scripts\python.exe super_presenter.py
@@ -48,11 +90,6 @@ Samostatný editor:
 ```bat
 .venv\Scripts\python.exe song_editor.py
 ```
-
-Bez virtuálního prostředí lze použít `python super_presenter.py`, pokud jsou
-závislosti nainstalované v daném Pythonu. Další PowerShell spouštěč není potřeba;
-soubor BAT lze použít i z PowerShellu jako `./spustit_super_presenter.bat`.
-Existující EXE zůstává zachované, ale tento postup spouští aktuální zdrojový kód.
 
 ## Struktura projektu
 
@@ -66,7 +103,8 @@ Existující EXE zůstává zachované, ale tento postup spouští aktuální zd
 - `presentations/` – uložené prezentace.
 - `tests/` – základ automatických testů.
 - `settings.json`, `gui_style.json`, `projectors_styles.json` – nastavení a styly.
-- PDF návody a existující EXE – původní dokumentace a spouštěcí soubor.
+- PDF návody – původní dokumentace.
+- `spustit_super_presenter.exe` – sestavitelný Windows spouštěč aktuálního kódu.
 
 Uživatelská data i původní soubory zůstávají zachované.
 
