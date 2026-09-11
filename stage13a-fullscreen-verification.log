@@ -1,0 +1,91 @@
+.......................................................................................................................................................Saved song synchronization failed
+Traceback (most recent call last):
+  File "C:\Users\moski\Documents\Progr�mky\SuperPresenter\song_editor.py", line 661, in _notify_saved
+    self.on_saved(*pending)
+  File "C:\Users\moski\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\unittest\mock.py", line 1139, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\moski\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\unittest\mock.py", line 1143, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\moski\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\unittest\mock.py", line 1198, in _execute_mock_call
+    raise effect
+RuntimeError: callback failure
+Saved song synchronization failed
+Traceback (most recent call last):
+  File "C:\Users\moski\Documents\Progr�mky\SuperPresenter\song_editor.py", line 661, in _notify_saved
+    self.on_saved(*pending)
+  File "C:\Users\moski\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\unittest\mock.py", line 1139, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\moski\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\unittest\mock.py", line 1143, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\moski\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\unittest\mock.py", line 1198, in _execute_mock_call
+    raise effect
+  File "C:\Users\moski\Documents\Progr�mky\SuperPresenter\song_editor.py", line 661, in _notify_saved
+    self.on_saved(*pending)
+  File "C:\Users\moski\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\unittest\mock.py", line 1139, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\moski\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\unittest\mock.py", line 1143, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\moski\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\unittest\mock.py", line 1198, in _execute_mock_call
+    raise effect
+RuntimeError: callback failure
+.Song save failed: C:\Users\moski\AppData\Local\Temp\tmppud4iwt9\changed.xml
+Traceback (most recent call last):
+  File "C:\Users\moski\Documents\Progr�mky\SuperPresenter\song_editor.py", line 644, in save_file
+    self.session.save(target, overwrite=overwrite, rename=rename)
+  File "C:\Users\moski\Documents\Progr�mky\SuperPresenter\superpresenter\services\song_edit_session.py", line 33, in save
+    self.repository.save(self.song, target, overwrite=overwrite)
+  File "C:\Users\moski\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\unittest\mock.py", line 1139, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\moski\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\unittest\mock.py", line 1143, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\moski\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\unittest\mock.py", line 1198, in _execute_mock_call
+    raise effect
+PermissionError: locked
+.....Song loading failed: C:\Users\moski\AppData\Local\Temp\tmpz1u6ur13\absent.xml
+Traceback (most recent call last):
+  File "C:\Users\moski\Documents\Progr�mky\SuperPresenter\superpresenter\services\song_repository.py", line 52, in load
+    return self.loads(path.read_bytes(), path)
+                      ^^^^^^^^^^^^^^^^^
+  File "C:\Users\moski\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\pathlib.py", line 1019, in read_bytes
+    with self.open(mode='rb') as f:
+         ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\moski\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\moski\\AppData\\Local\\Temp\\tmpz1u6ur13\\absent.xml'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\moski\Documents\Progr�mky\SuperPresenter\song_editor.py", line 676, in load_file_from_path
+    song = self.session.repository.load(file_path)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\moski\Documents\Progr�mky\SuperPresenter\superpresenter\services\song_repository.py", line 54, in load
+    raise SongLoadError(path, exc) from exc
+superpresenter.services.song_repository.SongLoadError: C:\Users\moski\AppData\Local\Temp\tmpz1u6ur13\absent.xml: [Errno 2] No such file or directory: 'C:\\Users\\moski\\AppData\\Local\\Temp\\tmpz1u6ur13\\absent.xml'
+.............Saved song synchronization failed
+Traceback (most recent call last):
+  File "C:\Users\moski\Documents\Progr�mky\SuperPresenter\song_editor.py", line 661, in _notify_saved
+    self.on_saved(*pending)
+  File "C:\Users\moski\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\unittest\mock.py", line 1139, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\moski\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\unittest\mock.py", line 1143, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\moski\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\unittest\mock.py", line 1198, in _execute_mock_call
+    raise effect
+RuntimeError: failed
+...............................................................
+----------------------------------------------------------------------
+Ran 233 tests in 29.960s
+
+OK

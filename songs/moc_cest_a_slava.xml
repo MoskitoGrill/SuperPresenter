@@ -45,14 +45,10 @@
             Ніхто і нічого не схожий на вас,
             Тож хвалить Бога віків, так що хвали.
         </section>
-
-        <repetition name="default">
-            v1 v2 v3
-        </repetition>
     </variant>
 
     
     <repetition name="default">
-        v1 r1 v2 r1
+        v1 v2 v3
     </repetition>
 </slide>

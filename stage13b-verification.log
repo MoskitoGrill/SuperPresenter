@@ -1,0 +1,334 @@
+test_adapter_error_keeps_previous_state (test_construct_parser.ConstructParserTests.test_adapter_error_keeps_previous_state) ... ok
+test_database_compatibility (test_construct_parser.ConstructParserTests.test_database_compatibility) ... ok
+test_database_through_existing_import_and_variant_selection (test_construct_parser.ConstructParserTests.test_database_through_existing_import_and_variant_selection) ... ok
+test_deep_nesting (test_construct_parser.ConstructParserTests.test_deep_nesting) ... ok
+test_errors_and_original_positions (test_construct_parser.ConstructParserTests.test_errors_and_original_positions) ... ok
+test_groups_and_nesting (test_construct_parser.ConstructParserTests.test_groups_and_nesting) ... ok
+test_large_repeat_is_not_expanded (test_construct_parser.ConstructParserTests.test_large_repeat_is_not_expanded) ... ok
+test_legacy_edge_cases (test_construct_parser.ConstructParserTests.test_legacy_edge_cases) ... ok
+test_legacy_identifiers (test_construct_parser.ConstructParserTests.test_legacy_identifiers) ... ok
+test_line_selection (test_construct_parser.ConstructParserTests.test_line_selection) ... ok
+test_optional_spaces_preserve_section_order (test_construct_parser.ConstructParserTests.test_optional_spaces_preserve_section_order) ... ok
+test_pure_import_without_ui_dependencies (test_construct_parser.ConstructParserTests.test_pure_import_without_ui_dependencies) ... ok
+test_real_song_rendering_and_short2_navigation (test_construct_parser.ConstructParserTests.test_real_song_rendering_and_short2_navigation) ... ok
+test_refrain_line_repeated_three_times (test_construct_parser.ConstructParserTests.test_refrain_line_repeated_three_times) ... ok
+test_simple_order (test_construct_parser.ConstructParserTests.test_simple_order) ... ok
+test_single_line_before_next_section (test_construct_parser.ConstructParserTests.test_single_line_before_next_section) ... ok
+test_spaced_multiplier_error_positions (test_construct_parser.ConstructParserTests.test_spaced_multiplier_error_positions) ... ok
+test_spaced_range_error_positions (test_construct_parser.ConstructParserTests.test_spaced_range_error_positions) ... ok
+test_spaces_around_group_multiplier (test_construct_parser.ConstructParserTests.test_spaces_around_group_multiplier) ... ok
+test_spaces_do_not_merge_identifiers_or_numbers (test_construct_parser.ConstructParserTests.test_spaces_do_not_merge_identifiers_or_numbers) ... ok
+test_stack_program_and_renderers (test_construct_parser.ConstructParserTests.test_stack_program_and_renderers) ... ok
+test_imports_without_gui (test_imports.ImportSmokeTests.test_imports_without_gui) ... ok
+test_callback_error_restores_controls (test_main_controls.ControlsTests.test_callback_error_restores_controls) ... ok
+test_compact_width_and_button_spacing (test_main_controls.ControlsTests.test_compact_width_and_button_spacing) ... ok
+test_counter_and_reset_all_modes (test_main_controls.ControlsTests.test_counter_and_reset_all_modes) ... ok
+test_dirty_caption_save_and_xml_title (test_main_controls.ControlsTests.test_dirty_caption_save_and_xml_title) ... ok
+test_discard_draft_and_recovery_caption (test_main_controls.ControlsTests.test_discard_draft_and_recovery_caption) ... ok
+test_edits_save_variants_and_order_only_affect_next_run (test_main_controls.ControlsTests.test_edits_save_variants_and_order_only_affect_next_run) ... ok
+test_empty_song_boundaries (test_main_controls.ControlsTests.test_empty_song_boundaries) ... ok
+test_fullscreen_toggle_keeps_running_plan_and_canvas (test_main_controls.ControlsTests.test_fullscreen_toggle_keeps_running_plan_and_canvas) ... ok
+test_layout_and_dynamic_repetitions (test_main_controls.ControlsTests.test_layout_and_dynamic_repetitions) ... ok
+test_lock_restore_and_error_cleanup (test_main_controls.ControlsTests.test_lock_restore_and_error_cleanup) ... ok
+test_scrollbar_both_directions_and_manual_scroll (test_main_controls.ControlsTests.test_scrollbar_both_directions_and_manual_scroll) ... ok
+test_legacy_exports_are_same_objects (test_module_boundaries.ModuleBoundaryTests.test_legacy_exports_are_same_objects) ... ok
+test_no_data_imports_tk_and_no_back_import_to_launcher (test_module_boundaries.ModuleBoundaryTests.test_no_data_imports_tk_and_no_back_import_to_launcher) ... ok
+test_resource_root_and_image_path (test_module_boundaries.ModuleBoundaryTests.test_resource_root_and_image_path) ... ok
+test_services_import_without_ui_dependencies (test_module_boundaries.ModuleBoundaryTests.test_services_import_without_ui_dependencies) ... ok
+test_startup_keeps_recovery_before_mainloop (test_module_boundaries.ModuleBoundaryTests.test_startup_keeps_recovery_before_mainloop) ... ok
+test_editor_is_refreshed_without_fallback_dialog (test_monitor_refresh.MonitorRefreshTests.test_editor_is_refreshed_without_fallback_dialog) ... ok
+test_failed_or_empty_enumeration_keeps_old_monitors (test_monitor_refresh.MonitorRefreshTests.test_failed_or_empty_enumeration_keeps_old_monitors) ... ok
+test_missing_active_display_stops_once_and_offers_restore (test_monitor_refresh.MonitorRefreshTests.test_missing_active_display_stops_once_and_offers_restore) ... ok
+test_moved_active_monitor_stops_and_clears_window_position (test_monitor_refresh.MonitorRefreshTests.test_moved_active_monitor_stops_and_clears_window_position) ... ok
+test_new_monitor_remaps_indices_without_replacing_projector (test_monitor_refresh.MonitorRefreshTests.test_new_monitor_remaps_indices_without_replacing_projector) ... ok
+test_stopping_watch_cancels_callback (test_monitor_refresh.MonitorRefreshTests.test_stopping_watch_cancels_callback) ... ok
+test_unchanged_poll_does_not_touch_selection (test_monitor_refresh.MonitorRefreshTests.test_unchanged_poll_does_not_touch_selection) ... ok
+test_end_and_adjacent_pins (test_pinned_lines.PinnedLinesTests.test_end_and_adjacent_pins) ... ok
+test_groups_and_unmarked_selection (test_pinned_lines.PinnedLinesTests.test_groups_and_unmarked_selection) ... ok
+test_invalid_markers (test_pinned_lines.PinnedLinesTests.test_invalid_markers) ... ok
+test_legacy_translation_and_whitespace (test_pinned_lines.PinnedLinesTests.test_legacy_translation_and_whitespace) ... ok
+test_long_section (test_pinned_lines.PinnedLinesTests.test_long_section) ... ok
+test_no_room (test_pinned_lines.PinnedLinesTests.test_no_room) ... ok
+test_one_and_two_pins (test_pinned_lines.PinnedLinesTests.test_one_and_two_pins) ... ok
+test_xml_roundtrip_and_validation (test_pinned_lines.PinnedLinesTests.test_xml_roundtrip_and_validation) ... ok
+test_cancelled_fallback_keeps_layout (test_projection_config.ProjectionConfigTests.test_cancelled_fallback_keeps_layout) ... ok
+test_dropdown_refresh_preserves_selected_output (test_projection_config.ProjectionConfigTests.test_dropdown_refresh_preserves_selected_output) ... ok
+test_duplicate_style_rejected (test_projection_config.ProjectionConfigTests.test_duplicate_style_rejected) ... ok
+test_failed_replace_preserves_previous_file_and_cleans_temp (test_projection_config.ProjectionConfigTests.test_failed_replace_preserves_previous_file_and_cleans_temp) ... ok
+test_first_start_keeps_defaults_and_does_not_write (test_projection_config.ProjectionConfigTests.test_first_start_keeps_defaults_and_does_not_write) ... ok
+test_image_paths_independent_of_cwd (test_projection_config.ProjectionConfigTests.test_image_paths_independent_of_cwd) ... ok
+test_invalid_last_layout_not_overwritten_on_close (test_projection_config.ProjectionConfigTests.test_invalid_last_layout_not_overwritten_on_close) ... ok
+test_invalid_load_keeps_layout (test_projection_config.ProjectionConfigTests.test_invalid_load_keeps_layout) ... ok
+test_invalid_profiles (test_projection_config.ProjectionConfigTests.test_invalid_profiles) ... ok
+test_invalid_save_preserves_previous_file (test_projection_config.ProjectionConfigTests.test_invalid_save_preserves_previous_file) ... ok
+test_load_blocked_during_projection (test_projection_config.ProjectionConfigTests.test_load_blocked_during_projection) ... ok
+test_missing_and_ambiguous_monitor (test_projection_config.ProjectionConfigTests.test_missing_and_ambiguous_monitor) ... ok
+test_missing_and_broken_json (test_projection_config.ProjectionConfigTests.test_missing_and_broken_json) ... ok
+test_missing_monitor_fallback_is_windowed (test_projection_config.ProjectionConfigTests.test_missing_monitor_fallback_is_windowed) ... ok
+test_monitor_labels_do_not_replace_hardware_names (test_projection_config.ProjectionConfigTests.test_monitor_labels_do_not_replace_hardware_names) ... ok
+test_monitor_reordering_and_repositioning (test_projection_config.ProjectionConfigTests.test_monitor_reordering_and_repositioning) ... ok
+test_position_labels_follow_connected_layout (test_projection_config.ProjectionConfigTests.test_position_labels_follow_connected_layout) ... ok
+test_restore_resolves_style_name_and_each_output (test_projection_config.ProjectionConfigTests.test_restore_resolves_style_name_and_each_output) ... ok
+test_round_trip_and_unicode_profile (test_projection_config.ProjectionConfigTests.test_round_trip_and_unicode_profile) ... ok
+test_service_imports_without_gui (test_projection_config.ProjectionConfigTests.test_service_imports_without_gui) ... ok
+test_style_errors_identify_style_and_field (test_projection_config.ProjectionConfigTests.test_style_errors_identify_style_and_field) ... ok
+test_vertical_and_diagonal_monitor_labels (test_projection_config.ProjectionConfigTests.test_vertical_and_diagonal_monitor_labels) ... ok
+test_default_numbers_skip_existing_names (test_projection_editor.ProfileCatalogTests.test_default_numbers_skip_existing_names) ... ok
+test_delete_rejects_file_outside_profile_directory (test_projection_editor.ProfileCatalogTests.test_delete_rejects_file_outside_profile_directory) ... ok
+test_duplicate_names_rejected_without_overwrite (test_projection_editor.ProfileCatalogTests.test_duplicate_names_rejected_without_overwrite) ... ok
+test_legacy_and_broken_files_remain_listed (test_projection_editor.ProfileCatalogTests.test_legacy_and_broken_files_remain_listed) ... ok
+test_profile_title_cannot_escape_storage_folder (test_projection_editor.ProfileCatalogTests.test_profile_title_cannot_escape_storage_folder) ... ok
+test_rename_updates_one_file_and_catalog (test_projection_editor.ProfileCatalogTests.test_rename_updates_one_file_and_catalog) ... ok
+test_alias_follows_monitor_when_moved (test_projection_editor.ProjectionEditorModelTests.test_alias_follows_monitor_when_moved) ... ok
+test_all_disabled_is_valid_only_in_version_two (test_projection_editor.ProjectionEditorModelTests.test_all_disabled_is_valid_only_in_version_two) ... ok
+test_apply_empty_layout_and_restore_it (test_projection_editor.ProjectionEditorModelTests.test_apply_empty_layout_and_restore_it) ... ok
+test_apply_write_failure_does_not_replace_live_layout (test_projection_editor.ProjectionEditorModelTests.test_apply_write_failure_does_not_replace_live_layout) ... ok
+test_bad_names_and_output_limit_rejected (test_projection_editor.ProjectionEditorModelTests.test_bad_names_and_output_limit_rejected) ... ok
+test_disconnected_name_retained (test_projection_editor.ProjectionEditorModelTests.test_disconnected_name_retained) ... ok
+test_editor_is_blocked_during_projection (test_projection_editor.ProjectionEditorModelTests.test_editor_is_blocked_during_projection) ... ok
+test_legacy_layout_becomes_independent_draft (test_projection_editor.ProjectionEditorModelTests.test_legacy_layout_becomes_independent_draft) ... ok
+test_multiple_outputs_on_same_monitor_reduced_to_first (test_projection_editor.ProjectionEditorModelTests.test_multiple_outputs_on_same_monitor_reduced_to_first) ... ok
+test_names_include_disabled_monitors_and_survive_file_roundtrip (test_projection_editor.ProjectionEditorModelTests.test_names_include_disabled_monitors_and_survive_file_roundtrip) ... ok
+test_topology_change_rejects_apply_before_write (test_projection_editor.ProjectionEditorModelTests.test_topology_change_rejects_apply_before_write) ... ok
+test_cancel_delete_keeps_file_and_edits (test_projection_editor.ProjectionEditorWidgetTests.test_cancel_delete_keeps_file_and_edits) ... ok
+test_cancelled_switch_preserves_dirty_draft (test_projection_editor.ProjectionEditorWidgetTests.test_cancelled_switch_preserves_dirty_draft) ... ok
+test_cards_and_map_follow_horizontal_positions (test_projection_editor.ProjectionEditorWidgetTests.test_cards_and_map_follow_horizontal_positions) ... ok
+test_delete_last_profile_keeps_live_layout_and_creates_draft (test_projection_editor.ProjectionEditorWidgetTests.test_delete_last_profile_keeps_live_layout_and_creates_draft) ... ok
+test_delete_selects_remaining_profile (test_projection_editor.ProjectionEditorWidgetTests.test_delete_selects_remaining_profile) ... ok
+test_edit_multiple_profiles_and_rename_without_duplicates (test_projection_editor.ProjectionEditorWidgetTests.test_edit_multiple_profiles_and_rename_without_duplicates) ... ok
+test_editor_uses_large_fonts_and_gray_theme (test_projection_editor.ProjectionEditorWidgetTests.test_editor_uses_large_fonts_and_gray_theme) ... ok
+test_failed_delete_keeps_selection (test_projection_editor.ProjectionEditorWidgetTests.test_failed_delete_keeps_selection) ... ok
+test_failed_save_blocks_switch (test_projection_editor.ProjectionEditorWidgetTests.test_failed_save_blocks_switch) ... ok
+test_failed_save_keeps_draft_open (test_projection_editor.ProjectionEditorWidgetTests.test_failed_save_keeps_draft_open) ... ok
+test_hotplug_disconnect_and_reconnect_retains_output (test_projection_editor.ProjectionEditorWidgetTests.test_hotplug_disconnect_and_reconnect_retains_output) ... ok
+test_hotplug_preserves_dirty_draft_and_adds_disabled_monitor (test_projection_editor.ProjectionEditorWidgetTests.test_hotplug_preserves_dirty_draft_and_adds_disabled_monitor) ... ok
+test_names_disabled_outputs_and_cancel_do_not_apply (test_projection_editor.ProjectionEditorWidgetTests.test_names_disabled_outputs_and_cancel_do_not_apply) ... ok
+test_preview_is_centered_and_only_slightly_narrower (test_projection_editor.ProjectionEditorWidgetTests.test_preview_is_centered_and_only_slightly_narrower) ... ok
+test_profile_export_saves_draft_without_applying (test_projection_editor.ProjectionEditorWidgetTests.test_profile_export_saves_draft_without_applying) ... ok
+test_profile_selection_does_not_apply_live_layout (test_projection_editor.ProjectionEditorWidgetTests.test_profile_selection_does_not_apply_live_layout) ... ok
+test_qr_control_removed_but_fullscreen_and_saved_preference_remain (test_projection_editor.ProjectionEditorWidgetTests.test_qr_control_removed_but_fullscreen_and_saved_preference_remain) ... ok
+test_save_applies_draft_and_closes (test_projection_editor.ProjectionEditorWidgetTests.test_save_applies_draft_and_closes) ... ok
+test_single_monitor_window_is_narrower_than_two (test_projection_editor.ProjectionEditorWidgetTests.test_single_monitor_window_is_narrower_than_two) ... ok
+test_utf8_file_idempotence_and_rotation (test_release_stability.LoggingTests.test_utf8_file_idempotence_and_rotation) ... ok
+test_all_shipped_styles_and_combined_stationary (test_release_stability.ReleaseTests.test_all_shipped_styles_and_combined_stationary) ... ok
+test_callback_failure_logs_without_new_dialog (test_release_stability.ReleaseTests.test_callback_failure_logs_without_new_dialog) ... ok
+test_close_during_projection_and_cancel_dirty_close (test_release_stability.ReleaseTests.test_close_during_projection_and_cancel_dirty_close) ... ok
+test_empty_title_save_reports_existing_validation (test_release_stability.ReleaseTests.test_empty_title_save_reports_existing_validation) ... ok
+test_language_selection_and_single_song (test_release_stability.ReleaseTests.test_language_selection_and_single_song) ... ok
+test_late_preview_language_event_after_stop_is_safe (test_release_stability.ReleaseTests.test_late_preview_language_event_after_stop_is_safe) ... ok
+test_legacy_immediate_and_animation_send_identical_indices (test_release_stability.ReleaseTests.test_legacy_immediate_and_animation_send_identical_indices) ... ok
+test_legacy_repeated_rows_expand_before_pairing (test_release_stability.ReleaseTests.test_legacy_repeated_rows_expand_before_pairing) ... ok
+test_original_stream_last_pair_and_existing_song_transition (test_release_stability.ReleaseTests.test_original_stream_last_pair_and_existing_song_transition) ... ok
+test_original_stream_with_two_languages (test_release_stability.ReleaseTests.test_original_stream_with_two_languages) ... ok
+test_presentation_editor_button_keeps_its_original_command (test_release_stability.ReleaseTests.test_presentation_editor_button_keeps_its_original_command) ... ok
+test_sorter_cancel_and_commit_preserve_selected_song (test_release_stability.ReleaseTests.test_sorter_cancel_and_commit_preserve_selected_song) ... ok
+test_start_failure_cleans_up_before_existing_error_handling (test_release_stability.ReleaseTests.test_start_failure_cleans_up_before_existing_error_handling) ... ok
+test_stop_cancels_pending_animation (test_release_stability.ReleaseTests.test_stop_cancels_pending_animation) ... ok
+test_duplicate_fields_fail_explicitly (test_shared_editor_model.SharedEditorModelTests.test_duplicate_fields_fail_explicitly) ... ok
+test_duplicate_nested_repetition_is_preserved_when_editing_root_field (test_shared_editor_model.SharedEditorModelTests.test_duplicate_nested_repetition_is_preserved_when_editing_root_field) ... ok
+test_nested_repetition_survives_renumber_and_save (test_shared_editor_model.SharedEditorModelTests.test_nested_repetition_survives_renumber_and_save) ... ok
+test_one_changed_section_preserves_other_raw_lines (test_shared_editor_model.SharedEditorModelTests.test_one_changed_section_preserves_other_raw_lines) ... ok
+test_saved_session_path_tracks_copy (test_shared_editor_model.SharedEditorModelTests.test_saved_session_path_tracks_copy) ... ok
+test_title_only_edit_preserves_raw_text_metadata_and_nested_repetition (test_shared_editor_model.SharedEditorModelTests.test_title_only_edit_preserves_raw_text_metadata_and_nested_repetition) ... ok
+test_existing_library_model_roundtrip_and_visible_lines (test_song_compatibility.ExistingSongsTests.test_existing_library_model_roundtrip_and_visible_lines) ... ok
+test_adjacent_section_references (test_song_editor_data.RepetitionCoverageTests.test_adjacent_section_references) ... ok
+test_empty_and_absent_repetition (test_song_editor_data.RepetitionCoverageTests.test_empty_and_absent_repetition) ... ok
+test_missing_chorus_per_repetition_without_duplicate_languages (test_song_editor_data.RepetitionCoverageTests.test_missing_chorus_per_repetition_without_duplicate_languages) ... ok
+test_pinned_references_count_as_used (test_song_editor_data.RepetitionCoverageTests.test_pinned_references_count_as_used) ... ok
+test_remove_section_removes_pin_and_renumbers_surviving_pin (test_song_editor_data.RepetitionCoverageTests.test_remove_section_removes_pin_and_renumbers_surviving_pin) ... ok
+test_unknown_section_and_bad_syntax_are_reported_per_repetition (test_song_editor_data.RepetitionCoverageTests.test_unknown_section_and_bad_syntax_are_reported_per_repetition) ... ok
+test_whole_ids_nested_groups_and_ranges (test_song_editor_data.RepetitionCoverageTests.test_whole_ids_nested_groups_and_ranges) ... ok
+test_atomic_failure_preserves_original_and_dirty_state (test_song_editor_data.SongDataTests.test_atomic_failure_preserves_original_and_dirty_state) ... ok
+test_collision_does_not_overwrite (test_song_editor_data.SongDataTests.test_collision_does_not_overwrite) ... ok
+test_copy_and_rename (test_song_editor_data.SongDataTests.test_copy_and_rename) ... ok
+test_dirty_all_model_fields_and_successful_save (test_song_editor_data.SongDataTests.test_dirty_all_model_fields_and_successful_save) ... ok
+test_empty_title_and_unsafe_names (test_song_editor_data.SongDataTests.test_empty_title_and_unsafe_names) ... ok
+test_failed_load_keeps_session (test_song_editor_data.SongDataTests.test_failed_load_keeps_session) ... ok
+test_failed_rename_deletion_keeps_both_copies_and_dirty_state (test_song_editor_data.SongDataTests.test_failed_rename_deletion_keeps_both_copies_and_dirty_state) ... ok
+test_roundtrip_languages_repetitions_and_main (test_song_editor_data.SongDataTests.test_roundtrip_languages_repetitions_and_main) ... ok
+test_section_removal_updates_all_languages_and_constructs (test_song_editor_data.SongDataTests.test_section_removal_updates_all_languages_and_constructs) ... ok
+test_unknown_metadata_and_section_ids_are_preserved (test_song_editor_data.SongDataTests.test_unknown_metadata_and_section_ids_are_preserved) ... ok
+test_backup_is_removed_on_save_and_explicit_discard (test_song_editor_integration.EditorIntegrationTests.test_backup_is_removed_on_save_and_explicit_discard) ... ok
+test_callback_failure_visible_and_transition_stops (test_song_editor_integration.EditorIntegrationTests.test_callback_failure_visible_and_transition_stops) ... Saved song synchronization failed
+Traceback (most recent call last):
+  File "C:\Users\moski\Documents\Progr�mky\SuperPresenter\song_editor.py", line 661, in _notify_saved
+    self.on_saved(*pending)
+  File "C:\Users\moski\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\unittest\mock.py", line 1139, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\moski\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\unittest\mock.py", line 1143, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\moski\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\unittest\mock.py", line 1198, in _execute_mock_call
+    raise effect
+RuntimeError: callback failure
+Saved song synchronization failed
+Traceback (most recent call last):
+  File "C:\Users\moski\Documents\Progr�mky\SuperPresenter\song_editor.py", line 661, in _notify_saved
+    self.on_saved(*pending)
+  File "C:\Users\moski\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\unittest\mock.py", line 1139, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\moski\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\unittest\mock.py", line 1143, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\moski\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\unittest\mock.py", line 1198, in _execute_mock_call
+    raise effect
+  File "C:\Users\moski\Documents\Progr�mky\SuperPresenter\song_editor.py", line 661, in _notify_saved
+    self.on_saved(*pending)
+  File "C:\Users\moski\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\unittest\mock.py", line 1139, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\moski\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\unittest\mock.py", line 1143, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\moski\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\unittest\mock.py", line 1198, in _execute_mock_call
+    raise effect
+RuntimeError: callback failure
+ok
+test_cancel_discard_and_failed_save_transitions (test_song_editor_integration.EditorIntegrationTests.test_cancel_discard_and_failed_save_transitions) ... Song save failed: C:\Users\moski\AppData\Local\Temp\tmpxi8hz7zk\changed.xml
+Traceback (most recent call last):
+  File "C:\Users\moski\Documents\Progr�mky\SuperPresenter\song_editor.py", line 644, in save_file
+    self.session.save(target, overwrite=overwrite, rename=rename)
+  File "C:\Users\moski\Documents\Progr�mky\SuperPresenter\superpresenter\services\song_edit_session.py", line 33, in save
+    self.repository.save(self.song, target, overwrite=overwrite)
+  File "C:\Users\moski\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\unittest\mock.py", line 1139, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\moski\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\unittest\mock.py", line 1143, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\moski\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\unittest\mock.py", line 1198, in _execute_mock_call
+    raise effect
+PermissionError: locked
+ok
+test_complete_repetitions_do_not_warn (test_song_editor_integration.EditorIntegrationTests.test_complete_repetitions_do_not_warn) ... ok
+test_corrupt_recovery_shows_error_and_preserves_backup (test_song_editor_integration.EditorIntegrationTests.test_corrupt_recovery_shows_error_and_preserves_backup) ... ok
+test_ctrl_s_uses_save_validation_and_persists_text (test_song_editor_integration.EditorIntegrationTests.test_ctrl_s_uses_save_validation_and_persists_text) ... ok
+test_draft_save_during_navigation (test_song_editor_integration.EditorIntegrationTests.test_draft_save_during_navigation) ... ok
+test_invalid_load_keeps_dirty_song_without_prompt (test_song_editor_integration.EditorIntegrationTests.test_invalid_load_keeps_dirty_song_without_prompt) ... Song loading failed: C:\Users\moski\AppData\Local\Temp\tmpo2qnsh23\absent.xml
+Traceback (most recent call last):
+  File "C:\Users\moski\Documents\Progr�mky\SuperPresenter\superpresenter\services\song_repository.py", line 52, in load
+    return self.loads(path.read_bytes(), path)
+                      ^^^^^^^^^^^^^^^^^
+  File "C:\Users\moski\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\pathlib.py", line 1019, in read_bytes
+    with self.open(mode='rb') as f:
+         ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\moski\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\moski\\AppData\\Local\\Temp\\tmpo2qnsh23\\absent.xml'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\moski\Documents\Progr�mky\SuperPresenter\song_editor.py", line 676, in load_file_from_path
+    song = self.session.repository.load(file_path)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\moski\Documents\Progr�mky\SuperPresenter\superpresenter\services\song_repository.py", line 54, in load
+    raise SongLoadError(path, exc) from exc
+superpresenter.services.song_repository.SongLoadError: C:\Users\moski\AppData\Local\Temp\tmpo2qnsh23\absent.xml: [Errno 2] No such file or directory: 'C:\\Users\\moski\\AppData\\Local\\Temp\\tmpo2qnsh23\\absent.xml'
+ok
+test_languages_and_non_numbered_ids_survive_load (test_song_editor_integration.EditorIntegrationTests.test_languages_and_non_numbered_ids_survive_load) ... ok
+test_load_clean_and_programmatic_text_changes_dirty (test_song_editor_integration.EditorIntegrationTests.test_load_clean_and_programmatic_text_changes_dirty) ... ok
+test_main_cancel_navigation_new_close_and_quit (test_song_editor_integration.EditorIntegrationTests.test_main_cancel_navigation_new_close_and_quit) ... ok
+test_main_construct_is_dirty_and_only_save_publishes (test_song_editor_integration.EditorIntegrationTests.test_main_construct_is_dirty_and_only_save_publishes) ... ok
+test_omission_warning_cancel_keeps_disk_and_dirty_then_accept_saves (test_song_editor_integration.EditorIntegrationTests.test_omission_warning_cancel_keeps_disk_and_dirty_then_accept_saves) ... ok
+test_recovered_new_draft_can_be_saved_normally (test_song_editor_integration.EditorIntegrationTests.test_recovered_new_draft_can_be_saved_normally) ... ok
+test_recovery_can_be_postponed_or_discarded (test_song_editor_integration.EditorIntegrationTests.test_recovery_can_be_postponed_or_discarded) ... ok
+test_recovery_timer_records_latest_text_without_saving_song (test_song_editor_integration.EditorIntegrationTests.test_recovery_timer_records_latest_text_without_saving_song) ... ok
+test_remove_default_then_add_section_does_not_leave_stale_variable (test_song_editor_integration.EditorIntegrationTests.test_remove_default_then_add_section_does_not_leave_stale_variable) ... ok
+test_rename_cancel_collision_and_copy (test_song_editor_integration.EditorIntegrationTests.test_rename_cancel_collision_and_copy) ... ok
+test_repetitions_sync_and_save (test_song_editor_integration.EditorIntegrationTests.test_repetitions_sync_and_save) ... ok
+test_restore_keeps_dirty_data_out_of_presentation_until_saved (test_song_editor_integration.EditorIntegrationTests.test_restore_keeps_dirty_data_out_of_presentation_until_saved) ... ok
+test_retry_saved_callback_preserves_newer_edits (test_song_editor_integration.EditorIntegrationTests.test_retry_saved_callback_preserves_newer_edits) ... Saved song synchronization failed
+Traceback (most recent call last):
+  File "C:\Users\moski\Documents\Progr�mky\SuperPresenter\song_editor.py", line 661, in _notify_saved
+    self.on_saved(*pending)
+  File "C:\Users\moski\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\unittest\mock.py", line 1139, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\moski\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\unittest\mock.py", line 1143, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\moski\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\unittest\mock.py", line 1198, in _execute_mock_call
+    raise effect
+RuntimeError: failed
+ok
+test_save_preserves_new_language_selection (test_song_editor_integration.EditorIntegrationTests.test_save_preserves_new_language_selection) ... ok
+test_text_undo_redo_restores_dirty_state (test_song_editor_integration.EditorIntegrationTests.test_text_undo_redo_restores_dirty_state) ... ok
+test_unknown_section_warning_can_cancel_or_save_draft (test_song_editor_integration.EditorIntegrationTests.test_unknown_section_warning_can_cancel_or_save_draft) ... ok
+test_main_window_wiring (test_song_editor_integration.StartupTests.test_main_window_wiring) ... ok
+test_standalone_editor_has_title_and_close_protocol (test_song_editor_integration.StartupTests.test_standalone_editor_has_title_and_close_protocol) ... ok
+test_title_placeholder_never_changes_song_data (test_song_editor_integration.StartupTests.test_title_placeholder_never_changes_song_data) ... ok
+test_corrupt_record_remains_available_for_manual_repair (test_song_recovery.RecoveryTests.test_corrupt_record_remains_available_for_manual_repair) ... ok
+test_draft_and_xml_metadata_roundtrip (test_song_recovery.RecoveryTests.test_draft_and_xml_metadata_roundtrip) ... ok
+test_failed_recovery_write_preserves_previous_backup (test_song_recovery.RecoveryTests.test_failed_recovery_write_preserves_previous_backup) ... ok
+test_process_crash_releases_recovery_for_next_start (test_song_recovery.RecoveryTests.test_process_crash_releases_recovery_for_next_start) ... ok
+test_recovery_roundtrip_keeps_clean_baseline_and_original (test_song_recovery.RecoveryTests.test_recovery_roundtrip_keeps_clean_baseline_and_original) ... ok
+test_running_instance_is_not_offered_as_crashed (test_song_recovery.RecoveryTests.test_running_instance_is_not_offered_as_crashed) ... ok
+test_all_existing_songs_roundtrip (test_song_repository.RepositoryTests.test_all_existing_songs_roundtrip) ... ok
+test_constructed_model (test_song_repository.RepositoryTests.test_constructed_model) ... ok
+test_errors_have_path_and_cause (test_song_repository.RepositoryTests.test_errors_have_path_and_cause) ... ok
+test_failed_replace_preserves_existing_file (test_song_repository.RepositoryTests.test_failed_replace_preserves_existing_file) ... ok
+test_failed_save_does_not_change_target (test_song_repository.RepositoryTests.test_failed_save_does_not_change_target) ... ok
+test_missing_and_multiple_main (test_song_repository.RepositoryTests.test_missing_and_multiple_main) ... ok
+test_nested_repetition_and_tail_survive (test_song_repository.RepositoryTests.test_nested_repetition_and_tail_survive) ... ok
+test_unicode_whitespace_order_and_main_roundtrip (test_song_repository.RepositoryTests.test_unicode_whitespace_order_and_main_roundtrip) ... ok
+test_widget_opt_in_does_not_change_legacy_results (test_song_repository.RepositoryTests.test_widget_opt_in_does_not_change_legacy_results) ... ok
+test_xml_carriage_return_reference (test_song_repository.RepositoryTests.test_xml_carriage_return_reference) ... ok
+test_cached_queries_and_rebuild_after_save (test_song_search.SearchTests.test_cached_queries_and_rebuild_after_save) ... ok
+test_fields_and_normalization (test_song_search.SearchTests.test_fields_and_normalization) ... ok
+test_import_without_tk (test_song_search.SearchTests.test_import_without_tk) ... ok
+test_recursive_invalid_and_production_scope (test_song_search.SearchTests.test_recursive_invalid_and_production_scope) ... ok
+test_relevance_and_ties (test_song_search.SearchTests.test_relevance_and_ties) ... ok
+test_snippet_preserves_original (test_song_search.SearchTests.test_snippet_preserves_original) ... ok
+test_add_duplicate_and_cancel_dirty (test_song_search_window.SearchWindowTests.test_add_duplicate_and_cancel_dirty) ... ok
+test_running_policy_keeps_projection_snapshot (test_song_search_window.SearchWindowTests.test_running_policy_keeps_projection_snapshot) ... ok
+test_validation_failure (test_song_search_window.SearchWindowTests.test_validation_failure) ... ok
+test_window_add_and_reopen_refresh (test_song_search_window.SearchWindowTests.test_window_add_and_reopen_refresh) ... ok
+test_empty_playlist (test_stationary_navigation.NavigationTests.test_empty_playlist) ... ok
+test_full_reverse_including_song_boundaries_and_empty_song (test_stationary_navigation.NavigationTests.test_full_reverse_including_song_boundaries_and_empty_song) ... ok
+test_full_verse_repetition_keeps_its_boundary (test_stationary_navigation.NavigationTests.test_full_verse_repetition_keeps_its_boundary) ... ok
+test_languages_and_pins_resolved_before_pagination (test_stationary_navigation.NavigationTests.test_languages_and_pins_resolved_before_pagination) ... ok
+test_modes_and_old_configuration (test_stationary_navigation.NavigationTests.test_modes_and_old_configuration) ... ok
+test_one_hall_two_stream_steps (test_stationary_navigation.NavigationTests.test_one_hall_two_stream_steps) ... ok
+test_row_repeats_count_all_language_rows (test_stationary_navigation.NavigationTests.test_row_repeats_count_all_language_rows) ... ok
+test_same_verse_row_repeats_fit_as_a_whole (test_stationary_navigation.NavigationTests.test_same_verse_row_repeats_fit_as_a_whole) ... ok
+test_two_hall_three_stream_steps (test_stationary_navigation.NavigationTests.test_two_hall_three_stream_steps) ... ok
+test_alternating_sections_keep_color_across_pages_and_restore_after_selection (test_stationary_navigation.ProjectionTests.test_alternating_sections_keep_color_across_pages_and_restore_after_selection) ... ok
+test_click_selects_cue (test_stationary_navigation.ProjectionTests.test_click_selects_cue) ... ok
+test_empty_running_playlist_navigation_is_safe (test_stationary_navigation.ProjectionTests.test_empty_running_playlist_navigation_is_safe) ... ok
+test_every_preview_row_selects_exact_cue_and_matches_outputs (test_stationary_navigation.ProjectionTests.test_every_preview_row_selects_exact_cue_and_matches_outputs) ... ok
+test_hall_stream_and_mixed_outputs (test_stationary_navigation.ProjectionTests.test_hall_stream_and_mixed_outputs) ... ok
+test_legacy_style_still_uses_original_widget_routing (test_stationary_navigation.ProjectionTests.test_legacy_style_still_uses_original_widget_routing) ... ok
+test_selection_is_four_stream_rows_or_eight_hall_rows (test_stationary_navigation.ProjectionTests.test_selection_is_four_stream_rows_or_eight_hall_rows) ... ok
+test_start_prepares_each_song_and_restart_resets_timeline (test_stationary_navigation.ProjectionTests.test_start_prepares_each_song_and_restart_resets_timeline) ... ok
+test_unchanged_hall_does_not_touch_canvas (test_stationary_navigation.ProjectionTests.test_unchanged_hall_does_not_touch_canvas) ... ok
+test_diagnostics_and_import_without_gui (test_stationary_pages.StationaryPagesTests.test_diagnostics_and_import_without_gui) ... ok
+test_empty_song_and_section (test_stationary_pages.StationaryPagesTests.test_empty_song_and_section) ... ok
+test_identical_text_does_not_infer_flags (test_stationary_pages.StationaryPagesTests.test_identical_text_does_not_infer_flags) ... ok
+test_invalid_rows_and_blank_row_capacity (test_stationary_pages.StationaryPagesTests.test_invalid_rows_and_blank_row_capacity) ... ok
+test_many_lengths_and_boundaries (test_stationary_pages.StationaryPagesTests.test_many_lengths_and_boundaries) ... ok
+test_required_lengths (test_stationary_pages.StationaryPagesTests.test_required_lengths) ... ok
+test_stable_ids_and_repeated_occurrences (test_stationary_pages.StationaryPagesTests.test_stable_ids_and_repeated_occurrences) ... ok
+test_two_explicit_pinned_rows_with_next_section (test_stationary_pages.StationaryPagesTests.test_two_explicit_pinned_rows_with_next_section) ... ok
+test_two_short_sections_and_verse_chorus (test_stationary_pages.StationaryPagesTests.test_two_short_sections_and_verse_chorus) ... ok
+test_duplicate_id (test_validate_songs.SongValidationTests.test_duplicate_id) ... ok
+test_legacy_ids (test_validate_songs.SongValidationTests.test_legacy_ids) ... ok
+test_missing_and_empty_directory (test_validate_songs.SongValidationTests.test_missing_and_empty_directory) ... ok
+test_missing_repetition_is_warning (test_validate_songs.SongValidationTests.test_missing_repetition_is_warning) ... ok
+test_missing_variant (test_validate_songs.SongValidationTests.test_missing_variant) ... ok
+test_recursive_scan_and_exit_codes (test_validate_songs.SongValidationTests.test_recursive_scan_and_exit_codes) ... ok
+test_reference_missing_in_one_variant (test_validate_songs.SongValidationTests.test_reference_missing_in_one_variant) ... ok
+test_required_names_and_text (test_validate_songs.SongValidationTests.test_required_names_and_text) ... ok
+test_unclosed_section (test_validate_songs.SongValidationTests.test_unclosed_section) ... ok
+test_unknown_expression_is_not_partially_interpreted (test_validate_songs.SongValidationTests.test_unknown_expression_is_not_partially_interpreted) ... ok
+test_unknown_reference (test_validate_songs.SongValidationTests.test_unknown_reference) ... ok
+test_valid_song (test_validate_songs.SongValidationTests.test_valid_song) ... ok
+test_wrong_root (test_validate_songs.SongValidationTests.test_wrong_root) ... ok
+
+----------------------------------------------------------------------
+Ran 243 tests in 43.109s
+
+OK

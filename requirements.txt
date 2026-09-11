@@ -1,0 +1,3 @@
+# External dependencies of super_presenter.py; song_editor.py uses the stdlib.
+Pillow
+screeninfo

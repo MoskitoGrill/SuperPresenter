@@ -38,6 +38,7 @@
     </variant>
 
     
+    <repetition>
     (v1)*3 v2 (r1) (v1)*3 v2 (r1)
 </repetition>
 </slide>

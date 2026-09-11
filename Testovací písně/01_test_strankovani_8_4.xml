@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="TEST 01 – stránkování 8/4">
+    <variant name="čeština">
+        <section name="v1">
+V1 CZ – řádek 1 z 8
+V1 CZ – řádek 2 z 8
+V1 CZ – řádek 3 z 8
+V1 CZ – řádek 4 z 8
+V1 CZ – řádek 5 z 8
+V1 CZ – řádek 6 z 8
+V1 CZ – řádek 7 z 8
+V1 CZ – řádek 8 z 8
+        </section>
+        <section name="r1">
+R1 CZ – řádek 1 ze 4
+R1 CZ – řádek 2 ze 4
+R1 CZ – řádek 3 ze 4
+R1 CZ – řádek 4 ze 4
+        </section>
+        <section name="v2">
+V2 CZ – řádek 1 z 10
+V2 CZ – řádek 2 z 10
+V2 CZ – řádek 3 z 10
+V2 CZ – řádek 4 z 10
+V2 CZ – řádek 5 z 10
+V2 CZ – řádek 6 z 10
+V2 CZ – řádek 7 z 10
+V2 CZ – řádek 8 z 10
+V2 CZ – řádek 9 z 10
+V2 CZ – řádek 10 z 10
+        </section>
+    </variant>
+    <variant name="український">
+        <section name="v1">
+V1 UK – рядок 1 з 8
+V1 UK – рядок 2 з 8
+V1 UK – рядок 3 з 8
+V1 UK – рядок 4 з 8
+V1 UK – рядок 5 з 8
+V1 UK – рядок 6 з 8
+V1 UK – рядок 7 з 8
+V1 UK – рядок 8 з 8
+        </section>
+        <section name="r1">
+R1 UK – рядок 1 з 4
+R1 UK – рядок 2 з 4
+R1 UK – рядок 3 з 4
+R1 UK – рядок 4 з 4
+        </section>
+        <section name="v2">
+V2 UK – рядок 1 з 10
+V2 UK – рядок 2 з 10
+V2 UK – рядок 3 з 10
+V2 UK – рядок 4 з 10
+V2 UK – рядок 5 з 10
+V2 UK – рядок 6 з 10
+V2 UK – рядок 7 з 10
+V2 UK – рядок 8 з 10
+V2 UK – рядок 9 з 10
+V2 UK – рядок 10 з 10
+        </section>
+    </variant>
+    <repetition name="celý test" main="1">v1 r1 v2 @v2.9:10 r1</repetition>
+    <repetition name="bez připnutí">v1 r1 v2 r1</repetition>
+</slide>
