@@ -145,7 +145,7 @@ class ProjectionTests(unittest.TestCase):
         gui.runningSlide = gui.currentStep = 0
         gui.stationary_navigation = CueNavigation([plan_for(8), plan_for(10)])
         gui.projStyles = [{'mode': mode} for mode in modes]
-        gui.projectors = [Mock(style=i) for i in range(len(modes))]
+        gui.projectors = [Mock(style=i, lines_per_page=8) for i in range(len(modes))]
         gui.onlineSources = [Mock(variants=['cs'], cue_legacy_steps=(1, 5),
                                   lines={'longsteps': list(range(8))}),
                              Mock(variants=['cs'], cue_legacy_steps=(1, 5, 9),

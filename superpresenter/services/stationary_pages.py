@@ -5,6 +5,7 @@ occurrence needs a persistent unique ID (including repeated occurrences).
 Explicit pinned/repeated copies are ordinary capacity-consuming input rows.
 """
 from dataclasses import dataclass
+from .projection_limits import DEFAULT_HALL_ROWS, row_limits
 from typing import Iterable
 from urllib.parse import quote
 
@@ -101,13 +102,14 @@ def _source_ranges(lines: tuple[SourceLine, ...]) -> tuple[SourceRange, ...]:
     return tuple(ranges)
 
 
-def generate_pages(sections: Iterable[LogicalSection]) -> PresentationPlan:
-    """Append same-section selections and forward pins only when they fit 8.
+def generate_pages(sections: Iterable[LogicalSection], hall_rows=DEFAULT_HALL_ROWS) -> PresentationPlan:
+    """Append same-section selections and forward pins only when they fit.
 
     Empty sections produce no pages. Blank text rows count toward capacity.
     Navigation IDs survive unrelated section insertion and text-only edits;
     changing row order or count may change the meaning of an ID.
     """
+    hall_rows, stream_rows = row_limits(hall_rows)
     halls, streams, cues = [], [], []
     seen = set()
     blocks = []
@@ -140,18 +142,18 @@ def generate_pages(sections: Iterable[LogicalSection]) -> PresentationPlan:
                             and source_ids == {row.section_id for row in blocks[-1][0]}
                             and not any(row.pinned for row in blocks[-1][0]))
         if (blocks and (explicit_append or automatic_append)
-                and len(blocks[-1][0]) + len(rows) <= 8):
+                and len(blocks[-1][0]) + len(rows) <= hall_rows):
             previous_rows, previous_owners = blocks[-1]
             blocks[-1] = (previous_rows + rows, previous_owners + owners)
         else:
             blocks.append((rows, owners))
     for rows, owners in blocks:
-        for start in range(0, len(rows), 8):
-            hall = HallPage(len(halls), rows[start:start + 8])
+        for start in range(0, len(rows), hall_rows):
+            hall = HallPage(len(halls), rows[start:start + hall_rows])
             halls.append(hall)
-            for offset in range(0, len(hall.lines), 4):
+            for offset in range(0, len(hall.lines), stream_rows):
                 stream = StreamPage(len(streams), hall.index, offset,
-                                    hall.lines[offset:offset + 4])
+                                    hall.lines[offset:offset + stream_rows])
                 streams.append(stream)
                 occurrence_id, source_offset = owners[start + offset]
                 cues.append(PresentationCue(
@@ -215,9 +217,12 @@ def resolve_sections(construct: Construct, variant: SongVariant) -> Iterable[Log
 
 def format_timeline(plan: PresentationPlan) -> str:
     """Human-readable diagnostics, with one-based display numbering."""
+    first_stream = {}
+    for page in plan.stream_pages:
+        first_stream.setdefault(page.hall_page_index, page.index)
     return '\n'.join(
         f'cue {cue.step_index + 1} -> hall {cue.hall_page.index + 1} / '
-        f'stream {cue.hall_page.index + 1}.{cue.stream_page.hall_start // 4 + 1}'
+        f'stream {cue.hall_page.index + 1}.{cue.stream_page.index - first_stream[cue.hall_page.index] + 1}'
         f' [{cue.navigation_id}]'
         for cue in plan.cues
     )

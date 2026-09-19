@@ -85,6 +85,25 @@ prostředí a instaluje základní závislosti. Pro reprodukci distribuce použi
 
 Uživatelská data i původní soubory zůstávají zachované.
 
+## QR sbírky při promítání chval
+
+V **Edit** vyberte **chvály sál – stacionární** a otevřete
+**Nastavení QR sbírky…**. Vyberte obrázek, nastavte velikost v procentech kratší
+strany projekční plochy a polohu. QR lze přetahovat v náhledu, umístit do rohu
+předvolbou nebo zadat polohu číselně (0 % = levý/horní okraj, 100 % = pravý/dolní).
+Náhled obsahuje vzorový text pro kontrolu překrytí. Bílý okraj QR je součástí
+nastavené velikosti; texty se automaticky neposouvají.
+
+**Použít** v okně QR potvrdí návrh do Editu. V Editu pak zvolte **Použít**
+pro uložení a použití celého profilu, nebo **Uložit** pouze pro uložení profilu.
+Nastavení i vlastní obrázek jsou součástí profilu pro daný výstup; původní
+obrázek nemusí zůstávat na svém místě. **Obnovit výchozí nastavení** vrací
+původní obrázek, velikost a polohu ze stylu. **Zrušit** změny daného dialogu zahodí.
+
+Během promítání zapínejte a vypínejte QR zaškrtávátkem **Sbírka** u vybraného
+sálového výstupu. Texty lze dál přepínat a QR zůstává nad nimi. Pro změnu
+nastavení v Editu nejprve zastavte promítání.
+
 ## Testy
 
 Z kořene projektu po instalaci závislostí:

@@ -131,7 +131,7 @@ class ProjectionEditorModelTests(unittest.TestCase):
             self.assertEqual(owner.projectorID, -1)
             self.assertEqual(owner.projectors, [])
             owner.persist_layout()
-            self.assertEqual(load_layout(Path(directory) / 'last-layout.json', self.styles), data)
+            self.assertEqual(load_layout(Path(directory) / 'last-layout.json', self.styles), dict(data, hall_max_rows=8))
 
     def test_editor_is_blocked_during_projection(self):
         owner = self.controller()

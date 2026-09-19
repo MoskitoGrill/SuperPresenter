@@ -11,6 +11,7 @@ import time
 from superpresenter.paths import PROJECT_ROOT
 from superpresenter.version import VERSION
 from pathlib import Path
+from superpresenter.services.projection_limits import DEFAULT_HALL_ROWS
 from superpresenter.services.projection_config import ConfigError, load_styles, default_monitor
 from superpresenter.ui.projection_profiles import ProjectionProfiles
 from superpresenter.services.song_edit_session import validate_editor_fields
@@ -863,7 +864,8 @@ class GUI(ProjectionProfiles, SongEditorPanel):
                         if self.stationary_active:
                             plan, src.cue_legacy_steps = build_plan(
                                 src.song,
-                                [v for v in src.variants if v != '-----'], guide)
+                                [v for v in src.variants if v != '-----'], guide,
+                                getattr(self, 'hall_max_rows', DEFAULT_HALL_ROWS))
                             stationary_plans.append(plan)
                     except Exception as ex:
                         logger.exception('Source construction failed: %s', src.path)
