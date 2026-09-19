@@ -359,7 +359,7 @@ class SongEditor:
         self.repetition_container.pack(fill='x', padx=5)
 
         self.explain_label = tk.Label(self.root,
-                text="v = Sloka, r = Refrén, b = Bridge | (v) = 1 Opakování | (v)*x = x Opakování | v.x = Pouze x řádek",
+                text="v = Sloka, r = Refrén, b = Bridge | (v) = 1 Opakování | (v)*x = x Opakování | v.x = Pouze x řádek | v.x:y = od do řádky\n@v = připnutí k předchozí sloce",
                 font=('TkDefaultFont' if self.embedded else ('Courier New', 10, 'italic')),
                 fg='white', bg=self.bg_color)
         if self.embedded:
