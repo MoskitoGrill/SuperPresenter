@@ -172,9 +172,8 @@ def parse_construct(text: str, available_sections: Iterable[str]) -> Construct:
                     last = number(':')
                     if last <= first:
                         raise InvalidRangeError('Konec rozsahu musí být větší než začátek', range_position)
-            if pinned and (first is None or first < 1
-                           or (last is not None and last - first != 1)):
-                raise InvalidPinError('Připnutí vyžaduje výběr jednoho nebo dvou řádků od 1', start)
+            if pinned and first is not None and first < 1:
+                raise InvalidPinError('Připojení vyžaduje čísla řádků od 1', start)
             frames[-1][0].append(SectionStep(section, start, first, last, pinned))
     if len(frames) > 1:
         raise ParenthesisError('Neuzavřená závorka', frames[-1][1])

@@ -64,10 +64,10 @@ class NavigationTests(unittest.TestCase):
         song = Song('Test', [SongVariant(name, [SongSection('v1',
             [f'{name}{i}' for i in range(4)])]) for name in ('cs', 'en')])
         plan, legacy = build_plan(song, ['cs', 'en'], 'v1 @v1.4 v1.1:2')
-        self.assertEqual([len(p.lines) for p in plan.hall_pages], [8, 6])
+        self.assertEqual([len(p.lines) for p in plan.hall_pages], [8, 2, 4])
         self.assertEqual([r.text for r in plan.hall_pages[0].lines][:4],
                          ['cs0', 'en0', 'cs1', 'en1'])
-        self.assertEqual(legacy, (1, 3, 5, 7))
+        self.assertEqual(legacy, (1, 3, 5, 6))
         self.assertTrue(plan.hall_pages[1].lines[0].pinned)
 
     def test_modes_and_old_configuration(self):

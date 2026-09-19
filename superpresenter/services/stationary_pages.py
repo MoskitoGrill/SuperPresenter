@@ -135,21 +135,16 @@ def generate_pages(sections: Iterable[LogicalSection]) -> PresentationPlan:
     blocks = []
     for rows, owners, append in selected_blocks:
         source_ids = {row.section_id for row in rows}
-        if (append and blocks and len(source_ids) == 1
-                and source_ids == {row.section_id for row in blocks[-1][0]}
-                and not any(row.pinned for row in blocks[-1][0])
+        explicit_append = all(row.pinned for row in rows)
+        automatic_append = (append and blocks and len(source_ids) == 1
+                            and source_ids == {row.section_id for row in blocks[-1][0]}
+                            and not any(row.pinned for row in blocks[-1][0]))
+        if (blocks and (explicit_append or automatic_append)
                 and len(blocks[-1][0]) + len(rows) <= 8):
             previous_rows, previous_owners = blocks[-1]
             blocks[-1] = (previous_rows + rows, previous_owners + owners)
         else:
             blocks.append((rows, owners))
-    # Only explicit, wholly pinned blocks may cross a section boundary.
-    # Work from the right so adjacent pinned selections can join the same target.
-    for i in range(len(blocks) - 2, -1, -1):
-        rows, owners = blocks[i]
-        following, following_owners = blocks[i + 1]
-        if all(row.pinned for row in rows) and len(rows) + len(following) <= 8:
-            blocks[i:i + 2] = [(rows + following, owners + following_owners)]
     for rows, owners in blocks:
         for start in range(0, len(rows), 8):
             hall = HallPage(len(halls), rows[start:start + 8])

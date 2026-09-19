@@ -480,6 +480,11 @@ Atribut by neodlišoval jednotlivé výskyty a samostatný XML element uvnitř
 repetition by vyžadoval změny editoru/importeru. Migrace není nutná a žádné
 XML písně nebylo změněno; význam existujících výběrů nelze bezpečně odhadnout.
 
+> Aktualizace významu `@`: nyní připojuje celou sekci nebo výběr řádků
+> k předchozímu bloku, pokud se vejdou do osmi řádků. Například `v1 @b1`
+> spojí šest řádků sloky a dva řádky bridge. Popis etapy níže je historický;
+> aktuální pravidla jsou v [syntaxi constructu](docs/construct_syntax.md).
+
 ### Jak označit a zobrazit řádky
 
 Do pole opakování v editoru nebo do textu `<repetition>` napište například:
