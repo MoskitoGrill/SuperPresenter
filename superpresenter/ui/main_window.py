@@ -9,6 +9,7 @@ from tkinter import ttk, filedialog
 from tkinter import messagebox as tkmsg
 import time
 from superpresenter.paths import PROJECT_ROOT
+from superpresenter.version import VERSION
 from pathlib import Path
 from superpresenter.services.projection_config import ConfigError, load_styles, default_monitor
 from superpresenter.ui.projection_profiles import ProjectionProfiles
@@ -29,7 +30,7 @@ def doNothing(*e):
 
 class GUI(ProjectionProfiles, SongEditorPanel):
     def __init__(self):
-        self.title = 'Super Presenter v.0.2'
+        self.title = 'SuperPresenter ' + VERSION
         self.dir = PROJECT_ROOT
         self.noOfSteps = 0
 
@@ -518,11 +519,11 @@ class GUI(ProjectionProfiles, SongEditorPanel):
 
     def openPresentationEditor(self):
         import subprocess
-        import sys
+        from superpresenter.processes import tool_command
         if hasattr(self, "presentation_editor_win") and self.presentation_editor_win.poll() is None:
             return  # Prezentace už běží
-        path = os.path.join(self.dir, 'presentation_presenter.py')
-        self.presentation_editor_win = subprocess.Popen([sys.executable, path])
+        self.presentation_editor_win = subprocess.Popen(
+            tool_command('presentation_presenter.py'), cwd=self.dir)
 
     def getProjectorStyles(self):
         try:
@@ -1414,7 +1415,7 @@ class GUI(ProjectionProfiles, SongEditorPanel):
             self.nextSlide()
     def prevStep(self):
         if self.runState and getattr(self, 'stationary_active', False):
-            self.stationary_navigation.move(-1)
+            self.stationary_navigation.move(-1, restart_previous_section=True)
             self._sync_stationary_navigation()
             return
         if not self.runState:

@@ -6,6 +6,8 @@ from pathlib import Path
 from superpresenter.domain.song import Song
 from superpresenter.services.song_edit_session import SongEditSession, update_song_fields, validate_editor_fields
 from superpresenter.services.song_recovery import SongRecovery
+from superpresenter.paths import PROJECT_ROOT
+from superpresenter.ui.mousewheel import bind_canvas_wheel
 import os
 import re
 
@@ -75,7 +77,7 @@ class SongEditor:
         self.original_title = None
         self.current_variant = "čeština"
 
-        self.songs_dir = os.path.join(os.path.dirname(__file__), 'songs')
+        self.songs_dir = os.path.join(PROJECT_ROOT, 'songs')
         os.makedirs(self.songs_dir, exist_ok=True)
 
         self.bg_color = "#555555"
@@ -115,7 +117,7 @@ class SongEditor:
         if self._recovery is not None:
             return
         try:
-            self._recovery = SongRecovery(directory or Path(__file__).resolve().parent / '.song-recovery')
+            self._recovery = SongRecovery(directory or Path(PROJECT_ROOT) / '.song-recovery')
         except OSError as exc:
             messagebox.showwarning('Záloha není dostupná', f'Průběžné zálohování se nepodařilo zapnout:\n{exc}', parent=self.root)
             return
@@ -329,7 +331,7 @@ class SongEditor:
         self.canvas.configure(yscrollcommand=self.scrollbar.set)
         self.canvas.pack(side='left', fill='both', expand=True)
         self.scrollbar.pack(side='right', fill='y')
-        self.canvas.bind_all("<MouseWheel>", lambda e: self.canvas.yview_scroll(-1 * int(e.delta / 120), "units"))
+        bind_canvas_wheel(self.canvas, lambda e: self.canvas.yview_scroll(-1 * int(e.delta / 120), "units"))
 
         self.sections_frame = self.scrollable_frame
 
@@ -694,9 +696,8 @@ class SongEditor:
 
     def run_error_fix(self):
         import subprocess
-        import sys
-        path = os.path.join(os.path.dirname(__file__), 'oprava_xml_tagu.py')
-        subprocess.Popen([sys.executable, path])
+        from superpresenter.processes import tool_command
+        subprocess.Popen(tool_command('oprava_xml_tagu.py'), cwd=PROJECT_ROOT)
 
     def clear_editor(self):
         # 1. Smazat grafické prvky sekcí

@@ -145,7 +145,7 @@ class SongSearchWindow:
             self.results = self.search_index.search(self.query.get())
             self.tree.delete(*self.tree.get_children())
             for i, result in enumerate(self.results):
-                title = result.title + (' (v playlistu)' if in_playlist(self.gui, result.path) else '')
+                title = result.display_title + (' (v playlistu)' if in_playlist(self.gui, result.path) else '')
                 self.tree.insert('', 'end', iid=str(i), values=(title, result.snippet))
             summary = f'Výsledků: {len(self.results)}' if self.query.get().strip() else 'Zadejte název nebo část textu písně.'
             if self.search_index.failures:

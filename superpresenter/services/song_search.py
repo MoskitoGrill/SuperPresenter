@@ -1,6 +1,7 @@
 """Lazy, in-memory song search using the shared repository; no GUI dependencies."""
 from dataclasses import dataclass
 import logging
+import re
 from pathlib import Path
 import unicodedata
 
@@ -43,6 +44,14 @@ class SearchResult:
     location: str
     snippet: str
     rank: int
+
+    @property
+    def display_title(self):
+        """Preserve the hymnal number stored at the start of the filename."""
+        match = re.match(r'^(\d+)\s*[-–—.]\s*', self.path.stem)
+        if match and not re.match(r'^' + re.escape(match[1]) + r'(?:\s|[-–—.]|$)', self.title):
+            return f'{match[1]} – {self.title}'
+        return self.title
 
 
 def excerpt(text, words, limit=150):

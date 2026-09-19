@@ -78,11 +78,12 @@ class CueNavigation:
         self.song = max(0, min(song, len(self.plans) - 1))
         self.step = max(0, min(step, self.last_step))
 
-    def move(self, direction):
+    def move(self, direction, *, restart_previous_section=False):
         if direction not in (-1, 1):
             raise ValueError('Direction must be -1 or 1')
         if not self.plans:
             return
+        previous_cue = self.cue
         if direction == 1 and self.step == self.last_step:
             if self.song + 1 < len(self.plans):
                 self.select(self.song + 1)
@@ -92,6 +93,11 @@ class CueNavigation:
                 self.step = self.last_step
         else:
             self.step = max(0, min(self.step + direction, self.last_step))
+        if (restart_previous_section and direction == -1 and previous_cue
+                and self.cue and self.cue.occurrence_id != previous_cue.occurrence_id):
+            occurrence = self.cue.occurrence_id
+            while self.step > 1 and self.plans[self.song].cues[self.step - 2].occurrence_id == occurrence:
+                self.step -= 1
 
     def diagnostic(self):
         cue = self.cue

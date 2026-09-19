@@ -2,6 +2,8 @@
 import ctypes
 import logging
 import os
+import sys
+import subprocess
 from pathlib import Path
 import uuid
 
@@ -72,7 +74,9 @@ def _set_properties(tk_handle, root, icon):
     fmtid = GUID.parse('9F4C2855-9F79-4B39-A8D0-E1D42DE1D5F3')
     try:
         # Set relaunch information before the explicit ID, as required by Shell.
-        values = [(2, '"%s"' % (root / 'spustit_super_presenter.exe')),
+        command = ([sys.executable] if getattr(sys, 'frozen', False) else
+                   [sys.executable, str(root / 'super_presenter.py')])
+        values = [(2, subprocess.list2cmdline(command)),
                   (4, 'SuperPresenter'), (3, str(icon) + ',0'),
                   (5, 'SuperPresenter.Desktop')]
         for pid, text in values:
