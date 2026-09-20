@@ -2,6 +2,7 @@
 import tkinter as tk
 from tkinter import font as tkFont
 import time
+from superpresenter.windows_shell import style_title_bar
 
 
 class SortingWin():
@@ -38,6 +39,7 @@ class SortingWin():
 
             idx += 1
         self.rows = winStyle['rows']
+        style_title_bar(self.win)
         self.win.update()
         self.w = self.lines[0].winfo_x() + self.lines[0].winfo_width()
         self.h = self.lines[0].winfo_y() + self.lines[0].winfo_height()

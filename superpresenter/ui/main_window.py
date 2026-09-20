@@ -127,6 +127,7 @@ class GUI(ProjectionProfiles, SongEditorPanel):
         self.prevBtn.config(style['mainButton'])
         self.nextFileBtn.config(style['mainButton'])
         self.prevFileBtn.config(style['mainButton'])
+        self.floatingBtn.config(style['projButton'], width=7)
         self.stepsLabel.config(style['stepsLabel'])
 
         self.projNtbk.config(style['secondaryFrame'])
@@ -262,6 +263,8 @@ class GUI(ProjectionProfiles, SongEditorPanel):
         self.projNav = tk.Frame(self.projNtbk)
         self.projSet = tk.Frame(self.projNtbk)
         self.projRun = tk.Frame(self.projNtbk)
+        self.floatingBtn = tk.Button(self.projRun, text='Contr..',
+                                     command=self.openFloatingControls)
         # navigation buttons
         self.nextProj = tk.Button(self.projNav, text='>')
         self.prevProj = tk.Button(self.projNav, text='<')
@@ -273,18 +276,18 @@ class GUI(ProjectionProfiles, SongEditorPanel):
         # projection settings
         self.chooseProjLabel = tk.Label(self.projSet, text='Display')
         self.chooseStyleLabel = tk.Label(self.projSet, text='Style')
-        self.chooseProj = ttk.Combobox(self.projSet, width=20)
-        self.chooseStyle = ttk.Combobox(self.projSet, width=20)
+        self.chooseProj = ttk.Combobox(self.projSet, width=18)
+        self.chooseStyle = ttk.Combobox(self.projSet, width=18)
         self.chooseProj.state(['readonly'])
         self.chooseStyle.state(['readonly'])
         # projection run
         self.openProjs = tk.Button(self.projRun, text='▶')
-        self.fullscreenCheck = tk.Checkbutton(self.projRun, text='fullscreen',
+        self.fullscreenCheck = tk.Checkbutton(self.projSet, text='fullscreen',
             variable=self.fullscreenState, command=self.changeFullscreen)
 
         self.collectionState = tk.BooleanVar(value=False)
         self.collectionCheck = tk.Checkbutton(
-            self.projRun,
+            self.projSet,
             text='Sbírka',
             variable=self.collectionState,
             command=self.changeCollection
@@ -380,7 +383,8 @@ class GUI(ProjectionProfiles, SongEditorPanel):
         self.projNtbk.grid(column=0, row=2, pady=7)
         self.projNav.grid(column=0, row=0, sticky=('w','e'))
         self.projSet.grid(column=0, row=1, sticky=('w','e'))
-        self.projRun.grid(column=0, row=2)
+        self.projRun.grid(column=0, row=2, sticky='ew', pady=(8, 3))
+        self.projRun.columnconfigure(0, weight=1)
         # navigation buttons
         self.nextProj.grid(row=0, column=2, sticky=('w','e'), padx=2)
         self.prevProj.grid(row=0, column=0, sticky=('e'), padx=2)
@@ -399,9 +403,10 @@ class GUI(ProjectionProfiles, SongEditorPanel):
         self.chooseStyle.grid(row=1, column=1, sticky='w',
              pady=5, padx=10)
         # projection run
-        self.openProjs.grid(row=0, column=0, padx=7)
-        self.fullscreenCheck.grid(column=1, row=0,padx= 7)
-        self.collectionCheck.grid(column=1, row=1, padx=7)
+        self.openProjs.grid(row=0, column=0, sticky='w', padx=10)
+        self.floatingBtn.grid(row=0, column=1, sticky='e', padx=(7, 10))
+        self.fullscreenCheck.grid(column=2, row=0, sticky='w', padx=(0, 7))
+        self.collectionCheck.grid(column=2, row=1, sticky='w', padx=(0, 7))
 
         ##### right halve
         self.sourceFrame.grid(column=0, row=0, sticky=('nsew'))
@@ -453,6 +458,8 @@ class GUI(ProjectionProfiles, SongEditorPanel):
                 self.presentation_editor_win.terminate()
 
         self.stop_monitor_watch()
+        if getattr(self, 'floating_controls', None) is not None:
+            self.floating_controls.close()
         if self.runState:
             self.runState = False
             self._cleanup_after_stop()
@@ -624,6 +631,14 @@ class GUI(ProjectionProfiles, SongEditorPanel):
             self.openProjector()
 
     # source options
+    def openFloatingControls(self):
+        from superpresenter.ui.floating_controls import FloatingControls
+        remote = getattr(self, 'floating_controls', None)
+        if remote is None or not remote.win.winfo_exists():
+            self.floating_controls = FloatingControls(self)
+        else:
+            remote.close()
+
     def openSongSearch(self):
         from superpresenter.ui.song_search_window import SongSearchWindow
         window = getattr(self, '_song_search_window', None)
@@ -932,6 +947,9 @@ class GUI(ProjectionProfiles, SongEditorPanel):
         self._editing_states = []
 
         def lock(widget):
+            # These switches remain usable during projection after relocation.
+            if widget in (self.fullscreenCheck, self.collectionCheck):
+                return
             if 'state' in widget.keys():
                 self._editing_states.append((widget, str(widget.cget('state'))))
                 widget.configure(state='disabled')

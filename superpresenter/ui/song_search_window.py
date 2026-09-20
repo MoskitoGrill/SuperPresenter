@@ -7,6 +7,7 @@ import tkinter as tk
 from tkinter import ttk, font as tkfont
 
 from superpresenter.services.song_search import SongSearch
+from superpresenter.windows_shell import style_title_bar
 
 logger = logging.getLogger(__name__)
 
@@ -67,6 +68,7 @@ class SongSearchWindow:
         self.win.bind('<Destroy>', self.destroyed, add='+')
         self.check_index()
         self.entry.focus_set()
+        style_title_bar(self.win)
 
     def browse_files(self):
         try:

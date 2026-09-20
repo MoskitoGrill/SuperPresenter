@@ -6,6 +6,7 @@ from tkinter import ttk, filedialog, messagebox
 from PIL import Image, ImageTk
 
 from superpresenter.paths import PROJECT_ROOT
+from superpresenter.windows_shell import style_title_bar
 from superpresenter.services.projection_config import resource_path
 from superpresenter.services.collection_qr import (
     default_settings, validate_settings, encode_image, decode_image, geometry, render_image,
@@ -44,18 +45,20 @@ class CollectionQREditor:
             value.trace_add('write', lambda *_: self.draw())
         presets = ttk.Frame(controls)
         presets.grid(row=4, column=0, columnspan=3, pady=6)
-        for label, x, y in [('Vlevo nahoře', 0, 0), ('Vpravo nahoře', 100, 0),
-                            ('Vlevo dole', 0, 100), ('Vpravo dole', 100, 100)]:
-            ttk.Button(presets, text=label, command=lambda x=x, y=y: self.position(x, y)).pack(side='left', padx=2)
+        for index, (label, x, y) in enumerate([('Vlevo nahoře', 0, 0), ('Vpravo nahoře', 100, 0),
+                                              ('Vlevo dole', 0, 100), ('Vpravo dole', 100, 100)]):
+            ttk.Button(presets, text=label, command=lambda x=x, y=y: self.position(x, y)).grid(
+                row=index // 2, column=index % 2, sticky='ew', padx=4, pady=4)
         ttk.Label(controls, text='QR lze přetáhnout v náhledu. Poloha 0 % = levý/horní okraj, 100 % = pravý/dolní.\n'
                   'Bílý okraj je součástí velikosti. Text v náhledu je pouze ukázka.', wraplength=600).grid(row=5, column=0, columnspan=3, pady=4)
         self.status = tk.StringVar(self.win)
-        ttk.Label(controls, textvariable=self.status, foreground='red').grid(row=6, column=0, columnspan=3)
+        ttk.Label(controls, textvariable=self.status, foreground='#ff9999').grid(row=6, column=0, columnspan=3)
         buttons = ttk.Frame(controls)
         buttons.grid(row=7, column=0, columnspan=3, sticky='ew', pady=6)
         ttk.Button(buttons, text='Obnovit výchozí nastavení', command=self.reset).pack(side='left')
         ttk.Button(buttons, text='Použít', command=self.apply).pack(side='right', padx=4)
         ttk.Button(buttons, text='Zrušit', command=self.cancel).pack(side='right', padx=4)
+        self.configure_appearance()
         self.image = None
         self.load_image()
         self.canvas.bind('<Configure>', self.draw)
@@ -64,7 +67,36 @@ class CollectionQREditor:
         self.drag_offset = None
         self.win.grab_set()
         self.win.update_idletasks()
+        width = min(self.win.winfo_reqwidth(), self.win.winfo_screenwidth() - 80)
+        height = min(self.win.winfo_reqheight(), self.win.winfo_screenheight() - 100)
+        self.win.geometry(f'{width}x{height}')
+        self.win.minsize(min(width, 720), min(height, controls.winfo_reqheight() + 140))
         self.draw()
+        style_title_bar(self.win)
+
+    def configure_appearance(self):
+        """Reuse the enclosing projection editor's application styles."""
+        background = self.win.master.cget('background')
+        self.win.configure(background=background)
+        theme = ttk.Style(self.win)
+        theme.configure('Projection.Horizontal.TScale', background=background,
+                        troughcolor='#222222', bordercolor=background,
+                        lightcolor='#666666', darkcolor='#444444')
+        theme.map('Projection.Horizontal.TScale', background=[('active', '#666666')])
+        styles = {'TFrame': 'Projection.TFrame', 'TLabel': 'Projection.TLabel',
+                  'TButton': 'Projection.TButton', 'TEntry': 'Projection.TEntry',
+                  'TScale': 'Projection.Horizontal.TScale'}
+        def configure_children(parent):
+            for child in parent.winfo_children():
+                kind = child.winfo_class()
+                if kind in styles:
+                    child.configure(style=styles[kind])
+                    if kind == 'TEntry':
+                        child.configure(font=theme.lookup('Projection.TLabel', 'font'))
+                    elif kind == 'TLabel' and (child.cget('wraplength') or child.cget('textvariable') == str(self.status)):
+                        child.configure(style='Projection.Status.TLabel')
+                configure_children(child)
+        configure_children(self.win)
 
     def load_image(self):
         try:

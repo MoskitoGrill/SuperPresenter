@@ -1,4 +1,4 @@
-"""Windows taskbar identity and relaunch target for the source-based application."""
+"""Windows title bar styling, taskbar identity and relaunch target."""
 import ctypes
 import logging
 import os
@@ -23,11 +23,58 @@ def configure_window(window):
     except Exception:
         logging.getLogger(__name__).exception('Windows icon setup failed')
         icon = root / 'images' / 'launcher-default.ico'
+    style_title_bar(window)
     try:
-        window.update_idletasks()
         _set_properties(window.winfo_id(), root, icon)
     except Exception:
         logging.getLogger(__name__).exception('Windows taskbar setup failed')
+
+
+def style_title_bar(window):
+    """Apply native caption colors to a fully styled Tk top-level window."""
+    if os.name != 'nt':
+        return
+    try:
+        window.update_idletasks()
+        _style_title_bar(window)
+    except Exception:
+        logging.getLogger(__name__).exception('Windows title bar setup failed')
+
+
+def _style_title_bar(window):
+    """Match the native caption to Tk without replacing window controls.
+
+    Older Windows versions may reject individual DWM attributes; leaving their
+    system defaults in place is safe and must not prevent application startup.
+    """
+    from ctypes import wintypes
+
+    user32 = ctypes.WinDLL('user32', use_last_error=True)
+    user32.GetAncestor.argtypes = [wintypes.HWND, wintypes.UINT]
+    user32.GetAncestor.restype = wintypes.HWND
+    handle = user32.GetAncestor(window.winfo_id(), 2)
+    if not handle:
+        return
+    dwm = ctypes.WinDLL('dwmapi')
+    set_attribute = dwm.DwmSetWindowAttribute
+    set_attribute.argtypes = [wintypes.HWND, wintypes.DWORD,
+                             ctypes.c_void_p, wintypes.DWORD]
+    set_attribute.restype = ctypes.c_long
+
+    red, green, blue = (component // 257 for component in
+                        window.winfo_rgb(window.cget('background')))
+    dark = (0.2126 * red + 0.7152 * green + 0.0722 * blue) < 128
+    caption = red | (green << 8) | (blue << 16)  # Windows COLORREF: 0x00BBGGRR.
+    for attribute, value in ((20, int(dark)),  # DWMWA_USE_IMMERSIVE_DARK_MODE
+                             (35, caption),  # DWMWA_CAPTION_COLOR (Windows 11)
+                             (36, 0xFFFFFF if dark else 0x202020)):
+        color = wintypes.DWORD(value)
+        result = set_attribute(handle, attribute, ctypes.byref(color),
+                               ctypes.sizeof(color))
+        if result < 0:
+            logging.getLogger(__name__).debug(
+                'DWM title bar attribute %s unavailable: 0x%08x',
+                attribute, result & 0xffffffff)
 
 
 def _set_properties(tk_handle, root, icon):

@@ -2047,3 +2047,22 @@ v prostředí uživatele a fyzické projektory zůstávají k provoznímu ověř
 Před sestavením verze 4 změnit číslo verze, metadata a název distribuce;
 vydaný ZIP verze 3 zachovat. Podklady k sestavení a výsledky kontrol jsou
 v `docs/windows-release.md` a `docs/release-v3-verification.md`.
+
+## Plovoucí ovládání
+
+Pod šipkami hlavního okna je tlačítko **Plovoucí ovládání**, které zapíná
+nebo zavírá samostatné okno nastavené vždy navrchu. Okno lze přesouvat a měnit
+jeho velikost; není svázáno s minimalizací hlavního okna.
+
+- `<<` / `>>`: prázdný začátek / konec aktuální písně.
+- `<` / `>`: předchozí / následující zobrazená stránka; na hranicích lze přejít
+  do sousední písně. Samotný stacionární sál přeskakuje pomocné poloviny streamu.
+- **Zahájit prezentaci / Ukončit prezentaci** používá běžné spuštění a zastavení.
+- Náhled ukazuje poslední řádek aktuální a první řádek následující stránky.
+  Je-li zapnutý stacionární stream, řídí se streamem; jinak stacionárním sálem.
+  Prázdné úvodní a závěrečné kroky jsou označené jako prázdná plocha.
+
+Náhled sleduje i přepnutí z hlavního okna a používá běžící snapshot písní.
+Zavření ovladače prezentaci nezastaví. U starších posuvných stylů fungují
+ovládací tlačítka, ale náhled hranic řádků není dostupný.
+Změna je ve zdrojové aplikaci; již vydané EXE se tím neaktualizuje.

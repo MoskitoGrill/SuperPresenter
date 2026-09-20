@@ -89,6 +89,8 @@ class ProjectionEditor:
         self.win.minsize(min(560, width), min(480, height))
         self.win.grab_set()
         self.draw_map()
+        from superpresenter.windows_shell import style_title_bar
+        style_title_bar(self.win)
 
     def configure_appearance(self):
         self.background = self.owner.win.cget('background')
