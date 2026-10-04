@@ -131,10 +131,10 @@ class NavigationTests(unittest.TestCase):
         plan, _ = build_plan(song, ['cs', 'en'], 'v1 (v1.2)*3')
         self.assertEqual([len(p.lines) for p in plan.hall_pages], [4, 6])
 
-    def test_full_verse_repetition_keeps_its_boundary(self):
+    def test_full_verse_repetition_joins_when_it_fits(self):
         song = Song('Test', [SongVariant('cs', [SongSection('v1', ['a', 'b'])])])
         plan, _ = build_plan(song, ['cs'], '(v1)*2')
-        self.assertEqual([len(p.lines) for p in plan.hall_pages], [2, 2])
+        self.assertEqual([len(p.lines) for p in plan.hall_pages], [4])
 
 
 class ProjectionTests(unittest.TestCase):

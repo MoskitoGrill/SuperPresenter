@@ -47,7 +47,8 @@ def build_plan(song, variant_names, guide, hall_rows=DEFAULT_HALL_ROWS):
                     positions[id(row)] = legacy_position
             legacy_position += 1
         sections.append(LogicalSection(occurrences[0].occurrence_id, tuple(rows),
-                                       occurrences[0].append_to_previous))
+                                       occurrences[0].append_to_previous,
+                                       occurrences[0].whole_section))
     plan = generate_pages(sections, hall_rows)
     return plan, tuple(positions[id(c.stream_page.lines[0])] for c in plan.cues)
 

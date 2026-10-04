@@ -35,8 +35,9 @@ class LogicalSection:
     occurrence_id: str
     lines: tuple[SourceLine, ...]
     # An ordinary construct row selection may extend its own preceding verse.
-    # Whole sections and explicit forward pins retain their original semantics.
+    # Whole sections can also join consecutive whole occurrences of themselves.
     append_to_previous: bool = False
+    whole_section: bool = False
 
     def __post_init__(self):
         object.__setattr__(self, 'lines', tuple(self.lines))
@@ -103,7 +104,7 @@ def _source_ranges(lines: tuple[SourceLine, ...]) -> tuple[SourceRange, ...]:
 
 
 def generate_pages(sections: Iterable[LogicalSection], hall_rows=DEFAULT_HALL_ROWS) -> PresentationPlan:
-    """Append same-section selections and forward pins only when they fit.
+    """Append same-section selections, whole repeats and pins when they fit.
 
     Empty sections produce no pages. Blank text rows count toward capacity.
     Navigation IDs survive unrelated section insertion and text-only edits;
@@ -120,34 +121,36 @@ def generate_pages(sections: Iterable[LogicalSection], hall_rows=DEFAULT_HALL_RO
         if section.lines:
             blocks.append((section.lines, tuple((section.occurrence_id, i)
                                                 for i in range(len(section.lines))),
-                           section.append_to_previous))
+                           section.append_to_previous, section.whole_section))
     # First collect each uninterrupted run of ordinary selections of the same
     # source section. Treat the entire run as one block so 5 + 4 stays 5 / 4,
     # rather than filling the first page with only three repeated copies.
     selected_blocks = []
-    for rows, owners, append in blocks:
+    for rows, owners, append, whole in blocks:
         source_ids = {row.section_id for row in rows}
         if (append and selected_blocks and selected_blocks[-1][2]
                 and len(source_ids) == 1
                 and source_ids == {row.section_id for row in selected_blocks[-1][0]}):
-            previous_rows, previous_owners, _ = selected_blocks[-1]
-            selected_blocks[-1] = (previous_rows + rows, previous_owners + owners, True)
+            previous_rows, previous_owners, _, _ = selected_blocks[-1]
+            selected_blocks[-1] = (previous_rows + rows, previous_owners + owners, True, False)
         else:
-            selected_blocks.append((rows, owners, append))
+            selected_blocks.append((rows, owners, append, whole))
     blocks = []
-    for rows, owners, append in selected_blocks:
+    for rows, owners, append, whole in selected_blocks:
         source_ids = {row.section_id for row in rows}
         explicit_append = all(row.pinned for row in rows)
-        automatic_append = (append and blocks and len(source_ids) == 1
+        automatic_append = ((append or (whole and blocks and blocks[-1][2]))
+                            and blocks and len(source_ids) == 1
                             and source_ids == {row.section_id for row in blocks[-1][0]}
                             and not any(row.pinned for row in blocks[-1][0]))
         if (blocks and (explicit_append or automatic_append)
                 and len(blocks[-1][0]) + len(rows) <= hall_rows):
-            previous_rows, previous_owners = blocks[-1]
-            blocks[-1] = (previous_rows + rows, previous_owners + owners)
+            previous_rows, previous_owners, previous_whole = blocks[-1]
+            blocks[-1] = (previous_rows + rows, previous_owners + owners,
+                          whole and previous_whole)
         else:
-            blocks.append((rows, owners))
-    for rows, owners in blocks:
+            blocks.append((rows, owners, whole))
+    for rows, owners, _ in blocks:
         for start in range(0, len(rows), hall_rows):
             hall = HallPage(len(halls), rows[start:start + hall_rows])
             halls.append(hall)
@@ -212,7 +215,8 @@ def resolve_sections(construct: Construct, variant: SongVariant) -> Iterable[Log
                                     node.section, i if i >= 0 else max(len(rows) - 1, 0),
                                     node.pinned, node.pinned or repeated) for i in indices)
         yield LogicalSection(f'{path}s{node.position}', selected,
-                             append_to_previous=node.start_line is not None and not node.pinned)
+                             append_to_previous=node.start_line is not None and not node.pinned,
+                             whole_section=node.start_line is None and not node.pinned)
 
 
 def format_timeline(plan: PresentationPlan) -> str:

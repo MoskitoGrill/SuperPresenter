@@ -56,6 +56,36 @@ class LineLimitTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 build_plan(self.song(), ['cs'], 'v1', limit)
 
+    def test_consecutive_whole_verses_join_only_when_they_fit(self):
+        song = self.song(3)
+        for guide, limit, languages, lengths in (
+                ('v1 v1', 8, ['cs'], [6]),
+                ('v1 v1', 5, ['cs'], [3, 3]),
+                ('v1 v1 v1', 8, ['cs'], [6, 3]),
+                ('(v1)*2', 8, ['cs'], [6]),
+                ('v1 v1', 8, ['cs', 'en'], [6, 6]),
+                ('v1 v1', 12, ['cs', 'en'], [12])):
+            with self.subTest(guide=guide, limit=limit, languages=languages):
+                plan, _ = build_plan(song, languages, guide, limit)
+                self.assertEqual([len(p.lines) for p in plan.hall_pages], lengths)
+                repeats = 3 if guide == 'v1 v1 v1' else 2
+                self.assertEqual([r.text for p in plan.hall_pages for r in p.lines],
+                                 [str(i) for _ in range(repeats)
+                                  for i in range(3) for _ in languages])
+                self.assertEqual(len({c.navigation_id for c in plan.cues}), len(plan.cues))
+                nav = CueNavigation([plan])
+                for cue in plan.cues:
+                    nav.move(1)
+                    self.assertIs(nav.cue, cue)
+                nav.move(1)
+                for cue in reversed(plan.cues):
+                    nav.move(-1)
+                    self.assertIs(nav.cue, cue)
+
+        song.variants[0].sections.append(SongSection('v2', ['0', '1', '2']))
+        plan, _ = build_plan(song, ['cs'], 'v1 v2 v1', 12)
+        self.assertEqual([len(p.lines) for p in plan.hall_pages], [3, 3, 3])
+
     def test_shared_hall_limit_and_stream_only_default(self):
         styles = [dict(name='hall', mode='stationary_hall'), dict(name='stream', mode='stationary_stream')]
         halls = [dict(style='hall', lines_per_page=n) for n in (12, 3)]
