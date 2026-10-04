@@ -41,6 +41,24 @@ class EditorIntegrationTests(unittest.TestCase):
         self.assertTrue(self.editor.dirty)
         self.assertTrue(self.editor.status_variable.get())
 
+    def test_fixed_window_and_horizontal_overflow_when_switching_songs(self):
+        self.root.geometry('700x700')
+        self.root.deiconify()
+        self.root.update()
+        size = (self.root.winfo_width(), self.root.winfo_height())
+        long_song = Song.from_texts('Long', {'cs': {'v1': 'x' * 250}}, {'default': 'v1'})
+        self.assertTrue(self.editor.load_song(long_song))
+        self.root.update()
+        self.assertEqual((self.root.winfo_width(), self.root.winfo_height()), size)
+        self.assertLess(self.editor.canvas.xview()[1], 1.0)
+        self.editor.canvas.xview_moveto(1.0)
+        self.root.update()
+        self.assertGreater(self.editor.canvas.xview()[0], 0.0)
+        self.assertTrue(self.editor.load_song(Song.from_texts()))
+        self.root.update()
+        self.assertEqual((self.root.winfo_width(), self.root.winfo_height()), size)
+        self.assertEqual(self.editor.canvas.xview(), (0.0, 1.0))
+
     def test_cancel_discard_and_failed_save_transitions(self):
         self.editor.title_variable.set('Changed')
         self.assertFalse(self.editor.new_song())

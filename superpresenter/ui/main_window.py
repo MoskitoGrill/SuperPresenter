@@ -64,6 +64,9 @@ class GUI(ProjectionProfiles, SongEditorPanel):
                 'Unknown error occured while loading GUI styles\n'+\
                     'Check "gui_styles.json" file.')
         self.placeWidgets()
+        # Fix the client size once: song widgets must not resize the window.
+        self.win.update_idletasks()
+        self.win.geometry(f'{self.win.winfo_reqwidth()}x{self.win.winfo_reqheight()}+20+20')
 
         self.getMonitors()
         self.getProjectorStyles()
@@ -352,7 +355,9 @@ class GUI(ProjectionProfiles, SongEditorPanel):
     def placeWidgets(self):
         ##### halve window
         self.leftFrame.grid(column=0, row=0, padx=10, sticky=('n','s'))
-        self.rightFrame.grid(column=1, row=0, padx=10, sticky=('n','s'))
+        self.rightFrame.grid(column=1, row=0, padx=10, sticky='nsew')
+        self.win.grid_rowconfigure(0, weight=1)
+        self.win.grid_columnconfigure(1, weight=1)
         self.rightFrame.grid_rowconfigure(0, weight=1)
         self.rightFrame.grid_rowconfigure(1, weight=0)
         self.rightFrame.grid_rowconfigure(2, weight=0)

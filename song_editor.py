@@ -271,6 +271,9 @@ class SongEditor:
             self.status_variable.set("Neuloženo" if self.session.dirty else "")
         finally:
             self._loading = False
+        self.canvas.xview_moveto(0)
+        self.canvas.yview_moveto(0)
+        self._update_canvas_layout()
         self._changed()
 
     def set_selected_repetition_text(self, text):
@@ -317,20 +320,25 @@ class SongEditor:
 
         self.canvas = tk.Canvas(canvas_frame, bg=self.bg_color, highlightthickness=0)
         self.scrollbar = tk.Scrollbar(canvas_frame, orient='vertical', command=self.canvas.yview)
+        self.horizontal_scrollbar = tk.Scrollbar(canvas_frame, orient='horizontal', command=self.canvas.xview)
         self.scrollable_frame = tk.Frame(self.canvas, bg=self.bg_color)
 
         # vytvořit okno a pamatovat si jeho id
         self._window_item = self.canvas.create_window((0, 0), window=self.scrollable_frame, anchor='nw')
 
         # držet šířku vnitřního okna = šířka canvasu (tedy šířka "obdélníku")
-        self.canvas.bind("<Configure>", lambda e: self.canvas.itemconfig(self._window_item, width=e.width))
+        self.canvas.bind("<Configure>", self._update_canvas_layout)
 
         # scrollregion podle obsahu
-        self.scrollable_frame.bind("<Configure>", lambda e: self.canvas.configure(scrollregion=self.canvas.bbox("all")))
+        self.scrollable_frame.bind("<Configure>", self._update_canvas_layout)
 
         self.canvas.configure(yscrollcommand=self.scrollbar.set)
-        self.canvas.pack(side='left', fill='both', expand=True)
-        self.scrollbar.pack(side='right', fill='y')
+        self.canvas.configure(xscrollcommand=self.horizontal_scrollbar.set)
+        canvas_frame.grid_rowconfigure(0, weight=1)
+        canvas_frame.grid_columnconfigure(0, weight=1)
+        self.canvas.grid(row=0, column=0, sticky='nsew')
+        self.scrollbar.grid(row=0, column=1, sticky='ns')
+        self.horizontal_scrollbar.grid(row=1, column=0, sticky='ew')
         bind_canvas_wheel(self.canvas, lambda e: self.canvas.yview_scroll(-1 * int(e.delta / 120), "units"))
 
         self.sections_frame = self.scrollable_frame
@@ -386,6 +394,13 @@ class SongEditor:
                     command=self.run_error_fix).pack(anchor="sw")
 
 
+    def _update_canvas_layout(self, event=None):
+        content_width = max((section['frame'].winfo_reqwidth() + 40
+                             for section in self.sections), default=0)
+        width = max(self.canvas.winfo_width(), content_width)
+        self.canvas.itemconfigure(self._window_item, width=width)
+        self.canvas.configure(scrollregion=self.canvas.bbox('all'))
+
     def get_existing_languages(self):
         return list(dict.fromkeys(s['lang'] for s in self.sections)) or ["čeština"]
 
@@ -433,13 +448,14 @@ class SongEditor:
         )
         remove_btn.pack(side='right', padx=5)
 
-        text = tk.Text(frame, height=1, font=self.font, wrap='word', undo=True, maxundo=200)  # přidané wrap='word'
+        text = tk.Text(frame, height=1, width=1, font=self.font, wrap='none', undo=True, maxundo=200)
         text.insert('end', content)
         text.pack(fill='x')
 
         def resize_text(event):
             lines = text.get("1.0", "end-1c").split("\n")
-            text.configure(height=max(1, len(lines)))
+            text.configure(height=max(1, len(lines)),
+                           width=max(1, max(len(line.expandtabs(8)) for line in lines)))
 
         def modified(event):
             if text.edit_modified():
