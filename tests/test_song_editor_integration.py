@@ -59,6 +59,21 @@ class EditorIntegrationTests(unittest.TestCase):
         self.assertEqual((self.root.winfo_width(), self.root.winfo_height()), size)
         self.assertEqual(self.editor.canvas.xview(), (0.0, 1.0))
 
+    def test_wheel_over_expanding_verse_scrolls_editor(self):
+        self.root.geometry('700x500')
+        self.root.deiconify()
+        self.editor.load_song(Song.from_texts('Long', {'cs': {
+            f'v{i}': 'One\nTwo\nThree' for i in range(1, 16)
+        }}, {'default': 'v1'}))
+        self.root.update()
+        text = self.editor.sections[0]['widget']
+        x, y = text.winfo_rootx() + 5, text.winfo_rooty() + 5
+        self.editor.canvas.yview_moveto(0)
+        text.event_generate('<MouseWheel>', delta=-30, rootx=x, rooty=y)
+        self.root.update()
+        self.assertGreater(self.editor.canvas.yview()[0], 0)
+        self.assertEqual(text.yview(), (0.0, 1.0))
+
     def test_cancel_discard_and_failed_save_transitions(self):
         self.editor.title_variable.set('Changed')
         self.assertFalse(self.editor.new_song())

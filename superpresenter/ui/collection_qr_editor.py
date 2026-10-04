@@ -17,6 +17,9 @@ class CollectionQREditor:
     def __init__(self, parent, style, settings, on_apply, hall_rows=8):
         self.style, self.on_apply, self.hall_rows = style, on_apply, hall_rows
         self.settings = deepcopy(settings) if settings is not None else default_settings(style)
+        self._draw_job = None
+        self._background_size = None
+        self._photo_key = None
         self.win = tk.Toplevel(parent)
         self.win.title('Nastavení QR sbírky')
         self.win.transient(parent)
@@ -42,7 +45,7 @@ class CollectionQREditor:
                       command=lambda n, var=value: var.set(f'{float(n):.2f}'),
                       variable=value).grid(row=index, column=1, sticky='ew', padx=8)
             ttk.Entry(controls, textvariable=value, width=8).grid(row=index, column=2)
-            value.trace_add('write', lambda *_: self.draw())
+            value.trace_add('write', self.schedule_draw)
         presets = ttk.Frame(controls)
         presets.grid(row=4, column=0, columnspan=3, pady=6)
         for index, (label, x, y) in enumerate([('Vlevo nahoře', 0, 0), ('Vpravo nahoře', 100, 0),
@@ -61,7 +64,7 @@ class CollectionQREditor:
         self.configure_appearance()
         self.image = None
         self.load_image()
-        self.canvas.bind('<Configure>', self.draw)
+        self.canvas.bind('<Configure>', self.schedule_draw)
         self.canvas.bind('<ButtonPress-1>', self.start_drag)
         self.canvas.bind('<B1-Motion>', self.drag)
         self.drag_offset = None
@@ -139,6 +142,14 @@ class CollectionQREditor:
         self.image_name.set(Path(path).name)
         self.draw()
 
+    def schedule_draw(self, *_):
+        if self._draw_job is None:
+            self._draw_job = self.win.after(16, self._scheduled_draw)
+
+    def _scheduled_draw(self):
+        self._draw_job = None
+        self.draw()
+
     def draw(self, *_):
         if not hasattr(self, 'image'):
             return
@@ -151,14 +162,35 @@ class CollectionQREditor:
             return
         self.status.set('')
         canvas = self.canvas
-        canvas.delete('all')
         width, height = max(1, canvas.winfo_width()), max(1, canvas.winfo_height())
         sw, sh = self.style['canvas'].get('width', 1920), self.style['canvas'].get('height', 1080)
         scale = min(width / sw, height / sh)
         w, h = sw * scale, sh * scale
         left, top = (width - w) / 2, (height - h) / 2
         self.preview_rect = (left, top, w, h)
-        canvas.create_rectangle(left, top, left + w, top + h, fill=self.style['canvas'].get('background', 'black'), outline='#888')
+        if self._background_size != (width, height):
+            canvas.delete('background')
+            self._draw_background(left, top, w, h, scale)
+            self._background_size = (width, height)
+        x, y, side = geometry(settings, w, h)
+        photo_key = (self.image, side)
+        if self._photo_key != photo_key:
+            self.photo = ImageTk.PhotoImage(render_image(self.image, side), master=self.win)
+            self._photo_key = photo_key
+        self.qr_rect = (left + x, top + y, side)
+        if canvas.find_withtag('qr'):
+            canvas.coords('qr', left + x, top + y)
+            canvas.itemconfigure('qr', image=self.photo)
+        else:
+            canvas.create_image(left + x, top + y, image=self.photo, anchor='nw', tags='qr')
+        canvas.tag_raise('qr')
+
+    def _draw_background(self, left, top, w, h, scale):
+        canvas = self.canvas
+        sw = self.style['canvas'].get('width', 1920)
+        canvas.create_rectangle(left, top, left + w, top + h,
+                                fill=self.style['canvas'].get('background', 'black'),
+                                outline='#888', tags='background')
         text_style = next((item for item in self.style['widgets'] if item['type'] != 'image'), {})
         spacing = text_style.get('y1', 48) * min(1, 8 / max(1, self.hall_rows))
         font_size = self.style['fonts'].get(text_style.get('primaryFont'), {}).get('size', 33)
@@ -167,11 +199,8 @@ class CollectionQREditor:
                                top + (text_style.get('y', 100) + row * spacing) * scale,
                                text='Ukázkový text písně' if row % 2 == 0 else 'Další řádek společné chvály',
                                fill=text_style.get('fill', 'white'), anchor='n',
-                               font=('Arial', max(1, round(font_size * scale * min(1, 8 / self.hall_rows)))))
-        x, y, side = geometry(settings, w, h)
-        self.photo = ImageTk.PhotoImage(render_image(self.image, side), master=self.win)
-        self.qr_rect = (left + x, top + y, side)
-        canvas.create_image(left + x, top + y, image=self.photo, anchor='nw', tags='qr')
+                               font=('Arial', max(1, round(font_size * scale * min(1, 8 / self.hall_rows)))),
+                               tags='background')
 
     def position(self, x, y):
         self.values['x_pct'].set(f'{x:.2f}')
@@ -214,6 +243,9 @@ class CollectionQREditor:
         self.cancel()
 
     def cancel(self):
+        if self._draw_job is not None:
+            self.win.after_cancel(self._draw_job)
+            self._draw_job = None
         parent = self.win.master
         self.win.grab_release()
         self.win.destroy()

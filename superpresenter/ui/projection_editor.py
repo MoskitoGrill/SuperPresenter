@@ -92,6 +92,28 @@ class ProjectionEditor:
         self.draw_map()
         from superpresenter.windows_shell import style_title_bar
         style_title_bar(self.win)
+        self._fit_ready = True
+        self.win.after(50, self._fit_visible_card)
+
+    def _fit_visible_card(self):
+        """Fit one visible card, compacting its preview at the screen limit."""
+        if not self.win.winfo_exists() or not self.cards:
+            return
+        required = max(card['preview'].master.winfo_reqheight()
+                       for card in self.cards) + 12
+        missing = required - self.canvas.winfo_height()
+        if missing <= 0:
+            return
+        height = min(self.win.winfo_height() + missing,
+                     self.win.winfo_screenheight() - 80)
+        available = self.canvas.winfo_height() + height - self.win.winfo_height()
+        for card in self.cards:
+            preview = card['preview']
+            overflow = card['preview'].master.winfo_reqheight() + 12 - available
+            if overflow > 0:
+                preview.configure(height=max(60, int(preview.cget('height')) - overflow))
+        if height > self.win.winfo_height():
+            self.win.geometry(f'{self.win.winfo_width()}x{height}')
 
     def configure_appearance(self):
         self.background = self.owner.win.cget('background')
@@ -118,9 +140,14 @@ class ProjectionEditor:
         style.map('Projection.TCombobox', fieldbackground=[('readonly', '#eeeeee')], foreground=[('readonly', 'black')])
 
     def center_body(self, *args):
-        width = max(self.canvas.winfo_width(), self.body.winfo_reqwidth())
-        self.canvas.coords(self.body_id, max(0, (width - self.body.winfo_reqwidth()) / 2), 0)
-        self.canvas.configure(scrollregion=(0, 0, width, self.body.winfo_reqheight()))
+        body_width, height = self.body.winfo_reqwidth(), self.body.winfo_reqheight()
+        width = max(self.canvas.winfo_width(), body_width)
+        layout = (width, body_width, height)
+        if getattr(self, '_body_layout', None) == layout:
+            return
+        self._body_layout = layout
+        self.canvas.coords(self.body_id, max(0, (width - body_width) / 2), 0)
+        self.canvas.configure(scrollregion=(0, 0, width, height))
 
     def refresh_topology(self, monitors):
         old = [(monitor_identity(m), getattr(m, 'is_primary', None)) for m in self.monitors]
@@ -178,6 +205,8 @@ class ProjectionEditor:
         else:
             self.status.set('Uložit uloží profil. Použít jej uloží a také použije.')
         self.draw_map()
+        if getattr(self, '_fit_ready', False):
+            self.win.after(50, self._fit_visible_card)
 
     def refresh_profile_choices(self):
         self.profile_choice['values'] = [entry['name'] for entry in self.entries]
@@ -313,6 +342,8 @@ class ProjectionEditor:
                 row_frame.pack(fill='x', before=full_check)
             else:
                 row_frame.pack_forget()
+            if args:
+                self.win.after(50, self._fit_visible_card)
         combo.bind('<<ComboboxSelected>>', update_options)
         update_options()
         row.update(combo=combo, fullscreen=fullscreen, collection=collection,
@@ -344,12 +375,16 @@ class ProjectionEditor:
         labels = monitor_labels(self.monitors)
         for i, card in enumerate(self.cards):
             preview = card['preview']
-            preview.delete('all')
             width = max(1, preview.winfo_width())
             height = int(preview.cget('height'))
+            custom = card['label'].get().strip()
+            state = (width, height, custom, labels[i])
+            if card.get('_preview_state') == state:
+                continue
+            card['_preview_state'] = state
+            preview.delete('all')
             preview.create_rectangle(1, 1, width - 1, height - 1,
                                      outline='#aaaaaa', fill='#444444', width=2)
-            custom = card['label'].get().strip()
             preview.create_text(width / 2, height / 2,
                                 text=(custom + '\n' + labels[i]) if custom else labels[i],
                                 fill='white', font=self.font, width=max(1, width - 24))

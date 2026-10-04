@@ -340,7 +340,7 @@ class SongEditor:
         self.canvas.grid(row=0, column=0, sticky='nsew')
         self.scrollbar.grid(row=0, column=1, sticky='ns')
         self.horizontal_scrollbar.grid(row=1, column=0, sticky='ew')
-        bind_canvas_wheel(self.canvas, lambda e: self.canvas.yview_scroll(-1 * int(e.delta / 120), "units"))
+        self._canvas_wheel = bind_canvas_wheel(self.canvas, self._scroll_canvas)
 
         self.sections_frame = self.scrollable_frame
 
@@ -394,6 +394,11 @@ class SongEditor:
                     bg=self.button_bg, fg="white",
                     command=self.run_error_fix).pack(anchor="sw")
 
+
+    def _scroll_canvas(self, event):
+        if event.delta:
+            steps = max(1, int(abs(event.delta) / 120))
+            self.canvas.yview_scroll(-steps if event.delta > 0 else steps, 'units')
 
     def _update_canvas_layout(self, event=None):
         content_width = max((section['frame'].winfo_reqwidth() + 40
@@ -450,6 +455,8 @@ class SongEditor:
         remove_btn.pack(side='right', padx=5)
 
         text = tk.Text(frame, height=1, width=1, font=self.font, wrap='none', undo=True, maxundo=200)
+        text._scroll_parent_canvas = True
+        text.bind('<MouseWheel>', self._canvas_wheel)
         text.insert('end', content)
         text.pack(fill='x')
 
