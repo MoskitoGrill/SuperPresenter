@@ -115,6 +115,8 @@ class SongSearch:
         words = query.split()
         if not words:
             return []
+        if re.fullmatch(r'[0-9]+', query):
+            return self._search_number(query)
         results = []
         for song in self.songs:
             for field in song.fields:
@@ -133,3 +135,19 @@ class SongSearch:
                                             excerpt(snippet_field.text, words), rank))
                 break
         return sorted(results, key=lambda r: (r.rank, normalize(r.title), r.title, str(r.path)))
+
+    def _search_number(self, query):
+        """Match hymnal number prefixes and sort by number, not song title."""
+        results = []
+        for song in self.songs:
+            match = re.match(r'^(\d+)(?:\s*[-–—.]\s*|$)', song.path.stem)
+            if not match or not match[1].startswith(query):
+                continue
+            number = match[1]
+            sections = [field for field in song.fields if field.rank == 4 and field.text.strip()]
+            snippet = excerpt(sections[0].text, [query]) if sections else ''
+            result = SearchResult(song.path, song.title, 'Soubor', snippet,
+                                  0 if number == query else 1)
+            results.append((int(number), result))
+        return [result for _, result in sorted(results, key=lambda item: (
+            item[1].rank, item[0], normalize(item[1].title), item[1].title, str(item[1].path)))]

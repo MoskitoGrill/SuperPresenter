@@ -8,6 +8,7 @@ from superpresenter.services.song_edit_session import SongEditSession, update_so
 from superpresenter.services.song_recovery import SongRecovery
 from superpresenter.paths import PROJECT_ROOT
 from superpresenter.ui.mousewheel import bind_canvas_wheel
+from superpresenter.ui.scrollbars import Scrollbar
 import os
 import re
 
@@ -319,8 +320,8 @@ class SongEditor:
         canvas_frame.pack(fill='both', expand=True)
 
         self.canvas = tk.Canvas(canvas_frame, bg=self.bg_color, highlightthickness=0)
-        self.scrollbar = tk.Scrollbar(canvas_frame, orient='vertical', command=self.canvas.yview)
-        self.horizontal_scrollbar = tk.Scrollbar(canvas_frame, orient='horizontal', command=self.canvas.xview)
+        self.scrollbar = Scrollbar(canvas_frame, orient='vertical', command=self.canvas.yview)
+        self.horizontal_scrollbar = Scrollbar(canvas_frame, orient='horizontal', command=self.canvas.xview)
         self.scrollable_frame = tk.Frame(self.canvas, bg=self.bg_color)
 
         # vytvořit okno a pamatovat si jeho id

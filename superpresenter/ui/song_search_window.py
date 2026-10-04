@@ -5,6 +5,7 @@ from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 import tkinter as tk
 from tkinter import ttk, font as tkfont
+from superpresenter.ui.scrollbars import Scrollbar
 
 from superpresenter.services.song_search import SongSearch
 from superpresenter.windows_shell import style_title_bar
@@ -45,7 +46,7 @@ class SongSearchWindow:
             self.tree.heading(key, text=label)
             self.tree.column(key, width=width)
         self.tree.grid(row=1, column=0, sticky='nsew', padx=(10, 0))
-        scroll = ttk.Scrollbar(self.win, orient='vertical', command=self.tree.yview)
+        scroll = Scrollbar(self.win, orient='vertical', command=self.tree.yview)
         scroll.grid(row=1, column=1, sticky='ns', padx=(0, 10))
         self.tree.configure(yscrollcommand=scroll.set)
         self.status = tk.Label(self.win, text='Načítám knihovnu…')
@@ -111,7 +112,7 @@ class SongSearchWindow:
         self.tree.configure(style=name)
         self.tree.column('title', anchor='w')
         self.tree.column('snippet', anchor='w')
-        horizontal = ttk.Scrollbar(self.win, orient='horizontal', command=self.tree.xview)
+        horizontal = Scrollbar(self.win, orient='horizontal', command=self.tree.xview)
         horizontal.grid(row=2, column=0, sticky='ew', padx=10)
         self.tree.configure(xscrollcommand=horizontal.set)
         self.status.grid(row=3)

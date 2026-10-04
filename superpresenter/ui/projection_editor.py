@@ -4,6 +4,7 @@ from superpresenter.services.projection_limits import STREAM_STANDARD_ROWS, row_
 from superpresenter.services.stationary_navigation import style_mode
 import tkinter as tk
 from tkinter import ttk, messagebox, font as tkfont
+from superpresenter.ui.scrollbars import Scrollbar
 
 from superpresenter.services.projection_config import (
     ConfigError, layout_row_limit, monitor_labels, load_layout, match_monitor, monitor_identity,
@@ -62,8 +63,8 @@ class ProjectionEditor:
         area.columnconfigure(0, weight=1)
         self.canvas = tk.Canvas(area, highlightthickness=0, background=self.background)
         self.canvas.grid(row=0, column=0, sticky='nsew')
-        sx = ttk.Scrollbar(area, orient='horizontal', command=self.canvas.xview)
-        sy = ttk.Scrollbar(area, orient='vertical', command=self.canvas.yview)
+        sx = Scrollbar(area, orient='horizontal', command=self.canvas.xview)
+        sy = Scrollbar(area, orient='vertical', command=self.canvas.yview)
         sx.grid(row=1, column=0, sticky='ew')
         sy.grid(row=0, column=1, sticky='ns')
         self.canvas.configure(xscrollcommand=sx.set, yscrollcommand=sy.set)

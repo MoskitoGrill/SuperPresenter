@@ -96,6 +96,30 @@ class SearchTests(unittest.TestCase):
         self.assertEqual(len(self.index.search('poklad')), 2)
         self.assertEqual(self.index.failures, [self.root / 'bad.xml'])
 
+    def test_numeric_query_matches_number_prefix_and_sorts_numerically(self):
+        for number in [100, 11, 21, 1, 110, 12, 10, 101]:
+            # Titles deliberately sort in the opposite direction.
+            title = f'Poklad {1000 - number}'
+            self.repo.save(Song.from_texts(title, {'cs': {'v1': 'Text písně'}}),
+                           self.root / f'{number} - poklad.xml')
+        self.repo.save(Song.from_texts('1 nečíslovaná', {'cs': {'v1': 'Text 1'}}),
+                       self.root / 'nečíslovaná.xml')
+        self.index.rebuild()
+        def numbers(query):
+            return [int(result.path.stem.split(' - ')[0]) for result in self.index.search(query)]
+        self.assertEqual(numbers('1'), [1, 10, 11, 12, 100, 101, 110])
+        self.assertEqual(numbers(' 10 '), [10, 100, 101])
+        self.assertEqual(numbers('11'), [11, 110])
+        self.assertEqual(numbers('21'), [21])
+        self.assertEqual(numbers('999'), [])
+        self.assertEqual(self.index.search('1')[0].rank, 0)
+        self.assertEqual(self.index.search('1')[0].display_title, '1 – Poklad 999')
+        self.assertEqual(self.index.search('1')[0].snippet, 'Text písně')
+        # Mixed text/number queries retain substring matching, including 21.
+        self.assertIn(self.root.resolve() / '21 - poklad.xml',
+                      [result.path for result in self.index.search('1 poklad')])
+        self.assertEqual(self.index.search('text 1')[0].title, '1 nečíslovaná')
+
     def test_cached_queries_and_rebuild_after_save(self):
         with patch.object(self.index.repository, 'load', side_effect=AssertionError('reparse')):
             self.index.search('poklad')
