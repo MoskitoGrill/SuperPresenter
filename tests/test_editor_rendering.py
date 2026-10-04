@@ -90,7 +90,7 @@ class EditorRenderingTests(unittest.TestCase):
         preview.cget.return_value = 180
         editor.cards = [{'preview': preview}]
         editor._fit_visible_card()
-        preview.configure.assert_called_once_with(height=88)
+        preview.configure.assert_called_once_with(height=76)
         editor.win.geometry.assert_not_called()
 
     def test_card_grows_window_without_compacting_when_space_available(self):
@@ -107,4 +107,21 @@ class EditorRenderingTests(unittest.TestCase):
         editor.cards = [{'preview': preview}]
         editor._fit_visible_card()
         preview.configure.assert_not_called()
-        editor.win.geometry.assert_called_once_with('600x892')
+        editor.win.geometry.assert_called_once_with('600x904')
+
+    def test_frame_clearance_can_shrink_preview_below_old_minimum(self):
+        editor = ProjectionEditor.__new__(ProjectionEditor)
+        editor.win = Mock()
+        editor.win.winfo_exists.return_value = True
+        editor.win.winfo_height.return_value = 820
+        editor.win.winfo_width.return_value = 600
+        editor.win.winfo_screenheight.return_value = 900
+        editor.canvas = Mock()
+        editor.canvas.winfo_height.return_value = 470
+        preview = Mock()
+        preview.master.winfo_reqheight.return_value = 470
+        preview.cget.return_value = 60
+        editor.cards = [{'preview': preview}]
+        editor._fit_visible_card()
+        preview.configure.assert_called_once_with(height=36)
+        editor.win.geometry.assert_not_called()

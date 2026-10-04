@@ -99,8 +99,10 @@ class ProjectionEditor:
         """Fit one visible card, compacting its preview at the screen limit."""
         if not self.win.winfo_exists() or not self.cards:
             return
+        # Include tile padding and a little clearance below the frame border.
+        bottom_clearance = 24
         required = max(card['preview'].master.winfo_reqheight()
-                       for card in self.cards) + 12
+                       for card in self.cards) + bottom_clearance
         missing = required - self.canvas.winfo_height()
         if missing <= 0:
             return
@@ -109,9 +111,9 @@ class ProjectionEditor:
         available = self.canvas.winfo_height() + height - self.win.winfo_height()
         for card in self.cards:
             preview = card['preview']
-            overflow = card['preview'].master.winfo_reqheight() + 12 - available
+            overflow = card['preview'].master.winfo_reqheight() + bottom_clearance - available
             if overflow > 0:
-                preview.configure(height=max(60, int(preview.cget('height')) - overflow))
+                preview.configure(height=max(24, int(preview.cget('height')) - overflow))
         if height > self.win.winfo_height():
             self.win.geometry(f'{self.win.winfo_width()}x{height}')
 
