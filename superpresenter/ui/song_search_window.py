@@ -6,6 +6,7 @@ from pathlib import Path
 import tkinter as tk
 from tkinter import ttk, font as tkfont
 from superpresenter.ui.scrollbars import Scrollbar
+from superpresenter.ui.mousewheel import bind_widget_wheel
 
 from superpresenter.services.song_search import SongSearch
 from superpresenter.windows_shell import style_title_bar
@@ -49,6 +50,7 @@ class SongSearchWindow:
         scroll = Scrollbar(self.win, orient='vertical', command=self.tree.yview)
         scroll.grid(row=1, column=1, sticky='ns', padx=(0, 10))
         self.tree.configure(yscrollcommand=scroll.set)
+        bind_widget_wheel(self.tree)
         self.status = tk.Label(self.win, text='Načítám knihovnu…')
         self.status.grid(row=2, column=0, sticky='w', padx=10, pady=10)
         self.add_button = tk.Button(self.win, text='Přidat', command=self.add, state='disabled')
@@ -109,6 +111,11 @@ class SongSearchWindow:
                   foreground=[('selected', gui.stepsList.cget('selectforeground'))])
         style.configure(name + '.Heading', background=background, foreground=foreground,
                         font=gui.openSource.cget('font'), relief='flat')
+        # These headings are labels, with no sorting or click action.
+        style.map(name + '.Heading',
+                  background=[('pressed', background), ('active', background)],
+                  foreground=[('pressed', foreground), ('active', foreground)],
+                  relief=[('pressed', 'flat'), ('active', 'flat')])
         self.tree.configure(style=name)
         self.tree.column('title', anchor='w')
         self.tree.column('snippet', anchor='w')

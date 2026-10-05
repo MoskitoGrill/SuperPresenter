@@ -7,7 +7,7 @@ from superpresenter.domain.song import Song
 from superpresenter.services.song_edit_session import SongEditSession, update_song_fields, validate_editor_fields
 from superpresenter.services.song_recovery import SongRecovery
 from superpresenter.paths import PROJECT_ROOT
-from superpresenter.ui.mousewheel import bind_canvas_wheel
+from superpresenter.ui.mousewheel import bind_canvas_wheel, scroll_widget
 from superpresenter.ui.scrollbars import Scrollbar
 import os
 import re
@@ -396,9 +396,7 @@ class SongEditor:
 
 
     def _scroll_canvas(self, event):
-        if event.delta:
-            steps = max(1, int(abs(event.delta) / 120))
-            self.canvas.yview_scroll(-steps if event.delta > 0 else steps, 'units')
+        return scroll_widget(self.canvas, event)
 
     def _update_canvas_layout(self, event=None):
         content_width = max((section['frame'].winfo_reqwidth() + 40

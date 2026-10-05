@@ -22,6 +22,7 @@ from superpresenter.ui.source_sorter import SortingWin
 from superpresenter.ui.projector_window import ProjWindow
 from superpresenter.ui.song_editor_panel import SongEditorPanel
 from superpresenter.ui.scrollbars import Scrollbar
+from superpresenter.ui.mousewheel import bind_widget_wheel
 
 logger = logging.getLogger(__name__)
 
@@ -254,6 +255,7 @@ class GUI(ProjectionProfiles, SongEditorPanel):
         self.stepsList['yscrollcommand'] = self.stepsScroll.set
         self.stepsXScroll = Scrollbar(self.stepsFrame, orient='horizontal', command=self.stepsList.xview)
         self.stepsList['xscrollcommand'] = self.stepsXScroll.set
+        bind_widget_wheel(self.stepsList)
         # buttons
         self.navFrame = tk.Frame(self.leftFrame)
         self.nextBtn = tk.Button(self.navFrame, text='>')

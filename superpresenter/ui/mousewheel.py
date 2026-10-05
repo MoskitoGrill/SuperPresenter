@@ -1,7 +1,24 @@
 """Wheel bindings scoped to a canvas and its descendants."""
 
 
-def bind_canvas_wheel(canvas, callback):
+def scroll_widget(widget, event, horizontal=False):
+    """Shift selects horizontal scrolling; Ctrl retains its usual meaning."""
+    delta = getattr(event, 'delta', 0)
+    if delta:
+        steps = max(1, int(abs(delta) / 120))
+        view = widget.xview_scroll if horizontal or getattr(event, 'state', 0) & 1 else widget.yview_scroll
+        view(-steps if delta > 0 else steps, 'units')
+    return 'break'
+
+
+def bind_widget_wheel(widget):
+    # Run before native class bindings, including for small wheel deltas.
+    widget.bind('<MouseWheel>', lambda event: scroll_widget(widget, event))
+
+
+def bind_canvas_wheel(canvas, callback=None):
+    if callback is None:
+        callback = lambda event: scroll_widget(canvas, event)
     top = canvas.winfo_toplevel()
 
     def on_wheel(event):

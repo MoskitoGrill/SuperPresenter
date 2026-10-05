@@ -1,6 +1,7 @@
 """Transactional QR editor with the same geometry as the hall overlay."""
 from copy import deepcopy
 from pathlib import Path
+import math
 import tkinter as tk
 from tkinter import ttk, filedialog, messagebox
 from PIL import Image, ImageTk
@@ -41,9 +42,11 @@ class CollectionQREditor:
             value = tk.StringVar(self.win, value=f'{self.settings[key]:.2f}')
             self.values[key] = value
             ttk.Label(controls, text=label).grid(row=index, column=0, sticky='w', pady=4)
-            ttk.Scale(controls, from_=1 if key == 'size_pct' else 0, to=100,
+            slider = ttk.Scale(controls, from_=1 if key == 'size_pct' else 0, to=100,
                       command=lambda n, var=value: var.set(f'{float(n):.2f}'),
-                      variable=value).grid(row=index, column=1, sticky='ew', padx=8)
+                      variable=value)
+            slider.grid(row=index, column=1, sticky='ew', padx=8)
+            slider.bind('<MouseWheel>', lambda event, key=key: self.adjust_slider(key, event))
             ttk.Entry(controls, textvariable=value, width=8).grid(row=index, column=2)
             value.trace_add('write', self.schedule_draw)
         presets = ttk.Frame(controls)
@@ -53,6 +56,7 @@ class CollectionQREditor:
             ttk.Button(presets, text=label, command=lambda x=x, y=y: self.position(x, y)).grid(
                 row=index // 2, column=index % 2, sticky='ew', padx=4, pady=4)
         ttk.Label(controls, text='QR lze přetáhnout v náhledu. Poloha 0 % = levý/horní okraj, 100 % = pravý/dolní.\n'
+                  'Kolečko nad posuvníkem: krok 0,1 %. Shift + kolečko: 0,01 %.\n'
                   'Bílý okraj je součástí velikosti. Text v náhledu je pouze ukázka.', wraplength=600).grid(row=5, column=0, columnspan=3, pady=4)
         self.status = tk.StringVar(self.win)
         ttk.Label(controls, textvariable=self.status, foreground='#ff9999').grid(row=6, column=0, columnspan=3)
@@ -83,7 +87,7 @@ class CollectionQREditor:
         self.win.configure(background=background)
         theme = ttk.Style(self.win)
         theme.configure('Projection.Horizontal.TScale', background=background,
-                        troughcolor='#222222', bordercolor=background,
+                        troughcolor='#666666', bordercolor=background,
                         lightcolor='#666666', darkcolor='#444444')
         theme.map('Projection.Horizontal.TScale', background=[('active', '#666666')])
         styles = {'TFrame': 'Projection.TFrame', 'TLabel': 'Projection.TLabel',
@@ -201,6 +205,23 @@ class CollectionQREditor:
                                fill=text_style.get('fill', 'white'), anchor='n',
                                font=('Arial', max(1, round(font_size * scale * min(1, 8 / self.hall_rows)))),
                                tags='background')
+
+    def adjust_slider(self, key, event):
+        if not event.delta:
+            return 'break'
+        value = self.values[key]
+        try:
+            current = float(value.get().replace(',', '.'))
+        except ValueError:
+            return 'break'
+        if not math.isfinite(current):
+            return 'break'
+        step = .01 if event.state & 1 else .1
+        ticks = max(1, int(abs(event.delta) / 120))
+        change = step * ticks * (1 if event.delta > 0 else -1)
+        updated = max(1 if key == 'size_pct' else 0, min(100, current + change))
+        value.set(f'{updated:.2f}')
+        return 'break'
 
     def position(self, x, y):
         self.values['x_pct'].set(f'{x:.2f}')

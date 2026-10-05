@@ -5,6 +5,7 @@ from superpresenter.services.stationary_navigation import style_mode
 import tkinter as tk
 from tkinter import ttk, messagebox, font as tkfont
 from superpresenter.ui.scrollbars import Scrollbar
+from superpresenter.ui.mousewheel import bind_canvas_wheel
 
 from superpresenter.services.projection_config import (
     ConfigError, layout_row_limit, monitor_labels, load_layout, match_monitor, monitor_identity,
@@ -68,6 +69,7 @@ class ProjectionEditor:
         sx.grid(row=1, column=0, sticky='ew')
         sy.grid(row=0, column=1, sticky='ns')
         self.canvas.configure(xscrollcommand=sx.set, yscrollcommand=sy.set)
+        self._canvas_wheel = bind_canvas_wheel(self.canvas)
         self.body = ttk.Frame(self.canvas, style='Projection.TFrame')
         self.body_id = self.canvas.create_window(0, 0, window=self.body, anchor='nw')
         self.body.bind('<Configure>', self.center_body)
@@ -314,6 +316,7 @@ class ProjectionEditor:
         ttk.Label(frame, text='Promítaný styl', style='Projection.TLabel').pack(anchor='w')
         combo = ttk.Combobox(frame, values=choices, state='readonly', width=28, font=self.font, style='Projection.TCombobox')
         combo.current(0 if output['style'] is None else choices.index(output['style']))
+        combo.bind('<MouseWheel>', self._canvas_wheel)
         combo.pack(fill='x', pady=4)
         row_frame = ttk.Frame(frame, style='Projection.TFrame')
         ttk.Label(row_frame, text='Počet řádků', style='Projection.TLabel').pack(anchor='w')

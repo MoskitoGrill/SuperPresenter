@@ -1,5 +1,6 @@
 """Rendering regressions without requiring a desktop Tk runtime."""
 import unittest
+from types import SimpleNamespace
 from unittest.mock import Mock, patch
 
 from superpresenter.ui.collection_qr_editor import CollectionQREditor
@@ -7,6 +8,30 @@ from superpresenter.ui.projection_editor import ProjectionEditor
 
 
 class EditorRenderingTests(unittest.TestCase):
+    def test_qr_wheel_fine_steps_and_limits(self):
+        editor = CollectionQREditor.__new__(CollectionQREditor)
+        value = Mock()
+        editor.values = {'x_pct': value, 'size_pct': value}
+        value.get.return_value = '50,00'
+        editor.adjust_slider('x_pct', SimpleNamespace(delta=120, state=0))
+        value.set.assert_called_with('50.10')
+        editor.adjust_slider('x_pct', SimpleNamespace(delta=-30, state=1))
+        value.set.assert_called_with('49.99')
+        value.get.return_value = '100'
+        editor.adjust_slider('x_pct', SimpleNamespace(delta=120, state=0))
+        value.set.assert_called_with('100.00')
+        value.get.return_value = '1'
+        editor.adjust_slider('size_pct', SimpleNamespace(delta=-120, state=0))
+        value.set.assert_called_with('1.00')
+        value.get.return_value = '0'
+        editor.adjust_slider('x_pct', SimpleNamespace(delta=-120, state=0))
+        value.set.assert_called_with('0.00')
+        value.set.reset_mock()
+        for invalid in ('', 'abc', 'nan'):
+            value.get.return_value = invalid
+            editor.adjust_slider('x_pct', SimpleNamespace(delta=120, state=0))
+        value.set.assert_not_called()
+
     def make_qr_editor(self):
         editor = CollectionQREditor.__new__(CollectionQREditor)
         editor.win = Mock()
