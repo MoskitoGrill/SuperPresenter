@@ -399,11 +399,25 @@ class SongEditor:
         return scroll_widget(self.canvas, event)
 
     def _update_canvas_layout(self, event=None):
+        if event is not None:
+            # Scrolling also emits Configure when the embedded frame moves.
+            # Only a size change requires recalculating the content layout.
+            sizes = getattr(self, '_canvas_layout_sizes', None)
+            if sizes is None:
+                sizes = self._canvas_layout_sizes = {}
+            size = (event.width, event.height)
+            if sizes.get(event.widget) == size:
+                return
+            sizes[event.widget] = size
         content_width = max((section['frame'].winfo_reqwidth() + 40
                              for section in self.sections), default=0)
         width = max(self.canvas.winfo_width(), content_width)
-        self.canvas.itemconfigure(self._window_item, width=width)
-        self.canvas.configure(scrollregion=self.canvas.bbox('all'))
+        if float(self.canvas.itemcget(self._window_item, 'width')) != width:
+            self.canvas.itemconfigure(self._window_item, width=width)
+        region = self.canvas.bbox('all')
+        if getattr(self, '_canvas_layout_region', None) != region:
+            self._canvas_layout_region = region
+            self.canvas.configure(scrollregion=region)
 
     def get_existing_languages(self):
         return list(dict.fromkeys(s['lang'] for s in self.sections)) or ["čeština"]
