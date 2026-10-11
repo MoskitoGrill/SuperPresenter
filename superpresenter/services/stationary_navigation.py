@@ -2,8 +2,8 @@
 from itertools import zip_longest
 from .projection_limits import DEFAULT_HALL_ROWS, row_limits
 
-from .construct_parser import parse_construct
-from .stationary_pages import LogicalSection, generate_pages, resolve_sections
+from .construct_parser import parse_construct, check_expansion
+from .stationary_pages import LogicalSection, generate_pages, resolve_sections, presentation_lines
 
 
 MODES = {'legacy_scroll', 'stationary_hall', 'stationary_stream'}
@@ -35,6 +35,12 @@ def build_plan(song, variant_names, guide, hall_rows=DEFAULT_HALL_ROWS):
     for variant in variants[1:]:
         legal.intersection_update(s.identifier for s in variant.sections)
     construct = parse_construct(guide, legal)
+    lengths = {key: 0 for key in legal}
+    for variant in variants:
+        for section in variant.sections:
+            if section.identifier in lengths:
+                lengths[section.identifier] += len(presentation_lines(section.lines))
+    check_expansion(construct, lengths, len(variants))
     resolved = [list(resolve_sections(construct, v)) for v in variants]
     sections, positions = [], {}
     legacy_position = 1

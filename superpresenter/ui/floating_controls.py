@@ -30,6 +30,7 @@ class FloatingControls:
         self.gui = gui
         self.timer = None
         self.win = tk.Toplevel(gui.win)
+        self.win.bind('<Destroy>', self._destroyed, add='+')
         self.win.title('Plovoucí ovládání')
         # Do not use transient(): the remote must survive minimising the owner.
         self.win.attributes('-topmost', True)
@@ -142,8 +143,12 @@ class FloatingControls:
         self.timer = self.win.after(150, self.refresh)
 
     def close(self):
+        self.win.destroy()
+
+    def _destroyed(self, event):
+        if event.widget is not self.win:
+            return
         if self.timer is not None:
             self.win.after_cancel(self.timer)
             self.timer = None
-        self.win.destroy()
         self.gui.floating_controls = None

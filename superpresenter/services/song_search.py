@@ -62,7 +62,10 @@ def excerpt(text, words, limit=150):
     hits = [{word for word in words if word in normalize(line)} for line in lines]
     # Prefer a matching line and its successor; at the end use its predecessor.
     candidates = [min(i, max(0, len(lines) - 2)) for i, hit in enumerate(hits) if hit]
-    start = max(candidates, key=lambda i: len(set().union(*hits[i:i + 2]))) if candidates else 0
+    phrase = re.compile(r'(?<!\w)' + r'\W+'.join(re.escape(word) for word in words) + r'(?!\w)') if words else None
+    start = max(candidates, key=lambda i: (
+        bool(phrase and phrase.search(normalize(' '.join(lines[i:i + 2])))),
+        len(set().union(*hits[i:i + 2])))) if candidates else 0
 
     def shorten(line):
         if len(line) <= limit:
@@ -117,23 +120,39 @@ class SongSearch:
             return []
         if re.fullmatch(r'[0-9]+', query):
             return self._search_number(query)
+        phrase = re.compile(r'(?<!\w)' + r'\W+'.join(re.escape(word) for word in words) + r'(?!\w)')
+        whole_words = [re.compile(r'(?<!\w)' + re.escape(word) + r'(?!\w)') for word in words]
         results = []
         for song in self.songs:
+            matches = []
             for field in song.fields:
                 if not all(word in field.normalized for word in words):
                     continue
-                rank = field.rank
-                if rank == 2:
-                    rank = 0 if field.normalized == query else 1 if field.normalized.startswith(query) else 2
-                snippet_field = field
-                if field.rank < 4:
-                    sections = [item for item in song.fields if item.rank == 4 and item.text.strip()]
-                    if sections:
-                        snippet_field = max(sections, key=lambda item: sum(
-                            word in item.normalized for word in words))
-                results.append(SearchResult(song.path, song.title, field.location,
-                                            excerpt(snippet_field.text, words), rank))
-                break
+                exact_phrase = phrase.search(field.normalized)
+                # Titles, then lyrics, then filenames within each match quality.
+                priority = {2: 0, 4: 1, 3: 2}[field.rank]
+                if exact_phrase:
+                    rank = 2 + priority
+                    if field.rank == 2:
+                        rank = 0 if field.normalized == query else 1 if exact_phrase.start() == 0 else 2
+                elif all(pattern.search(field.normalized) for pattern in whole_words):
+                    rank = 5 + priority
+                else:
+                    rank = 8 + priority
+                matches.append((rank, field))
+            if not matches:
+                continue
+            rank, field = min(matches, key=lambda item: item[0])
+            snippet_field = field
+            if field.rank < 4:
+                sections = [item for item in song.fields if item.rank == 4 and item.text.strip()]
+                if sections:
+                    snippet_field = max(sections, key=lambda item: (
+                        bool(phrase.search(item.normalized)),
+                        sum(pattern.search(item.normalized) is not None for pattern in whole_words),
+                        sum(word in item.normalized for word in words)))
+            results.append(SearchResult(song.path, song.title, field.location,
+                                        excerpt(snippet_field.text, words), rank))
         return sorted(results, key=lambda r: (r.rank, normalize(r.title), r.title, str(r.path)))
 
     def _search_number(self, query):

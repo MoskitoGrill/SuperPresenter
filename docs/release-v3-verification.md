@@ -1,5 +1,51 @@
 # Ověření distribuce SuperPresenter 3.0.0
 
+## Aktuální sestavení po stabilizaci — 9. 10. 2026
+
+Stav: **automatické ověření prošlo; finální ověření ČEKÁ na reálné kontroly**.
+Následující zářijový záznam je historický a netýká se nového artefaktu.
+
+- ZIP: `C:\Users\moski\Documents\Prográmky\SuperPresenter\dist\3.0.0-20261009-140605\SuperPresenter-3.0.0-win64.zip`
+  (28 537 890 B).
+- EXE: `C:\Users\moski\Documents\Prográmky\SuperPresenter\dist\3.0.0-20261009-140605\SuperPresenter-v3\SuperPresenter.exe`.
+- SHA-256 ZIP: `3CF5F8567C4D1C2FB1DB0C3C27AF1DC39863FEF5764D7C44CB893477A8EDDB38`.
+- SHA-256 EXE: `4F1C5BDBB4320C401C5F7C2F7180D714AFFB92814664C76404833CE2DD9E02D1`.
+- Windows 11 build 26200, Python 3.13.14 AMD64, PyInstaller 6.22.2,
+  Tcl/Tk 8.6.15. Balíčky přesně odpovídají `requirements-build.txt`.
+  HEAD `00b24e84feff730c841452d27937b071177f44e2`, dirty=true;
+  zahrnuté necommitované stabilizační změny etap 1–4 a rozšířená diagnostika.
+- Etapa 4: 305 testů OK a 40 cyklů zdrojového provozního testu OK; nejsou
+  vydávány za nové testy EXE. Etapa 5: zdrojová diagnostika, zabalené EXE
+  a EXE z rozbaleného ZIPu všechny skončily kódem 0, `ok: true`.
+- Každá diagnostika: šest stylů a jejich prostředky, 31 úspěšných běhů
+  projekce zakončených stopem/zavřením, 120 navigačních dvojic vpřed/zpět,
+  šest skutečných uložení názvu dočasné písně během projekce se zachováním
+  názvu běžícího snímku. Šest odmítnutých vstupů (syntaxe, strukturální
+  limit a limit skutečných řádků ve stacionárním i legacy režimu), obnovené
+  ovládání a následný úspěšný start. Zavření za projekce uklidilo výstupy.
+  Python callback i Tcl bgerror: žádné chyby. Editor prezentací/tkdnd OK.
+- Ověřeno všech 2010 hashů manifestu. Přenos do složky s mezerami a
+  diakritikou na stejném PC, spuštění z TEMP s PATH pouze
+  `C:\Windows\System32;C:\Windows`. Běžný start otevřel okno
+  `SuperPresenter 3.0.0`, WM_CLOSE skončil kódem 0; izolovaný console log
+  je prázdný. EXE metadata uvádějí 3.0.0 / stage 13B.
+- Diagnostika používá dočasnou píseň a APPDATA; běžný start používá
+  izolovanou rozbalenou kopii a vlastní APPDATA. Ostré profily ani písně
+  nebyly testem ukládány. Přibalených 859 XML zahrnuje známý nález
+  prázdného názvu `songs/.xml`; data nebyla opravována ani mazána.
+- Logy: `stage5-build.log`, `stage5-source.json`, `stage5-verification.log`
+  (prázdný při úspěchu), `release-checks/stage5-20261009/{packaged,portable,verification}.json`.
+  Build obsahuje běžná upozornění na volitelné/platformní importy;
+  testované funkce prošly, neověřené formáty obrázků tím nejsou certifikovány.
+
+**ČEKÁ:** skutečný projektor a odpojení/připojení monitoru, čtyřhodinový
+provoz s pamětí/odezvou/logy, čistý druhý PC, skutečné připnutí a tlačítko
+Bitfocus/Stream Deck a kontrola antivirem na cílovém PC. Přesný postup,
+izolace i kritéria jsou v [ručním scénáři](stage5-hardware-scenario.md).
+Nic nebylo publikováno ani instalováno do produkčního umístění.
+
+## Historické sestavení před stabilizací
+
 Datum: 11. 9. 2026. Hranice vydání: etapa 13B; 13C patří do verze 4.
 
 ## Výsledek

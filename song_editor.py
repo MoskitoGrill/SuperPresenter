@@ -123,7 +123,10 @@ class SongEditor:
             messagebox.showwarning('Záloha není dostupná', f'Průběžné zálohování se nepodařilo zapnout:\n{exc}', parent=self.root)
             return
         self.root.bind('<Destroy>', self._close_recovery, add='+')
-        self.root.after_idle(lambda: self._offer_recovery(on_restored))
+        def offer():
+            self._recovery_offer_after = None
+            self._offer_recovery(on_restored)
+        self._recovery_offer_after = self.root.after_idle(offer)
         self._queue_recovery()
 
     def _queue_recovery(self):
@@ -198,6 +201,10 @@ class SongEditor:
     def _close_recovery(self, event):
         if event.widget != self.root:
             return
+        offer = getattr(self, '_recovery_offer_after', None)
+        if offer is not None:
+            self.root.after_cancel(offer)
+            self._recovery_offer_after = None
         if self._recovery_after is not None:
             self.root.after_cancel(self._recovery_after)
             self._recovery_after = None

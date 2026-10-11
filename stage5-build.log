@@ -1,0 +1,95 @@
+1067 INFO: PyInstaller: 6.22.2, contrib hooks: 2026.7
+1068 INFO: Python: 3.13.14
+1125 INFO: Platform: Windows-11-10.0.26200-SP0
+1125 INFO: Python environment: C:\Users\moski\Documents\Progr�mky\SuperPresenter\.venv
+1135 INFO: Removing temporary files and cleaning cache in C:\Users\moski\AppData\Local\pyinstaller
+3343 INFO: Module search paths (PYTHONPATH):
+['C:\\Users\\moski\\Documents\\Progr�mky\\SuperPresenter',
+ 'C:\\Program '
+ 'Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\\python313.zip',
+ 'C:\\Program '
+ 'Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\\DLLs',
+ 'C:\\Program '
+ 'Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\\Lib',
+ 'C:\\Program '
+ 'Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0',
+ 'C:\\Users\\moski\\Documents\\Progr�mky\\SuperPresenter\\.venv',
+ 'C:\\Users\\moski\\Documents\\Progr�mky\\SuperPresenter\\.venv\\Lib\\site-packages',
+ 'C:\\Users\\moski\\Documents\\Progr�mky\\SuperPresenter\\scripts',
+ 'C:\\Users\\moski\\Documents\\Progr�mky\\SuperPresenter']
+4040 INFO: Appending 'binaries' from .spec
+4042 INFO: Appending 'datas' from .spec
+4063 INFO: checking Analysis
+4063 INFO: Building Analysis because Analysis-00.toc is non existent
+4063 INFO: Looking for Python shared library...
+4063 INFO: Using Python shared library: C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\python313.dll
+4063 INFO: Running Analysis Analysis-00.toc
+4063 INFO: Target bytecode optimization level: 0
+4063 INFO: Initializing module dependency graph...
+4066 INFO: Initializing module graph hook caches...
+4140 INFO: Analyzing modules for base_library.zip ...
+6674 INFO: Processing standard module hook 'hook-math.py' from 'C:\\Users\\moski\\Documents\\Progr�mky\\SuperPresenter\\.venv\\Lib\\site-packages\\PyInstaller\\hooks'
+7278 INFO: Processing standard module hook 'hook-encodings.py' from 'C:\\Users\\moski\\Documents\\Progr�mky\\SuperPresenter\\.venv\\Lib\\site-packages\\PyInstaller\\hooks'
+9692 INFO: Processing standard module hook 'hook-pickle.py' from 'C:\\Users\\moski\\Documents\\Progr�mky\\SuperPresenter\\.venv\\Lib\\site-packages\\PyInstaller\\hooks'
+11796 INFO: Processing standard module hook 'hook-heapq.py' from 'C:\\Users\\moski\\Documents\\Progr�mky\\SuperPresenter\\.venv\\Lib\\site-packages\\PyInstaller\\hooks'
+12871 INFO: Caching module dependency graph...
+12930 INFO: Analyzing C:\Users\moski\Documents\Progr�mky\SuperPresenter\scripts\standalone_entry.py
+12997 INFO: Processing standard module hook 'hook-sysconfig.py' from 'C:\\Users\\moski\\Documents\\Progr�mky\\SuperPresenter\\.venv\\Lib\\site-packages\\PyInstaller\\hooks'
+13015 INFO: Processing standard module hook 'hook-_ctypes.py' from 'C:\\Users\\moski\\Documents\\Progr�mky\\SuperPresenter\\.venv\\Lib\\site-packages\\PyInstaller\\hooks'
+13257 INFO: Processing standard module hook 'hook-difflib.py' from 'C:\\Users\\moski\\Documents\\Progr�mky\\SuperPresenter\\.venv\\Lib\\site-packages\\PyInstaller\\hooks'
+13614 INFO: Processing standard module hook 'hook-multiprocessing.util.py' from 'C:\\Users\\moski\\Documents\\Progr�mky\\SuperPresenter\\.venv\\Lib\\site-packages\\PyInstaller\\hooks'
+13926 INFO: Processing standard module hook 'hook-xml.py' from 'C:\\Users\\moski\\Documents\\Progr�mky\\SuperPresenter\\.venv\\Lib\\site-packages\\PyInstaller\\hooks'
+15176 INFO: Processing pre-find-module-path hook 'hook-tkinter.py' from 'C:\\Users\\moski\\Documents\\Progr�mky\\SuperPresenter\\.venv\\Lib\\site-packages\\PyInstaller\\hooks\\pre_find_module_path'
+15185 INFO: TclTkInfo: initializing cached Tcl/Tk info...
+16045 INFO: Processing standard module hook 'hook-_tkinter.py' from 'C:\\Users\\moski\\Documents\\Progr�mky\\SuperPresenter\\.venv\\Lib\\site-packages\\PyInstaller\\hooks'
+16085 INFO: Processing standard module hook 'hook-tkinterdnd2.py' from 'C:\\Users\\moski\\Documents\\Progr�mky\\SuperPresenter\\.venv\\Lib\\site-packages\\_pyinstaller_hooks_contrib\\stdhooks'
+16352 INFO: Processing standard module hook 'hook-platform.py' from 'C:\\Users\\moski\\Documents\\Progr�mky\\SuperPresenter\\.venv\\Lib\\site-packages\\PyInstaller\\hooks'
+16487 INFO: Processing standard module hook 'hook-xml.etree.cElementTree.py' from 'C:\\Users\\moski\\Documents\\Progr�mky\\SuperPresenter\\.venv\\Lib\\site-packages\\PyInstaller\\hooks'
+16819 INFO: Processing standard module hook 'hook-PIL.py' from 'C:\\Users\\moski\\Documents\\Progr�mky\\SuperPresenter\\.venv\\Lib\\site-packages\\PyInstaller\\hooks'
+16994 INFO: Processing standard module hook 'hook-PIL.Image.py' from 'C:\\Users\\moski\\Documents\\Progr�mky\\SuperPresenter\\.venv\\Lib\\site-packages\\PyInstaller\\hooks'
+18014 INFO: Processing standard module hook 'hook-PIL.ImageFilter.py' from 'C:\\Users\\moski\\Documents\\Progr�mky\\SuperPresenter\\.venv\\Lib\\site-packages\\PyInstaller\\hooks'
+19071 INFO: Analyzing hidden import 'presentation_presenter'
+19195 INFO: Processing module hooks (post-graph stage)...
+19840 INFO: Processing standard module hook 'hook-PIL.SpiderImagePlugin.py' from 'C:\\Users\\moski\\Documents\\Progr�mky\\SuperPresenter\\.venv\\Lib\\site-packages\\PyInstaller\\hooks'
+20558 INFO: Processing standard module hook 'hook-_tkinter.py' from 'C:\\Users\\moski\\Documents\\Progr�mky\\SuperPresenter\\.venv\\Lib\\site-packages\\PyInstaller\\hooks'
+20576 INFO: Performing binary vs. data reclassification (1049 entries)
+21235 INFO: Looking for ctypes DLLs
+21289 INFO: Analyzing run-time hooks ...
+21293 INFO: Including run-time hook 'pyi_rth__tkinter.py' from 'C:\\Users\\moski\\Documents\\Progr�mky\\SuperPresenter\\.venv\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks'
+21300 INFO: Including run-time hook 'pyi_rth_inspect.py' from 'C:\\Users\\moski\\Documents\\Progr�mky\\SuperPresenter\\.venv\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks'
+21308 INFO: Including run-time hook 'pyi_rth_multiprocessing.py' from 'C:\\Users\\moski\\Documents\\Progr�mky\\SuperPresenter\\.venv\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks'
+21313 INFO: Including run-time hook 'pyi_rth_pkgutil.py' from 'C:\\Users\\moski\\Documents\\Progr�mky\\SuperPresenter\\.venv\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks'
+21362 INFO: Creating base_library.zip...
+21393 INFO: Looking for dynamic libraries
+21910 INFO: Extra DLL search directories (AddDllDirectory): []
+21911 INFO: Extra DLL search directories (PATH): []
+23399 INFO: Warnings written to C:\Users\moski\Documents\Progr�mky\SuperPresenter\build\20261009-140605\SuperPresenter\warn-SuperPresenter.txt
+23456 INFO: Graph cross-reference written to C:\Users\moski\Documents\Progr�mky\SuperPresenter\build\20261009-140605\SuperPresenter\xref-SuperPresenter.html
+23553 INFO: checking PYZ
+23553 INFO: Building PYZ because PYZ-00.toc is non existent
+23554 INFO: Building PYZ (ZlibArchive) C:\Users\moski\Documents\Progr�mky\SuperPresenter\build\20261009-140605\SuperPresenter\PYZ-00.pyz
+24149 INFO: Building PYZ (ZlibArchive) C:\Users\moski\Documents\Progr�mky\SuperPresenter\build\20261009-140605\SuperPresenter\PYZ-00.pyz completed successfully.
+24179 INFO: checking PKG
+24179 INFO: Building PKG because PKG-00.toc is non existent
+24179 INFO: Building PKG (CArchive) SuperPresenter.pkg
+24226 INFO: Building PKG (CArchive) SuperPresenter.pkg completed successfully.
+24228 INFO: Bootloader C:\Users\moski\Documents\Progr�mky\SuperPresenter\.venv\Lib\site-packages\PyInstaller\bootloader\Windows-64bit-intel\runw.exe
+24228 INFO: checking EXE
+24228 INFO: Building EXE because EXE-00.toc is non existent
+24228 INFO: Building EXE from EXE-00.toc
+24229 INFO: Copying bootloader EXE to C:\Users\moski\Documents\Progr�mky\SuperPresenter\build\20261009-140605\SuperPresenter\SuperPresenter.exe
+24306 INFO: Copying icon to EXE
+24357 INFO: Copying version information to EXE
+24411 INFO: Copying 0 resources to EXE
+24411 INFO: Embedding manifest in EXE
+24459 INFO: Appending PKG archive to EXE
+24467 INFO: Fixing EXE headers
+24699 INFO: Building EXE from EXE-00.toc completed successfully.
+24715 INFO: checking COLLECT
+24716 INFO: Building COLLECT because COLLECT-00.toc is non existent
+24718 INFO: Building COLLECT COLLECT-00.toc
+28458 INFO: Building COLLECT COLLECT-00.toc completed successfully.
+28495 INFO: Build complete! The results are available in: C:\Users\moski\Documents\Progr�mky\SuperPresenter\dist\3.0.0-20261009-140605
+
+Release folder: C:\Users\moski\Documents\Progr�mky\SuperPresenter\dist\3.0.0-20261009-140605\SuperPresenter-v3
+ZIP: C:\Users\moski\Documents\Progr�mky\SuperPresenter\dist\3.0.0-20261009-140605\SuperPresenter-3.0.0-win64.zip

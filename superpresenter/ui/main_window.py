@@ -51,11 +51,12 @@ class GUI(ProjectionProfiles, SongEditorPanel):
         self.onlineSources = []
         self.projPlacements = []
         self.animation = 0
-        self.t = time.time()
+        self.t = time.monotonic()
 
         self.runState = False
 
         self.win = tk.Tk()
+        self.win.bind('<Destroy>', self._destroyed, add='+')
         self.win.report_callback_exception = self._report_callback_exception
         self.initWins()
         try:
@@ -80,6 +81,14 @@ class GUI(ProjectionProfiles, SongEditorPanel):
         self.start_monitor_watch()
 
         self.draft_open = False
+
+    def _destroyed(self, event):
+        if event.widget is self.win:
+            self.stop_monitor_watch()
+            timer = getattr(self, '_animation_timer', None)
+            if timer is not None:
+                self.win.after_cancel(timer)
+                self._animation_timer = None
 
     def _report_callback_exception(self, exc_type, exc, traceback):
         logger.error('UI callback failed', exc_info=(exc_type, exc, traceback))
@@ -466,6 +475,9 @@ class GUI(ProjectionProfiles, SongEditorPanel):
                 self.presentation_editor_win.terminate()
 
         self.stop_monitor_watch()
+        editor = getattr(self, '_projection_editor', None)
+        if editor is not None:
+            editor.close()
         if getattr(self, 'floating_controls', None) is not None:
             self.floating_controls.close()
         if self.runState:
@@ -761,12 +773,36 @@ class GUI(ProjectionProfiles, SongEditorPanel):
         if self._is_on_draft():
             self.draft_open = False
         elif 0 <= self.sourceID < len(self.sourceList):
-            self.sourceList.pop(self.sourceID)
+            removed = self.sourceList.pop(self.sourceID)
+            self._release_unused_sources(removed)
         self.sourceID = min(self.sourceID, len(self.sourceList) - 1)
         if self.sourceID >= 0:
             self.viewSource()
         else:
             self.viewSource0()
+
+    def _release_unused_sources(self, removed):
+        """Compact playlist storage; the running snapshot is independently owned."""
+        used = sorted(set(self.sourceList))
+        remap = {old: new for new, old in enumerate(used)}
+        self.sources = [self.sources[old] for old in used]
+        self.sourceList = [remap[old] for old in self.sourceList]
+        sorter = getattr(self, 'sorter', None)
+        if sorter is not None:
+            # A sorter draft must not resurrect a removed playlist entry.
+            if removed in sorter.positions:
+                index = sorter.positions.index(removed)
+                sorter.positions.pop(index)
+                sorter.lines.pop(index).destroy()
+                sorter.labels.pop().destroy()
+            sorter.positions = [remap[old] for old in sorter.positions]
+            sorter.selected = 0
+            sorter._cancel_drag()
+            for index, line in enumerate(sorter.lines):
+                line.grid(column=2 * (index // sorter.rows) + 1, row=index % sorter.rows)
+            if not sorter.positions:
+                sorter.win.destroy()
+                del self.sorter
 
     def viewSource0(self, *e):
         if not self.song_editor_widget.new_song():
@@ -778,6 +814,10 @@ class GUI(ProjectionProfiles, SongEditorPanel):
         return True
 
     def sortSources(self, *e):
+        sorter = getattr(self, 'sorter', None)
+        if sorter is not None and sorter.win.winfo_exists():
+            sorter.win.lift()
+            return
         if not self._prepare_song_transition():
             return
         if len(self.sourceList) > 0:
@@ -890,6 +930,10 @@ class GUI(ProjectionProfiles, SongEditorPanel):
                                 [v for v in src.variants if v != '-----'], guide,
                                 getattr(self, 'hall_max_rows', DEFAULT_HALL_ROWS))
                             stationary_plans.append(plan)
+                    except ConstructError as exc:
+                        construct_error = exc
+                        self._display_construct_error(src.importSlideName(), exc)
+                        break
                     except Exception as ex:
                         logger.exception('Source construction failed: %s', src.path)
                         tkmsg.showerror('Error in projector styles',
@@ -1168,10 +1212,10 @@ class GUI(ProjectionProfiles, SongEditorPanel):
             self.animation = 0
             self._show_stationary_cue()
             return
-        t = time.time()
+        t = time.monotonic()
         # Tato metoda se stará pouze o časování a animaci.
         # Samotné odeslání dat dělá pomocná funkce _update_projectors.
-        if time.time() - self.t < self.animationParams['anim_timeout']:
+        if t - self.t < self.animationParams['anim_timeout']:
             self.t = t
             self.animation = 0
             self._update_projectors(anim=0)

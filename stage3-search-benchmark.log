@@ -1,0 +1,5 @@
+Python: 3.13.14 OS: nt
+100 results; 50 unique sources, 100 playlist positions; real Tk insert + idle layout;
+index/search mocked identically; 1 warm-up + 7 alternating samples, milliseconds
+before median= 1552.176 range= (1282.786, 1872.453)
+after median= 42.163 range= (38.971, 50.619)

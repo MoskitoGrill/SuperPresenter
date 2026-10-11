@@ -4,6 +4,7 @@ from pathlib import Path
 import runpy
 import tempfile
 from types import SimpleNamespace
+from unittest.mock import patch
 
 from superpresenter.paths import PROJECT_ROOT
 from superpresenter.version import VERSION, RELEASE_STAGE
@@ -42,15 +43,19 @@ def run_check():
             gui = GUI()
             gui.stop_monitor_watch()
             gui.win.report_callback_exception = lambda *exc: errors.append(str(exc[1]))
+            gui.win.createcommand('record_bgerror', errors.append)
+            gui.win.tk.eval('proc bgerror {message} {record_bgerror $message}')
             gui.win.update_idletasks()
             _set_properties(gui.win.winfo_id(), root, root / 'images' / 'launcher-default.ico')
             gui.win.iconbitmap(str(root / 'images' / 'launcher-default.ico'))
             assert Path(gui.song_editor_widget.songs_dir) == root / 'songs'
             repo = SongRepository()
-            song = Song.from_texts('Release check', {'cs': {'v1': 'První řádek\nDruhý řádek'}}, {'default': 'v1'})
+            song = Song.from_texts('Release check', {'cs': {'v1': '\n'.join(
+                f'Zkušební řádek {i}' for i in range(10))}}, {'default': 'v1'})
             path = Path(temp) / 'Zkušební píseň.xml'
             repo.save(song, path)
             assert gui.loadSource(str(path))
+            gui.song_editor_widget.songs_dir = temp
             gui._profiles_ready = False
             gui.monitors = [SimpleNamespace(name='check', x=30000, y=30000,
                                            width=800, height=600, is_primary=True)]
@@ -64,13 +69,47 @@ def run_check():
                 gui.runButtFun()
                 assert gui.runState and projector.canvas.winfo_exists()
                 gui.win.update_idletasks()
-                gui.nextStep()
-                gui.prevStep()
+                for _ in range(20):
+                    gui.nextStep()
+                    gui.prevStep()
+                    gui.win.update()
+                # Real editor save changes only the temporary fixture. The
+                # running source must remain an independent snapshot.
+                snapshot = gui.onlineSources[0].song.title
+                gui.song_title.set(f'Release check edited {index}')
+                with patch.object(messagebox, 'askyesnocancel', return_value=True):
+                    assert gui.song_editor_widget.save_file()
+                assert gui.onlineSources[0].song.title == snapshot
                 gui.runButtFun()
+                assert not gui.onlineSources and not hasattr(projector, 'win')
+                for _ in range(3):
+                    gui.runButtFun()
+                    assert gui.runState
+                    gui.runButtFun()
+                    assert not gui.runState and not hasattr(projector, 'canvas')
                 tested_styles.append(style['name'])
-            assert not errors, errors
+            rejected = []
+            for index in (0, 2):
+                projector.style = index
+                with patch.object(gui, '_prepare_song_transition', return_value=True), \
+                     patch.object(gui, 'saveRepetitions'), \
+                     patch.object(messagebox, 'showerror', side_effect=lambda title, msg: rejected.append(msg)):
+                    for guide in ('(v1)*4097', '(v1)*410', 'v1 ???'):
+                        gui.sources[0].repetitions = guide
+                        gui.runButtFun()
+                        assert not gui.runState and not hasattr(projector, 'win')
+                        assert str(gui.openProjs.cget('state')) == 'normal'
+                        gui.sources[0].repetitions = 'v1'
+                        gui.runButtFun()
+                        assert gui.runState
+                        gui.runButtFun()
+            assert len(rejected) == 6, rejected
+            gui.runButtFun()
+            assert gui.runState
             tcl_version = gui.win.tk.call('info', 'patchlevel')
-            gui.win.destroy()
+            gui.on_closing()
+            assert not gui.runState and not hasattr(projector, 'win')
+            assert not errors, errors
             gui = None
             tk.Tk = original_tk
             # Execute the legacy file with its real data-root __file__, as the
@@ -88,6 +127,9 @@ def run_check():
                     'root': str(root), 'tcl': tcl_version,
                     'styles': tested_styles, 'song_roundtrip': True,
                     'presentation_editor': True, 'taskbar_properties': True,
+                    'start_stop_cycles': 31, 'rapid_navigation_pairs': 120,
+                    'edit_during_projection': True, 'invalid_inputs_rejected': len(rejected),
+                    'close_during_projection': True, 'callback_errors': errors,
                     'song_files': len(list((root / 'songs').rglob('*.xml')))}
         finally:
             if gui is not None:

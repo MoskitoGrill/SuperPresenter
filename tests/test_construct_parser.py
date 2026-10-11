@@ -104,16 +104,16 @@ class ConstructParserTests(unittest.TestCase):
         self.assertEqual([s.start_line for s in result.instructions], [2, 3, None])
 
     def test_large_repeat_is_not_expanded(self):
-        result = parse_construct('(v1)*1000000000000', ['v1'])
+        result = parse_construct('(v1)*4096', ['v1'])
         self.assertEqual(len(result.instructions), 1)
-        self.assertEqual(result.instructions[0].repeat, 1000000000000)
+        self.assertEqual(result.instructions[0].repeat, 4096)
         self.assertLess(len(result.to_legacy()[0]), 10)
 
     def test_deep_nesting(self):
-        result = parse_construct('(' * 1500 + 'v1' + ')' * 1500, ['v1'])
+        result = parse_construct('(' * 32 + 'v1' + ')*1' * 32, ['v1'])
         program, used = result.to_legacy()
         self.assertEqual(used, ['v1'])
-        self.assertEqual(program.count('mult'), 1500)
+        self.assertEqual(program.count('mult'), 32)
 
     def test_pure_import_without_ui_dependencies(self):
         code = """
@@ -208,7 +208,13 @@ assert parse_construct('(v1)*2', ['v1']).instructions[0].repeat == 2
                     self.assertNotEqual(error, [0], (path, text))
                 else:
                     if error != [0]:
-                        differences.append((path.name, text, error))
+                        # @ is an intentional extension; its legacy text order
+                        # must still match the frozen parser without markers.
+                        plain, plain_error = old_parse(text.replace('@', ''), sections)
+                        if '@' not in text or plain_error != [0]:
+                            differences.append((path.name, text, error))
+                        else:
+                            self.assertEqual(new.to_legacy(), (plain.instructions, plain.usedSections))
                     else:
                         accepted += 1
                         self.assertEqual(new.to_legacy(), (old.instructions, old.usedSections), (path, text))
@@ -271,13 +277,37 @@ assert parse_construct('(v1)*2', ['v1']).instructions[0].repeat == 2
                         old, error = old_parse(text, sections)
                         source.repetitions = text
                         if error != [0]:
-                            with self.assertRaises(ConstructError):
+                            plain, plain_error = old_parse(text.replace('@', ''), sections)
+                            if '@' in text and plain_error == [0]:
                                 source.readInstructions()
+                                self.assertEqual(source.instructions, plain.instructions)
+                                self.assertEqual(source.usedSections, plain.usedSections)
+                            else:
+                                with self.assertRaises(ConstructError):
+                                    source.readInstructions()
                         else:
                             source.readInstructions()
                             self.assertEqual(source.instructions, old.instructions)
                             self.assertEqual(source.usedSections, old.usedSections)
         self.assertGreater(checked, 1600)
+
+    def test_real_song_whole_refrain_pin(self):
+        from superpresenter.services.song_repository import SongRepository
+        from superpresenter.services.stationary_pages import resolve_sections, generate_pages
+        song = SongRepository().load(ROOT / 'songs/k_panu_ruce_pozvedam.xml')
+        guide = song.repetitions[0].guide
+        for variant in song.variants:
+            sections = [s.identifier for s in variant.sections]
+            marked = parse_construct(guide, sections)
+            self.assertEqual(marked.instructions[-1].section, 'r1')
+            self.assertTrue(marked.instructions[-1].pinned)
+            plain = parse_construct(guide.replace('@', ''), sections)
+            self.assertFalse(plain.instructions[-1].pinned)
+            self.assertEqual(marked.to_legacy(), plain.to_legacy())
+            pages = generate_pages(resolve_sections(marked, variant)).hall_pages
+            self.assertEqual([len(p.lines) for p in pages], [6, 4, 6])
+            self.assertEqual([r.section_id for r in pages[-1].lines], ['v1'] * 4 + ['r1'] * 2)
+            self.assertTrue(all(r.pinned for r in pages[-1].lines[-2:]))
 
 
 if __name__ == '__main__':

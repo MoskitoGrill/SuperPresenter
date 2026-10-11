@@ -162,14 +162,32 @@ class ProjWindow():
         self.canvas.coords(self.collection_item, x, y)
 
     def stopProjection(self):
+        win = getattr(self, 'win', None)
         try:
-            if not self.fullscreen:
-                self.window_position = [self.win.winfo_x(), self.win.winfo_y()]
+            if win is not None and win.winfo_exists() and not self.fullscreen:
+                self.window_position = [win.winfo_x(), win.winfo_y()]
                 self.winPlacement = f'{self.window_position[0]:+d}{self.window_position[1]:+d}'
-            self.win.destroy()
-            del self.win
         except (AttributeError, tk.TclError):
             pass
+        finally:
+            if win is not None:
+                try:
+                    win.destroy()
+                except tk.TclError:
+                    pass
+            for name in ('win', 'canvas'):
+                if hasattr(self, name):
+                    delattr(self, name)
+            self.animated = []
+            self.others = []
+            self.tops = []
+            self.stillAnimated = []
+            self.animation = 0
+            self.collection_item = self.collection_img = None
+            source = getattr(self, '_collection_source', None)
+            if source is not None:
+                source.close()
+                del self._collection_source
 
     def showStationaryPage(self, page):
         for widget in self.animated:
@@ -252,12 +270,13 @@ class ProjWindow():
 
         src = resource_path(cfg['source'], self.master.dir)
 
-        img = Image.open(src)
-        sz = int(cfg.get('size', 360))
-        if sz > 0:
-            img = img.resize((sz, sz), Image.LANCZOS)
-
-        self.collection_img = ImageTk.PhotoImage(img)
+        with Image.open(src) as img:
+            sz = int(cfg.get('size', 360))
+            if sz > 0:
+                with img.resize((sz, sz), Image.LANCZOS) as resized:
+                    self.collection_img = ImageTk.PhotoImage(resized, master=self.canvas)
+            else:
+                self.collection_img = ImageTk.PhotoImage(img, master=self.canvas)
 
         self.canvas.update_idletasks()
         w = max(1, self.canvas.winfo_width())
@@ -282,7 +301,8 @@ class ProjWindow():
         from superpresenter.services.collection_qr import geometry, render_image
         x, y, side = geometry(cfg, max(1, self.canvas.winfo_width()), max(1, self.canvas.winfo_height()))
         if self._collection_side != side:
-            self.collection_img = ImageTk.PhotoImage(render_image(self._collection_source, side), master=self.canvas)
+            with render_image(self._collection_source, side) as rendered:
+                self.collection_img = ImageTk.PhotoImage(rendered, master=self.canvas)
             self.canvas.itemconfigure(self.collection_item, image=self.collection_img)
             self._collection_side = side
         self.canvas.coords(self.collection_item, x, y)

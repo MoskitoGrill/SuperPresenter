@@ -1,0 +1,25 @@
+{
+  "ok": true,
+  "version": "3.0.0",
+  "stage": "13B",
+  "root": "C:\\Users\\moski\\Documents\\Prográmky\\SuperPresenter",
+  "tcl": "8.6.15",
+  "styles": [
+    "chvály sál – stacionární",
+    "chvály stream – stacionární",
+    "chvály sál",
+    "chvály stream",
+    "chvály stream 1/3x",
+    "chvály sál 1/3x"
+  ],
+  "song_roundtrip": true,
+  "presentation_editor": true,
+  "taskbar_properties": true,
+  "start_stop_cycles": 31,
+  "rapid_navigation_pairs": 120,
+  "edit_during_projection": true,
+  "invalid_inputs_rejected": 6,
+  "close_during_projection": true,
+  "callback_errors": [],
+  "song_files": 859
+}

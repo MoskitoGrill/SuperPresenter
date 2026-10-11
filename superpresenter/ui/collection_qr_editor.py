@@ -22,6 +22,7 @@ class CollectionQREditor:
         self._background_size = None
         self._photo_key = None
         self.win = tk.Toplevel(parent)
+        self.win.bind('<Destroy>', self._destroyed, add='+')
         self.win.title('Nastavení QR sbírky')
         self.win.transient(parent)
         self.win.protocol('WM_DELETE_WINDOW', self.cancel)
@@ -106,6 +107,10 @@ class CollectionQREditor:
         configure_children(self.win)
 
     def load_image(self):
+        self._photo_key = None
+        if self.image is not None:
+            self.image.close()
+            self.image = None
         try:
             if 'image_data' in self.settings:
                 self.image = decode_image(self.settings['image_data'])
@@ -142,6 +147,9 @@ class CollectionQREditor:
             messagebox.showerror('Obrázek QR', str(exc), parent=self.win)
             return
         self.settings.update(image_data=data, image_name=Path(path).name)
+        self._photo_key = None
+        if self.image is not None:
+            self.image.close()
         self.image = image
         self.image_name.set(Path(path).name)
         self.draw()
@@ -179,7 +187,8 @@ class CollectionQREditor:
         x, y, side = geometry(settings, w, h)
         photo_key = (self.image, side)
         if self._photo_key != photo_key:
-            self.photo = ImageTk.PhotoImage(render_image(self.image, side), master=self.win)
+            with render_image(self.image, side) as rendered:
+                self.photo = ImageTk.PhotoImage(rendered, master=self.win)
             self._photo_key = photo_key
         self.qr_rect = (left + x, top + y, side)
         if canvas.find_withtag('qr'):
@@ -263,10 +272,24 @@ class CollectionQREditor:
         self.on_apply(settings)
         self.cancel()
 
-    def cancel(self):
+    def _destroyed(self, event):
+        if event.widget is not self.win:
+            return
+        self._release_resources()
+
+    def _release_resources(self):
         if self._draw_job is not None:
             self.win.after_cancel(self._draw_job)
             self._draw_job = None
+        image = getattr(self, 'image', None)
+        if image is not None:
+            image.close()
+            self.image = None
+        self.photo = None
+        self._photo_key = None
+
+    def cancel(self):
+        self._release_resources()
         parent = self.win.master
         self.win.grab_release()
         self.win.destroy()

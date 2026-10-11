@@ -14,10 +14,16 @@ from superpresenter.windows_shell import style_title_bar
 logger = logging.getLogger(__name__)
 
 
+def path_key(path):
+    return os.path.normcase(str(Path(path).resolve()))
+
+
+def playlist_paths(gui):
+    return {path_key(gui.sources[i].path) for i in set(gui.sourceList)}
+
+
 def in_playlist(gui, path):
-    key = os.path.normcase(str(Path(path).resolve()))
-    return any(os.path.normcase(str(Path(gui.sources[i].path).resolve())) == key
-               for i in gui.sourceList)
+    return path_key(path) in playlist_paths(gui)
 
 
 def add_result(gui, path):
@@ -74,12 +80,9 @@ class SongSearchWindow:
         style_title_bar(self.win)
 
     def browse_files(self):
-        try:
-            self.gui.addSource()
-            self.search()  # Refresh playlist marks after the existing file picker.
-        except Exception:
-            logger.exception('Opening song files failed')
-            self.status.configure(text='Otevření souborů selhalo. Podrobnosti jsou v logu.')
+        # Shared-state mutations must reach the global projection safety handler.
+        self.gui.addSource()
+        self.search()  # Refresh playlist marks after the existing file picker.
 
     def apply_style(self):
         """Reuse the active application's colors and fonts, without changing its theme."""
@@ -126,6 +129,8 @@ class SongSearchWindow:
         self.add_button.grid(row=4)
 
     def check_index(self):
+        if self.poll is not None:
+            self.win.after_cancel(self.poll)
         self.poll = None
         if not self.future.done():
             self.poll = self.win.after(50, self.check_index)
@@ -153,9 +158,10 @@ class SongSearchWindow:
             return
         try:
             self.results = self.search_index.search(self.query.get())
+            paths = playlist_paths(self.gui)
             self.tree.delete(*self.tree.get_children())
             for i, result in enumerate(self.results):
-                title = result.display_title + (' (v playlistu)' if in_playlist(self.gui, result.path) else '')
+                title = result.display_title + (' (v playlistu)' if path_key(result.path) in paths else '')
                 self.tree.insert('', 'end', iid=str(i), values=(title, result.snippet))
             summary = f'Výsledků: {len(self.results)}' if self.query.get().strip() else 'Zadejte název nebo část textu písně.'
             if self.search_index.failures:
@@ -164,6 +170,10 @@ class SongSearchWindow:
             self.selection_changed()
         except Exception:
             logger.exception('Song search failed')
+            # Discard partial rows; an old selection must never add the wrong song.
+            self.results = []
+            self.tree.delete(*self.tree.get_children())
+            self.add_button.configure(state='disabled')
             self.status.configure(text='Vyhledávání selhalo. Podrobnosti jsou v logu.')
 
     def selection_changed(self, *_):
@@ -180,13 +190,9 @@ class SongSearchWindow:
         selected = self.tree.selection()
         if not selected:
             return
-        try:
-            message = add_result(self.gui, self.results[int(selected[0])].path)
-            self.search()
-            self.status.configure(text=message)
-        except Exception:
-            logger.exception('Adding song search result failed')
-            self.status.configure(text='Přidání selhalo. Podrobnosti jsou v logu.')
+        message = add_result(self.gui, self.results[int(selected[0])].path)
+        self.search()
+        self.status.configure(text=message)
 
     def destroyed(self, event):
         if event.widget is self.win:

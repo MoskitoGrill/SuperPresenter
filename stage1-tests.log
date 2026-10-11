@@ -1,0 +1,116 @@
+test_adapter_error_keeps_previous_state (test_construct_parser.ConstructParserTests.test_adapter_error_keeps_previous_state) ... ok
+test_database_compatibility (test_construct_parser.ConstructParserTests.test_database_compatibility) ... FAIL
+test_database_through_existing_import_and_variant_selection (test_construct_parser.ConstructParserTests.test_database_through_existing_import_and_variant_selection) ... 
+  test_database_through_existing_import_and_variant_selection (test_construct_parser.ConstructParserTests.test_database_through_existing_import_and_variant_selection) (path=WindowsPath('C:/Users/moski/Documents/Progr�mky/SuperPresenter/songs/k_panu_ruce_pozvedam.xml'), selection=['�e�tina'], text='v1 (v1.1) r1 r1 v1 @r1') ... FAIL
+  test_database_through_existing_import_and_variant_selection (test_construct_parser.ConstructParserTests.test_database_through_existing_import_and_variant_selection) (path=WindowsPath('C:/Users/moski/Documents/Progr�mky/SuperPresenter/songs/k_panu_ruce_pozvedam.xml'), selection=['\u0443\u043a\u0440\u0430\u0457\u043d\u0441\u044c\u043a\u0438\u0439 - auto'], text='v1 (v1.1) r1 r1 v1 @r1') ... FAIL
+  test_database_through_existing_import_and_variant_selection (test_construct_parser.ConstructParserTests.test_database_through_existing_import_and_variant_selection) (path=WindowsPath('C:/Users/moski/Documents/Progr�mky/SuperPresenter/songs/k_panu_ruce_pozvedam.xml'), selection=['�e�tina', '\u0443\u043a\u0440\u0430\u0457\u043d\u0441\u044c\u043a\u0438\u0439 - auto'], text='v1 (v1.1) r1 r1 v1 @r1') ... FAIL
+test_deep_nesting (test_construct_parser.ConstructParserTests.test_deep_nesting) ... ok
+test_errors_and_original_positions (test_construct_parser.ConstructParserTests.test_errors_and_original_positions) ... ok
+test_groups_and_nesting (test_construct_parser.ConstructParserTests.test_groups_and_nesting) ... ok
+test_large_repeat_is_not_expanded (test_construct_parser.ConstructParserTests.test_large_repeat_is_not_expanded) ... ok
+test_legacy_edge_cases (test_construct_parser.ConstructParserTests.test_legacy_edge_cases) ... ok
+test_legacy_identifiers (test_construct_parser.ConstructParserTests.test_legacy_identifiers) ... ok
+test_line_selection (test_construct_parser.ConstructParserTests.test_line_selection) ... ok
+test_optional_spaces_preserve_section_order (test_construct_parser.ConstructParserTests.test_optional_spaces_preserve_section_order) ... ok
+test_pure_import_without_ui_dependencies (test_construct_parser.ConstructParserTests.test_pure_import_without_ui_dependencies) ... ok
+test_real_song_rendering_and_short2_navigation (test_construct_parser.ConstructParserTests.test_real_song_rendering_and_short2_navigation) ... ok
+test_refrain_line_repeated_three_times (test_construct_parser.ConstructParserTests.test_refrain_line_repeated_three_times) ... ok
+test_simple_order (test_construct_parser.ConstructParserTests.test_simple_order) ... ok
+test_single_line_before_next_section (test_construct_parser.ConstructParserTests.test_single_line_before_next_section) ... ok
+test_spaced_multiplier_error_positions (test_construct_parser.ConstructParserTests.test_spaced_multiplier_error_positions) ... ok
+test_spaced_range_error_positions (test_construct_parser.ConstructParserTests.test_spaced_range_error_positions) ... ok
+test_spaces_around_group_multiplier (test_construct_parser.ConstructParserTests.test_spaces_around_group_multiplier) ... ok
+test_spaces_do_not_merge_identifiers_or_numbers (test_construct_parser.ConstructParserTests.test_spaces_do_not_merge_identifiers_or_numbers) ... ok
+test_stack_program_and_renderers (test_construct_parser.ConstructParserTests.test_stack_program_and_renderers) ... ok
+test_both_builders_bound_rows_and_languages_before_expansion (test_construct_limits.BudgetTests.test_both_builders_bound_rows_and_languages_before_expansion) ... ok
+test_parser_boundaries_and_intermediate_work (test_construct_limits.BudgetTests.test_parser_boundaries_and_intermediate_work) ... ok
+test_reject_then_restart_in_both_modes (test_construct_limits.RecoveryTests.test_reject_then_restart_in_both_modes) ... Invalid construct in First: Konstrukt p�ekra�uje limit 4096 ��dk�/krok�; zkra�te rozsah nebo opakov�n� (pozice 0, po��t�no od 0)
+Invalid construct in First: Konstrukt p�ekra�uje limit 4096 ��dk�/krok�; zkra�te rozsah nebo opakov�n� (pozice 0, po��t�no od 0)
+Invalid construct in First: Konstrukt p�ekra�uje limit 4096 ��dk�/krok�; zkra�te rozsah nebo opakov�n� (pozice 0, po��t�no od 0)
+Invalid construct in First: Konstrukt p�ekra�uje limit 4096 ��dk�/krok�; zkra�te rozsah nebo opakov�n� (pozice 0, po��t�no od 0)
+ok
+test_end_and_adjacent_pins (test_pinned_lines.PinnedLinesTests.test_end_and_adjacent_pins) ... ok
+test_groups_and_unmarked_selection (test_pinned_lines.PinnedLinesTests.test_groups_and_unmarked_selection) ... ok
+test_invalid_markers (test_pinned_lines.PinnedLinesTests.test_invalid_markers) ... ok
+test_legacy_translation_and_whitespace (test_pinned_lines.PinnedLinesTests.test_legacy_translation_and_whitespace) ... ok
+test_long_section (test_pinned_lines.PinnedLinesTests.test_long_section) ... ok
+test_no_room (test_pinned_lines.PinnedLinesTests.test_no_room) ... ok
+test_one_and_two_pins (test_pinned_lines.PinnedLinesTests.test_one_and_two_pins) ... ok
+test_six_line_verse_and_two_line_bridge (test_pinned_lines.PinnedLinesTests.test_six_line_verse_and_two_line_bridge) ... ok
+test_whole_sections_ranges_and_capacity (test_pinned_lines.PinnedLinesTests.test_whole_sections_ranges_and_capacity) ... ok
+test_xml_roundtrip_and_validation (test_pinned_lines.PinnedLinesTests.test_xml_roundtrip_and_validation) ... ok
+test_diagnostics_and_import_without_gui (test_stationary_pages.StationaryPagesTests.test_diagnostics_and_import_without_gui) ... ok
+test_empty_song_and_section (test_stationary_pages.StationaryPagesTests.test_empty_song_and_section) ... ok
+test_identical_text_does_not_infer_flags (test_stationary_pages.StationaryPagesTests.test_identical_text_does_not_infer_flags) ... ok
+test_invalid_rows_and_blank_row_capacity (test_stationary_pages.StationaryPagesTests.test_invalid_rows_and_blank_row_capacity) ... ok
+test_many_lengths_and_boundaries (test_stationary_pages.StationaryPagesTests.test_many_lengths_and_boundaries) ... ok
+test_required_lengths (test_stationary_pages.StationaryPagesTests.test_required_lengths) ... ok
+test_stable_ids_and_repeated_occurrences (test_stationary_pages.StationaryPagesTests.test_stable_ids_and_repeated_occurrences) ... ok
+test_two_explicit_pinned_rows_with_next_section (test_stationary_pages.StationaryPagesTests.test_two_explicit_pinned_rows_with_next_section) ... ok
+test_two_short_sections_and_verse_chorus (test_stationary_pages.StationaryPagesTests.test_two_short_sections_and_verse_chorus) ... ok
+test_empty_playlist (test_stationary_navigation.NavigationTests.test_empty_playlist) ... ok
+test_full_reverse_including_song_boundaries_and_empty_song (test_stationary_navigation.NavigationTests.test_full_reverse_including_song_boundaries_and_empty_song) ... ok
+test_full_verse_repetition_joins_when_it_fits (test_stationary_navigation.NavigationTests.test_full_verse_repetition_joins_when_it_fits) ... ok
+test_languages_and_pins_resolved_before_pagination (test_stationary_navigation.NavigationTests.test_languages_and_pins_resolved_before_pagination) ... ok
+test_modes_and_old_configuration (test_stationary_navigation.NavigationTests.test_modes_and_old_configuration) ... ok
+test_one_hall_two_stream_steps (test_stationary_navigation.NavigationTests.test_one_hall_two_stream_steps) ... ok
+test_row_repeats_count_all_language_rows (test_stationary_navigation.NavigationTests.test_row_repeats_count_all_language_rows) ... ok
+test_same_verse_row_repeats_fit_as_a_whole (test_stationary_navigation.NavigationTests.test_same_verse_row_repeats_fit_as_a_whole) ... ok
+test_two_hall_three_stream_steps (test_stationary_navigation.NavigationTests.test_two_hall_three_stream_steps) ... ok
+test_alternating_sections_keep_color_across_pages_and_restore_after_selection (test_stationary_navigation.ProjectionTests.test_alternating_sections_keep_color_across_pages_and_restore_after_selection) ... ok
+test_click_selects_cue (test_stationary_navigation.ProjectionTests.test_click_selects_cue) ... ok
+test_empty_running_playlist_navigation_is_safe (test_stationary_navigation.ProjectionTests.test_empty_running_playlist_navigation_is_safe) ... ok
+test_every_preview_row_selects_exact_cue_and_matches_outputs (test_stationary_navigation.ProjectionTests.test_every_preview_row_selects_exact_cue_and_matches_outputs) ... ok
+test_hall_stream_and_mixed_outputs (test_stationary_navigation.ProjectionTests.test_hall_stream_and_mixed_outputs) ... ok
+test_legacy_style_still_uses_original_widget_routing (test_stationary_navigation.ProjectionTests.test_legacy_style_still_uses_original_widget_routing) ... ok
+test_selection_is_four_stream_rows_or_eight_hall_rows (test_stationary_navigation.ProjectionTests.test_selection_is_four_stream_rows_or_eight_hall_rows) ... ok
+test_start_prepares_each_song_and_restart_resets_timeline (test_stationary_navigation.ProjectionTests.test_start_prepares_each_song_and_restart_resets_timeline) ... ok
+test_unchanged_hall_does_not_touch_canvas (test_stationary_navigation.ProjectionTests.test_unchanged_hall_does_not_touch_canvas) ... ok
+
+======================================================================
+FAIL: test_database_compatibility (test_construct_parser.ConstructParserTests.test_database_compatibility)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\moski\Documents\Progr�mky\SuperPresenter\tests\test_construct_parser.py", line 217, in test_database_compatibility
+    self.assertEqual(differences, [])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [('k_panu_ruce_pozvedam.xml', 'v1 (v1.1) r1 r1 v1 @r1', [3, '@r1'])] != []
+
+First list contains 1 additional elements.
+First extra element 0:
+('k_panu_ruce_pozvedam.xml', 'v1 (v1.1) r1 r1 v1 @r1', [3, '@r1'])
+
+- [('k_panu_ruce_pozvedam.xml', 'v1 (v1.1) r1 r1 v1 @r1', [3, '@r1'])]
++ []
+
+======================================================================
+FAIL: test_database_through_existing_import_and_variant_selection (test_construct_parser.ConstructParserTests.test_database_through_existing_import_and_variant_selection) (path=WindowsPath('C:/Users/moski/Documents/Progr�mky/SuperPresenter/songs/k_panu_ruce_pozvedam.xml'), selection=['�e�tina'], text='v1 (v1.1) r1 r1 v1 @r1')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\moski\Documents\Progr�mky\SuperPresenter\tests\test_construct_parser.py", line 274, in test_database_through_existing_import_and_variant_selection
+    with self.assertRaises(ConstructError):
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+AssertionError: ConstructError not raised
+
+======================================================================
+FAIL: test_database_through_existing_import_and_variant_selection (test_construct_parser.ConstructParserTests.test_database_through_existing_import_and_variant_selection) (path=WindowsPath('C:/Users/moski/Documents/Progr�mky/SuperPresenter/songs/k_panu_ruce_pozvedam.xml'), selection=['\u0443\u043a\u0440\u0430\u0457\u043d\u0441\u044c\u043a\u0438\u0439 - auto'], text='v1 (v1.1) r1 r1 v1 @r1')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\moski\Documents\Progr�mky\SuperPresenter\tests\test_construct_parser.py", line 274, in test_database_through_existing_import_and_variant_selection
+    with self.assertRaises(ConstructError):
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+AssertionError: ConstructError not raised
+
+======================================================================
+FAIL: test_database_through_existing_import_and_variant_selection (test_construct_parser.ConstructParserTests.test_database_through_existing_import_and_variant_selection) (path=WindowsPath('C:/Users/moski/Documents/Progr�mky/SuperPresenter/songs/k_panu_ruce_pozvedam.xml'), selection=['�e�tina', '\u0443\u043a\u0440\u0430\u0457\u043d\u0441\u044c\u043a\u0438\u0439 - auto'], text='v1 (v1.1) r1 r1 v1 @r1')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\moski\Documents\Progr�mky\SuperPresenter\tests\test_construct_parser.py", line 274, in test_database_through_existing_import_and_variant_selection
+    with self.assertRaises(ConstructError):
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+AssertionError: ConstructError not raised
+
+----------------------------------------------------------------------
+Ran 61 tests in 3.170s
+
+FAILED (failures=4)

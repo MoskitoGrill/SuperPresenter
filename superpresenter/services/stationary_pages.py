@@ -11,7 +11,7 @@ from urllib.parse import quote
 
 from superpresenter.domain.song import SongVariant
 from superpresenter.services.construct_parser import (
-    Construct, RepeatGroup, InvalidPinError,
+    Construct, RepeatGroup, InvalidPinError, check_expansion,
 )
 
 
@@ -186,6 +186,7 @@ def resolve_sections(construct: Construct, variant: SongVariant) -> Iterable[Log
         if section.identifier in sections:
             raise ValueError('Duplicate section ID: ' + section.identifier)
         sections[section.identifier] = presentation_lines(section.lines)
+    check_expansion(construct, {key: len(rows) for key, rows in sections.items()})
     pending = [(iter(construct.instructions), '', False)]
     while pending:
         nodes, path, repeated = pending[-1]

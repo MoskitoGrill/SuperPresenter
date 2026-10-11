@@ -37,6 +37,8 @@ class ProjectionEditor:
         if self.selected_profile == len(self.entries):
             self.entries.append(dict(path=None, name=next_profile_name(self.entries)))
         self.win = tk.Toplevel(owner.win)
+        self._fit_timer = None
+        self.win.bind('<Destroy>', self._destroyed, add='+')
         self.win.title('Monitory a projekční výstupy')
         self.win.transient(owner.win)
         self.configure_appearance()
@@ -95,10 +97,27 @@ class ProjectionEditor:
         from superpresenter.windows_shell import style_title_bar
         style_title_bar(self.win)
         self._fit_ready = True
-        self.win.after(50, self._fit_visible_card)
+        self._schedule_fit()
+
+    def _schedule_fit(self):
+        if self._fit_timer is not None:
+            self.win.after_cancel(self._fit_timer)
+        self._fit_timer = self.win.after(50, self._fit_visible_card)
+
+    def _destroyed(self, event):
+        if event.widget is self.win:
+            if self._fit_timer is not None:
+                self.win.after_cancel(self._fit_timer)
+                self._fit_timer = None
+            if getattr(self.owner, '_projection_editor', None) is self:
+                self.owner._projection_editor = None
 
     def _fit_visible_card(self):
         """Fit one visible card, compacting its preview at the screen limit."""
+        timer = getattr(self, '_fit_timer', None)
+        if timer is not None:
+            self.win.after_cancel(timer)
+            self._fit_timer = None
         if not self.win.winfo_exists() or not self.cards:
             return
         # Include tile padding and a little clearance below the frame border.
@@ -210,7 +229,7 @@ class ProjectionEditor:
             self.status.set('Uložit uloží profil. Použít jej uloží a také použije.')
         self.draw_map()
         if getattr(self, '_fit_ready', False):
-            self.win.after(50, self._fit_visible_card)
+            self._schedule_fit()
 
     def refresh_profile_choices(self):
         self.profile_choice['values'] = [entry['name'] for entry in self.entries]
@@ -348,7 +367,7 @@ class ProjectionEditor:
             else:
                 row_frame.pack_forget()
             if args:
-                self.win.after(50, self._fit_visible_card)
+                self._schedule_fit()
         combo.bind('<<ComboboxSelected>>', update_options)
         update_options()
         row.update(combo=combo, fullscreen=fullscreen, collection=collection,

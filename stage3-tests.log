@@ -1,0 +1,10 @@
+test_animation_uses_one_monotonic_sample (test_stage3_stability.ErrorBoundaryTests.test_animation_uses_one_monotonic_sample) ... ok
+test_auxiliary_failure_keeps_projection_and_recovers (test_stage3_stability.ErrorBoundaryTests.test_auxiliary_failure_keeps_projection_and_recovers) ... ok
+test_marks_refresh_with_duplicates_and_playlist_changes (test_stage3_stability.ErrorBoundaryTests.test_marks_refresh_with_duplicates_and_playlist_changes) ... ok
+test_mutation_failure_uses_global_cleanup_and_can_restart (test_stage3_stability.ErrorBoundaryTests.test_mutation_failure_uses_global_cleanup_and_can_restart) ... ok
+test_projection_callback_failure_cancels_animation_and_restarts (test_stage3_stability.ErrorBoundaryTests.test_projection_callback_failure_cancels_animation_and_restarts) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 12.548s
+
+OK

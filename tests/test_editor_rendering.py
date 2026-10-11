@@ -75,6 +75,7 @@ class EditorRenderingTests(unittest.TestCase):
 
     def test_changes_are_combined_and_pending_draw_is_cancelled(self):
         editor = self.make_qr_editor()
+        image = editor.image = Mock(spec=['close'])
         editor.win.after.return_value = 'job'
         editor.schedule_draw()
         editor.schedule_draw()
@@ -85,6 +86,9 @@ class EditorRenderingTests(unittest.TestCase):
         editor.schedule_draw()
         editor.cancel()
         editor.win.after_cancel.assert_called_once_with('job')
+        image.close.assert_called_once_with()
+        self.assertIsNone(editor.image)
+        self.assertIsNone(editor.photo)
 
     def test_moving_body_does_not_repeat_layout_work(self):
         editor = ProjectionEditor.__new__(ProjectionEditor)

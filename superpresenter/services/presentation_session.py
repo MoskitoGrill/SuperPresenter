@@ -3,7 +3,7 @@ from copy import deepcopy
 import xml.etree.ElementTree as ET
 from superpresenter.domain.song import Song
 from superpresenter.services.song_repository import SongRepository, SongLoadError
-from superpresenter.services.construct_parser import parse_construct
+from superpresenter.services.construct_parser import parse_construct, check_expansion
 
 
 class _LegacyWidgetSource():
@@ -424,6 +424,13 @@ class _LegacyWidgetSource():
 
     def constructLines(self, sourceTypes:list):
         slide = self.importSlide(self.variants, self.usedSections)
+        variants = [v for v in self.variants if v != '-----']
+        construct = parse_construct(self.repetitions, self.usedSections)
+        # Legacy whole-section output pads translations to the first language.
+        check_expansion(construct, {
+            sec: max(len(slide[v][sec]['lines']) for v in variants) * len(variants)
+            for sec in self.usedSections
+        }, len(variants))
         lines = {}
 
         groups = self._build_group_lengths(slide)
