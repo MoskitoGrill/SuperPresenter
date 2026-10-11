@@ -1,4 +1,5 @@
-"""Derived plan contracts. Font measurement and pagination belong to PP2."""
+"""Immutable common slides and independent measured output layouts."""
+from __future__ import annotations
 from dataclasses import dataclass
 from .domain import Presentation
 
@@ -21,6 +22,9 @@ class Slide:
     ranges: tuple[ContentRange, ...] = ()
     media_id: str | None = None
     black: bool = False
+    hall: OutputLayout | None = None
+    stream: OutputLayout | None = None
+    block_ids: tuple[str, ...] = ()
 
     def __post_init__(self):
         if type(self.id) is not str or not self.id or type(self.ranges) is not tuple or type(self.black) is not bool:
@@ -77,3 +81,227 @@ def with_black_breaks(source: Presentation, content: tuple[Slide, ...]) -> Slide
     if tuple(ordered) != content:
         raise ValueError('Content must follow source section order')
     return SlidePlan(source, tuple(result))
+
+# PP2: measurement is injected; this module remains independent of Tk/UI.
+from .domain import Aspect, BlockKind, TextSection, TextStyle
+
+class LayoutError(ValueError):
+    pass
+
+@dataclass(frozen=True)
+class Rect:
+    x: float
+    y: float
+    width: float
+    height: float
+
+    def intersects(self, other):
+        return (self.x < other.x + other.width and other.x < self.x + self.width
+                and self.y < other.y + other.height and other.y < self.y + self.height)
+
+@dataclass(frozen=True)
+class Piece:
+    text: str
+    style: TextStyle
+    box: Rect
+    source: ContentRange | None = None
+    font_size: int = 36
+
+@dataclass(frozen=True)
+class OutputLayout:
+    width: int
+    height: int
+    pieces: tuple[Piece, ...]
+    camera: Rect | None
+    exclusion: Rect | None
+
+@dataclass(frozen=True)
+class Typography:
+    body: int = 36
+    heading: int = 24
+    margin: int = 32
+    paragraph_gap: int = 16
+    bullet_indent: int = 40
+
+
+def geometry(config):
+    width, height = (960 if config.aspect == Aspect.STANDARD else 1280), 720
+    c = config.camera
+    camera = Rect(c.x * width, c.y * height, c.width * width, c.height * height) if c else None
+    exclusion = Rect((c.x-c.gap)*width, (c.y-c.gap)*height,
+                     (c.width+2*c.gap)*width, (c.height+2*c.gap)*height) if c else None
+    return width, height, camera, exclusion
+
+
+def _ranges(chars):
+    result = []
+    for text, style, span in chars:
+        if result and result[-1].run_id == span.run_id and result[-1].end == span.start:
+            previous = result[-1]
+            result[-1] = ContentRange(previous.section_id, previous.block_id, previous.run_id, previous.start, span.end)
+        else:
+            result.append(span)
+    return tuple(result)
+
+
+def _chars(section, block):
+    return [(char, run.style, ContentRange(section.id, block.id, run.id, i, i+1))
+            for run in block.runs for i, char in enumerate(run.text)]
+
+
+def _groups(chars):
+    groups = []
+    for char, style, span in chars:
+        if groups and groups[-1][1] == style and groups[-1][2].run_id == span.run_id:
+            text, _, old = groups[-1]
+            groups[-1] = (text+char, style, ContentRange(old.section_id, old.block_id, old.run_id, old.start, span.end))
+        else:
+            groups.append((char, style, span))
+    return groups
+
+
+def _flow(section, chunks, config, metrics, typography):
+    w, h, camera, exclusion = geometry(config)
+    t = typography
+    pieces = []
+    y = t.margin
+    def band(y, height, indent=0):
+        left, right = t.margin, w-t.margin
+        if exclusion and y < exclusion.y+exclusion.height and y+height > exclusion.y:
+            intervals = [(left, min(right, exclusion.x)), (max(left, exclusion.x+exclusion.width), right)]
+            left, right = max(intervals, key=lambda pair: pair[1]-pair[0])
+        return left+indent, right
+    heading_style = TextStyle(bold=True)
+    heading = section.title + (' • '+section.reference if section.reference else '')
+    # Heading also wraps safely around arbitrary future camera geometry.
+    remaining = heading
+    line_h = metrics.height(heading_style, t.heading)+4
+    while remaining:
+        x, right = band(y, line_h)
+        if y+line_h > h-t.margin:
+            raise LayoutError('Název/odkaz zabírá celý snímek')
+        n = 0
+        while n < len(remaining) and metrics.width(remaining[:n+1].replace('\n', ''), heading_style, t.heading) <= right-x:
+            n += 1
+            if remaining[n-1] == '\n':
+                break
+        if not n:
+            y += line_h
+            continue
+        cut = remaining.rfind(' ', 0, n) if n < len(remaining) and remaining[n-1] != '\n' else -1
+        if cut > 0:
+            n = cut+1
+        text = remaining[:n].replace('\n', '')
+        size = metrics.width(text, heading_style, t.heading)
+        pieces.append(Piece(text, heading_style, Rect(right-size, y, size, line_h), font_size=t.heading))
+        remaining = remaining[n:]
+        y += line_h
+    y += t.paragraph_gap
+    for block, chars, continued in chunks:
+        line_h = max([metrics.height(s, t.body) for _, s, _ in chars] or [metrics.height(TextStyle(), t.body)])+6
+        indent = t.bullet_indent if block.kind == BlockKind.BULLET else 0
+        first = True
+        cursor = 0
+        while cursor < len(chars) or (first and not chars):
+            x, right = band(y, line_h, indent)
+            if y+line_h > h-t.margin:
+                return None
+            n = 0
+            committed_width = 0
+            group_text = ''
+            group_key = None
+            while cursor+n < len(chars):
+                char, style, span = chars[cursor+n]
+                if char == '\n':
+                    n += 1
+                    break
+                key = (style, span.run_id)
+                if key != group_key:
+                    if group_key is not None:
+                        committed_width += metrics.width(group_text, group_key[0], t.body)
+                    group_key, group_text = key, ''
+                group_text += char
+                width = committed_width + metrics.width(group_text, style, t.body)
+                if width > right-x:
+                    break
+                n += 1
+            if not n and cursor < len(chars):
+                # An obstructed band can be skipped; an oversized glyph is an explicit error.
+                if exclusion and y < exclusion.y+exclusion.height and y+line_h > exclusion.y:
+                    y += line_h
+                    continue
+                raise LayoutError('Znak se nevejde do dostupné šířky')
+            if cursor+n < len(chars) and n and chars[cursor+n-1][0] != '\n':
+                boundary = next((i+1 for i in range(n-1, -1, -1) if chars[cursor+i][0].isspace()), 0)
+                if boundary:
+                    n = boundary
+            if first and indent:
+                marker = '↳' if continued else '•'
+                pieces.append(Piece(marker, TextStyle(), Rect(x-indent, y, metrics.width(marker, TextStyle(), t.body), line_h), font_size=t.body))
+            for text, style, span in _groups(chars[cursor:cursor+n]):
+                # Newlines belong to source ranges but have no visible glyph.
+                visible = text.replace('\n', '')
+                size = metrics.width(visible, style, t.body)
+                pieces.append(Piece(visible, style, Rect(x, y, size, line_h), span, t.body))
+                x += size
+            cursor += n
+            first = False
+            y += line_h
+        y += t.paragraph_gap
+    return OutputLayout(w, h, tuple(pieces), camera, exclusion)
+
+
+def paginate(source, metrics, typography=Typography()):
+    """Greedy common source slices; each output independently wraps those slices."""
+    slides = []
+    for section in source.sections:
+        if not isinstance(section, TextSection):
+            # Image rendering is PP6. Preserve the source media contract.
+            slides.append(Slide(section.id+':media', section.id, media_id=section.media_id))
+            continue
+        pending = []
+        def layouts(chunks):
+            return tuple(_flow(section, chunks, output, metrics, typography) for output in (source.hall, source.stream))
+        def fits(chunks):
+            return all(item is not None for item in layouts(chunks))
+        def emit(chunks):
+            hall, stream = layouts(chunks)
+            spans = tuple(span for _, chars, _ in chunks for span in _ranges(chars))
+            anchor = f'{spans[0].run_id}:{spans[0].start}' if spans else (chunks[0][0].id if chunks else 'empty')
+            slides.append(Slide(section.id+':'+anchor, section.id, spans, hall=hall, stream=stream,
+                                block_ids=tuple(block.id for block, _, _ in chunks)))
+        for block in section.blocks:
+            chars = _chars(section, block)
+            continued = False
+            if pending and block.kind == BlockKind.BULLET and not fits(pending+[(block, chars, False)]) and fits([(block, chars, False)]):
+                emit(pending)
+                pending = []
+            while True:
+                if fits(pending+[(block, chars, continued)]):
+                    pending.append((block, chars, continued))
+                    break
+                low, high = 0, len(chars)
+                while low < high:
+                    mid = (low+high+1)//2
+                    if fits(pending+[(block, chars[:mid], continued)]):
+                        low = mid
+                    else:
+                        high = mid-1
+                if not low:
+                    if pending:
+                        emit(pending)
+                        pending = []
+                        continue
+                    raise LayoutError('Obsah nemá místo pod názvem a mimo kameru')
+                # Prefer a word boundary, retaining every source character.
+                boundary = next((i+1 for i in range(low-1, -1, -1) if chars[i][0].isspace()), 0)
+                if boundary:
+                    low = boundary
+                pending.append((block, chars[:low], continued))
+                emit(pending)
+                pending = []
+                chars = chars[low:]
+                continued = True
+        if pending or not section.blocks:
+            emit(pending)
+    return with_black_breaks(source, tuple(slides))

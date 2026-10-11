@@ -1,6 +1,6 @@
 # PresentationPresenter — zadání, etapy a předávání
 
-Datum založení: 11. 10. 2026. Stav: PP1 dokončeno; PP2 nezahájeno.
+Datum založení: 11. 10. 2026. Stav: PP1 a PP2 dokončeny; PP3 nezahájeno.
 
 ## Jak používat tento dokument
 
@@ -129,18 +129,33 @@ U každé dokončené etapy přidej:
 - Známé chyby: PP-ENV-1; další blokující chyba PP1 nebyla zjištěna. Omezení pozdějších etap jsou evidována níže.
 - Předání PP2: implementovat měření skutečných fontů, geometrii, společné dělení a renderer nad těmito daty. Jeden logický snímek musí mít společné zdrojové rozsahy pro sál/stream, samostatné geometrie obou výstupů. Použít `with_black_breaks()` po paginaci, doplnit úplnost textu a obrazové umístění. Současný inspektor nelze vydávat za náhled rozložení. Doplnit typografii, okraje a pravidla dělení; následně statický náhled obou výstupů. PP2 ani další etapy zde nezahájeny.
 
+### PP2 — společné dělení a layout sálu/streamu, 11. 10. 2026, hotovo
+
+- Výsledek: `paginate()` vytváří společné obsahové snímky se stejnými zdrojovými rozsahy a samostatnými neměnnými `OutputLayout` pro sál/stream. `TkMetrics` měří skutečné Tk fonty; `draw()` kreslí stejné fonty se stejnými pixelovými velikostmi, bez opakované paginace. UI má statické záložky Sál/Stream, nezávislé volby poměru a seznam společných snímků. Náhled je v původní velikosti s posuvníky; plná lišta miniatur, editor a velký přizpůsobený náhled patří PP3.
+- Typografie a kapacita: logická výška 720 px, šířka 960 px pro 4:3 nebo 1280 px pro 16:9. Výchozí Courier New, tělo 36 px, název/odkaz tučně 24 px, okraje 32 px, mezera mezi bloky 16 px, odsazení odrážek 40 px. Řádek má výšku skutečných metrik nejvyššího fontu bloku + 6 px (název + 4 px). Šířka textu obsahuje 4 px ochranu bočních přesahů Canvas glyphů; kreslení začíná o 2 px uvnitř. Není automatické zmenšování. Název/odkaz se opakuje vpravo nahoře každého pokračování, zalamuje se včetně explicitního nového řádku a jeho skutečná výška ubírá kapacitu těla. Pokud název nebo jediný znak znemožní obsah, vzniká srozumitelný `LayoutError` místo tichého ořezu.
+- Kamera: výchozí normalizovaná pravá dolní čtvrtina a odstup .02 z PP1 zůstávají. Odstup se aplikuje v obou osách podle rozměru výstupu. Každý celý řádkový pás se testuje proti rozšířenému obdélníku; nad ním používá plnou šířku, vedle něj největší dostupný souvislý prostor. Pás bez dostatečné šířky se přeskočí. Stejný algoritmus funguje pro budoucí jinou polohu a velikost; kamera ani editor geometrie se nepřipojovaly. Šedá plocha v náhledu pouze označuje rezervu a není zdrojový obsah.
+- Pravidla dělení: bloky se přidávají v pořadí; kandidát musí celý vyhovět oběma výstupům. Každý výstup zalamuje vlastní řádky na hranicích slov i přes hranice formátovacích běhů. Pokud se celý blok nevejde, hledá se nejdelší společný vyhovující prefix a preferuje se hranice slova. Dlouhá slova se dělí podle znaků, bez přidaného spojovníku. Odrážka, která se vejde celá na prázdný další snímek, se přesune jako celek. Příliš dlouhá odrážka se rozdělí podle obou kapacit; začátek má `•`, pokračování `↳` s odsazením. Značky jsou odvozené, ne součást zdrojového textu. Počet řádků odrážky se může mezi výstupy lišit.
+- Zdroj a identity: všechny znaky včetně mezer a nových řádků jsou přesně jednou v rozsazích původních běhů. Nový řádek má zdrojový rozsah, ale žádný viditelný glyph. Tabulátor se kreslí jako čtyři mezery a CR je neviditelný; zdroj se nemění. Prázdné bloky mají vlastní odstup a jejich ID jsou v `Slide.block_ids`. ID obsahového snímku vychází z ID úseku a prvního běhu/offsetu (u prázdného obsahu z ID bloku); pořadové číslo není kotva. Celý zdrojový snapshot zůstává v plánu pro PP5. Základní tučné, kurzíva, podtržení a barvy se zachovávají i přes dělení.
+- Černé snímky: existující `with_black_breaks()` se aplikuje až po paginaci; výchozí černý začátek a předěl po každém úseku včetně posledního. Vypnutí začátku/koncového předělu respektuje model; nevznikají sousední černé duplicity. Prázdný textový úsek má obsahový snímek s názvem.
+- Soubory: upraveny pouze `presentationpresenter/layout.py`, `rendering.py` (nový), `ui.py`, `sample.py`, `tests/presentationpresenter/test_pp2.py` (nový), `visual_pp2.py` (nový), zachycené PNG v `tests/presentationpresenter/previews/` a tento dokument. Úvodní pracovní strom byl čistý; žádný commit ani stash nevznikl. SuperPresenter, původní presenter, společný build, písně a uživatelská nastavení se neměnily.
+- Spuštění: `python -B presentation_presenter_v2.py`; v tomto prostředí použít bundled Python z PP1. Testy: `python -B -m unittest discover -s tests/presentationpresenter -v`. Obrazová kontrola na Windows s Pillow: `python -B tests/presentationpresenter/visual_pp2.py` krátce otevře pouze ověřovací okno a zachytí jeho náhledy; neukládá aplikační nastavení. Pillow je pouze pomůcka pro QA, aplikace používá standardní knihovnu.
+- Kontroly: PP1 před změnami 9/9 OK. Závěrečná cílená sada PP1+PP2: 15/15 OK. Ověřuje všechny čtyři kombinace, přesnou rekonstrukci zdrojových běhů bez ztrát/duplicit, shodné uspořádané zdrojové znaky obou geometrií, stabilní regeneraci, přesun celé odrážky, dlouhé pokračování, dlouhá slova, formátovací hranice, explicitní nové řádky, prázdný úsek/bloky, vypnuté předěly, dlouhý/neproveditelný název, změněnou kameru a sestavení UI po změnách poměrů. Kontrolují se i skutečné Canvas bounding boxy vůči okrajům a kamerové rezervě. Opakované dotazy na výšku fontu byly během PP2 zjištěny jako pomalé a opraveny cache skutečných metrik; sada s dlouhými ukázkami běží v řádu sekund.
+- Vizuální kontrola: prohlédnuty skutečné zachycené Tk náhledy všech čtyř kombinací, první stránky a pokračování odrážek; doplněny detaily barevného tučného/kurzívního/podtrženého textu a dlouhých slov. Windows DPI se v QA procesu nastavuje před vytvořením Tk, aby zachycení neřízlo snímek. Všechny zkontrolované náhledy mají text mimo kameru, opakovaný název/odkaz a rozdílné zalomení se stejným obsahem. Fyzické monitory a skládání streamu zůstávají neověřené; projekční okna se v PP2 neimplementují.
+- Známé chyby/omezení: PP-LAYOUT uzavřeno, PP-ENV-1 přetrvává. Obrázky mají nadále jen zdrojový/media kontrakt, vykreslení a vhodný obdélník mimo kameru jsou PP6. Není UI editor, miniatury, projekce ani živé opravy. Dělení dlouhého slova je po Unicode znacích; specializované typografické dělení a vícesměrné skripty se v této etapě neřeší. Jiná nastavená rodina fontu se měří podle skutečně použitého Tk fontu; před případným rozšířením typografie ověřit její glyph přesahy.
+- Předání PP3: používat `paginate`, uložené `Slide.hall/stream`, `TkMetrics` a společný `draw`; nevytvářet druhé dělení v miniaturách. Editor musí při úpravách zachovat původní ID bloků/běhů a při duplikaci přidělit nová ID. Pracovat s `block_ids` i při prázdném obsahu a s přesnými rozsahy pro odvozená pokračování. Miniatury mají zobrazovat sál, velký náhled má přepínat výstup; implementovat cache/rastrové škálování bez nezávislého přezalamování. Chybu kapacity zobrazit při přípravě. Potvrzenou session zatím neměnit; PP3 nezahájena.
+
 ## Registr známých chyb a odložených prací
 
 | ID | Popis a reprodukce | Dopad | Cílová etapa | Stav / řešení |
 | --- | --- | --- | --- | --- |
 | PP-ENV-1 | Zdejší Windows Store Python a `.venv/Scripts/python.exe` končí chybou přístupu při spuštění. | Nelze zde ověřit obvyklý launcher přes venv. | PP9 / prostředí | Obejití pro ověření: bundled Python uvedený v PP1; původní prostředí se neměnilo. |
-| PP-LAYOUT | PP1 inspektor nepočítá společné dělení, kamerové obtékání ani skutečnou geometrii. | Nelze použít jako projekční náhled. | PP2 | Plánovaná práce, nezahájeno. |
+| PP-LAYOUT | PP1 inspektor nepočítal společné dělení, kamerové obtékání ani skutečnou geometrii. | Původní inspektor nebyl projekční náhled. | PP2 | Vyřešeno: společný plán, měřené geometrie a skutečné Tk náhledy; viz záznam PP2. |
 | PP-STORAGE | JSON codec nebalí média a nemá UI ukládání prezentace, autosave ani recovery. | Ukázka a změny dokumentu jsou pouze v paměti. | PP6 | Plánovaná práce, nezahájeno. |
 
 ## Otevřená rozhodnutí
 
 - PP1: uzavřeno — cesty a hranice modulů viz záznam dokončení.
-- PP2: výchozí typografie, okraje a odstup kamery, přesná pravidla dělení dlouhého obsahu.
+- PP2: uzavřeno — typografie, geometrie a pravidla dělení viz záznam PP2.
 - PP5: detailní pravidla kotvení po odstranění obsahu a chování lišty při rozdílu rozpracované/živé verze.
 - PP6: přípona a formát přenosného souboru, retention recovery a převod starého formátování.
 - PP8: konkrétní zkratky a externí/globální ovládání — projednat s uživatelem.

@@ -1,74 +1,80 @@
-"""PP1 source inspector; deliberately not a projection/layout preview."""
+"""PP2 static slide preview. Editing and thumbnail strip belong to PP3."""
 import tkinter as tk
-from tkinter import messagebox
+from tkinter import messagebox, ttk
 from dataclasses import replace
-from .domain import TextSection, BlockKind, Aspect
+from .domain import Aspect
 from .settings import load_settings, save_settings
 from .sample import sample_document
+from .layout import paginate, Typography, LayoutError
+from .rendering import TkMetrics, draw
 
 class MainWindow:
     def __init__(self, root, settings=None):
         self.root = root
         self.settings = settings or load_settings()
         self.document = sample_document()
-        root.title('PresentationPresenter — PP1')
+        self.metrics = TkMetrics(root, self.settings.font_family)
+        self.typography = Typography()
+        root.title('PresentationPresenter — PP2')
         root.geometry(self.settings.geometry)
         root.configure(bg=self.settings.background)
-        font = (self.settings.font_family, 12)
-        def label(parent, text):
-            widget = tk.Label(parent, text=text, bg=self.settings.background, fg=self.settings.foreground, font=font, anchor='w')
-            widget.pack(fill='x', padx=12, pady=6)
-            return widget
-        label(root, 'PresentationPresenter • samostatný základ')
-        label(root, 'Zdrojový dokument — ukázka. Dělení snímků a projekce budou doplněny v dalších etapách.')
-        outputs = tk.Frame(root, bg=self.settings.background)
-        outputs.pack(fill='x')
+        controls = tk.Frame(root, bg=self.settings.background)
+        controls.pack(fill='x', padx=12, pady=8)
         for name, field in (('Sál', 'hall'), ('Stream', 'stream')):
-            frame = tk.Frame(outputs, bg=self.settings.background)
-            frame.pack(side='left', padx=12)
-            label(frame, name)
+            tk.Label(controls, text=name, bg=self.settings.background, fg='white').pack(side='left', padx=8)
             variable = tk.StringVar(value=getattr(self.document, field).aspect.value)
-            menu = tk.OptionMenu(frame, variable, *(a.value for a in Aspect), command=lambda value, key=field: self.change_aspect(key, value))
-            menu.configure(bg=self.settings.panel, fg=self.settings.foreground, font=font, highlightthickness=0)
-            menu.pack()
-        label(root, 'Stream: rezervovaná pravá dolní čtvrtina + odstup. Černý začátek a předěl po úseku jsou zapnuté.')
-        body = tk.Frame(root, bg=self.settings.background)
+            tk.OptionMenu(controls, variable, *(a.value for a in Aspect), command=lambda value, key=field: self.change_aspect(key, value)).pack(side='left')
+        tk.Label(root, text='Statické náhledy v původní velikosti • záložky Sál / Stream • šedá plocha je rezerva kamery', bg=self.settings.background, fg='white').pack(fill='x')
+        body = tk.Frame(root)
         body.pack(fill='both', expand=True, padx=12, pady=12)
-        self.sections = tk.Listbox(body, bg=self.settings.panel, fg=self.settings.foreground, font=font, exportselection=False, width=25)
+        self.sections = tk.Listbox(body, exportselection=False, width=28)
         self.sections.pack(side='left', fill='y')
-        self.text = tk.Text(body, bg='#222222', fg=self.settings.foreground, font=font, wrap='word', padx=16, pady=16)
-        self.text.pack(side='left', fill='both', expand=True, padx=(12, 0))
-        for section in self.document.sections:
-            self.sections.insert('end', section.title)
         self.sections.bind('<<ListboxSelect>>', self.inspect)
+        tabs = ttk.Notebook(body)
+        tabs.pack(side='left', fill='both', expand=True)
+        self.canvases = {}
+        for field, name in (('hall', 'Sál'), ('stream', 'Stream')):
+            frame = tk.Frame(tabs)
+            tabs.add(frame, text=name)
+            canvas = tk.Canvas(frame, bg='black', highlightthickness=0)
+            horizontal = tk.Scrollbar(frame, orient='horizontal', command=canvas.xview)
+            vertical = tk.Scrollbar(frame, command=canvas.yview)
+            canvas.configure(xscrollcommand=horizontal.set, yscrollcommand=vertical.set)
+            horizontal.pack(side='bottom', fill='x')
+            vertical.pack(side='right', fill='y')
+            canvas.pack(fill='both', expand=True)
+            self.canvases[field] = canvas
+        self.rebuild()
+        root.protocol('WM_DELETE_WINDOW', self.close)
+
+    def rebuild(self):
+        try:
+            self.plan = paginate(self.document, self.metrics, self.typography)
+        except LayoutError as exc:
+            messagebox.showerror('Rozložení', str(exc), parent=self.root)
+            return
+        self.sections.delete(0, 'end')
+        counts = {}
+        by_id = {s.id: s for s in self.document.sections}
+        for slide in self.plan.slides:
+            if slide.black:
+                label = 'Černý začátek' if slide.section_id is None else 'Černý předěl'
+            else:
+                counts[slide.section_id] = counts.get(slide.section_id, 0)+1
+                label = f'{by_id[slide.section_id].title} / {counts[slide.section_id]}'
+            self.sections.insert('end', label)
         self.sections.selection_set(0)
         self.inspect()
-        root.protocol('WM_DELETE_WINDOW', self.close)
 
     def change_aspect(self, field, value):
         self.document = replace(self.document, **{field: replace(getattr(self.document, field), aspect=Aspect(value))})
+        self.rebuild()
 
     def inspect(self, event=None):
         selected = self.sections.curselection()
-        if not selected:
-            return
-        section = self.document.sections[selected[0]]
-        self.text.configure(state='normal')
-        self.text.delete('1.0', 'end')
-        self.text.insert('end', section.title + '\n' + section.reference + '\n\n')
-        if isinstance(section, TextSection):
-            for block in section.blocks:
-                if block.kind == BlockKind.BULLET:
-                    self.text.insert('end', '• ')
-                for run in block.runs:
-                    tag = run.id
-                    weight = 'bold' if run.style.bold else 'normal'
-                    slant = 'italic' if run.style.italic else 'roman'
-                    self.text.tag_configure(tag, foreground=run.style.color, underline=run.style.underline,
-                                            font=(self.settings.font_family, 16, weight, slant))
-                    self.text.insert('end', run.text, tag)
-                self.text.insert('end', '\n\n')
-        self.text.configure(state='disabled')
+        if selected:
+            for field, canvas in self.canvases.items():
+                draw(canvas, self.plan.slides[selected[0]], field, self.metrics, self.typography)
 
     def close(self):
         try:
