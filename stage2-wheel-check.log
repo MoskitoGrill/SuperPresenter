@@ -1,0 +1,15 @@
+test_wheel_over_expanding_verse_scrolls_editor (test_song_editor_integration.EditorIntegrationTests.test_wheel_over_expanding_verse_scrolls_editor) ... FAIL
+
+======================================================================
+FAIL: test_wheel_over_expanding_verse_scrolls_editor (test_song_editor_integration.EditorIntegrationTests.test_wheel_over_expanding_verse_scrolls_editor)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\moski\Documents\Progr�mky\SuperPresenter\tests\test_song_editor_integration.py", line 74, in test_wheel_over_expanding_verse_scrolls_editor
+    self.assertGreater(self.editor.canvas.yview()[0], 0)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0.0 not greater than 0
+
+----------------------------------------------------------------------
+Ran 1 test in 0.743s
+
+FAILED (failures=1)

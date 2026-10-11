@@ -2,11 +2,14 @@
 import tkinter as tk
 from tkinter import font as tkFont
 import time
+from superpresenter.windows_shell import style_title_bar
 
 
 class SortingWin():
     def __init__(self, masterWin:tk.Tk, winStyle, lines, positions):
         self.win = tk.Toplevel(masterWin)
+        self._drag_timer = None
+        self.win.bind('<Destroy>', self._destroyed, add='+')
         self.win.configure(winStyle['window'])
         self.win.geometry(f'+{masterWin.winfo_rootx() + 100}'+\
             f'+{masterWin.winfo_rooty() + 100}')
@@ -38,6 +41,7 @@ class SortingWin():
 
             idx += 1
         self.rows = winStyle['rows']
+        style_title_bar(self.win)
         self.win.update()
         self.w = self.lines[0].winfo_x() + self.lines[0].winfo_width()
         self.h = self.lines[0].winfo_y() + self.lines[0].winfo_height()
@@ -49,7 +53,8 @@ class SortingWin():
         self.t = time.time()
         self.c1 = 0
         self.selected = 1
-        self.win.after(30, self.drag)
+        self._cancel_drag()
+        self._drag_timer = self.win.after(30, self.drag)
         self.skip = 0
 
     def motion(self, e):
@@ -57,6 +62,7 @@ class SortingWin():
         self.y = e.y_root - self.win.winfo_rooty()
 
     def drag(self):
+        self._drag_timer = None
         if self.selected:
             self.c1 += 1
             self.lines[self.idx].lift()
@@ -68,9 +74,20 @@ class SortingWin():
                 self.skip = 0
                 self.idx = idx
                 self.selected = 1
-            self.win.after(30, self.drag)
+            self._drag_timer = self.win.after(30, self.drag)
+
+    def _cancel_drag(self):
+        if self._drag_timer is not None:
+            self.win.after_cancel(self._drag_timer)
+            self._drag_timer = None
+
+    def _destroyed(self, event):
+        if event.widget is self.win:
+            self.selected = 0
+            self._cancel_drag()
 
     def place(self, *e):
+        self._cancel_drag()
         self.selected = 0
         idx = max(0, min(int(self.x/self.w)*self.rows + int(self.y/self.h),
             len(self.lines)-1))

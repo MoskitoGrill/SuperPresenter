@@ -9,7 +9,9 @@ from tkinter import ttk, filedialog
 from tkinter import messagebox as tkmsg
 import time
 from superpresenter.paths import PROJECT_ROOT
+from superpresenter.version import VERSION
 from pathlib import Path
+from superpresenter.services.projection_limits import DEFAULT_HALL_ROWS
 from superpresenter.services.projection_config import ConfigError, load_styles, default_monitor
 from superpresenter.ui.projection_profiles import ProjectionProfiles
 from superpresenter.services.song_edit_session import validate_editor_fields
@@ -19,6 +21,8 @@ from superpresenter.services.presentation_session import WidgetSource
 from superpresenter.ui.source_sorter import SortingWin
 from superpresenter.ui.projector_window import ProjWindow
 from superpresenter.ui.song_editor_panel import SongEditorPanel
+from superpresenter.ui.scrollbars import Scrollbar
+from superpresenter.ui.mousewheel import bind_widget_wheel
 
 logger = logging.getLogger(__name__)
 
@@ -29,7 +33,7 @@ def doNothing(*e):
 
 class GUI(ProjectionProfiles, SongEditorPanel):
     def __init__(self):
-        self.title = 'Super Presenter v.0.2'
+        self.title = 'SuperPresenter ' + VERSION
         self.dir = PROJECT_ROOT
         self.noOfSteps = 0
 
@@ -47,11 +51,12 @@ class GUI(ProjectionProfiles, SongEditorPanel):
         self.onlineSources = []
         self.projPlacements = []
         self.animation = 0
-        self.t = time.time()
+        self.t = time.monotonic()
 
         self.runState = False
 
         self.win = tk.Tk()
+        self.win.bind('<Destroy>', self._destroyed, add='+')
         self.win.report_callback_exception = self._report_callback_exception
         self.initWins()
         try:
@@ -62,6 +67,9 @@ class GUI(ProjectionProfiles, SongEditorPanel):
                 'Unknown error occured while loading GUI styles\n'+\
                     'Check "gui_styles.json" file.')
         self.placeWidgets()
+        # Fix the client size once: song widgets must not resize the window.
+        self.win.update_idletasks()
+        self.win.geometry(f'{self.win.winfo_reqwidth()}x{self.win.winfo_reqheight()}+20+20')
 
         self.getMonitors()
         self.getProjectorStyles()
@@ -73,6 +81,14 @@ class GUI(ProjectionProfiles, SongEditorPanel):
         self.start_monitor_watch()
 
         self.draft_open = False
+
+    def _destroyed(self, event):
+        if event.widget is self.win:
+            self.stop_monitor_watch()
+            timer = getattr(self, '_animation_timer', None)
+            if timer is not None:
+                self.win.after_cancel(timer)
+                self._animation_timer = None
 
     def _report_callback_exception(self, exc_type, exc, traceback):
         logger.error('UI callback failed', exc_info=(exc_type, exc, traceback))
@@ -125,6 +141,7 @@ class GUI(ProjectionProfiles, SongEditorPanel):
         self.prevBtn.config(style['mainButton'])
         self.nextFileBtn.config(style['mainButton'])
         self.prevFileBtn.config(style['mainButton'])
+        self.floatingBtn.config(style['projButton'], width=7)
         self.stepsLabel.config(style['stepsLabel'])
 
         self.projNtbk.config(style['secondaryFrame'])
@@ -242,11 +259,12 @@ class GUI(ProjectionProfiles, SongEditorPanel):
             activestyle='dotbox',
             selectmode='extended'
         )
-        self.stepsScroll = tk.Scrollbar(self.stepsFrame,
+        self.stepsScroll = Scrollbar(self.stepsFrame,
                 orient='vertical', command=self.stepsList.yview)
         self.stepsList['yscrollcommand'] = self.stepsScroll.set
-        self.stepsXScroll = tk.Scrollbar(self.stepsFrame, orient='horizontal', command=self.stepsList.xview)
+        self.stepsXScroll = Scrollbar(self.stepsFrame, orient='horizontal', command=self.stepsList.xview)
         self.stepsList['xscrollcommand'] = self.stepsXScroll.set
+        bind_widget_wheel(self.stepsList)
         # buttons
         self.navFrame = tk.Frame(self.leftFrame)
         self.nextBtn = tk.Button(self.navFrame, text='>')
@@ -260,6 +278,8 @@ class GUI(ProjectionProfiles, SongEditorPanel):
         self.projNav = tk.Frame(self.projNtbk)
         self.projSet = tk.Frame(self.projNtbk)
         self.projRun = tk.Frame(self.projNtbk)
+        self.floatingBtn = tk.Button(self.projRun, text='Contr..',
+                                     command=self.openFloatingControls)
         # navigation buttons
         self.nextProj = tk.Button(self.projNav, text='>')
         self.prevProj = tk.Button(self.projNav, text='<')
@@ -271,18 +291,18 @@ class GUI(ProjectionProfiles, SongEditorPanel):
         # projection settings
         self.chooseProjLabel = tk.Label(self.projSet, text='Display')
         self.chooseStyleLabel = tk.Label(self.projSet, text='Style')
-        self.chooseProj = ttk.Combobox(self.projSet, width=20)
-        self.chooseStyle = ttk.Combobox(self.projSet, width=20)
+        self.chooseProj = ttk.Combobox(self.projSet, width=18)
+        self.chooseStyle = ttk.Combobox(self.projSet, width=18)
         self.chooseProj.state(['readonly'])
         self.chooseStyle.state(['readonly'])
         # projection run
         self.openProjs = tk.Button(self.projRun, text='▶')
-        self.fullscreenCheck = tk.Checkbutton(self.projRun, text='fullscreen',
+        self.fullscreenCheck = tk.Checkbutton(self.projSet, text='fullscreen',
             variable=self.fullscreenState, command=self.changeFullscreen)
 
         self.collectionState = tk.BooleanVar(value=False)
         self.collectionCheck = tk.Checkbutton(
-            self.projRun,
+            self.projSet,
             text='Sbírka',
             variable=self.collectionState,
             command=self.changeCollection
@@ -347,7 +367,9 @@ class GUI(ProjectionProfiles, SongEditorPanel):
     def placeWidgets(self):
         ##### halve window
         self.leftFrame.grid(column=0, row=0, padx=10, sticky=('n','s'))
-        self.rightFrame.grid(column=1, row=0, padx=10, sticky=('n','s'))
+        self.rightFrame.grid(column=1, row=0, padx=10, sticky='nsew')
+        self.win.grid_rowconfigure(0, weight=1)
+        self.win.grid_columnconfigure(1, weight=1)
         self.rightFrame.grid_rowconfigure(0, weight=1)
         self.rightFrame.grid_rowconfigure(1, weight=0)
         self.rightFrame.grid_rowconfigure(2, weight=0)
@@ -378,7 +400,8 @@ class GUI(ProjectionProfiles, SongEditorPanel):
         self.projNtbk.grid(column=0, row=2, pady=7)
         self.projNav.grid(column=0, row=0, sticky=('w','e'))
         self.projSet.grid(column=0, row=1, sticky=('w','e'))
-        self.projRun.grid(column=0, row=2)
+        self.projRun.grid(column=0, row=2, sticky='ew', pady=(8, 3))
+        self.projRun.columnconfigure(0, weight=1)
         # navigation buttons
         self.nextProj.grid(row=0, column=2, sticky=('w','e'), padx=2)
         self.prevProj.grid(row=0, column=0, sticky=('e'), padx=2)
@@ -397,9 +420,10 @@ class GUI(ProjectionProfiles, SongEditorPanel):
         self.chooseStyle.grid(row=1, column=1, sticky='w',
              pady=5, padx=10)
         # projection run
-        self.openProjs.grid(row=0, column=0, padx=7)
-        self.fullscreenCheck.grid(column=1, row=0,padx= 7)
-        self.collectionCheck.grid(column=1, row=1, padx=7)
+        self.openProjs.grid(row=0, column=0, sticky='w', padx=10)
+        self.floatingBtn.grid(row=0, column=1, sticky='e', padx=(7, 10))
+        self.fullscreenCheck.grid(column=2, row=0, sticky='w', padx=(0, 7))
+        self.collectionCheck.grid(column=2, row=1, sticky='w', padx=(0, 7))
 
         ##### right halve
         self.sourceFrame.grid(column=0, row=0, sticky=('nsew'))
@@ -451,6 +475,11 @@ class GUI(ProjectionProfiles, SongEditorPanel):
                 self.presentation_editor_win.terminate()
 
         self.stop_monitor_watch()
+        editor = getattr(self, '_projection_editor', None)
+        if editor is not None:
+            editor.close()
+        if getattr(self, 'floating_controls', None) is not None:
+            self.floating_controls.close()
         if self.runState:
             self.runState = False
             self._cleanup_after_stop()
@@ -518,11 +547,11 @@ class GUI(ProjectionProfiles, SongEditorPanel):
 
     def openPresentationEditor(self):
         import subprocess
-        import sys
+        from superpresenter.processes import tool_command
         if hasattr(self, "presentation_editor_win") and self.presentation_editor_win.poll() is None:
             return  # Prezentace už běží
-        path = os.path.join(self.dir, 'presentation_presenter.py')
-        self.presentation_editor_win = subprocess.Popen([sys.executable, path])
+        self.presentation_editor_win = subprocess.Popen(
+            tool_command('presentation_presenter.py'), cwd=self.dir)
 
     def getProjectorStyles(self):
         try:
@@ -622,6 +651,14 @@ class GUI(ProjectionProfiles, SongEditorPanel):
             self.openProjector()
 
     # source options
+    def openFloatingControls(self):
+        from superpresenter.ui.floating_controls import FloatingControls
+        remote = getattr(self, 'floating_controls', None)
+        if remote is None or not remote.win.winfo_exists():
+            self.floating_controls = FloatingControls(self)
+        else:
+            remote.close()
+
     def openSongSearch(self):
         from superpresenter.ui.song_search_window import SongSearchWindow
         window = getattr(self, '_song_search_window', None)
@@ -736,12 +773,36 @@ class GUI(ProjectionProfiles, SongEditorPanel):
         if self._is_on_draft():
             self.draft_open = False
         elif 0 <= self.sourceID < len(self.sourceList):
-            self.sourceList.pop(self.sourceID)
+            removed = self.sourceList.pop(self.sourceID)
+            self._release_unused_sources(removed)
         self.sourceID = min(self.sourceID, len(self.sourceList) - 1)
         if self.sourceID >= 0:
             self.viewSource()
         else:
             self.viewSource0()
+
+    def _release_unused_sources(self, removed):
+        """Compact playlist storage; the running snapshot is independently owned."""
+        used = sorted(set(self.sourceList))
+        remap = {old: new for new, old in enumerate(used)}
+        self.sources = [self.sources[old] for old in used]
+        self.sourceList = [remap[old] for old in self.sourceList]
+        sorter = getattr(self, 'sorter', None)
+        if sorter is not None:
+            # A sorter draft must not resurrect a removed playlist entry.
+            if removed in sorter.positions:
+                index = sorter.positions.index(removed)
+                sorter.positions.pop(index)
+                sorter.lines.pop(index).destroy()
+                sorter.labels.pop().destroy()
+            sorter.positions = [remap[old] for old in sorter.positions]
+            sorter.selected = 0
+            sorter._cancel_drag()
+            for index, line in enumerate(sorter.lines):
+                line.grid(column=2 * (index // sorter.rows) + 1, row=index % sorter.rows)
+            if not sorter.positions:
+                sorter.win.destroy()
+                del self.sorter
 
     def viewSource0(self, *e):
         if not self.song_editor_widget.new_song():
@@ -753,6 +814,10 @@ class GUI(ProjectionProfiles, SongEditorPanel):
         return True
 
     def sortSources(self, *e):
+        sorter = getattr(self, 'sorter', None)
+        if sorter is not None and sorter.win.winfo_exists():
+            sorter.win.lift()
+            return
         if not self._prepare_song_transition():
             return
         if len(self.sourceList) > 0:
@@ -862,8 +927,13 @@ class GUI(ProjectionProfiles, SongEditorPanel):
                         if self.stationary_active:
                             plan, src.cue_legacy_steps = build_plan(
                                 src.song,
-                                [v for v in src.variants if v != '-----'], guide)
+                                [v for v in src.variants if v != '-----'], guide,
+                                getattr(self, 'hall_max_rows', DEFAULT_HALL_ROWS))
                             stationary_plans.append(plan)
+                    except ConstructError as exc:
+                        construct_error = exc
+                        self._display_construct_error(src.importSlideName(), exc)
+                        break
                     except Exception as ex:
                         logger.exception('Source construction failed: %s', src.path)
                         tkmsg.showerror('Error in projector styles',
@@ -929,6 +999,9 @@ class GUI(ProjectionProfiles, SongEditorPanel):
         self._editing_states = []
 
         def lock(widget):
+            # These switches remain usable during projection after relocation.
+            if widget in (self.fullscreenCheck, self.collectionCheck):
+                return
             if 'state' in widget.keys():
                 self._editing_states.append((widget, str(widget.cget('state'))))
                 widget.configure(state='disabled')
@@ -1139,10 +1212,10 @@ class GUI(ProjectionProfiles, SongEditorPanel):
             self.animation = 0
             self._show_stationary_cue()
             return
-        t = time.time()
+        t = time.monotonic()
         # Tato metoda se stará pouze o časování a animaci.
         # Samotné odeslání dat dělá pomocná funkce _update_projectors.
-        if time.time() - self.t < self.animationParams['anim_timeout']:
+        if t - self.t < self.animationParams['anim_timeout']:
             self.t = t
             self.animation = 0
             self._update_projectors(anim=0)
@@ -1414,7 +1487,7 @@ class GUI(ProjectionProfiles, SongEditorPanel):
             self.nextSlide()
     def prevStep(self):
         if self.runState and getattr(self, 'stationary_active', False):
-            self.stationary_navigation.move(-1)
+            self.stationary_navigation.move(-1, restart_previous_section=True)
             self._sync_stationary_navigation()
             return
         if not self.runState:

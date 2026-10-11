@@ -1,10 +1,14 @@
 """Transactional monitor/profile editor using the application's Tk widgets."""
 from copy import deepcopy
+from superpresenter.services.projection_limits import STREAM_STANDARD_ROWS, row_limits
+from superpresenter.services.stationary_navigation import style_mode
 import tkinter as tk
 from tkinter import ttk, messagebox, font as tkfont
+from superpresenter.ui.scrollbars import Scrollbar
+from superpresenter.ui.mousewheel import bind_canvas_wheel
 
 from superpresenter.services.projection_config import (
-    ConfigError, monitor_labels, load_layout, match_monitor, monitor_identity,
+    ConfigError, layout_row_limit, monitor_labels, load_layout, match_monitor, monitor_identity,
 )
 from superpresenter.services.projection_profile_catalog import profile_catalog, next_profile_name, save_named_profile, delete_named_profile
 from superpresenter.services.projection_editor_model import editor_cards, layout_from_cards
@@ -23,7 +27,9 @@ class ProjectionEditor:
             entry = self.entries[i]
             try:
                 stored = load_layout(entry['path'], owner.projStyles)
-                if stored.get('outputs') == self.original.get('outputs') and stored.get('monitor_names', []) == self.original.get('monitor_names', []):
+                if (stored.get('outputs') == self.original.get('outputs')
+                        and stored.get('monitor_names', []) == self.original.get('monitor_names', [])
+                        and layout_row_limit(stored, owner.projStyles) == layout_row_limit(self.original, owner.projStyles)):
                     self.selected_profile = i
                     break
             except ConfigError:
@@ -31,6 +37,8 @@ class ProjectionEditor:
         if self.selected_profile == len(self.entries):
             self.entries.append(dict(path=None, name=next_profile_name(self.entries)))
         self.win = tk.Toplevel(owner.win)
+        self._fit_timer = None
+        self.win.bind('<Destroy>', self._destroyed, add='+')
         self.win.title('Monitory a projekční výstupy')
         self.win.transient(owner.win)
         self.configure_appearance()
@@ -58,11 +66,12 @@ class ProjectionEditor:
         area.columnconfigure(0, weight=1)
         self.canvas = tk.Canvas(area, highlightthickness=0, background=self.background)
         self.canvas.grid(row=0, column=0, sticky='nsew')
-        sx = ttk.Scrollbar(area, orient='horizontal', command=self.canvas.xview)
-        sy = ttk.Scrollbar(area, orient='vertical', command=self.canvas.yview)
+        sx = Scrollbar(area, orient='horizontal', command=self.canvas.xview)
+        sy = Scrollbar(area, orient='vertical', command=self.canvas.yview)
         sx.grid(row=1, column=0, sticky='ew')
         sy.grid(row=0, column=1, sticky='ns')
         self.canvas.configure(xscrollcommand=sx.set, yscrollcommand=sy.set)
+        self._canvas_wheel = bind_canvas_wheel(self.canvas)
         self.body = ttk.Frame(self.canvas, style='Projection.TFrame')
         self.body_id = self.canvas.create_window(0, 0, window=self.body, anchor='nw')
         self.body.bind('<Configure>', self.center_body)
@@ -85,6 +94,49 @@ class ProjectionEditor:
         self.win.minsize(min(560, width), min(480, height))
         self.win.grab_set()
         self.draw_map()
+        from superpresenter.windows_shell import style_title_bar
+        style_title_bar(self.win)
+        self._fit_ready = True
+        self._schedule_fit()
+
+    def _schedule_fit(self):
+        if self._fit_timer is not None:
+            self.win.after_cancel(self._fit_timer)
+        self._fit_timer = self.win.after(50, self._fit_visible_card)
+
+    def _destroyed(self, event):
+        if event.widget is self.win:
+            if self._fit_timer is not None:
+                self.win.after_cancel(self._fit_timer)
+                self._fit_timer = None
+            if getattr(self.owner, '_projection_editor', None) is self:
+                self.owner._projection_editor = None
+
+    def _fit_visible_card(self):
+        """Fit one visible card, compacting its preview at the screen limit."""
+        timer = getattr(self, '_fit_timer', None)
+        if timer is not None:
+            self.win.after_cancel(timer)
+            self._fit_timer = None
+        if not self.win.winfo_exists() or not self.cards:
+            return
+        # Include tile padding and a little clearance below the frame border.
+        bottom_clearance = 24
+        required = max(card['preview'].master.winfo_reqheight()
+                       for card in self.cards) + bottom_clearance
+        missing = required - self.canvas.winfo_height()
+        if missing <= 0:
+            return
+        height = min(self.win.winfo_height() + missing,
+                     self.win.winfo_screenheight() - 80)
+        available = self.canvas.winfo_height() + height - self.win.winfo_height()
+        for card in self.cards:
+            preview = card['preview']
+            overflow = card['preview'].master.winfo_reqheight() + bottom_clearance - available
+            if overflow > 0:
+                preview.configure(height=max(24, int(preview.cget('height')) - overflow))
+        if height > self.win.winfo_height():
+            self.win.geometry(f'{self.win.winfo_width()}x{height}')
 
     def configure_appearance(self):
         self.background = self.owner.win.cget('background')
@@ -111,9 +163,14 @@ class ProjectionEditor:
         style.map('Projection.TCombobox', fieldbackground=[('readonly', '#eeeeee')], foreground=[('readonly', 'black')])
 
     def center_body(self, *args):
-        width = max(self.canvas.winfo_width(), self.body.winfo_reqwidth())
-        self.canvas.coords(self.body_id, max(0, (width - self.body.winfo_reqwidth()) / 2), 0)
-        self.canvas.configure(scrollregion=(0, 0, width, self.body.winfo_reqheight()))
+        body_width, height = self.body.winfo_reqwidth(), self.body.winfo_reqheight()
+        width = max(self.canvas.winfo_width(), body_width)
+        layout = (width, body_width, height)
+        if getattr(self, '_body_layout', None) == layout:
+            return
+        self._body_layout = layout
+        self.canvas.coords(self.body_id, max(0, (width - body_width) / 2), 0)
+        self.canvas.configure(scrollregion=(0, 0, width, height))
 
     def refresh_topology(self, monitors):
         old = [(monitor_identity(m), getattr(m, 'is_primary', None)) for m in self.monitors]
@@ -137,6 +194,7 @@ class ProjectionEditor:
         self.status.set('Seznam obrazovek aktualizován. Rozpracované změny zůstaly zachované.')
 
     def render_cards(self):
+        self.hall_rows = tk.StringVar(self.win, value=str(layout_row_limit(self.original, self.owner.projStyles)))
         self.cards = []
         for widget in self.body.winfo_children():
             widget.destroy()
@@ -170,14 +228,16 @@ class ProjectionEditor:
         else:
             self.status.set('Uložit uloží profil. Použít jej uloží a také použije.')
         self.draw_map()
+        if getattr(self, '_fit_ready', False):
+            self._schedule_fit()
 
     def refresh_profile_choices(self):
         self.profile_choice['values'] = [entry['name'] for entry in self.entries]
         self.profile_choice.current(self.selected_profile)
 
     def state(self):
-        return (self.profile_name.get(), [
-            (card['label'].get(), [(row['combo'].current(), row['fullscreen'].get(), row['collection'])
+        return (self.profile_name.get(), self.hall_rows.get(), [
+            (card['label'].get(), [(row['combo'].current(), row['fullscreen'].get(), row['collection'], deepcopy(row.get('collection_settings')))
                                   for row in card['outputs']]) for card in self.cards])
 
     def confirm_transition(self):
@@ -275,18 +335,44 @@ class ProjectionEditor:
         ttk.Label(frame, text='Promítaný styl', style='Projection.TLabel').pack(anchor='w')
         combo = ttk.Combobox(frame, values=choices, state='readonly', width=28, font=self.font, style='Projection.TCombobox')
         combo.current(0 if output['style'] is None else choices.index(output['style']))
+        combo.bind('<MouseWheel>', self._canvas_wheel)
         combo.pack(fill='x', pady=4)
+        row_frame = ttk.Frame(frame, style='Projection.TFrame')
+        ttk.Label(row_frame, text='Počet řádků', style='Projection.TLabel').pack(anchor='w')
+        ttk.Entry(row_frame, textvariable=self.hall_rows, font=self.font,
+                  style='Projection.TEntry').pack(fill='x', pady=4)
+        ttk.Label(row_frame, text=f'Maximum sálu (společné pro všechny výstupy).\nStream použije nejvýše {STREAM_STANDARD_ROWS} řádky.',
+                  style='Projection.Status.TLabel').pack(anchor='w')
         fullscreen = tk.BooleanVar(self.win, value=output['fullscreen'])
+        row = dict(collection_settings=deepcopy(output.get('collection_settings')))
+        def edit_qr():
+            from superpresenter.ui.collection_qr_editor import CollectionQREditor
+            try:
+                rows = row_limits(int(self.hall_rows.get()))[0]
+            except ValueError:
+                rows = 8
+            CollectionQREditor(self.win, self.owner.projStyles[combo.current() - 1],
+                               row['collection_settings'],
+                               lambda settings: row.update(collection_settings=settings), rows)
+        ttk.Button(row_frame, text='Nastavení QR sbírky…', command=edit_qr,
+                   style='Projection.TButton').pack(anchor='w', pady=8)
         collection = bool(output['collection'])  # Preserve stored QR preference without editing it here.
         full_check = ttk.Checkbutton(frame, text='Celá obrazovka', variable=fullscreen, style='Projection.TCheckbutton')
         full_check.pack(anchor='w')
         def update_options(*args):
             selected = combo.current()
             full_check.configure(state='normal' if selected > 0 else 'disabled')
+            if selected > 0 and style_mode(self.owner.projStyles[selected - 1]) == 'stationary_hall':
+                row_frame.pack(fill='x', before=full_check)
+            else:
+                row_frame.pack_forget()
+            if args:
+                self._schedule_fit()
         combo.bind('<<ComboboxSelected>>', update_options)
         update_options()
-        card['outputs'].append(dict(combo=combo, fullscreen=fullscreen, collection=collection,
-                                    window_position=deepcopy(output.get('window_position'))))
+        row.update(combo=combo, fullscreen=fullscreen, collection=collection,
+                   window_position=deepcopy(output.get('window_position')))
+        card['outputs'].append(row)
 
     def draft(self):
         cards = []
@@ -297,20 +383,32 @@ class ProjectionEditor:
                 outputs.append(dict(style=None if selected == 0 else self.owner.projStyles[selected - 1]['name'],
                     fullscreen=bool(row['fullscreen'].get()), collection=bool(row['collection']),
                     window_position=row['window_position']))
+                if row.get('collection_settings') is not None:
+                    outputs[-1]['collection_settings'] = deepcopy(row['collection_settings'])
             cards.append(dict(label=card['label'].get(), outputs=outputs))
-        return layout_from_cards(cards, self.monitors, self.owner.projStyles,
+        try:
+            hall_rows, _ = row_limits(int(self.hall_rows.get()))
+        except ValueError as exc:
+            raise ConfigError('Počet řádků musí být kladné celé číslo.') from exc
+        data = layout_from_cards(cards, self.monitors, self.owner.projStyles,
                                  self.original.get('monitor_names', []), self.original['outputs'])
+        data['hall_max_rows'] = hall_rows
+        return data
 
     def draw_map(self):
         labels = monitor_labels(self.monitors)
         for i, card in enumerate(self.cards):
             preview = card['preview']
-            preview.delete('all')
             width = max(1, preview.winfo_width())
             height = int(preview.cget('height'))
+            custom = card['label'].get().strip()
+            state = (width, height, custom, labels[i])
+            if card.get('_preview_state') == state:
+                continue
+            card['_preview_state'] = state
+            preview.delete('all')
             preview.create_rectangle(1, 1, width - 1, height - 1,
                                      outline='#aaaaaa', fill='#444444', width=2)
-            custom = card['label'].get().strip()
             preview.create_text(width / 2, height / 2,
                                 text=(custom + '\n' + labels[i]) if custom else labels[i],
                                 fill='white', font=self.font, width=max(1, width - 24))

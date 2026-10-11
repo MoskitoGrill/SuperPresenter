@@ -30,66 +30,43 @@ distribuují zvlášť, je potřeba doinstalovat systémový balíček pro Tkint
 Závislosti starého modulu `presentation_presenter.py` nejsou do tohoto seznamu
 zahrnuty. Verze balíčků zatím nejsou uzamčené.
 
-## Spuštění
+## Spuštění – samostatná verze 3 (etapa 13B)
 
-Na Windows spusťte **`spustit_super_presenter.exe`** ve složce projektu.
-Je to malý spouštěč aktuálního Python kódu, nikoli zabalená kopie aplikace.
-Nevyžaduje BAT a neotevírá konzoli. EXE ponechte vedle `super_presenter.py`.
+Pro běžné používání je určena **samostatná Windows x64 distribuce**:
+`dist/3.0.0-20260911-141738/SuperPresenter-3.0.0-win64.zip`.
+Rozbalte celý ZIP do zapisovatelné složky a spusťte **`SuperPresenter.exe`**.
+Python, Tcl/Tk i závislosti jsou součástí distribuce. Samotné EXE nepřenášejte
+bez složky `_internal` a ostatních přibalených souborů.
 
-### První spuštění a hlavní panel Windows
+Starý `spustit_super_presenter.exe`, který pouze spouštěl externí Python,
+byl vyřazen. BAT soubory jsou jen pro vývojáře zdrojové verze.
 
-1. Nainstalujte Python 3.10+ s podporou Tcl/Tk a přidáním do PATH.
-2. Spusťte `pripravit_prostredi.bat`. Vytvoří místní `.venv` a nainstaluje
-   závislosti z `requirements.txt`; lze ho použít i pro jejich aktualizaci.
-3. Spusťte `spustit_super_presenter.exe`.
-4. Klikněte pravým tlačítkem na ikonu **běžící aplikace** na hlavním panelu
-   a zvolte **Připnout na hlavní panel**. Staré nefunkční připnutí nejdříve odepněte.
+Pro hlavní panel spusťte nové EXE a připněte ikonu **běžící aplikace**.
+Do své akce Bitfocusu pro spouštění aplikací nastavte úplnou cestu k tomuto
+`SuperPresenter.exe` bez argumentů. Funguje i z jiného pracovního adresáře.
 
-Okno předává Windows vlastní identitu a příkaz pro opětovné spuštění EXE,
-aby připnutá aplikace spouštěla aktuální zdrojový kód. Pokud přesunete složku
-projektu, aplikaci spusťte z nového místa a připněte znovu.
+Podrobný návod pro přenos na druhý počítač, ikonu, data, diagnostiku a sestavení:
+[Windows distribuce](docs/windows-release.md).
 
-Při chybě EXE zobrazí zprávu. Diagnostika spouštěče je v
-`%LOCALAPPDATA%/SuperPresenter/logs/launcher.log` a při dalším spuštění se přepíše.
-Volba `spustit_super_presenter.exe --check` zkontroluje prostředí a importy bez
-otevření GUI; návratový kód je 0 při úspěchu, jinak 1. Nenahrazuje test GUI.
+### Verze 3 a verze 4
 
-### Aktualizace přes Git
+**Etapa 13B uzavírá verzi 3.0.0. Etapa 13C zahájí verzi 4.**
+Samostatná distribuce je snímek aplikace a `git pull` ji neaktualizuje.
+Další verzi sestavíme do nové složky; před přenosem dat se zálohují písně,
+prezentace, obrázky, JSON styly a profily v `%APPDATA%/SuperPresenter`.
+Změna cesty EXE vyžaduje přepnutí Bitfocusu a opětovné připnutí.
 
-Zavřete aplikaci a proveďte `git pull` (s případným běžným vyřešením místních
-změn). Pokud se mění závislosti, spusťte `pripravit_prostredi.bat`. Potom
-spusťte aplikaci připnutou ikonou. `.venv` je místní a není součástí Gitu.
-Běžné změny Python kódu nevyžadují nové sestavení EXE.
+### Spuštění ze zdrojů při vývoji
 
-### Vlastní ikona a sestavení EXE
-
-Zatím se používá generická ikona `images/launcher-default.ico`.
-Vlastní ikonu uložte jako **`images/ikona.ico`** (skutečný formát ICO,
-například s velikostmi 16, 32, 48 a 256 px; pouhé přejmenování PNG nestačí).
-Při dalším spuštění ji aplikace použije pro okno a hlavní panel.
-Pro změnu ikony samotného EXE jej po zavření aplikace znovu sestavte:
-
-```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File scripts/build_launcher.ps1
-```
-
-Skript používá kompilátor .NET Framework 4.x ve Windows a zdroj
-`scripts/WindowsLauncher.cs`; nevyžaduje PyInstaller ani Visual Studio.
-Do Gitu zahrňte také nové EXE a ikonu. Windows může mít ikonu připnutého
-zástupce v mezipaměti; po změně jej případně odepněte a znovu připněte.
-
-Pro diagnostiku lze použít `spustit_super_presenter.bat`, který nechá viditelnou
-konzoli, nebo přímo z kořene projektu:
+Po přípravě `.venv` podle oddílu instalace:
 
 ```bat
 .venv\Scripts\python.exe super_presenter.py
 ```
 
-Samostatný editor:
-
-```bat
-.venv\Scripts\python.exe song_editor.py
-```
+Alternativou je `spustit_super_presenter.bat`; `pripravit_prostredi.bat` vytváří
+prostředí a instaluje základní závislosti. Pro reprodukci distribuce použijte
+`requirements-build.txt` a `scripts/build_release.py` podle samostatného návodu.
 
 ## Struktura projektu
 
@@ -104,9 +81,28 @@ Samostatný editor:
 - `tests/` – základ automatických testů.
 - `settings.json`, `gui_style.json`, `projectors_styles.json` – nastavení a styly.
 - PDF návody – původní dokumentace.
-- `spustit_super_presenter.exe` – sestavitelný Windows spouštěč aktuálního kódu.
+- `packaging/`, `scripts/build_release.py` – sestavení samostatné Windows distribuce.
 
 Uživatelská data i původní soubory zůstávají zachované.
+
+## QR sbírky při promítání chval
+
+V **Edit** vyberte **chvály sál – stacionární** a otevřete
+**Nastavení QR sbírky…**. Vyberte obrázek, nastavte velikost v procentech kratší
+strany projekční plochy a polohu. QR lze přetahovat v náhledu, umístit do rohu
+předvolbou nebo zadat polohu číselně (0 % = levý/horní okraj, 100 % = pravý/dolní).
+Náhled obsahuje vzorový text pro kontrolu překrytí. Bílý okraj QR je součástí
+nastavené velikosti; texty se automaticky neposouvají.
+
+**Použít** v okně QR potvrdí návrh do Editu. V Editu pak zvolte **Použít**
+pro uložení a použití celého profilu, nebo **Uložit** pouze pro uložení profilu.
+Nastavení i vlastní obrázek jsou součástí profilu pro daný výstup; původní
+obrázek nemusí zůstávat na svém místě. **Obnovit výchozí nastavení** vrací
+původní obrázek, velikost a polohu ze stylu. **Zrušit** změny daného dialogu zahodí.
+
+Během promítání zapínejte a vypínejte QR zaškrtávátkem **Sbírka** u vybraného
+sálového výstupu. Texty lze dál přepínat a QR zůstává nad nimi. Pro změnu
+nastavení v Editu nejprve zastavte promítání.
 
 ## Testy
 
@@ -502,6 +498,11 @@ změnou: prefixem `@` v existujícím textu constructu. XML hierarchie se neměn
 Atribut by neodlišoval jednotlivé výskyty a samostatný XML element uvnitř
 repetition by vyžadoval změny editoru/importeru. Migrace není nutná a žádné
 XML písně nebylo změněno; význam existujících výběrů nelze bezpečně odhadnout.
+
+> Aktualizace významu `@`: nyní připojuje celou sekci nebo výběr řádků
+> k předchozímu bloku, pokud se vejdou do osmi řádků. Například `v1 @b1`
+> spojí šest řádků sloky a dva řádky bridge. Popis etapy níže je historický;
+> aktuální pravidla jsou v [syntaxi constructu](docs/construct_syntax.md).
 
 ### Jak označit a zobrazit řádky
 
@@ -1765,7 +1766,10 @@ modelu a originálů, nikoli obsahovou správnost každé písně.
 - [ ] Před akcí zkusit odpojení a návrat monitoru, F5/Escape, zavření během
   prezentace a restart. Zkontrolovat log a mít záložní provozní kopii.
 
-### EXE a doporučený další krok
+### EXE a doporučený další krok (historický stav před vydáním v3)
+
+Aktuální distribuce je popsaná na začátku README a v `docs/windows-release.md`.
+Následující odstavec zachycuje tehdejší stav.
 
 EXE nebylo vytvořeno ani aktualizováno. Nejprve doporučeno testovací **onedir**
 sestavení na cílových Windows s konzolí; windowed sestavení až po ověření.
@@ -2014,3 +2018,51 @@ Obě tlačítka přebírají styl aplikace. Upraveny main_window.py,
 song_search_window.py, test_song_search_window.py a README.
 Ověřeno: 12 testů vyhledávání OK včetně vyvolání obou tlačítek a původního
 výběru souborů; check_python 52 souborů / 67 modulů / 0 chyb; diff --check OK.
+
+
+## Vydání 3.0.0 – uzavření etapy 13B (11. 9. 2026)
+
+Samostatná distribuce používá PyInstaller onedir, přibalený Python 3.13.14,
+Tcl/Tk 8.6.15, Pillow, screeninfo a tkinterdnd2. Verze závislostí jsou uzamčené
+v `requirements-build.txt`. EXE obsahuje generickou ikonu a verzi 3.0.0.
+Žádný BAT ani systémový Python se za běhu distribuce nespouští.
+
+Cesty k editovatelným datům jsou vedle EXE. Spouštění editoru prezentací a
+opravného nástroje rozlišuje zdrojový a zabalený režim. Opravena byla také
+chyba starého editoru prezentací při jediném monitoru (pevný výběr indexu 1).
+Ostatní funkce tohoto starého editoru nebyly přepracovány.
+
+Ověřeno: 249 regresních testů, kontrola GUI ze zdrojů a z výsledného EXE,
+všech 6 projekčních stylů, dočasná píseň s diakritikou, Tcl/Tk, drag-and-drop
+knihovna, otevření editoru prezentací, Windows vlastnosti pro připínání.
+ZIP byl rozbalen do jiné složky s mezerami a diakritikou a znovu otestován
+bez Pythonu v PATH. Běžné okno se otevřelo jako `SuperPresenter 3.0.0`
+a normálně zavřelo s návratovým kódem 0. Nové EXE zde nebylo zablokováno.
+Nejde o test na fyzicky druhém PC; stisk tlačítka Bitfocusu, skutečné připnutí
+v prostředí uživatele a fyzické projektory zůstávají k provoznímu ověření.
+
+### Předání pro další vývoj
+
+13C začíná verzi 4, nikoli další úpravu distribuované verze 3.
+Před sestavením verze 4 změnit číslo verze, metadata a název distribuce;
+vydaný ZIP verze 3 zachovat. Podklady k sestavení a výsledky kontrol jsou
+v `docs/windows-release.md` a `docs/release-v3-verification.md`.
+
+## Plovoucí ovládání
+
+Pod šipkami hlavního okna je tlačítko **Plovoucí ovládání**, které zapíná
+nebo zavírá samostatné okno nastavené vždy navrchu. Okno lze přesouvat a měnit
+jeho velikost; není svázáno s minimalizací hlavního okna.
+
+- `<<` / `>>`: prázdný začátek / konec aktuální písně.
+- `<` / `>`: předchozí / následující zobrazená stránka; na hranicích lze přejít
+  do sousední písně. Samotný stacionární sál přeskakuje pomocné poloviny streamu.
+- **Zahájit prezentaci / Ukončit prezentaci** používá běžné spuštění a zastavení.
+- Náhled ukazuje poslední řádek aktuální a první řádek následující stránky.
+  Je-li zapnutý stacionární stream, řídí se streamem; jinak stacionárním sálem.
+  Prázdné úvodní a závěrečné kroky jsou označené jako prázdná plocha.
+
+Náhled sleduje i přepnutí z hlavního okna a používá běžící snapshot písní.
+Zavření ovladače prezentaci nezastaví. U starších posuvných stylů fungují
+ovládací tlačítka, ale náhled hranic řádků není dostupný.
+Změna je ve zdrojové aplikaci; již vydané EXE se tím neaktualizuje.

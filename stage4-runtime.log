@@ -1,0 +1,47 @@
+cycle=1 rss_mib=56.480
+cycle=2 rss_mib=58.664
+cycle=3 rss_mib=58.695
+cycle=4 rss_mib=58.703
+cycle=5 rss_mib=60.324
+cycle=6 rss_mib=66.664
+cycle=7 rss_mib=64.523
+cycle=8 rss_mib=56.277
+cycle=9 rss_mib=60.371
+cycle=10 rss_mib=56.902
+cycle=11 rss_mib=66.645
+cycle=12 rss_mib=58.625
+cycle=13 rss_mib=58.656
+cycle=14 rss_mib=58.727
+cycle=15 rss_mib=58.727
+cycle=16 rss_mib=56.281
+cycle=17 rss_mib=58.703
+cycle=18 rss_mib=58.719
+cycle=19 rss_mib=58.730
+cycle=20 rss_mib=56.266
+cycle=21 rss_mib=66.738
+cycle=22 rss_mib=56.352
+cycle=23 rss_mib=64.707
+cycle=24 rss_mib=60.770
+cycle=25 rss_mib=57.250
+cycle=26 rss_mib=56.344
+cycle=27 rss_mib=58.754
+cycle=28 rss_mib=58.770
+cycle=29 rss_mib=58.781
+cycle=30 rss_mib=56.336
+cycle=31 rss_mib=66.695
+cycle=32 rss_mib=64.570
+cycle=33 rss_mib=64.863
+cycle=34 rss_mib=56.297
+cycle=35 rss_mib=60.441
+cycle=36 rss_mib=66.715
+cycle=37 rss_mib=64.516
+cycle=38 rss_mib=56.262
+cycle=39 rss_mib=60.410
+cycle=40 rss_mib=56.922
+elapsed_s=11.273 last10_range_mib=10.453
+test_bounded_runtime (__main__.RuntimeCheck.test_bounded_runtime) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 11.800s
+
+OK

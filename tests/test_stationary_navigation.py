@@ -64,10 +64,10 @@ class NavigationTests(unittest.TestCase):
         song = Song('Test', [SongVariant(name, [SongSection('v1',
             [f'{name}{i}' for i in range(4)])]) for name in ('cs', 'en')])
         plan, legacy = build_plan(song, ['cs', 'en'], 'v1 @v1.4 v1.1:2')
-        self.assertEqual([len(p.lines) for p in plan.hall_pages], [8, 6])
+        self.assertEqual([len(p.lines) for p in plan.hall_pages], [8, 2, 4])
         self.assertEqual([r.text for r in plan.hall_pages[0].lines][:4],
                          ['cs0', 'en0', 'cs1', 'en1'])
-        self.assertEqual(legacy, (1, 3, 5, 7))
+        self.assertEqual(legacy, (1, 3, 5, 6))
         self.assertTrue(plan.hall_pages[1].lines[0].pinned)
 
     def test_modes_and_old_configuration(self):
@@ -131,10 +131,10 @@ class NavigationTests(unittest.TestCase):
         plan, _ = build_plan(song, ['cs', 'en'], 'v1 (v1.2)*3')
         self.assertEqual([len(p.lines) for p in plan.hall_pages], [4, 6])
 
-    def test_full_verse_repetition_keeps_its_boundary(self):
+    def test_full_verse_repetition_joins_when_it_fits(self):
         song = Song('Test', [SongVariant('cs', [SongSection('v1', ['a', 'b'])])])
         plan, _ = build_plan(song, ['cs'], '(v1)*2')
-        self.assertEqual([len(p.lines) for p in plan.hall_pages], [2, 2])
+        self.assertEqual([len(p.lines) for p in plan.hall_pages], [4])
 
 
 class ProjectionTests(unittest.TestCase):
@@ -145,7 +145,7 @@ class ProjectionTests(unittest.TestCase):
         gui.runningSlide = gui.currentStep = 0
         gui.stationary_navigation = CueNavigation([plan_for(8), plan_for(10)])
         gui.projStyles = [{'mode': mode} for mode in modes]
-        gui.projectors = [Mock(style=i) for i in range(len(modes))]
+        gui.projectors = [Mock(style=i, lines_per_page=8) for i in range(len(modes))]
         gui.onlineSources = [Mock(variants=['cs'], cue_legacy_steps=(1, 5),
                                   lines={'longsteps': list(range(8))}),
                              Mock(variants=['cs'], cue_legacy_steps=(1, 5, 9),

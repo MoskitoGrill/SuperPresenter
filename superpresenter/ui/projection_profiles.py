@@ -1,12 +1,14 @@
 """Profile dialogs and layout persistence for the existing projector controls."""
 from pathlib import Path
+from copy import deepcopy
 import logging
 from types import SimpleNamespace
 from tkinter import filedialog, messagebox
 
 from screeninfo import get_monitors
+from superpresenter.services.projection_limits import DEFAULT_HALL_ROWS
 from superpresenter.services.projection_config import (
-    ConfigError, load_layout, match_monitor, monitor_identity, monitor_labels,
+    ConfigError, layout_row_limit, load_layout, match_monitor, monitor_identity, monitor_labels,
     save_layout, user_config_dir, validate_layout,
 )
 from superpresenter.ui.projector_window import ProjWindow
@@ -19,6 +21,7 @@ class ProjectionProfiles:
         self._autosave_error = False
         self._preserve_last = False
         self.monitor_names = []
+        self.hall_max_rows = DEFAULT_HALL_ROWS
         last = self.profile_dir / 'last-layout.json'
         if last.exists():
             self._preserve_last = not self.restore_profile(last)
@@ -124,7 +127,10 @@ class ProjectionProfiles:
                 monitor=monitor_identity(self.monitors[proj.monitor]),
                 fullscreen=bool(proj.fullscreen), collection=bool(proj.collection),
                 window_position=position))
-        data = dict(version=2, outputs=outputs, monitor_names=getattr(self, 'monitor_names', []))
+            if getattr(proj, 'collection_settings', None) is not None:
+                outputs[-1]['collection_settings'] = deepcopy(proj.collection_settings)
+        data = dict(version=2, outputs=outputs, monitor_names=getattr(self, 'monitor_names', []),
+                    hall_max_rows=getattr(self, 'hall_max_rows', DEFAULT_HALL_ROWS))
         if getattr(self, 'profile_name', None):
             data['profile_name'] = self.profile_name
         return data
@@ -219,6 +225,7 @@ class ProjectionProfiles:
                 proj.monitor = primary if monitor is None else monitor
                 proj.fullscreen = output['fullscreen'] if monitor is not None else False
                 proj.collection = output['collection']
+                proj.collection_settings = deepcopy(output.get('collection_settings'))
                 position = output.get('window_position')
                 mon = monitors[proj.monitor]
                 if position and monitor is not None and mon.x <= position[0] < mon.x + mon.width - 50 and mon.y <= position[1] < mon.y + mon.height - 50:
@@ -227,6 +234,7 @@ class ProjectionProfiles:
                 new_projectors.append(proj)
             self.monitors = monitors
             self.projectors = new_projectors
+            self.hall_max_rows = layout_row_limit(data, self.projStyles)
             self.profile_name = data.get('profile_name')
             self.monitor_names = data.get('monitor_names', [])
             self.chooseProj['values'] = monitor_labels(self.monitors, self.monitor_names)

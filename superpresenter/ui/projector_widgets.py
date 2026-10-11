@@ -374,11 +374,12 @@ class Widget_Image():
     def __init__(self, canvas: tk.Canvas, style:dict, win):
         self.canvas = canvas
         source = resource_path(style['source'])
-        image = Image.open(source)
-        if 'resize' in style.keys():
-            image = image.resize((style['resize'][0],style['resize'][1]), 1)
-            pass
-        self.image = ImageTk.PhotoImage(image)
+        with Image.open(source) as image:
+            if 'resize' in style:
+                with image.resize((style['resize'][0], style['resize'][1]), 1) as resized:
+                    self.image = ImageTk.PhotoImage(resized, master=canvas)
+            else:
+                self.image = ImageTk.PhotoImage(image, master=canvas)
         self.id = canvas.create_image(style['x'], style['y'],
             anchor=style['anchor'], image=self.image)
 

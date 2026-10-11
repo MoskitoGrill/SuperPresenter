@@ -1,0 +1,9 @@
+Current song_editor.py, three repetitions
+test_wheel_over_expanding_verse_scrolls_editor (test_song_editor_integration.EditorIntegrationTests.test_wheel_over_expanding_verse_scrolls_editor) ... ok
+test_wheel_over_expanding_verse_scrolls_editor (test_song_editor_integration.EditorIntegrationTests.test_wheel_over_expanding_verse_scrolls_editor) ... ok
+test_wheel_over_expanding_verse_scrolls_editor (test_song_editor_integration.EditorIntegrationTests.test_wheel_over_expanding_verse_scrolls_editor) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 1.898s
+
+OK

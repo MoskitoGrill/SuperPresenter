@@ -131,7 +131,7 @@ class ProjectionEditorModelTests(unittest.TestCase):
             self.assertEqual(owner.projectorID, -1)
             self.assertEqual(owner.projectors, [])
             owner.persist_layout()
-            self.assertEqual(load_layout(Path(directory) / 'last-layout.json', self.styles), data)
+            self.assertEqual(load_layout(Path(directory) / 'last-layout.json', self.styles), dict(data, hall_max_rows=8))
 
     def test_editor_is_blocked_during_projection(self):
         owner = self.controller()
@@ -194,6 +194,30 @@ class ProfileCatalogTests(unittest.TestCase):
 
 
 class ProjectionEditorWidgetTests(unittest.TestCase):
+    def test_pending_fit_is_coalesced_and_cancelled_on_every_destroy_path(self):
+        from superpresenter.ui.projection_editor import ProjectionEditor
+        errors = []
+        self.root.createcommand('record_bgerror', errors.append)
+        self.root.tk.eval('proc bgerror {message} {record_bgerror $message}')
+        for direct in (False, True, False):
+            editor = self.editor
+            self.owner._projection_editor = editor
+            first = editor._fit_timer
+            editor.render_cards()
+            second = editor._fit_timer
+            self.assertNotEqual(first, second)
+            pending = self.root.tk.call('after', 'info')
+            self.assertNotIn(first, pending)
+            self.assertIn(second, pending)
+            (editor.win.destroy if direct else editor.close)()
+            self.assertIsNone(editor._fit_timer)
+            self.assertIsNone(self.owner._projection_editor)
+            self.assertNotIn(second, self.root.tk.call('after', 'info'))
+            self.root.tk.call('after', 70)
+            self.root.update()
+            self.editor = ProjectionEditor(self.owner)
+        self.assertEqual(errors, [])
+
     def setUp(self):
         import tkinter as tk
         from superpresenter.ui.projection_editor import ProjectionEditor

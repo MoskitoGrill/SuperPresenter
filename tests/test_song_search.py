@@ -79,8 +79,38 @@ class SearchTests(unittest.TestCase):
         self.path.unlink()
         self.index.rebuild()
         results = self.index.search('poklad')
-        self.assertEqual([r.title for r in results], ['poklad', 'poklad nebes', 'Můj poklad', 'Soubor', 'Alfa', 'Zeta'])
-        self.assertEqual([r.rank for r in results], [0, 1, 2, 3, 4, 4])
+        self.assertEqual([r.title for r in results], ['poklad', 'poklad nebes', 'Můj poklad', 'Alfa', 'Zeta', 'Soubor'])
+        self.assertEqual([r.rank for r in results], [0, 1, 2, 3, 3, 4])
+
+    def test_phrase_in_lyrics_beats_partial_title_and_separate_words(self):
+        songs = [
+            ('Já nevím, proč', '292 - Ja nevim.xml', 'Já nevím, proč'),
+            ('Ach, jak bych', '259 - Ach.xml', 'Ach, jak bych\nkdyž vím'),
+            ('Ať kříž', '413 - At.xml', 'Vím, lásky že září svítí jasněji'),
+            ('Zvolená píseň', '999 - Zvolena.xml', 'Já nevím\nÚvod\nAle já vím, komu věřím\nA zpívám'),
+            ('Já vím', '100 - Ja vim.xml', 'Text'),
+            ('Já vím komu', '101 - Ja vim komu.xml', 'Text'),
+            ('Proto já vím', '102 - Proto.xml', 'Text'),
+            ('Alfa', '103 - Alfa.xml', 'Já zpívám a vím proč'),
+        ]
+        self.path.unlink()
+        for title, filename, body in songs:
+            self.repo.save(Song.from_texts(title, {'cs': {'v1': body}}), self.root / filename)
+        self.index.rebuild()
+        results = self.index.search('JA VIM')
+        self.assertEqual([r.title for r in results[:5]],
+                         ['Já vím', 'Já vím komu', 'Proto já vím', 'Zvolená píseň', 'Alfa'])
+        self.assertEqual(results[3].location, 'cs / v1')
+        self.assertIn('Ale já vím, komu věřím', results[3].snippet)
+        self.assertGreater(next(r.rank for r in results if r.title == 'Já nevím, proč'), results[3].rank)
+
+    def test_phrase_matches_punctuation_and_line_breaks(self):
+        self.song.variants[0].sections[0].lines = ['Já,', 'vím komu věřím']
+        self.repo.save(self.song, self.path)
+        self.index.rebuild()
+        result, = self.index.search('já vím')
+        self.assertEqual(result.rank, 3)
+        self.assertEqual(result.snippet, 'Já,\nvím komu věřím')
 
     def test_recursive_invalid_and_production_scope(self):
         nested = self.root / 'nested'
@@ -95,6 +125,30 @@ class SearchTests(unittest.TestCase):
             self.index.rebuild()
         self.assertEqual(len(self.index.search('poklad')), 2)
         self.assertEqual(self.index.failures, [self.root / 'bad.xml'])
+
+    def test_numeric_query_matches_number_prefix_and_sorts_numerically(self):
+        for number in [100, 11, 21, 1, 110, 12, 10, 101]:
+            # Titles deliberately sort in the opposite direction.
+            title = f'Poklad {1000 - number}'
+            self.repo.save(Song.from_texts(title, {'cs': {'v1': 'Text písně'}}),
+                           self.root / f'{number} - poklad.xml')
+        self.repo.save(Song.from_texts('1 nečíslovaná', {'cs': {'v1': 'Text 1'}}),
+                       self.root / 'nečíslovaná.xml')
+        self.index.rebuild()
+        def numbers(query):
+            return [int(result.path.stem.split(' - ')[0]) for result in self.index.search(query)]
+        self.assertEqual(numbers('1'), [1, 10, 11, 12, 100, 101, 110])
+        self.assertEqual(numbers(' 10 '), [10, 100, 101])
+        self.assertEqual(numbers('11'), [11, 110])
+        self.assertEqual(numbers('21'), [21])
+        self.assertEqual(numbers('999'), [])
+        self.assertEqual(self.index.search('1')[0].rank, 0)
+        self.assertEqual(self.index.search('1')[0].display_title, '1 – Poklad 999')
+        self.assertEqual(self.index.search('1')[0].snippet, 'Text písně')
+        # Mixed text/number queries retain substring matching, including 21.
+        self.assertIn(self.root.resolve() / '21 - poklad.xml',
+                      [result.path for result in self.index.search('1 poklad')])
+        self.assertEqual(self.index.search('text 1')[0].title, '1 nečíslovaná')
 
     def test_cached_queries_and_rebuild_after_save(self):
         with patch.object(self.index.repository, 'load', side_effect=AssertionError('reparse')):

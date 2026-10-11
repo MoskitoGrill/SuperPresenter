@@ -184,7 +184,7 @@ class ProjectionConfigTests(unittest.TestCase):
         self.assertEqual(obj.projectors[1].monitor, 1)
         self.assertFalse(obj.projectors[1].collection)
         self.assertEqual(obj.projectors[1].winPlacement, '+50+50')
-        self.assertEqual(obj.layout_snapshot(), dict(self.data, version=2, monitor_names=[]))
+        self.assertEqual(obj.layout_snapshot(), dict(self.data, version=2, monitor_names=[], hall_max_rows=8))
 
     def test_monitor_labels_do_not_replace_hardware_names(self):
         from superpresenter.ui.projection_profiles import ProjectionProfiles

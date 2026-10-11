@@ -1,0 +1,7 @@
+Wheel hit: 202 278 <tkinter.Text object .!frame.!canvas.!frame.!labelframe3.!text> editor root: .
+test_wheel_over_expanding_verse_scrolls_editor (__main__.Diagnostic.test_wheel_over_expanding_verse_scrolls_editor) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.778s
+
+OK

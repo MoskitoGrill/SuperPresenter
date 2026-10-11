@@ -34,32 +34,57 @@ class PinnedLinesTests(unittest.TestCase):
         return plan
 
     def test_one_and_two_pins(self):
-        for guide, count in [('v1 @v1.4 v2', 7), ('v1 @v1.3:4 v2', 8)]:
+        for guide, count in [('v1 @v1.4 v2', 5), ('v1 @v1.3:4 v2', 6)]:
             with self.subTest(guide=guide):
                 plan = self.plan(guide)
-                self.assertEqual([len(p.lines) for p in plan.hall_pages], [4, count])
-                self.assertTrue(plan.hall_pages[1].lines[0].pinned)
-                self.assertTrue(plan.hall_pages[1].lines[0].repeated)
-                self.assertEqual(plan.hall_pages[1].lines[0].section_id, 'v1')
+                self.assertEqual([len(p.lines) for p in plan.hall_pages], [count, 6])
+                self.assertTrue(plan.hall_pages[0].lines[4].pinned)
+                self.assertTrue(plan.hall_pages[0].lines[4].repeated)
+                self.assertEqual(plan.hall_pages[0].lines[4].section_id, 'v1')
 
     def test_no_room(self):
-        self.assertEqual([len(p.lines) for p in self.plan('v1 @v1.3:4 v2', 7).hall_pages], [4, 2, 7])
+        self.assertEqual([len(p.lines) for p in self.plan('v1 @v1.3:4 v2', 7).hall_pages], [6, 7])
 
     def test_long_section(self):
-        self.assertEqual([len(p.lines) for p in self.plan('v1 @v1.3:4 v2', 10).hall_pages], [4, 2, 8, 2])
+        self.assertEqual([len(p.lines) for p in self.plan('v1 @v1.3:4 v2', 10).hall_pages], [6, 8, 2])
 
     def test_end_and_adjacent_pins(self):
-        self.assertEqual([len(p.lines) for p in self.plan('v1 @v1.4').hall_pages], [4, 1])
-        self.assertEqual([len(p.lines) for p in self.plan('@v1.3 @v1.4 v2').hall_pages], [8])
+        self.assertEqual([len(p.lines) for p in self.plan('v1 @v1.4').hall_pages], [5])
+        self.assertEqual([len(p.lines) for p in self.plan('@v1.3 @v1.4 v2').hall_pages], [2, 6])
 
     def test_groups_and_unmarked_selection(self):
-        self.assertEqual([len(p.lines) for p in self.plan('(v1 @v1.4 v2)*2').hall_pages], [4, 7, 4, 7])
+        self.assertEqual([len(p.lines) for p in self.plan('(v1 @v1.4 v2)*2').hall_pages], [5, 6, 5, 6])
         self.assertEqual([len(p.lines) for p in self.plan('v1 v1.4 v2').hall_pages], [5, 6])
         self.plan('((@v1.4)*2 v2)*2')
         self.assertEqual(self.plan('(@v1.4)*0').hall_pages, ())
 
+    def test_whole_sections_ranges_and_capacity(self):
+        for guide, pages in [
+            ('v1 @v2', [6]),
+            ('v2 @v1', [6]),
+            ('@v1', [4]),
+            ('v2 @v1.1:3', [5]),
+            ('v1 @v2 @v2', [8]),
+            ('v1 @v2 @v1', [6, 4]),
+            ('v1 v2', [4, 2]),
+        ]:
+            with self.subTest(guide=guide):
+                self.assertEqual([len(p.lines) for p in self.plan(guide, 2).hall_pages], pages)
+        self.assertEqual([len(p.lines) for p in self.plan('v1 @v2', 6).hall_pages], [4, 6])
+        self.assertEqual([len(p.lines) for p in self.plan('v1 @v2', 10).hall_pages], [4, 8, 2])
+
+    def test_six_line_verse_and_two_line_bridge(self):
+        variant = SongVariant('cs', [SongSection('v1', list('abcdef')),
+                                     SongSection('b1', ['bridge 1', 'bridge 2'])])
+        for guide, tail in [('v1 @b1', ['bridge 1', 'bridge 2']),
+                            ('v1 (v1.6)', ['f', 'f'])]:
+            plan = generate_pages(resolve_sections(parse_construct(guide, ['v1', 'b1']), variant))
+            self.assertEqual([len(p.lines) for p in plan.hall_pages], [8])
+            self.assertEqual([len(p.lines) for p in plan.stream_pages], [4, 4])
+            self.assertEqual([r.text for r in plan.hall_pages[0].lines], list('abcdef') + tail)
+
     def test_invalid_markers(self):
-        for guide in ['@v1', '@v1.0', '@v1.1:3', '@(v1.1)', '@@v1.1', '@v1.5']:
+        for guide in ['@v1.0', '@(v1.1)', '@@v1.1', '@v1.5']:
             with self.subTest(guide=guide), self.assertRaises(ConstructError):
                 list(resolve_sections(parse_construct(guide, ['v1']), self.variant()))
 
@@ -82,9 +107,11 @@ class PinnedLinesTests(unittest.TestCase):
             repository.save(song, target)
             self.assertEqual(song, repository.load(target))
             self.assertEqual(validate_song(path), [])
+            path.write_text(xml.replace('v1 @v1.2', 'v1 @v1'), encoding='utf-8')
+            self.assertEqual(validate_song(path), [])
             sections = list(resolve_sections(parse_construct(song.repetitions[0].guide, ['v1']), song.variants[0]))
             self.assertEqual(sections[-1].lines[0].text, 'b')
-            for guide in ['@v1', '@v1.0', '@v1.1:3', '@v1.3', '@missing.1', '(@v1.3)*0']:
+            for guide in ['@v1.0', '@v1.1:3', '@v1.3', '@missing.1', '(@v1.3)*0']:
                 path.write_text(xml.replace('v1 @v1.2', guide), encoding='utf-8')
                 self.assertIn('repetition_pin', [i.code for i in validate_song(path)])
             # A missing row in just one language must also fail.

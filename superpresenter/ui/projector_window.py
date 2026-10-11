@@ -3,6 +3,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 import tkinter as tk
 from tkinter import font as tkFont
+from superpresenter.services.projection_limits import DEFAULT_HALL_ROWS
 from superpresenter.services.projection_config import resource_path
 from superpresenter.services.stationary_navigation import StationaryPageWidget, style_mode
 from superpresenter.ui.projector_widgets import Widget_OneLine, Widget_FlowLines, Widget_StanzaPaged, Widget_Image
@@ -30,11 +31,15 @@ class ProjWindow():
 
         # nově:
         self.collection = False
+        self.collection_settings = None
         self.collection_item = None  # canvas image id
         self.collection_img = None
 
     def _get_collection_cfg(self):
         stl = self.master.projStyles[self.style]
+        if style_mode(stl) == 'stationary_hall':
+            from superpresenter.services.collection_qr import default_settings
+            return self.collection_settings or default_settings(stl)
         if 'collection' not in stl:
             return None
         cfg = dict(self.COLLECTION_CFG)
@@ -94,7 +99,8 @@ class ProjWindow():
                     and widget['type'] in ('one_line', 'flow_lines', 'stanza_paged')):
                 idx = len(self.animated)
                 self.animated.append(StationaryPageWidget(
-                    self.canvas, widget, fonts, style_mode(stl)))
+                    self.canvas, widget, fonts, style_mode(stl),
+                    getattr(self.master, 'hall_max_rows', DEFAULT_HALL_ROWS)))
                 x = 'animated'
             elif widget["type"] == 'one_line':
                 if len(self.master.onlineSources) == 0:
@@ -146,6 +152,9 @@ class ProjWindow():
         if self.collection_item is None:
             return
         cfg = self._get_collection_cfg()
+        if style_mode(self.master.projStyles[self.style]) == 'stationary_hall':
+            self._render_hall_collection(cfg)
+            return
         w = max(1, self.canvas.winfo_width())
         h = max(1, self.canvas.winfo_height())
         x = int(float(cfg.get('relx', 0.87)) * w)
@@ -153,14 +162,32 @@ class ProjWindow():
         self.canvas.coords(self.collection_item, x, y)
 
     def stopProjection(self):
+        win = getattr(self, 'win', None)
         try:
-            if not self.fullscreen:
-                self.window_position = [self.win.winfo_x(), self.win.winfo_y()]
+            if win is not None and win.winfo_exists() and not self.fullscreen:
+                self.window_position = [win.winfo_x(), win.winfo_y()]
                 self.winPlacement = f'{self.window_position[0]:+d}{self.window_position[1]:+d}'
-            self.win.destroy()
-            del self.win
         except (AttributeError, tk.TclError):
             pass
+        finally:
+            if win is not None:
+                try:
+                    win.destroy()
+                except tk.TclError:
+                    pass
+            for name in ('win', 'canvas'):
+                if hasattr(self, name):
+                    delattr(self, name)
+            self.animated = []
+            self.others = []
+            self.tops = []
+            self.stillAnimated = []
+            self.animation = 0
+            self.collection_item = self.collection_img = None
+            source = getattr(self, '_collection_source', None)
+            if source is not None:
+                source.close()
+                del self._collection_source
 
     def showStationaryPage(self, page):
         for widget in self.animated:
@@ -227,14 +254,29 @@ class ProjWindow():
         if cfg is None:
             return  # tento styl sbírku nepodporuje
 
+        if style_mode(self.master.projStyles[self.style]) == 'stationary_hall':
+            from superpresenter.services.collection_qr import decode_image
+            if 'image_data' in cfg:
+                self._collection_source = decode_image(cfg['image_data'])
+            else:
+                source = self.master.projStyles[self.style].get('collection', {}).get('source', 'images/sbirka_qr.png')
+                with Image.open(resource_path(source, self.master.dir)) as image:
+                    self._collection_source = image.convert('RGBA')
+            self.canvas.update_idletasks()
+            self.collection_item = self.canvas.create_image(0, 0, anchor='nw', state='hidden')
+            self._collection_side = None
+            self._render_hall_collection(cfg)
+            return
+
         src = resource_path(cfg['source'], self.master.dir)
 
-        img = Image.open(src)
-        sz = int(cfg.get('size', 360))
-        if sz > 0:
-            img = img.resize((sz, sz), Image.LANCZOS)
-
-        self.collection_img = ImageTk.PhotoImage(img)
+        with Image.open(src) as img:
+            sz = int(cfg.get('size', 360))
+            if sz > 0:
+                with img.resize((sz, sz), Image.LANCZOS) as resized:
+                    self.collection_img = ImageTk.PhotoImage(resized, master=self.canvas)
+            else:
+                self.collection_img = ImageTk.PhotoImage(img, master=self.canvas)
 
         self.canvas.update_idletasks()
         w = max(1, self.canvas.winfo_width())
@@ -252,6 +294,18 @@ class ProjWindow():
         self.collection_item = self.canvas.create_image(
             x, y, image=self.collection_img, anchor=anchor, state='hidden'
         )
+        self.canvas.tag_raise(self.collection_item)
+
+    def _render_hall_collection(self, cfg):
+        from PIL import ImageTk
+        from superpresenter.services.collection_qr import geometry, render_image
+        x, y, side = geometry(cfg, max(1, self.canvas.winfo_width()), max(1, self.canvas.winfo_height()))
+        if self._collection_side != side:
+            with render_image(self._collection_source, side) as rendered:
+                self.collection_img = ImageTk.PhotoImage(rendered, master=self.canvas)
+            self.canvas.itemconfigure(self.collection_item, image=self.collection_img)
+            self._collection_side = side
+        self.canvas.coords(self.collection_item, x, y)
         self.canvas.tag_raise(self.collection_item)
 
     def set_collection_visible(self, show: bool):

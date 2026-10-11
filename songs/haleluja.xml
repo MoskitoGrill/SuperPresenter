@@ -1,3 +1,4 @@
+<?xml version='1.0' encoding='utf-8'?>
 <slide name="Haleluja">
 <variant name="čeština">
 <section name="v1">
@@ -25,4 +26,4 @@ Tebe chválím Tebe vzývám
  a v bázni vyznávám
 </section>
 </variant>
-</slide>
+<repetition name="default">v1 r1 b1</repetition></slide>

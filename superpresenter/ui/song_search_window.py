@@ -5,16 +5,25 @@ from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 import tkinter as tk
 from tkinter import ttk, font as tkfont
+from superpresenter.ui.scrollbars import Scrollbar
+from superpresenter.ui.mousewheel import bind_widget_wheel
 
 from superpresenter.services.song_search import SongSearch
+from superpresenter.windows_shell import style_title_bar
 
 logger = logging.getLogger(__name__)
 
 
+def path_key(path):
+    return os.path.normcase(str(Path(path).resolve()))
+
+
+def playlist_paths(gui):
+    return {path_key(gui.sources[i].path) for i in set(gui.sourceList)}
+
+
 def in_playlist(gui, path):
-    key = os.path.normcase(str(Path(path).resolve()))
-    return any(os.path.normcase(str(Path(gui.sources[i].path).resolve())) == key
-               for i in gui.sourceList)
+    return path_key(path) in playlist_paths(gui)
 
 
 def add_result(gui, path):
@@ -44,9 +53,10 @@ class SongSearchWindow:
             self.tree.heading(key, text=label)
             self.tree.column(key, width=width)
         self.tree.grid(row=1, column=0, sticky='nsew', padx=(10, 0))
-        scroll = ttk.Scrollbar(self.win, orient='vertical', command=self.tree.yview)
+        scroll = Scrollbar(self.win, orient='vertical', command=self.tree.yview)
         scroll.grid(row=1, column=1, sticky='ns', padx=(0, 10))
         self.tree.configure(yscrollcommand=scroll.set)
+        bind_widget_wheel(self.tree)
         self.status = tk.Label(self.win, text='Načítám knihovnu…')
         self.status.grid(row=2, column=0, sticky='w', padx=10, pady=10)
         self.add_button = tk.Button(self.win, text='Přidat', command=self.add, state='disabled')
@@ -67,14 +77,12 @@ class SongSearchWindow:
         self.win.bind('<Destroy>', self.destroyed, add='+')
         self.check_index()
         self.entry.focus_set()
+        style_title_bar(self.win)
 
     def browse_files(self):
-        try:
-            self.gui.addSource()
-            self.search()  # Refresh playlist marks after the existing file picker.
-        except Exception:
-            logger.exception('Opening song files failed')
-            self.status.configure(text='Otevření souborů selhalo. Podrobnosti jsou v logu.')
+        # Shared-state mutations must reach the global projection safety handler.
+        self.gui.addSource()
+        self.search()  # Refresh playlist marks after the existing file picker.
 
     def apply_style(self):
         """Reuse the active application's colors and fonts, without changing its theme."""
@@ -106,16 +114,23 @@ class SongSearchWindow:
                   foreground=[('selected', gui.stepsList.cget('selectforeground'))])
         style.configure(name + '.Heading', background=background, foreground=foreground,
                         font=gui.openSource.cget('font'), relief='flat')
+        # These headings are labels, with no sorting or click action.
+        style.map(name + '.Heading',
+                  background=[('pressed', background), ('active', background)],
+                  foreground=[('pressed', foreground), ('active', foreground)],
+                  relief=[('pressed', 'flat'), ('active', 'flat')])
         self.tree.configure(style=name)
         self.tree.column('title', anchor='w')
         self.tree.column('snippet', anchor='w')
-        horizontal = ttk.Scrollbar(self.win, orient='horizontal', command=self.tree.xview)
+        horizontal = Scrollbar(self.win, orient='horizontal', command=self.tree.xview)
         horizontal.grid(row=2, column=0, sticky='ew', padx=10)
         self.tree.configure(xscrollcommand=horizontal.set)
         self.status.grid(row=3)
         self.add_button.grid(row=4)
 
     def check_index(self):
+        if self.poll is not None:
+            self.win.after_cancel(self.poll)
         self.poll = None
         if not self.future.done():
             self.poll = self.win.after(50, self.check_index)
@@ -143,9 +158,10 @@ class SongSearchWindow:
             return
         try:
             self.results = self.search_index.search(self.query.get())
+            paths = playlist_paths(self.gui)
             self.tree.delete(*self.tree.get_children())
             for i, result in enumerate(self.results):
-                title = result.title + (' (v playlistu)' if in_playlist(self.gui, result.path) else '')
+                title = result.display_title + (' (v playlistu)' if path_key(result.path) in paths else '')
                 self.tree.insert('', 'end', iid=str(i), values=(title, result.snippet))
             summary = f'Výsledků: {len(self.results)}' if self.query.get().strip() else 'Zadejte název nebo část textu písně.'
             if self.search_index.failures:
@@ -154,6 +170,10 @@ class SongSearchWindow:
             self.selection_changed()
         except Exception:
             logger.exception('Song search failed')
+            # Discard partial rows; an old selection must never add the wrong song.
+            self.results = []
+            self.tree.delete(*self.tree.get_children())
+            self.add_button.configure(state='disabled')
             self.status.configure(text='Vyhledávání selhalo. Podrobnosti jsou v logu.')
 
     def selection_changed(self, *_):
@@ -170,13 +190,9 @@ class SongSearchWindow:
         selected = self.tree.selection()
         if not selected:
             return
-        try:
-            message = add_result(self.gui, self.results[int(selected[0])].path)
-            self.search()
-            self.status.configure(text=message)
-        except Exception:
-            logger.exception('Adding song search result failed')
-            self.status.configure(text='Přidání selhalo. Podrobnosti jsou v logu.')
+        message = add_result(self.gui, self.results[int(selected[0])].path)
+        self.search()
+        self.status.configure(text=message)
 
     def destroyed(self, event):
         if event.widget is self.win:

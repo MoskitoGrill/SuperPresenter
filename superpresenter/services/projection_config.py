@@ -6,6 +6,8 @@ from pathlib import Path, PureWindowsPath
 import tempfile
 
 from superpresenter.paths import PROJECT_ROOT
+from .projection_limits import DEFAULT_HALL_ROWS, row_limits
+from .stationary_navigation import style_mode
 
 
 class ConfigError(ValueError):
@@ -181,8 +183,28 @@ def _validate_monitor(monitor, prefix):
         _require(type(monitor.get(key)) is int and (key in ('x', 'y') or monitor[key] > 0), f'{prefix}.{key}: neplatné celé číslo.')
 
 
+def layout_row_limit(data, styles):
+    """Migrate per-output draft settings to the shared hall capacity.
+
+    Earlier per-output drafts used the lowest active hall limit. Retain that
+    effective value on load; all later saves use the explicit shared setting.
+    """
+    if 'hall_max_rows' in data:
+        value = data['hall_max_rows']
+    else:
+        hall_names = {s['name'] for s in styles if style_mode(s) == 'stationary_hall'}
+        limits = [row_limits(output.get('lines_per_page', DEFAULT_HALL_ROWS))[0]
+                  for output in data.get('outputs', []) if output.get('style') in hall_names]
+        value = min(limits, default=DEFAULT_HALL_ROWS)
+    return row_limits(value)[0]
+
+
 def validate_layout(data, styles):
     _require(isinstance(data, dict) and type(data.get('version')) is int and data['version'] in (1, 2), 'Profil: nepodporovaná verze (podporovány 1 a 2).')
+    try:
+        row_limits(data.get('hall_max_rows', DEFAULT_HALL_ROWS))
+    except ValueError as exc:
+        raise ConfigError(str(exc)) from exc
     if 'profile_name' in data:
         name = data['profile_name']
         _require(isinstance(name, str) and 0 < len(name.strip()) <= 80 and not any(ord(c) < 32 for c in name), 'Neplatný název profilu.')
@@ -198,6 +220,13 @@ def validate_layout(data, styles):
     for i, output in enumerate(outputs):
         prefix = f'Výstup {i + 1}'
         _require(isinstance(output, dict), f'{prefix}: očekáván objekt.')
+        if 'collection_settings' in output:
+            from .collection_qr import validate_settings
+            try:
+                validate_settings(output['collection_settings'])
+            except ValueError as exc:
+                raise ConfigError(f'{prefix}: {exc}') from exc
+        _require(type(output.get('lines_per_page', DEFAULT_HALL_ROWS)) is int and output.get('lines_per_page', DEFAULT_HALL_ROWS) > 0, f'{prefix}: počet řádků musí být kladné celé číslo.')
         _require(output.get('style') in [s['name'] for s in styles], f'{prefix}: neznámý styl {output.get("style")!r}.')
         for key in ('fullscreen', 'collection'):
             _require(type(output.get(key)) is bool, f'{prefix}.{key}: očekáván boolean.')

@@ -85,7 +85,8 @@ def validate_song(path: Path) -> list[Issue]:
                     node = pending.pop()
                     if isinstance(node, RepeatGroup):
                         pending.extend(node.children)
-                    elif node.pinned and (node.end_line or node.start_line) > len(rows[node.section]):
+                    elif (node.pinned and node.start_line is not None
+                          and (node.end_line or node.start_line) > len(rows[node.section])):
                         raise ValueError(f'Pinned selection exceeds section {node.section!r}')
             except (ConstructError, ValueError) as exc:
                 report('error', 'repetition_pin', f"variant {variant.get('name', '')}: {exc}")

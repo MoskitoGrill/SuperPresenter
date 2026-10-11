@@ -12,6 +12,8 @@ import tkinter.font as tkFont
 import json
 import os
 from tkinterdnd2 import DND_FILES, TkinterDnD
+from superpresenter.ui.mousewheel import bind_canvas_wheel
+from superpresenter.ui.scrollbars import Scrollbar
 
 class PresentationEditor:
     def __init__(self, root):
@@ -295,12 +297,7 @@ class PresentationEditor:
         self.thumb_outer.configure(bg="#222222")
         self.thumb_outer.pack(fill="x", pady=(10, 0))
         self.thumb_canvas = tk.Canvas(self.thumb_outer, height=150, bg="#222222", highlightthickness=0, bd=0)
-        self.thumb_scroll = ttk.Scrollbar(self.thumb_outer, orient="horizontal", command=self.thumb_canvas.xview)
-        style = ttk.Style()
-        style.theme_use('default')
-        style.configure("Horizontal.TScrollbar",
-            troughcolor="#222222", background="#444444",
-            bordercolor="#222222", lightcolor="#222222", darkcolor="#222222")
+        self.thumb_scroll = Scrollbar(self.thumb_outer, orient="horizontal", command=self.thumb_canvas.xview)
 
         self.thumb_inner = tk.Frame(self.thumb_canvas, bg="#222222")
 
@@ -312,8 +309,7 @@ class PresentationEditor:
         self.thumb_canvas.pack(side="top", fill="x", expand=True)
         self.thumb_scroll.pack(side="bottom", fill="x")
 
-        self.thumb_canvas.bind("<Enter>", lambda e: self.thumb_canvas.bind_all("<MouseWheel>", self._on_thumb_scroll))
-        self.thumb_canvas.bind("<Leave>", lambda e: self.thumb_canvas.unbind_all("<MouseWheel>"))
+        bind_canvas_wheel(self.thumb_canvas, self._on_thumb_scroll)
 
         # === OVLÁDÁNÍ POD MINI NÁHLEDEM ===
         self.bottom_controls = tk.Frame(self.root, bg=bg_color)
@@ -1108,7 +1104,10 @@ class PresentationEditor:
             for i, m in enumerate(self.monitors)
         ]
         self.monitor_menu['values'] = display_list
-        self.monitor_menu.current(1) #  podle čísla vyber výchozí monitor
+        if display_list:
+            self.monitor_menu.current(min(1, len(display_list) - 1))
+        else:
+            self.monitor_menu.set('')
 
     def update_thumbnail_bar(self):
         for widget in self.thumb_inner.winfo_children():
@@ -1384,7 +1383,7 @@ class PresentationEditor:
 
         canvas = tk.Canvas(frame, bg=colors["bg"], highlightthickness=0)
         scrollable_frame = tk.Frame(canvas, bg=colors["bg"])
-        scrollbar = tk.Scrollbar(frame, orient="vertical", command=canvas.yview)
+        scrollbar = Scrollbar(frame, orient="vertical", command=canvas.yview)
 
         scrollable_frame.bind(
             "<Configure>",

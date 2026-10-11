@@ -26,3 +26,8 @@ htmlcov/
 
 # Unsaved editor crash recovery records
 .song-recovery/
+
+# Standalone release outputs (build scripts and spec are tracked)
+build/
+dist/
+release-checks/

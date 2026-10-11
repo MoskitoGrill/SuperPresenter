@@ -1,0 +1,11 @@
+# Verified Windows x64 build environment: Python 3.13.14.
+Pillow==12.3.0
+screeninfo==0.8.1
+tkinterdnd2==0.6.3
+pyinstaller==6.22.2
+pyinstaller-hooks-contrib==2026.7
+altgraph==0.17.5
+packaging==26.3
+pefile==2024.8.26
+pywin32-ctypes==0.2.3
+setuptools==84.0.0

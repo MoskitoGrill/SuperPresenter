@@ -58,7 +58,7 @@ instrukcí nerozbalují násobení a nepoužívají rekurzi pro vnořené skupin
 V `longText` se skupiny fyzicky rozbalují. V `shortText` zůstávají řádky skupiny
 jednou a navigační indexy se opakují; jejich začátek a konec se označí podle
 stylu `repeat_start` a `repeat_end`. Proto nelze nahradit skupinu pouhým seznamem
-kopií sekcí. Samostatná syntaxe pro připnutí libovolného řádku neexistuje;
+kopií sekcí. Připojení pomocí `@` popisuje poslední oddíl tohoto dokumentu;
 konkrétní obrazovkové indexy či značky nelze určit bez textu a stylů.
 
 `Construct.to_legacy()` vrací totožný zásobníkový program (`all`, `line`, `lins`,
@@ -110,25 +110,28 @@ v přesném vstupním textu, také uvedený v čitelné zprávě.
   Testy srovnávají přijetí/odmítnutí i přesné instrukce na celé databázi,
   skutečný import s výběrem variant a výstupy stávajících rendererů.
 
-## Explicitní připnutí (etapa 6)
+## Připojení k předchozímu bloku pomocí @
 
-Nový prefix `@` před výběrem určuje připnutý výskyt: `v1 @v1.4 v2`
-nebo `v1 @v1.3:4 v2`. Vyžaduje jeden nebo dva sousední řádky od 1;
-celá sekce, nula a delší rozsahy nejsou povolené (`InvalidPinError`).
-`SectionStep.pinned` má bez označení hodnotu `False`. Závorky zachovávají
-význam opakování: `(@v1.4)*3` jsou tři explicitní výskyty. Samotný výběr
-ani `RepeatGroup.reuse_lines` tento nový příznak nenastavuje.
+Prefix `@` připojí označenou sekci nebo výběr řádků k předchozímu
+bloku, pokud se jejich součet vejde do osmi řádků v sále:
 
-XML guide zůstává obyčejný text. `to_legacy()` překládá označený výběr
-stejně jako neoznačený, bez nové instrukce pro staré renderery. API
-`resolve_sections(construct, variant)` předá příznak stacionárnímu generátoru.
-Čísluje neprázdné LF řádky po odstranění krajních mezer; model XML nemění.
-Neexistující připnutý řádek je chyba adaptéru i validátoru.
+- `v1 @b1`: celá sloka a celý bridge; při délce 6 + 2 vznikne jeden slide.
+- `v1 @b1.1:3`: připojí první tři řádky bridge, pokud se vejdou.
+- `v1 (v1.6)`: za šest řádků sloky automaticky připojí dvě kopie
+  posledního řádku. Výběr ze stejné sekce nepotřebuje `@`.
+- `v1 @b1 @r1`: připojuje postupně zleva doprava, vždy do kapacity osmi řádků.
 
-Generátor připojí označený blok pouze před následující obsah, pokud se celý
-součet vejde do 8. Jinak ponechá blok samostatný, i na konci písně. Dlouhou
-následující sekci z tohoto důvodu nepřeskupuje. Sousední označené bloky
-slučuje zprava při stejné kontrole kapacity. Stream dělí každou hotovou
-stránku po nejvýše 4 řádcích. Obsah nikdy neodvozuje z textové shody.
-Podrobné příklady, kompatibilita, omezení současného GUI a výsledky testů
-jsou v README v etapě 6; tato pravidla nahrazují starší návrh atributu sekce.
+Pokud se celý připojovaný blok nevejde, začne samostatně na novém slidu;
+blok delší než osm řádků se rozdělí. Na začátku písně `@` nemá předchozí
+blok, takže obsah začne samostatně. Stream každý slide rozdělí po nejvýše
+čtyřech řádcích. U více jazyků se do limitu počítají všechny zobrazené řádky.
+Závorky nadále opakují: `(@b1)*2` vloží bridge dvakrát.
+
+Výběry s `@` musí používat existující řádky číslované od 1. Celé sekce
+ani delší rozsahy už nejsou zakázané. XML ukládá zápis beze změny;
+`SectionStep.pinned` předává požadavek stacionárnímu generátoru.
+Staré posuvné styly zachovávají pořadí textu, ale nespojují stacionární slidy.
+
+Tato pravidla nahrazují původní význam `@`, který připojoval jeden či dva
+řádky k následujícímu bloku. Dříve uložené zápisy s `@` se nyní řídí
+novým významem; soubory písní se automaticky nepřepisují.

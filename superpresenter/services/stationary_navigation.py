@@ -1,8 +1,9 @@
 """Stationary projection routing and reversible navigation, without Tk."""
 from itertools import zip_longest
+from .projection_limits import DEFAULT_HALL_ROWS, row_limits
 
-from .construct_parser import parse_construct
-from .stationary_pages import LogicalSection, generate_pages, resolve_sections
+from .construct_parser import parse_construct, check_expansion
+from .stationary_pages import LogicalSection, generate_pages, resolve_sections, presentation_lines
 
 
 MODES = {'legacy_scroll', 'stationary_hall', 'stationary_stream'}
@@ -20,8 +21,8 @@ def style_mode(style):
     return mode
 
 
-def build_plan(song, variant_names, guide):
-    """Interleave selected languages; every physical row counts toward 8/4.
+def build_plan(song, variant_names, guide, hall_rows=DEFAULT_HALL_ROWS):
+    """Interleave selected languages; every physical row counts toward capacity.
 
     Resolve selections before interleaving so original line numbers retain
     their meaning. Return legacy row positions for mixed projector setups.
@@ -34,6 +35,12 @@ def build_plan(song, variant_names, guide):
     for variant in variants[1:]:
         legal.intersection_update(s.identifier for s in variant.sections)
     construct = parse_construct(guide, legal)
+    lengths = {key: 0 for key in legal}
+    for variant in variants:
+        for section in variant.sections:
+            if section.identifier in lengths:
+                lengths[section.identifier] += len(presentation_lines(section.lines))
+    check_expansion(construct, lengths, len(variants))
     resolved = [list(resolve_sections(construct, v)) for v in variants]
     sections, positions = [], {}
     legacy_position = 1
@@ -46,8 +53,9 @@ def build_plan(song, variant_names, guide):
                     positions[id(row)] = legacy_position
             legacy_position += 1
         sections.append(LogicalSection(occurrences[0].occurrence_id, tuple(rows),
-                                       occurrences[0].append_to_previous))
-    plan = generate_pages(sections)
+                                       occurrences[0].append_to_previous,
+                                       occurrences[0].whole_section))
+    plan = generate_pages(sections, hall_rows)
     return plan, tuple(positions[id(c.stream_page.lines[0])] for c in plan.cues)
 
 
@@ -78,11 +86,12 @@ class CueNavigation:
         self.song = max(0, min(song, len(self.plans) - 1))
         self.step = max(0, min(step, self.last_step))
 
-    def move(self, direction):
+    def move(self, direction, *, restart_previous_section=False):
         if direction not in (-1, 1):
             raise ValueError('Direction must be -1 or 1')
         if not self.plans:
             return
+        previous_cue = self.cue
         if direction == 1 and self.step == self.last_step:
             if self.song + 1 < len(self.plans):
                 self.select(self.song + 1)
@@ -92,6 +101,11 @@ class CueNavigation:
                 self.step = self.last_step
         else:
             self.step = max(0, min(self.step + direction, self.last_step))
+        if (restart_previous_section and direction == -1 and previous_cue
+                and self.cue and self.cue.occurrence_id != previous_cue.occurrence_id):
+            occurrence = self.cue.occurrence_id
+            while self.step > 1 and self.plans[self.song].cues[self.step - 2].occurrence_id == occurrence:
+                self.step -= 1
 
     def diagnostic(self):
         cue = self.cue
@@ -103,14 +117,24 @@ class CueNavigation:
 
 class StationaryPageWidget:
     """Canvas adapter: update in place, never clear/repaint an unchanged page."""
-    def __init__(self, canvas, style, fonts, mode):
+    def __init__(self, canvas, style, fonts, mode, hall_rows=DEFAULT_HALL_ROWS):
+        hall_rows, stream_rows = row_limits(hall_rows)
         self.canvas = canvas
         self.page = None
+        limit = hall_rows if mode == 'stationary_hall' else stream_rows
+        # Preserve the existing text area when the operator requests more rows.
+        scale = min(1, DEFAULT_HALL_ROWS / limit) if mode == 'stationary_hall' else 1
+        font = fonts[style['primaryFont']]
+        if scale < 1:
+            font = font.copy()
+            size = font.cget('size')
+            font.configure(size=(1 if size > 0 else -1) * max(1, int(abs(size) * scale)))
+        self.font = font
         self.items = [canvas.create_text(
-            style['x'], style['y'] + row * style['y1'],
+            style['x'], style['y'] + row * style['y1'] * scale,
             text='', anchor='n', fill=style['fill'],
-            font=fonts[style['primaryFont']], width=style.get('width', 1800),
-        ) for row in range(8 if mode == 'stationary_hall' else 4)]
+            font=font, width=style.get('width', 1800),
+        ) for row in range(limit)]
 
     def show_page(self, page):
         if page is self.page:

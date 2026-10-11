@@ -46,7 +46,6 @@
                 {
                 "type": "stanza_paged",
                 "source": "long",
-                "lines_per_page": 8,
                 "x": 960,
                 "y": 100,
                 "y1": 48,

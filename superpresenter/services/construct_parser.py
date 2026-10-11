@@ -38,6 +38,41 @@ class InvalidPinError(ConstructError):
     pass
 
 
+class ConstructLimitError(ConstructError):
+    pass
+
+
+# Per song: comfortably above ordinary worship sets, bounded synchronous work.
+MAX_INPUT_LENGTH = 16384
+MAX_NESTING = 32
+MAX_EXPANSION = 4096
+
+
+def check_expansion(construct, section_lengths=None, copies=1):
+    """Bound every intermediate subtree before any renderer expands it.
+
+    Count empty groups too: a lazy resolver still iterates their repetitions.
+    With text lengths, rows across all selected languages share one budget.
+    """
+    def cost(nodes):
+        total = 0
+        for node in nodes:
+            if isinstance(node, RepeatGroup):
+                amount = max(1, cost(node.children)) * node.repeat
+            elif node.start_line is not None:
+                amount = (node.end_line or node.start_line) - node.start_line + 1
+                amount *= copies
+            else:
+                amount = 1 if section_lengths is None else section_lengths[node.section]
+            total += max(1, amount)
+            if total > MAX_EXPANSION:
+                raise ConstructLimitError(
+                    f'Konstrukt překračuje limit {MAX_EXPANSION} řádků/kroků; zkraťte rozsah nebo opakování',
+                    node.position)
+        return total
+    return cost(construct.instructions)
+
+
 @dataclass(frozen=True)
 class SectionStep:
     section: str
@@ -106,6 +141,8 @@ def parse_construct(text: str, available_sections: Iterable[str]) -> Construct:
     Only ASCII space is a separator, as in WidgetSource. Line count validation
     is impossible with section names alone. No repetition is eagerly expanded.
     """
+    if len(text) > MAX_INPUT_LENGTH:
+        raise ConstructLimitError(f'Konstrukt smí mít nejvýše {MAX_INPUT_LENGTH} znaků', MAX_INPUT_LENGTH)
     legal = set(available_sections)
     # Explicit stack avoids recursion limits for nested input during parsing.
     frames: list[tuple[list[Instruction], int]] = [([], 0)]
@@ -134,6 +171,8 @@ def parse_construct(text: str, available_sections: Iterable[str]) -> Construct:
         if char == ' ':
             pos += 1
         elif char == '(':
+            if len(frames) > MAX_NESTING:
+                raise ConstructLimitError(f'Konstrukt smí mít nejvýše {MAX_NESTING} úrovní závorek', pos)
             frames.append(([], pos))
             pos += 1
         elif char == ')':
@@ -172,12 +211,13 @@ def parse_construct(text: str, available_sections: Iterable[str]) -> Construct:
                     last = number(':')
                     if last <= first:
                         raise InvalidRangeError('Konec rozsahu musí být větší než začátek', range_position)
-            if pinned and (first is None or first < 1
-                           or (last is not None and last - first != 1)):
-                raise InvalidPinError('Připnutí vyžaduje výběr jednoho nebo dvou řádků od 1', start)
+            if pinned and first is not None and first < 1:
+                raise InvalidPinError('Připojení vyžaduje čísla řádků od 1', start)
             frames[-1][0].append(SectionStep(section, start, first, last, pinned))
     if len(frames) > 1:
         raise ParenthesisError('Neuzavřená závorka', frames[-1][1])
     if not frames[0][0]:
         raise EmptyConstructError('Construct (opakování) je prázdný', 0)
-    return Construct(tuple(frames[0][0]))
+    result = Construct(tuple(frames[0][0]))
+    check_expansion(result)
+    return result

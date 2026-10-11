@@ -6,6 +6,9 @@ from pathlib import Path
 from superpresenter.domain.song import Song
 from superpresenter.services.song_edit_session import SongEditSession, update_song_fields, validate_editor_fields
 from superpresenter.services.song_recovery import SongRecovery
+from superpresenter.paths import PROJECT_ROOT
+from superpresenter.ui.mousewheel import bind_canvas_wheel, scroll_widget
+from superpresenter.ui.scrollbars import Scrollbar
 import os
 import re
 
@@ -75,7 +78,7 @@ class SongEditor:
         self.original_title = None
         self.current_variant = "čeština"
 
-        self.songs_dir = os.path.join(os.path.dirname(__file__), 'songs')
+        self.songs_dir = os.path.join(PROJECT_ROOT, 'songs')
         os.makedirs(self.songs_dir, exist_ok=True)
 
         self.bg_color = "#555555"
@@ -115,12 +118,15 @@ class SongEditor:
         if self._recovery is not None:
             return
         try:
-            self._recovery = SongRecovery(directory or Path(__file__).resolve().parent / '.song-recovery')
+            self._recovery = SongRecovery(directory or Path(PROJECT_ROOT) / '.song-recovery')
         except OSError as exc:
             messagebox.showwarning('Záloha není dostupná', f'Průběžné zálohování se nepodařilo zapnout:\n{exc}', parent=self.root)
             return
         self.root.bind('<Destroy>', self._close_recovery, add='+')
-        self.root.after_idle(lambda: self._offer_recovery(on_restored))
+        def offer():
+            self._recovery_offer_after = None
+            self._offer_recovery(on_restored)
+        self._recovery_offer_after = self.root.after_idle(offer)
         self._queue_recovery()
 
     def _queue_recovery(self):
@@ -195,6 +201,10 @@ class SongEditor:
     def _close_recovery(self, event):
         if event.widget != self.root:
             return
+        offer = getattr(self, '_recovery_offer_after', None)
+        if offer is not None:
+            self.root.after_cancel(offer)
+            self._recovery_offer_after = None
         if self._recovery_after is not None:
             self.root.after_cancel(self._recovery_after)
             self._recovery_after = None
@@ -269,6 +279,9 @@ class SongEditor:
             self.status_variable.set("Neuloženo" if self.session.dirty else "")
         finally:
             self._loading = False
+        self.canvas.xview_moveto(0)
+        self.canvas.yview_moveto(0)
+        self._update_canvas_layout()
         self._changed()
 
     def set_selected_repetition_text(self, text):
@@ -314,22 +327,27 @@ class SongEditor:
         canvas_frame.pack(fill='both', expand=True)
 
         self.canvas = tk.Canvas(canvas_frame, bg=self.bg_color, highlightthickness=0)
-        self.scrollbar = tk.Scrollbar(canvas_frame, orient='vertical', command=self.canvas.yview)
+        self.scrollbar = Scrollbar(canvas_frame, orient='vertical', command=self.canvas.yview)
+        self.horizontal_scrollbar = Scrollbar(canvas_frame, orient='horizontal', command=self.canvas.xview)
         self.scrollable_frame = tk.Frame(self.canvas, bg=self.bg_color)
 
         # vytvořit okno a pamatovat si jeho id
         self._window_item = self.canvas.create_window((0, 0), window=self.scrollable_frame, anchor='nw')
 
         # držet šířku vnitřního okna = šířka canvasu (tedy šířka "obdélníku")
-        self.canvas.bind("<Configure>", lambda e: self.canvas.itemconfig(self._window_item, width=e.width))
+        self.canvas.bind("<Configure>", self._update_canvas_layout)
 
         # scrollregion podle obsahu
-        self.scrollable_frame.bind("<Configure>", lambda e: self.canvas.configure(scrollregion=self.canvas.bbox("all")))
+        self.scrollable_frame.bind("<Configure>", self._update_canvas_layout)
 
         self.canvas.configure(yscrollcommand=self.scrollbar.set)
-        self.canvas.pack(side='left', fill='both', expand=True)
-        self.scrollbar.pack(side='right', fill='y')
-        self.canvas.bind_all("<MouseWheel>", lambda e: self.canvas.yview_scroll(-1 * int(e.delta / 120), "units"))
+        self.canvas.configure(xscrollcommand=self.horizontal_scrollbar.set)
+        canvas_frame.grid_rowconfigure(0, weight=1)
+        canvas_frame.grid_columnconfigure(0, weight=1)
+        self.canvas.grid(row=0, column=0, sticky='nsew')
+        self.scrollbar.grid(row=0, column=1, sticky='ns')
+        self.horizontal_scrollbar.grid(row=1, column=0, sticky='ew')
+        self._canvas_wheel = bind_canvas_wheel(self.canvas, self._scroll_canvas)
 
         self.sections_frame = self.scrollable_frame
 
@@ -357,7 +375,7 @@ class SongEditor:
         self.repetition_container.pack(fill='x', padx=5)
 
         self.explain_label = tk.Label(self.root,
-                text="v = Sloka, r = Refrén, b = Bridge | (v) = 1 Opakování | (v)*x = x Opakování | v.x = Pouze x řádek",
+                text="v = Sloka, r = Refrén, b = Bridge | (v) = 1 Opakování | (v)*x = x Opakování | v.x = Pouze x řádek | v.x:y = od do řádky\n@v = připnutí k předchozí sloce",
                 font=('TkDefaultFont' if self.embedded else ('Courier New', 10, 'italic')),
                 fg='white', bg=self.bg_color)
         if self.embedded:
@@ -383,6 +401,30 @@ class SongEditor:
                     bg=self.button_bg, fg="white",
                     command=self.run_error_fix).pack(anchor="sw")
 
+
+    def _scroll_canvas(self, event):
+        return scroll_widget(self.canvas, event)
+
+    def _update_canvas_layout(self, event=None):
+        if event is not None:
+            # Scrolling also emits Configure when the embedded frame moves.
+            # Only a size change requires recalculating the content layout.
+            sizes = getattr(self, '_canvas_layout_sizes', None)
+            if sizes is None:
+                sizes = self._canvas_layout_sizes = {}
+            size = (event.width, event.height)
+            if sizes.get(event.widget) == size:
+                return
+            sizes[event.widget] = size
+        content_width = max((section['frame'].winfo_reqwidth() + 40
+                             for section in self.sections), default=0)
+        width = max(self.canvas.winfo_width(), content_width)
+        if float(self.canvas.itemcget(self._window_item, 'width')) != width:
+            self.canvas.itemconfigure(self._window_item, width=width)
+        region = self.canvas.bbox('all')
+        if getattr(self, '_canvas_layout_region', None) != region:
+            self._canvas_layout_region = region
+            self.canvas.configure(scrollregion=region)
 
     def get_existing_languages(self):
         return list(dict.fromkeys(s['lang'] for s in self.sections)) or ["čeština"]
@@ -431,13 +473,16 @@ class SongEditor:
         )
         remove_btn.pack(side='right', padx=5)
 
-        text = tk.Text(frame, height=1, font=self.font, wrap='word', undo=True, maxundo=200)  # přidané wrap='word'
+        text = tk.Text(frame, height=1, width=1, font=self.font, wrap='none', undo=True, maxundo=200)
+        text._scroll_parent_canvas = True
+        text.bind('<MouseWheel>', self._canvas_wheel)
         text.insert('end', content)
         text.pack(fill='x')
 
         def resize_text(event):
             lines = text.get("1.0", "end-1c").split("\n")
-            text.configure(height=max(1, len(lines)))
+            text.configure(height=max(1, len(lines)),
+                           width=max(1, max(len(line.expandtabs(8)) for line in lines)))
 
         def modified(event):
             if text.edit_modified():
@@ -694,9 +739,8 @@ class SongEditor:
 
     def run_error_fix(self):
         import subprocess
-        import sys
-        path = os.path.join(os.path.dirname(__file__), 'oprava_xml_tagu.py')
-        subprocess.Popen([sys.executable, path])
+        from superpresenter.processes import tool_command
+        subprocess.Popen(tool_command('oprava_xml_tagu.py'), cwd=PROJECT_ROOT)
 
     def clear_editor(self):
         # 1. Smazat grafické prvky sekcí

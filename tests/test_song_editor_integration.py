@@ -41,6 +41,44 @@ class EditorIntegrationTests(unittest.TestCase):
         self.assertTrue(self.editor.dirty)
         self.assertTrue(self.editor.status_variable.get())
 
+    def test_fixed_window_and_horizontal_overflow_when_switching_songs(self):
+        self.root.geometry('700x700')
+        self.root.deiconify()
+        self.root.update()
+        size = (self.root.winfo_width(), self.root.winfo_height())
+        long_song = Song.from_texts('Long', {'cs': {'v1': 'x' * 250}}, {'default': 'v1'})
+        self.assertTrue(self.editor.load_song(long_song))
+        self.root.update()
+        self.assertEqual((self.root.winfo_width(), self.root.winfo_height()), size)
+        self.assertLess(self.editor.canvas.xview()[1], 1.0)
+        self.editor.canvas.xview_moveto(1.0)
+        self.root.update()
+        self.assertGreater(self.editor.canvas.xview()[0], 0.0)
+        self.assertTrue(self.editor.load_song(Song.from_texts()))
+        self.root.update()
+        self.assertEqual((self.root.winfo_width(), self.root.winfo_height()), size)
+        self.assertEqual(self.editor.canvas.xview(), (0.0, 1.0))
+
+    def test_wheel_over_expanding_verse_scrolls_editor(self):
+        self.root.geometry('700x500')
+        self.root.deiconify()
+        # Synthetic wheel coordinates must hit this window even when another
+        # desktop window overlaps it; exercise the real hit-test and bindings.
+        self.root.attributes('-topmost', True)
+        self.root.lift()
+        self.editor.load_song(Song.from_texts('Long', {'cs': {
+            f'v{i}': 'One\nTwo\nThree' for i in range(1, 16)
+        }}, {'default': 'v1'}))
+        self.root.update()
+        text = self.editor.sections[0]['widget']
+        x, y = text.winfo_rootx() + 5, text.winfo_rooty() + 5
+        self.assertIs(self.root.winfo_containing(x, y), text)
+        self.editor.canvas.yview_moveto(0)
+        text.event_generate('<MouseWheel>', delta=-30, rootx=x, rooty=y)
+        self.root.update()
+        self.assertGreater(self.editor.canvas.yview()[0], 0)
+        self.assertEqual(text.yview(), (0.0, 1.0))
+
     def test_cancel_discard_and_failed_save_transitions(self):
         self.editor.title_variable.set('Changed')
         self.assertFalse(self.editor.new_song())
