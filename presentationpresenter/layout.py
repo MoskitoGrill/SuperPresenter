@@ -73,11 +73,15 @@ def with_black_breaks(source: Presentation, content: tuple[Slide, ...]) -> Slide
         raise ValueError('Expected content slides only')
     ordered = []
     for section in source.sections:
+        if section.break_before:
+            black(f'{section.id}:before', section.id)
         section_slides = [s for s in content if s.section_id == section.id]
         ordered.extend(section_slides)
         result.extend(section_slides)
         if section.break_after:
             black(f'{section.id}:after', section.id)
+    if source.black_end and source.sections:
+        black(f'{source.id}:end')
     if tuple(ordered) != content:
         raise ValueError('Content must follow source section order')
     return SlidePlan(source, tuple(result))

@@ -65,6 +65,7 @@ class TextSection:
     break_after: bool = True
     origin: ImportOrigin | None = None
     id: str = field(default_factory=new_id)
+    break_before: bool = False
 
     def __post_init__(self):
         if type(self.blocks) is not tuple or any(not isinstance(b, TextBlock) for b in self.blocks):
@@ -79,6 +80,7 @@ class ImageSection:
     break_after: bool = True
     origin: ImportOrigin | None = None
     id: str = field(default_factory=new_id)
+    break_before: bool = False
 
 @dataclass(frozen=True)
 class MediaAsset:
@@ -121,6 +123,7 @@ class Presentation:
     black_start: bool = True
     id: str = field(default_factory=new_id)
     schema_version: int = SCHEMA_VERSION
+    black_end: bool = False
 
     def __post_init__(self):
         if type(self.schema_version) is not int or self.schema_version != SCHEMA_VERSION:
@@ -142,6 +145,8 @@ class Presentation:
                 raise ValueError('Invalid import provenance')
             if type(section.break_after) is not bool:
                 raise ValueError('break_after must be boolean')
+            if type(section.break_before) is not bool:
+                raise ValueError('break_before must be boolean')
             if isinstance(section, TextSection):
                 if type(section.blocks) is not tuple:
                     raise ValueError('Blocks must be immutable tuples')
@@ -161,6 +166,8 @@ class Presentation:
             raise ValueError('Content IDs must be nonempty and globally unique')
         if type(self.black_start) is not bool:
             raise ValueError('black_start must be boolean')
+        if type(self.black_end) is not bool:
+            raise ValueError('black_end must be boolean')
         for output in (self.hall, self.stream):
             if not isinstance(output, OutputConfig):
                 raise ValueError('Invalid aspect ratio')
