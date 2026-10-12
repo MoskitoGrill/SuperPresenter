@@ -277,35 +277,40 @@ def paginate(source, metrics, typography=Typography()):
         for block in section.blocks:
             chars = _chars(section, block)
             continued = False
-            if pending and block.kind == BlockKind.BULLET and not fits(pending+[(block, chars, False)]) and fits([(block, chars, False)]):
-                emit(pending)
-                pending = []
-            while True:
-                if fits(pending+[(block, chars, continued)]):
-                    pending.append((block, chars, continued))
-                    break
-                low, high = 0, len(chars)
-                while low < high:
-                    mid = (low+high+1)//2
-                    if fits(pending+[(block, chars[:mid], continued)]):
-                        low = mid
-                    else:
-                        high = mid-1
-                if not low:
-                    if pending:
-                        emit(pending)
-                        pending = []
-                        continue
-                    raise LayoutError('Obsah nemá místo pod názvem a mimo kameru')
-                # Prefer a word boundary, retaining every source character.
-                boundary = next((i+1 for i in range(low-1, -1, -1) if chars[i][0].isspace()), 0)
-                if boundary:
-                    low = boundary
-                pending.append((block, chars[:low], continued))
-                emit(pending)
-                pending = []
-                chars = chars[low:]
-                continued = True
+            pending = _paginate_chunk(block, chars, continued, pending, fits, emit)
         if pending or not section.blocks:
             emit(pending)
     return with_black_breaks(source, tuple(slides))
+
+
+def _paginate_chunk(block, chars, continued, pending, fits, emit):
+    if pending and block.kind == BlockKind.BULLET and not fits(pending+[(block, chars, False)]) and fits([(block, chars, False)]):
+        emit(pending)
+        pending = []
+    while True:
+        if fits(pending+[(block, chars, continued)]):
+            pending.append((block, chars, continued))
+            break
+        low, high = 0, len(chars)
+        while low < high:
+            mid = (low+high+1)//2
+            if fits(pending+[(block, chars[:mid], continued)]):
+                low = mid
+            else:
+                high = mid-1
+        if not low:
+            if pending:
+                emit(pending)
+                pending = []
+                continue
+            raise LayoutError('Obsah nemá místo pod názvem a mimo kameru')
+        # Prefer a word boundary, retaining every source character.
+        boundary = next((i+1 for i in range(low-1, -1, -1) if chars[i][0].isspace()), 0)
+        if boundary:
+            low = boundary
+        pending.append((block, chars[:low], continued))
+        emit(pending)
+        pending = []
+        chars = chars[low:]
+        continued = True
+    return pending

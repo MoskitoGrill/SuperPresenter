@@ -23,7 +23,7 @@ class TkMetrics:
         return self.font(style, size).metrics('linespace')
 
 
-def draw(canvas, slide, output, metrics, typography, show_camera=True, scale=1):
+def draw(canvas, slide, output, metrics, typography, show_camera=True, scale=1, resize_canvas=True):
     """Native-size static preview; no font substitution or layout recalculation."""
     canvas.delete('all')
     canvas.configure(bg='black')
@@ -31,7 +31,7 @@ def draw(canvas, slide, output, metrics, typography, show_camera=True, scale=1):
     if slide.black or layout is None:
         return
     canvas.configure(scrollregion=(0, 0, layout.width*scale, layout.height*scale))
-    if scale == 1:
+    if scale == 1 and resize_canvas:
         canvas.configure(width=layout.width, height=layout.height)
     if show_camera and layout.camera:
         c = layout.camera

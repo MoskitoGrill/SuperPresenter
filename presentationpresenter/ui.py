@@ -8,6 +8,10 @@ from .settings import load_settings, save_settings
 from .layout import paginate, Typography, LayoutError, geometry
 from .rendering import TkMetrics, draw
 from .editor import History, duplicate_section, blank_document
+from .session import ProjectionSession
+from .projection import monitors, ProjectionWindow
+from .projection_controls import ProjectionControls
+from . import anchors
 
 
 class MainWindow:
@@ -23,23 +27,43 @@ class MainWindow:
         self.pending = self.group_timer = None
         self.loading = False
         self.styles, self.thumbnails = {}, []
-        root.title('PresentationPresenter — PP3')
+        self.session = None
+        self.draft_plan = None
+        self.live_anchor = None
+        self.anchor_versions = {}
+        self.deleted_anchor_start = None
+        self.anchor_tracks = {}
+        self.exact_positions = {}
+        self.switch_slide_id = None
+        self.preview_origin_id = None
+        self.projected_thumbnail_index = None
+        self.draft_current = 0
+        self.projections = {}
+        self.monitor_choices = {}
+        self.monitor_menus = {}
+        self.monitor_inventory = []
+        self.monitor_job = None
+        root.title('PresentationPresenter — PP5')
         root.geometry(self.settings.geometry)
-        root.minsize(950, 650)
-        toolbar = tk.Frame(root)
-        toolbar.pack(fill='x', padx=8, pady=6)
+        root.minsize(950, 800)
+        header = tk.Frame(root)
+        header.pack(fill='x', padx=8, pady=6)
+        toolbar = tk.Frame(header)
+        toolbar.pack(side='left', anchor='n')
         self.button(toolbar, 'Nová prezentace', self.new_document)
         self.undo_button = self.button(toolbar, 'Zpět', self.undo)
         self.redo_button = self.button(toolbar, 'Znovu', self.redo)
+        self.apply_button = self.button(toolbar, 'Použít do projekce', self.apply_live)
         self.aspects = {}
         for label, field in (('Sál', 'hall'), ('Stream', 'stream')):
-            tk.Label(toolbar, text=label).pack(side='left', padx=(12, 3))
             var = tk.StringVar(value=getattr(self.document, field).aspect.value)
             self.aspects[field] = var
-            tk.OptionMenu(toolbar, var, *(a.value for a in Aspect), command=lambda v, f=field: self.change_aspect(f, v)).pack(side='left')
         self.black_start = tk.BooleanVar(value=True)
         self.black_end = tk.BooleanVar(value=True)
         tk.Checkbutton(toolbar, text='Černý konec', variable=self.black_end, command=lambda: self.commit(replace(self.document, black_end=self.black_end.get()))).pack(side='left')
+        self.monitor_choices = {f: tk.StringVar() for f in ('hall', 'stream')}
+        self.projection_controls = ProjectionControls(self, header)
+        self.refresh_monitors()
         body = tk.PanedWindow(root, orient='horizontal', sashwidth=7)
         body.pack(fill='both', expand=True, padx=8)
         sources = tk.Frame(body)
@@ -76,12 +100,15 @@ class MainWindow:
         self.text.pack(fill='both', expand=True)
         self.text.tag_configure('bullet', lmargin1=18, lmargin2=18, background='#353535')
         self.text.bind('<<Modified>>', self.text_changed)
+        self.text_original = self.text._w + '_original'
+        self.root.tk.call('rename', self.text._w, self.text_original)
+        self.root.tk.createcommand(self.text._w, self.text_operation)
         self.text.bind('<Return>', self.insert_newline)
         self.text.bind('<<Paste>>', self.paste_text)
         for widget in (self.text, self.title_entry):
             widget.bind('<FocusOut>', lambda e: self.end_group())
         self.break_before = tk.BooleanVar(value=True)
-        tk.Label(editor, text='Formátování: označte text. Odrážky: vyberte řádky.\nZměny jsou v paměti; ukládání přijde v PP6.', justify='left', wraplength=280).pack(side='bottom', anchor='w', pady=6)
+        tk.Label(editor, text='Změny prezentace jsou v paměti.\nUkládání přijde v PP6.', justify='left', wraplength=280).pack(side='bottom', anchor='w', pady=6)
         tk.Checkbutton(editor, text='Černý předěl před úsekem', variable=self.break_before, command=self.change_break).pack(side='bottom', anchor='w')
         text_frame.pack_forget()
         text_frame.pack(fill='both', expand=True)
@@ -94,6 +121,19 @@ class MainWindow:
         self.output = tk.StringVar(value='hall')
         for label, value in (('Náhled sálu', 'hall'), ('Náhled streamu', 'stream')):
             tk.Radiobutton(output_bar, text=label, variable=self.output, value=value, command=self.render_preview).pack(side='left')
+        version_bar = tk.Frame(preview)
+        version_bar.pack(fill='x')
+        self.view_version = tk.StringVar(value='live')
+        for label, value in (('Živá verze', 'live'), ('Rozpracovaná verze', 'draft')):
+            tk.Radiobutton(version_bar, text=label, variable=self.view_version, value=value, command=self.switch_version).pack(side='left')
+        self.version_status = tk.StringVar()
+        tk.Label(preview, textvariable=self.version_status, anchor='w', wraplength=400).pack(fill='x')
+        aspect_bar = tk.Frame(preview)
+        aspect_bar.pack(fill='x')
+        tk.Label(aspect_bar, text='Poměr návrhu:').pack(side='left')
+        for label, field in (('Sál', 'hall'), ('Stream', 'stream')):
+            tk.Label(aspect_bar, text=label).pack(side='left')
+            tk.OptionMenu(aspect_bar, self.aspects[field], *(a.value for a in Aspect), command=lambda v, f=field: self.change_aspect(f, v)).pack(side='left')
         self.preview = tk.Canvas(preview, bg='black', highlightthickness=0)
         self.preview.pack(fill='both', expand=True)
         self.preview.bind('<Configure>', lambda e: self.render_preview())
@@ -129,7 +169,256 @@ class MainWindow:
         self.rebuild()
         root.protocol('WM_DELETE_WINDOW', self.close)
         root.bind('<Delete>', self.delete_black_slide)
+        root.bind('<KeyPress-b>', self.blackout_key)
+        root.bind('<KeyPress-B>', self.blackout_key)
         root.bind('<Destroy>', self.destroyed, add='+')
+        self.projection_controls.update_summary()
+        self.projection_controls.choose()
+        if self.projection_controls.load_error:
+            self.status.set('Profily nelze načíst: '+self.projection_controls.load_error)
+
+    def refresh_monitors(self):
+        self.monitor_job = None
+        try:
+            inventory = monitors(self.root)
+            self.monitor_inventory = inventory
+            for field, choice in self.monitor_choices.items():
+                if not choice.get() and inventory:
+                    choice.set(inventory[min(0 if field == 'hall' else 1, len(inventory)-1)].id)
+            if self.projection_controls.editor:
+                self.projection_controls.editor.refresh_monitors()
+            if hasattr(self, 'status'):
+                self.projection_controls.update_summary()
+            available = {m.id: m for m in inventory}
+            for field, window in list(self.projections.items()):
+                if available.get(window.monitor.id) != window.monitor:
+                    self.stop_projection(field)
+                    self.status.set('Monitor byl odpojen nebo změnil geometrii. Výstup zastaven; vyberte monitor a spusťte jej znovu.')
+        except RuntimeError as exc:
+            if hasattr(self, 'status'):
+                self.status.set(str(exc))
+        self.monitor_job = self.root.after(1000, self.refresh_monitors)
+
+    def start_projection(self, outputs):
+        self.text_changed()
+        self.refresh_monitors_now()
+        targets = {f: next((m for m in self.monitor_inventory if m.id == self.monitor_choices[f].get()), None) for f in outputs}
+        if any(m is None for m in targets.values()):
+            self.status.set('Vybraný monitor není dostupný. Vyberte dostupný monitor.')
+            return False
+        if any(f in self.projections and (self.projections[f].monitor != m or self.projections[f].fullscreen != self.projection_controls.fullscreen[f]) for f, m in targets.items()):
+            self.status.set('Před změnou monitoru nebo režimu okna zastavte příslušný výstup.')
+            return False
+        occupied = {f: (w.monitor.id, w.fullscreen) for f, w in self.projections.items()}
+        occupied.update({f: (m.id, self.projection_controls.fullscreen[f]) for f, m in targets.items()})
+        if len(occupied) > 1 and len({m for m, full in occupied.values()}) < len(occupied) and any(full for m, full in occupied.values()):
+            self.status.set('Pro dva výstupy na stejném monitoru vypněte Celá obrazovka u obou.')
+            return False
+        if self.session is None:
+            self.rebuild()
+            if not self.plan or self.plan.source != self.document or not self.plan.slides:
+                self.status.set('Projekci nelze spustit: připravte platný dokument se snímky.')
+                return False
+            self.session = replace(ProjectionSession.confirm(self.plan), current_slide_id=self.plan.slides[self.current].id)
+            self.reset_anchor()
+        created = []
+        try:
+            for field, monitor in targets.items():
+                if field in self.projections:
+                    continue
+                self.projections[field] = ProjectionWindow(self, field, monitor, self.projection_controls.fullscreen[field])
+                created.append(field)
+        except (tk.TclError, RuntimeError) as exc:
+            for field in created:
+                self.stop_projection(field)
+            if not self.projections:
+                self.session = None
+            self.status.set('Spuštění projekce selhalo: '+str(exc))
+            return False
+        self.view_version.set('live')
+        self.plan = None
+        self.rebuild()
+        self.projection_controls.update_summary()
+        return True
+
+    def refresh_monitors_now(self):
+        if self.monitor_job:
+            self.root.after_cancel(self.monitor_job)
+        self.refresh_monitors()
+
+    def projection_destroyed(self, output, window):
+        if self.projections.get(output) is window:
+            self.projections.pop(output)
+            self.finish_projection()
+
+    def stop_projection(self, output=None):
+        for field in ([output] if output else list(self.projections)):
+            window = self.projections.pop(field, None)
+            if window:
+                window.window.destroy()
+        self.finish_projection()
+
+    def finish_projection(self):
+        if not self.projections and self.session:
+            self.session = None
+            self.live_anchor = None
+            self.anchor_versions.clear()
+            self.anchor_tracks.clear()
+            self.exact_positions.clear()
+            self.preview_origin_id = None
+            self.plan = None
+            if self.strip_inner.winfo_exists():
+                self.rebuild()
+        if self.projection_controls.frame.winfo_exists():
+            self.projection_controls.update_summary()
+
+    def blackout_key(self, event):
+        if event.widget.winfo_class() in ('Text', 'Entry', 'TEntry', 'Spinbox', 'TSpinbox', 'TCombobox'):
+            return
+        if self.session:
+            self.toggle_blackout()
+            return 'break'
+
+    def toggle_blackout(self):
+        if self.session:
+            self.session = replace(self.session, blackout=not self.session.blackout)
+            for window in self.projections.values():
+                window.render()
+            self.status.set('Projekce zatemněna (B vrátí obsah)' if self.session.blackout else 'Živá potvrzená session • editor je rozpracovaná verze')
+            self.update_version_status()
+
+    def reset_anchor(self):
+        if self.session.current_slide_id not in self.anchor_tracks or self.session.plan.source not in next(iter(self.anchor_tracks.values())):
+            self.anchor_tracks = {}
+            for slide in self.session.plan.slides:
+                original = anchors.capture(self.session.plan, slide)
+                mapped = anchors.relocate(original, self.session.plan.source, self.document)
+                self.anchor_tracks[slide.id] = {self.session.plan.source: original, self.document: mapped}
+        self.anchor_versions = self.anchor_tracks[self.session.current_slide_id]
+        self.live_anchor = self.anchor_versions[self.document]
+        self.deleted_anchor_start = None
+
+    def update_anchor(self, document):
+        if self.session:
+            for sid, versions in self.anchor_tracks.items():
+                if document in versions:
+                    continue
+                anchor = versions[self.document]
+                if sid in self.exact_positions:
+                    section = next((s for s in document.sections if s.id == anchor.section_id), None)
+                    offset = self.exact_positions[sid]
+                    for block in section.blocks:
+                        length = len(anchors.text(block))
+                        if offset <= length:
+                            anchor = anchors.Anchor(section.id, block.id, offset)
+                            break
+                        offset -= length + 1
+                    else:
+                        anchor = anchors.first(section)
+                else:
+                    anchor = anchors.relocate(anchor, self.document, document)
+                versions[document] = anchor
+            self.live_anchor = self.anchor_versions.get(document, self.live_anchor)
+        self.exact_positions.clear()
+
+    def text_operation(self, *args):
+        # Intercept the actual edit range before Tk changes it. This distinguishes
+        # identical occurrences even when their text and formatting are equal.
+        if not self.loading and self.session and args[0] in ('insert', 'delete', 'replace') and self.live_anchor:
+            self.text_changed()
+            start = self.text.index(args[1])
+            end = self.text.index(args[2] if len(args) > 2 else start+'+1c') if args[0] != 'insert' else start
+            value = self.text.get('1.0', 'end-1c')
+            a = min(len(value), len(self.text.get('1.0', start)))
+            b = min(len(value), len(self.text.get('1.0', end)))
+            inserted = args[2] if args[0] == 'insert' else (args[3] if args[0] == 'replace' else '')
+            for sid, versions in self.anchor_tracks.items():
+                tracked = versions[self.document]
+                mark = 'block:' + str(tracked.block_id)
+                if tracked.section_id != self.selected_id or not tracked.block_id or mark not in self.text.mark_names():
+                    continue
+                offset = len(self.text.get('1.0', mark)) + tracked.offset
+                mapped = anchors.edit(replace(tracked, offset=offset), value, a, b, inserted)
+                # The first content slide is the section's beginning, including
+                # newly prepended text. Later continuations keep their old text.
+                first_slide = next((s for s in self.session.plan.slides if s.section_id == tracked.section_id and not s.black), None)
+                if first_slide and first_slide.id == sid and start == end and a == 0:
+                    mapped = replace(mapped, offset=0)
+                if sid == self.session.current_slide_id:
+                    sentence_start, sentence_end = anchors.sentence(value, offset)
+                    if args[0] == 'insert' and self.deleted_anchor_start == a:
+                        mapped = replace(mapped, offset=a)
+                    if args[0] == 'delete' and a <= sentence_start and b >= sentence_end:
+                        self.deleted_anchor_start = a
+                    elif args[0] != 'insert' or self.deleted_anchor_start != a:
+                        self.deleted_anchor_start = None
+                self.exact_positions[sid] = mapped.offset
+        return self.root.tk.call(self.text_original, *args)
+
+    def viewing_live(self):
+        return self.session is not None and self.view_version.get() == 'live'
+
+    def update_version_status(self):
+        dirty = self.session and self.session.plan.source != self.document
+        self.apply_button.configure(state='normal' if dirty else 'disabled')
+        text = ('ŽIVÁ verze • navigace ovládá projekci' if self.viewing_live() else 'ROZPRACOVANÁ verze • navigace mění jen náhled')
+        if dirty:
+            text += ' • Nepoužité změny'
+        if self.session and self.session.blackout:
+            text += ' • Projekce zatemněna'
+        if self.viewing_live() and self.plan is self.session.plan and self.plan.slides and self.plan.slides[self.current].id != self.session.current_slide_id:
+            index = next((i+1 for i, s in enumerate(self.session.plan.slides) if s.id == self.session.current_slide_id), None)
+            text += f' • Promítá se snímek {index}'
+        self.version_status.set(text)
+
+    def switch_version(self):
+        self.text_changed()
+        if self.session and self.plan and ((self.plan is self.session.plan) == self.viewing_live()):
+            return
+        if self.session and self.plan and self.plan.slides:
+            slide = self.plan.slides[self.current]
+            if self.plan is self.session.plan and not self.viewing_live():
+                try:
+                    draft = paginate(self.document, self.metrics, self.typography)
+                except LayoutError as exc:
+                    self.view_version.set('live')
+                    self.status.set('Rozpracovaný náhled není dostupný: '+str(exc))
+                    return
+                self.switch_slide_id = anchors.locate(draft, self.anchor_tracks[slide.id][self.document])
+                self.preview_origin_id = slide.id
+            elif self.plan is not self.session.plan and self.viewing_live():
+                target = anchors.capture(self.plan, slide)
+                target = anchors.relocate(target, self.plan.source, self.document)
+                mapped = {sid: versions[self.document] for sid, versions in self.anchor_tracks.items()}
+                self.switch_slide_id = self.preview_origin_id or anchors.locate(self.session.plan, target, mapped, self.document)
+        self.preview_section = None
+        self.plan = None
+        self.rebuild()
+
+    def apply_live(self):
+        self.text_changed()
+        if not self.session:
+            return False
+        try:
+            plan = paginate(self.document, self.metrics, self.typography)
+            position = anchors.confirmed_position(self.session.plan, self.session.current_slide_id, plan, self.live_anchor)
+            session = ProjectionSession(plan, position, self.session.blackout)
+        except (LayoutError, ValueError) as exc:
+            self.status.set('Změny nebyly použity: '+str(exc))
+            return False
+        # One publication, no update()/event processing between output renders.
+        self.session = session
+        self.preview_origin_id = None
+        self.anchor_tracks.clear()
+        if position:
+            self.reset_anchor()
+        for window in self.projections.values():
+            window.render()
+        self.view_version.set('live')
+        self.plan = None
+        self.rebuild()
+        self.status.set('Změny použity do obou výstupů; pokračování zachováno, případně vybráno poslední zbývající.')
+        return True
 
     @staticmethod
     def button(parent, label, command):
@@ -215,7 +504,9 @@ class MainWindow:
                 else:
                     chunks.append((char, style, rid, index))
             runs = []
-            previous = marked.get(starts[number]) or mapping.get(number)
+            previous = mapping.get(number) or marked.get(starts[number])
+            if previous and any(n != number and b.id == previous.id for n, b in mapping.items()):
+                previous = None
             if previous and previous.id in used_blocks:
                 previous = None
             for value, style, rid, start in chunks:
@@ -285,6 +576,7 @@ class MainWindow:
     def commit(self, document, group=None, reload=True):
         if not self.history.apply(document, group):
             return
+        self.update_anchor(document)
         self.document = document
         if self.group_timer:
             self.root.after_cancel(self.group_timer)
@@ -296,6 +588,7 @@ class MainWindow:
             self.root.after_cancel(self.pending)
         self.pending = self.root.after(180, self.rebuild)
         self.history_buttons()
+        self.update_version_status()
 
     def history_buttons(self):
         self.undo_button.configure(state='normal' if self.history.past else 'disabled')
@@ -322,7 +615,7 @@ class MainWindow:
                 self.end_group()
                 self.selected_id = sid
                 self.load_editor()
-                if self.plan:
+                if self.plan and not self.viewing_live():
                     index = next((i for i, s in enumerate(self.plan.slides) if s.section_id == sid and not s.black), None)
                     if index is not None:
                         self.jump(index)
@@ -373,6 +666,8 @@ class MainWindow:
         self.thumbnails[self.current].focus_set()
 
     def delete_black_slide(self, event):
+        if self.viewing_live():
+            return
         if event.widget not in self.thumbnails and event.widget is not self.preview:
             return
         self.rebuild()
@@ -419,6 +714,7 @@ class MainWindow:
     def restore(self, document):
         cursor = self.text.index('insert')
         section_id = self.selected_id
+        self.update_anchor(document)
         self.document = document
         self.refresh_sections()
         self.load_editor()
@@ -480,6 +776,8 @@ class MainWindow:
         self.text.focus_set()
 
     def copy_slide(self):
+        if self.viewing_live():
+            return
         self.rebuild()
         if self.plan and self.plan.source == self.document and self.plan.slides:
             slide = self.plan.slides[self.current]
@@ -493,21 +791,40 @@ class MainWindow:
             self.root.after_cancel(self.pending)
             self.pending = None
         previous = self.plan.slides[self.current] if self.plan and self.plan.slides else None
+        previous_plan = self.plan
         try:
-            plan = paginate(self.document, self.metrics, self.typography)
+            self.draft_plan = paginate(self.document, self.metrics, self.typography)
+            plan = self.session.plan if self.viewing_live() else self.draft_plan
         except LayoutError as exc:
             self.status.set('Náhled není aktuální: '+str(exc))
             self.copy_slide_button.configure(state='disabled')
-            return
+            self.update_version_status()
+            if self.viewing_live():
+                plan = self.session.plan
+            else:
+                return
+        self.update_version_status()
         if plan == self.plan:
             return
         self.plan = plan
         self.current = next((i for i, s in enumerate(plan.slides) if previous and s.id == previous.id), min(self.current, max(0, len(plan.slides)-1)))
-        if self.preview_section:
+        if self.viewing_live():
+            self.current = next((i for i, s in enumerate(plan.slides) if s.id == self.session.current_slide_id), 0)
+        elif self.session and previous is None:
+            self.current = min(self.draft_current, max(0, len(plan.slides)-1))
+        elif previous and not self.viewing_live() and previous_plan.source != plan.source:
+            target = anchors.relocate(anchors.capture(previous_plan, previous), previous_plan.source, plan.source)
+            selected = anchors.locate(plan, target)
+            self.current = next((i for i, s in enumerate(plan.slides) if s.id == selected), self.current)
+        if self.switch_slide_id:
+            self.current = next((i for i, s in enumerate(plan.slides) if s.id == self.switch_slide_id), self.current)
+            self.switch_slide_id = None
+        if self.preview_section and not self.viewing_live():
             self.current = next((i for i, s in enumerate(plan.slides) if s.section_id == self.preview_section and not s.black), self.current)
             self.preview_section = None
         for widget in self.strip_inner.winfo_children():
             widget.destroy()
+        self.projected_thumbnail_index = None
         self.thumbnails = []
         self.labels = []
         counts = {}
@@ -515,8 +832,8 @@ class MainWindow:
             frame = tk.Frame(self.strip_inner, width=162, height=140)
             frame.pack(side='left', padx=3)
             frame.pack_propagate(False)
-            width, height, _, _ = geometry(self.document.hall)
-            canvas = tk.Canvas(frame, width=150, height=round(150*height/width), bg='black', highlightthickness=3, highlightbackground='#666666')
+            width, height, _, _ = geometry(plan.source.hall)
+            canvas = tk.Canvas(frame, width=150, height=round(150*height/width), bg='black', highlightthickness=3, highlightbackground='#666666', highlightcolor='#666666')
             canvas.pack()
             draw(canvas, slide, 'hall', self.metrics, self.typography, scale=150/width)
             if slide.black:
@@ -524,7 +841,7 @@ class MainWindow:
             else:
                 counts[slide.section_id] = counts.get(slide.section_id, 0)+1
                 number = counts[slide.section_id]
-                source = next(s for s in self.document.sections if s.id == slide.section_id)
+                source = next(s for s in plan.source.sections if s.id == slide.section_id)
                 label = ('Úsek' if number == 1 else f'↳ Pokračování {number}')+': '+(source.title or 'Bez názvu')
             self.labels.append(label)
             caption = tk.Label(frame, text=f'{i+1}. {label}', width=22, anchor='w')
@@ -532,11 +849,11 @@ class MainWindow:
             for widget in (canvas, caption):
                 widget.bind('<Button-1>', lambda e, index=i: self.thumbnail_clicked(index))
             self.thumbnails.append(canvas)
-        self.status.set('Rozpracovaná prezentace • projekce zatím není dostupná')
-        self.jump(self.current)
+        self.status.set(self.version_status.get() if self.session else 'Rozpracovaná prezentace • spuštění projekce potvrdí aktuální dokument')
+        self.jump(self.current, preserve_anchor=True)
         self.history_buttons()
 
-    def jump(self, index, select=False):
+    def jump(self, index, select=False, preserve_anchor=False):
         if not self.plan or not self.plan.slides:
             self.preview.delete('all')
             self.location.set('Žádné snímky • přidejte úsek')
@@ -544,16 +861,35 @@ class MainWindow:
             return
         previous = self.current
         self.current = max(0, min(index, len(self.plan.slides)-1))
+        if not preserve_anchor:
+            self.preview_origin_id = None
+        if self.viewing_live() and not preserve_anchor:
+            moved = self.session.current_slide_id != self.session.plan.slides[self.current].id
+            self.session = replace(self.session, current_slide_id=self.session.plan.slides[self.current].id)
+            if moved:
+                self.reset_anchor()
+            for window in self.projections.values():
+                window.render()
+        elif not self.viewing_live():
+            self.draft_current = self.current
         if previous < len(self.thumbnails):
-            self.thumbnails[previous].configure(highlightbackground='#666666')
-        self.thumbnails[self.current].configure(highlightbackground='#00bfff')
+            self.thumbnails[previous].configure(highlightbackground='#666666', highlightcolor='#666666')
+        if self.projected_thumbnail_index is not None and self.projected_thumbnail_index < len(self.thumbnails):
+            self.thumbnails[self.projected_thumbnail_index].configure(highlightbackground='#666666', highlightcolor='#666666')
+        self.thumbnails[self.current].configure(highlightbackground='#00bfff', highlightcolor='#00bfff')
+        self.projected_thumbnail_index = None
+        if self.viewing_live():
+            projected = next((i for i, s in enumerate(self.plan.slides) if s.id == self.session.current_slide_id), None)
+            if projected is not None and projected != self.current:
+                self.thumbnails[projected].configure(highlightbackground='#36b36b', highlightcolor='#36b36b')
+                self.projected_thumbnail_index = projected
         slide = self.plan.slides[self.current]
-        if select and slide.section_id and self.selected_id != slide.section_id:
+        if select and slide.section_id in {s.id for s in self.document.sections} and self.selected_id != slide.section_id:
             self.selected_id = slide.section_id
             self.end_group()
             self.refresh_sections()
             self.load_editor()
-        self.copy_slide_button.configure(state='disabled' if slide.black or self.plan.source != self.document else 'normal')
+        self.copy_slide_button.configure(state='disabled' if self.viewing_live() or slide.black or self.plan.source != self.document else 'normal')
         self.location.set(f'Snímek {self.current+1} / {len(self.plan.slides)} • '+self.labels[self.current])
         total = len(self.thumbnails)*168
         visible = max(1, self.strip.winfo_width())
@@ -561,6 +897,7 @@ class MainWindow:
         if x < left or x+168 > left+visible:
             self.strip.xview_moveto(max(0, min(x, total-visible))/max(1, total))
         self.render_preview()
+        self.update_version_status()
 
     def render_preview(self):
         if not self.plan or not self.plan.slides:
@@ -583,11 +920,16 @@ class MainWindow:
             save_settings(replace(self.settings, geometry=self.root.geometry()))
         except OSError as exc:
             messagebox.showwarning('Nastavení', f'Nastavení se nepodařilo uložit: {exc}', parent=self.root)
+        self.stop_projection()
         self.root.destroy()
 
     def destroyed(self, event):
         if event.widget is self.root:
-            for job in (self.pending, self.group_timer):
+            self.root.tk.deletecommand(self.text._w)
+            for job in (self.pending, self.group_timer, self.monitor_job):
                 if job:
                     self.root.after_cancel(job)
             self.pending = self.group_timer = None
+            self.monitor_job = None
+            self.projections.clear()
+            self.session = None
