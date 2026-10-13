@@ -4,6 +4,11 @@ from .projection import configure_dpi
 
 def main():
     configure_dpi()
-    root = tk.Tk()
+    try:
+        from tkinterdnd2 import TkinterDnD
+    except ImportError:
+        root = tk.Tk()
+    else:
+        root = TkinterDnD.Tk()
     MainWindow(root)
     root.mainloop()

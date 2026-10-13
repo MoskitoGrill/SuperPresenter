@@ -1,12 +1,14 @@
 """Draft editing commands and immutable history, independent of projection."""
 from dataclasses import replace
-from .domain import Presentation, TextSection, TextBlock, TextRun, new_id
+from .domain import Presentation, TextSection, ImageSection, ImageItem, TextBlock, TextRun, new_id
 
 
 def duplicate_section(section, slide=None):
     """Copy source or only the exact source spans of one generated slide."""
     if slide is not None and (slide.black or slide.section_id != section.id):
         raise ValueError('Vyberte obsahový snímek tohoto úseku.')
+    if isinstance(section, ImageSection):
+        return replace(section, id=new_id(), origin=None)
     blocks = []
     for block in section.blocks:
         if slide is not None and block.id not in slide.block_ids:
@@ -18,7 +20,20 @@ def duplicate_section(section, slide=None):
             if text or slide is None:
                 runs.append(replace(run, text=text, id=new_id()))
         blocks.append(replace(block, runs=tuple(runs), id=new_id()))
-    return replace(section, blocks=tuple(blocks), id=new_id(), origin=None)
+    images = section.images
+    if slide is not None and images and slide.hall is not None:
+        visible = {image.item_id for image in slide.hall.images}
+        images = tuple(i for i in images if i.id in visible)
+    return replace(section, blocks=tuple(blocks), images=tuple(replace(i, id=new_id()) for i in images), id=new_id(), origin=None)
+
+
+def editable_section(section):
+    """Legacy single-image section becomes editable mixed content without new ID."""
+    if isinstance(section, ImageSection):
+        return TextSection(section.title, (TextBlock((TextRun(''),)),), reference=section.reference,
+                           break_after=section.break_after, break_before=section.break_before,
+                           origin=section.origin, id=section.id, images=(ImageItem(section.media_id, alt_text=section.alt_text),))
+    return section
 
 
 class History:

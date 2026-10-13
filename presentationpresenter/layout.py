@@ -118,6 +118,16 @@ class OutputLayout:
     pieces: tuple[Piece, ...]
     camera: Rect | None
     exclusion: Rect | None
+    image_box: Rect | None = None
+    image_locator: str | None = None
+    images: tuple[PlacedImage, ...] = ()
+    warnings: tuple[str, ...] = ()
+
+@dataclass(frozen=True)
+class PlacedImage:
+    item_id: str
+    locator: str
+    box: Rect
 
 @dataclass(frozen=True)
 class Typography:
@@ -164,16 +174,20 @@ def _groups(chars):
     return groups
 
 
-def _flow(section, chunks, config, metrics, typography):
+def _flow(section, chunks, config, metrics, typography, image_layout=None):
     w, h, camera, exclusion = geometry(config)
     t = typography
     pieces = []
     y = t.margin
+    obstacles = ([exclusion] if exclusion else [])
+    if image_layout:
+        obstacles += [Rect(i.box.x-12, i.box.y-12, i.box.width+24, i.box.height+24) for i in image_layout.images]
     def band(y, height, indent=0):
-        left, right = t.margin, w-t.margin
-        if exclusion and y < exclusion.y+exclusion.height and y+height > exclusion.y:
-            intervals = [(left, min(right, exclusion.x)), (max(left, exclusion.x+exclusion.width), right)]
-            left, right = max(intervals, key=lambda pair: pair[1]-pair[0])
+        intervals = [(t.margin, w-t.margin)]
+        for obstacle in obstacles:
+            if y < obstacle.y+obstacle.height and y+height > obstacle.y:
+                intervals = [(a, min(b, obstacle.x)) for a, b in intervals if a < obstacle.x] + [(max(a, obstacle.x+obstacle.width), b) for a, b in intervals if b > obstacle.x+obstacle.width]
+        left, right = max(intervals, key=lambda pair: pair[1]-pair[0], default=(t.margin, t.margin))
         return left+indent, right
     heading_style = TextStyle(bold=True)
     heading = section.title + (' • '+section.reference if section.reference else '')
@@ -210,6 +224,9 @@ def _flow(section, chunks, config, metrics, typography):
             x, right = band(y, line_h, indent)
             if y+line_h > h-t.margin:
                 return None
+            if not chars and right-x < (metrics.width('•', TextStyle(), t.body) if indent else 1):
+                y += line_h
+                continue
             n = 0
             committed_width = 0
             group_text = ''
@@ -231,7 +248,7 @@ def _flow(section, chunks, config, metrics, typography):
                 n += 1
             if not n and cursor < len(chars):
                 # An obstructed band can be skipped; an oversized glyph is an explicit error.
-                if exclusion and y < exclusion.y+exclusion.height and y+line_h > exclusion.y:
+                if any(y < o.y+o.height and y+line_h > o.y for o in obstacles):
                     y += line_h
                     continue
                 raise LayoutError('Znak se nevejde do dostupné šířky')
@@ -252,7 +269,8 @@ def _flow(section, chunks, config, metrics, typography):
             first = False
             y += line_h
         y += t.paragraph_gap
-    return OutputLayout(w, h, tuple(pieces), camera, exclusion)
+    return OutputLayout(w, h, tuple(pieces), camera, exclusion,
+                        images=image_layout.images if image_layout else (), warnings=image_layout.warnings if image_layout else ())
 
 
 def paginate(source, metrics, typography=Typography()):
@@ -260,30 +278,65 @@ def paginate(source, metrics, typography=Typography()):
     slides = []
     for section in source.sections:
         if not isinstance(section, TextSection):
-            # Image rendering is PP6. Preserve the source media contract.
-            slides.append(Slide(section.id+':media', section.id, media_id=section.media_id))
+            from .media import dimensions
+            asset = next(a for a in source.media if a.id == section.media_id)
+            size = dimensions(asset.locator)
+            hall, stream = (image_layout(config, size, asset.locator) for config in (source.hall, source.stream))
+            slides.append(Slide(section.id+':media', section.id, media_id=section.media_id, hall=hall, stream=stream))
             continue
         pending = []
+        emitted = 0
+        from .composition import compose_pair
+        first_images = compose_pair(source, section, first=True) if section.images else (None, None)
+        other_images = compose_pair(source, section, first=False) if section.images else (None, None)
         def layouts(chunks):
-            return tuple(_flow(section, chunks, output, metrics, typography) for output in (source.hall, source.stream))
+            image_pair = first_images if emitted == 0 else other_images
+            if section.images and not any(run.text for b in section.blocks for run in b.runs):
+                return image_pair
+            return tuple(_flow(section, chunks, output, metrics, typography, images) for output, images in zip((source.hall, source.stream), image_pair))
         def fits(chunks):
             return all(item is not None for item in layouts(chunks))
         def emit(chunks):
+            nonlocal emitted
             hall, stream = layouts(chunks)
             spans = tuple(span for _, chars, _ in chunks for span in _ranges(chars))
             anchor = f'{spans[0].run_id}:{spans[0].start}' if spans else (chunks[0][0].id if chunks else 'empty')
             slides.append(Slide(section.id+':'+anchor, section.id, spans, hall=hall, stream=stream,
                                 block_ids=tuple(block.id for block, _, _ in chunks)))
+            emitted += 1
         for block in section.blocks:
             chars = _chars(section, block)
             continued = False
-            pending = _paginate_chunk(block, chars, continued, pending, fits, emit)
+            pending = _paginate_chunk(block, chars, continued, pending, fits, emit,
+                                      lambda: emitted == 0 and any(not i.repeat for i in section.images))
         if pending or not section.blocks:
             emit(pending)
     return with_black_breaks(source, tuple(slides))
 
 
-def _paginate_chunk(block, chars, continued, pending, fits, emit):
+def image_layout(config, size, locator):
+    """Maximize fitted image area among maximal rectangles outside exclusion."""
+    w, h, camera, exclusion = geometry(config)
+    candidates = [Rect(0, 0, w, h)]
+    if exclusion:
+        x = max(0, min(w, exclusion.x))
+        y = max(0, min(h, exclusion.y))
+        right = max(0, min(w, exclusion.x + exclusion.width))
+        bottom = max(0, min(h, exclusion.y + exclusion.height))
+        candidates = [Rect(0, 0, x, h), Rect(0, 0, w, y),
+                      Rect(right, 0, w-right, h), Rect(0, bottom, w, h-bottom)]
+    def fit(box):
+        factor = min(box.width/size[0], box.height/size[1])
+        iw, ih = size[0]*factor, size[1]*factor
+        return Rect(box.x+(box.width-iw)/2, box.y+(box.height-ih)/2, iw, ih)
+    fitted = [fit(box) for box in candidates if box.width > 0 and box.height > 0]
+    if not fitted:
+        raise LayoutError('Kamera nezanechává plochu pro obrázek')
+    box = max(fitted, key=lambda b: b.width*b.height)
+    return OutputLayout(w, h, (), camera, exclusion, box, locator)
+
+
+def _paginate_chunk(block, chars, continued, pending, fits, emit, can_advance=lambda: False):
     if pending and block.kind == BlockKind.BULLET and not fits(pending+[(block, chars, False)]) and fits([(block, chars, False)]):
         emit(pending)
         pending = []
@@ -302,6 +355,9 @@ def _paginate_chunk(block, chars, continued, pending, fits, emit):
             if pending:
                 emit(pending)
                 pending = []
+                continue
+            if can_advance():
+                emit([])
                 continue
             raise LayoutError('Obsah nemá místo pod názvem a mimo kameru')
         # Prefer a word boundary, retaining every source character.

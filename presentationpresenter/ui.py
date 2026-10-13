@@ -1,24 +1,35 @@
 """PP3 draft editor. Preview and thumbnails share the measured slide plan."""
 import tkinter as tk
-from tkinter import messagebox, colorchooser
+from tkinter import messagebox, colorchooser, filedialog
 from dataclasses import replace
 from difflib import SequenceMatcher
 from .domain import *
 from .settings import load_settings, save_settings
 from .layout import paginate, Typography, LayoutError, geometry
 from .rendering import TkMetrics, draw
-from .editor import History, duplicate_section, blank_document
+from .editor import History, duplicate_section, blank_document, editable_section
 from .session import ProjectionSession
 from .projection import monitors, ProjectionWindow
 from .projection_controls import ProjectionControls
 from . import anchors
+from . import storage, media
+from .recovery import Recovery
+from .settings import settings_path
+from pathlib import Path
+from .paths import presentation_directory
 
 
 class MainWindow:
-    def __init__(self, root, settings=None):
+    def __init__(self, root, settings=None, recovery_dir=None):
         self.root, self.settings = root, settings or load_settings()
         self.document = blank_document()
         self.history = History(self.document)
+        self.saved_document = self.document
+        self.file_path = None
+        self.autosave_job = None
+        self.recovery = Recovery(recovery_dir or settings_path().parent / 'recovery')
+        self.image_editor = None
+        self.bible_window = None
         self.metrics = TkMetrics(root, self.settings.font_family)
         self.typography = Typography()
         self.selected_id = self.document.sections[0].id
@@ -43,7 +54,7 @@ class MainWindow:
         self.monitor_menus = {}
         self.monitor_inventory = []
         self.monitor_job = None
-        root.title('PresentationPresenter — PP5')
+        root.title('PresentationPresenter — PP7')
         root.geometry(self.settings.geometry)
         root.minsize(950, 800)
         header = tk.Frame(root)
@@ -51,6 +62,13 @@ class MainWindow:
         toolbar = tk.Frame(header)
         toolbar.pack(side='left', anchor='n')
         self.button(toolbar, 'Nová prezentace', self.new_document)
+        filebar = tk.Frame(root)
+        filebar.pack(fill='x', padx=8)
+        for label, command in (('Otevřít', self.open_document), ('Uložit', self.save_document), ('Uložit jako', lambda: self.save_document(True)), ('Import JSON', self.import_document), ('+ Obrázek', self.choose_image)):
+            self.button(filebar, label, command)
+        self.button(filebar, 'Bible', self.open_bible)
+        for sequence, command in (('<Control-s>', self.save_document), ('<Control-o>', self.open_document)):
+            root.bind(sequence, lambda e, c=command: (c(), 'break')[1])
         self.undo_button = self.button(toolbar, 'Zpět', self.undo)
         self.redo_button = self.button(toolbar, 'Znovu', self.redo)
         self.apply_button = self.button(toolbar, 'Použít do projekce', self.apply_live)
@@ -90,6 +108,7 @@ class MainWindow:
         for label, field in (('Tučné', 'bold'), ('Kurzíva', 'italic'), ('Podtržení', 'underline')):
             self.button(formatting, label, lambda f=field: self.format_selection(f))
         self.button(formatting, 'Barva', self.choose_color)
+        tk.Button(editor, text='Obrázky / rozložení', command=self.edit_images, takefocus=False).pack(anchor='w')
         tk.Button(editor, text='• Odrážky / odstavce', command=self.toggle_bullets, takefocus=False).pack(anchor='w')
         text_frame = tk.Frame(editor)
         text_frame.pack(fill='both', expand=True)
@@ -108,7 +127,6 @@ class MainWindow:
         for widget in (self.text, self.title_entry):
             widget.bind('<FocusOut>', lambda e: self.end_group())
         self.break_before = tk.BooleanVar(value=True)
-        tk.Label(editor, text='Změny prezentace jsou v paměti.\nUkládání přijde v PP6.', justify='left', wraplength=280).pack(side='bottom', anchor='w', pady=6)
         tk.Checkbutton(editor, text='Černý předěl před úsekem', variable=self.break_before, command=self.change_break).pack(side='bottom', anchor='w')
         text_frame.pack_forget()
         text_frame.pack(fill='both', expand=True)
@@ -128,6 +146,8 @@ class MainWindow:
             tk.Radiobutton(version_bar, text=label, variable=self.view_version, value=value, command=self.switch_version).pack(side='left')
         self.version_status = tk.StringVar()
         tk.Label(preview, textvariable=self.version_status, anchor='w', wraplength=400).pack(fill='x')
+        self.layout_warning = tk.StringVar()
+        self.layout_warning_label = tk.Label(preview, textvariable=self.layout_warning, fg='#b02020', anchor='w', wraplength=400)
         aspect_bar = tk.Frame(preview)
         aspect_bar.pack(fill='x')
         tk.Label(aspect_bar, text='Poměr návrhu:').pack(side='left')
@@ -176,8 +196,177 @@ class MainWindow:
         self.projection_controls.choose()
         if self.projection_controls.load_error:
             self.status.set('Profily nelze načíst: '+self.projection_controls.load_error)
+        if hasattr(root, 'drop_target_register'):
+            root.drop_target_register('DND_Files')
+            root.dnd_bind('<<Drop>>', self.drop_images)
+        self.autosave_job = root.after(1000, self.offer_recovery)
+
+    def open_bible(self):
+        if self.bible_window and self.bible_window.alive():
+            self.bible_window.window.deiconify()
+            self.bible_window.window.lift()
+            self.bible_window.query_entry.focus_set()
+            return self.bible_window
+        from .bible_window import BibleWindow
+        self.bible_window = BibleWindow(self.root, insert=self.add_section)
+        return self.bible_window
+
+    def choose_image(self):
+        path = filedialog.askopenfilename(parent=self.root, filetypes=[('Obrázky', '*.png *.jpg *.jpeg *.gif *.bmp *.webp')])
+        if path:
+            self.insert_image(path)
+
+    def insert_image(self, path):
+        try:
+            asset = media.from_path(path)
+            section = editable_section(self.section())
+            sections = list(self.document.sections)
+            if section is None:
+                section = blank_document().sections[0]
+                sections.append(section)
+            section = replace(section, images=section.images+(ImageItem(asset.id),))
+            sections = [section if s.id == section.id else s for s in sections]
+            self.selected_id = section.id
+            self.preview_section = section.id
+            self.commit(replace(self.document, sections=tuple(sections), media=self.document.media+(asset,)))
+            self.rebuild()
+        except (OSError, ValueError) as exc:
+            messagebox.showerror('Obrázek', str(exc), parent=self.root)
+
+    def edit_images(self):
+        if self.image_editor and self.image_editor.window.winfo_exists():
+            self.image_editor.window.lift()
+            return
+        section = editable_section(self.section())
+        if section is None:
+            return
+        if section != self.section():
+            self.update_section(section)
+            self.load_editor()
+        from .image_editor import ImageEditor
+        self.image_editor = ImageEditor(self, section.id)
+
+    def drop_images(self, event):
+        for path in self.root.tk.splitlist(event.data):
+            self.insert_image(path)
+        return 'copy'
+
+    def save_document(self, save_as=False):
+        path = None if save_as else self.file_path
+        if not path:
+            directory = self.file_dialog_directory()
+            if directory is None:
+                return False
+            path = filedialog.asksaveasfilename(parent=self.root, initialdir=str(directory), defaultextension='.ppres', filetypes=[('PresentationPresenter', '*.ppres')])
+        if not path:
+            return False
+        if Path(path).suffix.lower() != '.ppres':
+            messagebox.showerror('Uložení', 'Použijte příponu .ppres; původní JSON nelze přepsat.', parent=self.root)
+            return False
+        try:
+            storage.save(path, self.document)
+            self.file_path = path
+            self.saved_document = self.document
+            self.status.set('Uloženo: '+str(path))
+            return True
+        except (OSError, ValueError) as exc:
+            messagebox.showerror('Uložení', str(exc), parent=self.root)
+            return False
+
+    def file_dialog_directory(self):
+        try:
+            return presentation_directory()
+        except OSError as exc:
+            messagebox.showerror('Složka prezentací', 'Složku presentation nelze připravit: '+str(exc), parent=self.root)
+            return None
+
+    def open_document(self):
+        directory = self.file_dialog_directory()
+        if directory is None:
+            return
+        path = filedialog.askopenfilename(parent=self.root, initialdir=str(directory), filetypes=[('PresentationPresenter', '*.ppres')])
+        if not path:
+            return
+        try:
+            document = storage.load(path)
+            paginate(document, self.metrics, self.typography)
+            self.commit(document)
+            self.file_path, self.saved_document = path, document
+            self.rebuild()
+            self.refresh_monitors()
+            self.status.set('Otevřena rozpracovaná verze. Místní monitory znovu ověřte před projekcí.')
+        except (OSError, ValueError) as exc:
+            messagebox.showerror('Otevření', str(exc), parent=self.root)
+
+    def import_document(self):
+        directory = self.file_dialog_directory()
+        if directory is None:
+            return
+        path = filedialog.askopenfilename(parent=self.root, initialdir=str(directory), filetypes=[('Původní prezentace', '*.json')])
+        if not path:
+            return
+        try:
+            document, warnings = storage.import_legacy(path)
+            paginate(document, self.metrics, self.typography)
+            self.commit(document)
+            self.file_path = None
+            self.rebuild()
+            messagebox.showwarning('Import JSON', '\n'.join(warnings[:30]), parent=self.root)
+        except (OSError, ValueError) as exc:
+            messagebox.showerror('Import JSON', str(exc), parent=self.root)
+
+    def offer_recovery(self):
+        if self.autosave_job:
+            self.root.after_cancel(self.autosave_job)
+        self.autosave_job = None
+        try:
+            candidates = self.recovery.candidates()
+        except OSError as exc:
+            candidates = []
+            self.status.set('Seznam obnovy nelze načíst: '+str(exc))
+        for path in candidates:
+            try:
+                document = storage.load(path)
+                paginate(document, self.metrics, self.typography)
+            except (OSError, ValueError):
+                self.status.set('Poškozená rozpracovaná verze ponechána: '+str(path))
+                continue
+            if messagebox.askyesno('Obnova', f'Obnovit rozpracovanou prezentaci {document.title}?\n{path.name}\nPůvodní recovery soubor zůstane zachován.', parent=self.root):
+                self.commit(document)
+                self.file_path = None
+                self.rebuild()
+                try:
+                    # Save the adopted version before retiring any old journal.
+                    self.recovery.write(self.document)
+                except (OSError, ValueError) as exc:
+                    self.status.set('Obnovenou verzi nelze bezpečně uložit; nabídka obnovy zůstává: '+str(exc))
+                    self.autosave_job = self.root.after(5000, self.autosave)
+                    return
+                break
+        for path in candidates:
+            try:
+                self.recovery.archive(path)
+            except (OSError, ValueError) as exc:
+                self.status.set('Starší obnovu nelze archivovat; může se nabídnout znovu: '+str(exc))
+        self.autosave_job = self.root.after(5000, self.autosave)
+
+    def autosave(self):
+        if self.autosave_job:
+            self.root.after_cancel(self.autosave_job)
+        self.autosave_job = None
+        try:
+            if self.document != self.saved_document:
+                self.recovery.write(self.document)
+            else:
+                self.recovery.clean()
+                self.recovery.last = None
+        except (OSError, ValueError) as exc:
+            self.status.set('Automatické uložení selhalo: '+str(exc))
+        self.autosave_job = self.root.after(5000, self.autosave)
 
     def refresh_monitors(self):
+        if self.monitor_job:
+            self.root.after_cancel(self.monitor_job)
         self.monitor_job = None
         try:
             inventory = monitors(self.root)
@@ -466,7 +655,11 @@ class MainWindow:
                     self.text.tag_add('bullet', start, 'end-1c')
             self.break_before.set(section.break_before)
         else:
-            self.title_entry.configure(state='disabled')
+            if isinstance(section, ImageSection):
+                self.text.insert('1.0', 'Obrázkový úsek — proporce jsou zachovány.\nMédium je vloženo do prezentace.')
+                self.break_before.set(section.break_before)
+            else:
+                self.title_entry.configure(state='disabled')
             self.text.configure(state='disabled')
         self.text.edit_modified(False)
         self.loading = False
@@ -545,7 +738,7 @@ class MainWindow:
         if self.loading or not self.text.edit_modified():
             return
         self.text.edit_modified(False)
-        if self.section():
+        if isinstance(self.section(), TextSection):
             self.update_section(replace(self.section(), blocks=self.read_blocks()), ('text', self.selected_id))
 
     def insert_newline(self, event=None):
@@ -626,6 +819,7 @@ class MainWindow:
             self.selected_id = document.sections[0].id
             self.preview_section = self.selected_id
             self.commit(document)
+            self.file_path = None
             self.title_entry.focus_set()
 
     def add_section(self, section=None):
@@ -646,7 +840,7 @@ class MainWindow:
             self.commit(replace(self.document, sections=tuple(sections)))
 
     def copy_section(self):
-        if isinstance(self.section(), TextSection):
+        if isinstance(self.section(), (TextSection, ImageSection)):
             self.add_section(duplicate_section(self.section()))
 
     def delete_section(self):
@@ -782,7 +976,7 @@ class MainWindow:
         if self.plan and self.plan.source == self.document and self.plan.slides:
             slide = self.plan.slides[self.current]
             section = next((s for s in self.document.sections if s.id == slide.section_id), None)
-            if isinstance(section, TextSection) and not slide.black:
+            if isinstance(section, (TextSection, ImageSection)) and not slide.black:
                 self.selected_id = section.id
                 self.add_section(duplicate_section(section, slide))
 
@@ -903,6 +1097,12 @@ class MainWindow:
         if not self.plan or not self.plan.slides:
             return
         output = self.output.get()
+        layout = getattr(self.plan.slides[self.current], output)
+        self.layout_warning.set('\n'.join(layout.warnings) if layout else '')
+        if self.layout_warning.get():
+            self.layout_warning_label.pack(fill='x', before=self.preview)
+        else:
+            self.layout_warning_label.pack_forget()
         width, height, _, _ = geometry(getattr(self.plan.source, output))
         scale = min(max(1, self.preview.winfo_width())/width, max(1, self.preview.winfo_height())/height)
         draw(self.preview, self.plan.slides[self.current], output, self.metrics, self.typography, scale=scale)
@@ -914,19 +1114,26 @@ class MainWindow:
         self.preview.tag_lower(background)
 
     def close(self):
-        if self.history.past and not messagebox.askyesno('Zavřít', 'Změny jsou pouze v paměti. Zavřít bez uložení?', parent=self.root):
-            return
+        if self.document != self.saved_document:
+            answer = messagebox.askyesnocancel('Zavřít', 'Uložit rozpracovanou prezentaci před zavřením?', parent=self.root)
+            if answer is None or (answer and not self.save_document()):
+                return
         try:
             save_settings(replace(self.settings, geometry=self.root.geometry()))
         except OSError as exc:
             messagebox.showwarning('Nastavení', f'Nastavení se nepodařilo uložit: {exc}', parent=self.root)
         self.stop_projection()
+        try:
+            self.recovery.clean()
+        except OSError as exc:
+            messagebox.showwarning('Obnova', 'Recovery soubor nelze odstranit: '+str(exc), parent=self.root)
         self.root.destroy()
 
     def destroyed(self, event):
         if event.widget is self.root:
+            self.recovery.release()
             self.root.tk.deletecommand(self.text._w)
-            for job in (self.pending, self.group_timer, self.monitor_job):
+            for job in (self.pending, self.group_timer, self.monitor_job, self.autosave_job):
                 if job:
                     self.root.after_cancel(job)
             self.pending = self.group_timer = None

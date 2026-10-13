@@ -1,9 +1,9 @@
-"""Versioned JSON codec only. Portable media/recovery/UI file actions: PP6."""
+"""Versioned source codec. Portable envelopes and atomic file actions: storage."""
 import json
 from dataclasses import asdict
 from .domain import (Presentation, TextSection, ImageSection, TextBlock, TextRun,
                      TextStyle, ImportOrigin, MediaAsset, OutputConfig, Aspect,
-                     BlockKind, CameraRegion, SCHEMA_VERSION)
+                     BlockKind, CameraRegion, SCHEMA_VERSION, ImageItem, ImagePlacement)
 
 def dumps(document: Presentation) -> str:
     data = asdict(document)
@@ -14,8 +14,9 @@ def dumps(document: Presentation) -> str:
 def loads(payload: str) -> Presentation:
     try:
         data = json.loads(payload)
-        if type(data['schema_version']) is not int or data['schema_version'] != SCHEMA_VERSION:
+        if type(data['schema_version']) is not int or data['schema_version'] not in (1, SCHEMA_VERSION):
             raise ValueError('Unsupported presentation schema')
+        data['schema_version'] = SCHEMA_VERSION
         def output(raw):
             raw = dict(raw)
             raw['aspect'] = Aspect(raw['aspect'])
@@ -29,6 +30,14 @@ def loads(payload: str) -> Presentation:
             if raw.get('origin') is not None:
                 raw['origin'] = ImportOrigin(**raw['origin'])
             if kind == 'text':
+                images = []
+                for item in raw.get('images', []):
+                    item = dict(item)
+                    for field in ('hall', 'stream'):
+                        if item.get(field) is not None:
+                            item[field] = ImagePlacement(**item[field])
+                    images.append(ImageItem(**item))
+                raw['images'] = tuple(images)
                 blocks = []
                 for block in raw['blocks']:
                     block = dict(block)
