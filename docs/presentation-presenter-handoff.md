@@ -396,6 +396,28 @@ Pravidla odvozená z bodů 7–8 a 11 přijatého zadání; nahrazují PP4 nutno
 - Soubory PP7: nové `presentationpresenter/bible.py`, `bible_window.py`, `presentation_bible.py`, `tests/presentationpresenter/test_pp7.py`, `visual_pp7.py`, dva QA snímky; doplněno pouze napojení/titulek v `presentationpresenter/ui.py` a tento dokument. Předexistující změny téhož UI zachovány. `git diff --check` bez chyb.
 - Předání PP8: Bible vkládá výhradně návrh; budoucí časovač/ovládání musí zachovat izolaci session a nesmí zachytávat psaní v biblickém Entry/readonly výběrech. Bible nemá projekční navigaci ani automatické přehrávání. Před PP8 zjistit požadované konkrétní klávesy a externí/globální ovládání podle zadání; dosavadní B zůstává. Distribuci a případnou opravu podkladů řešit odděleně se souhlasem uživatele, nikoli změnou sdílených dat v PP7. **PP8 nezahájena.**
 
+### Uživatelské upřesnění vzhledu PP7, 14. 10. 2026
+
+- Podle dodaného obrázku původního biblického dialogu je nyní ovládání v levém panelu a roztažitelný textový náhled vpravo. Nahoře vlevo je rychlý odkaz s Najít a nabídka knih, pod ním překlad/kniha, Kapitoly Od/Do, Verše Od/Do a stávající ovládací akce. Šedé plochy `#555555`/`#666666`, bílé Courier New a tmavá tlačítka navazují na původní vzhled; původní aplikace ani její nastavení se neimportují a neupravují. Výchozí okno 900×650, minimální 650×580. Náhled využívá celou výšku pravé strany.
+- Jde pouze o vzhled a uspořádání; služba Bible, parsování, dostupnost dat, kopírování, vkládání, historie i samostatný režim zachovány. Funkční připomínky uživatel upřesní později. PP8 nezahájena.
+- Změny: `presentationpresenter/bible_window.py`, rozměr v `tests/presentationpresenter/visual_pp7.py`, obnovené dva PP7 QA snímky, kontrola viditelnosti tlačítka vložení v existujícím `test_pp7.py` a tento dokument. Cílené PP7 **7/7 OK**, 5,2 s; skutečný snímek samostatného okna prohlédnut, ověřena viditelnost vložení i při minimální velikosti. Zachována předexistující práce i sdílené biblické podklady.
+
+### Uživatelské upřesnění funkčnosti PP7, 14. 10. 2026
+
+- Vložení Bible nyní využije právě vybraný prázdný textový úsek (prázdný název/odkaz, bez obrázků a bez neprázdného textu). Zachová jeho ID, pořadí a volbu předělu; doplní pasáž a automatický odkaz jedním undo krokem. Pokud úsek již obsahuje text, název, odkaz nebo obrázky, vytvoří nový za vybraným; bez vybraného úseku rovněž vytvoří nový. Toto upřesnění nahrazuje původní PP7 vložení vždy do nového úseku. Živá session se stále nemění až do potvrzení.
+- Výchozí překlad je **CSP**, není-li dostupný, první ověřený překlad. Čísla veršů jsou výchozí **vypnutá**, lze je nadále zapnout. Tlačítko **Zobrazit výběr** odstraněno, protože změny výběrů automaticky obnovují náhled. Vkládací tlačítko se nyní jmenuje **Vložit do prezentace**, aby odpovídalo oběma způsobům vložení. Samostatný režim je stále nenabízí.
+- Kontroly: PP7 **8/8 OK**, 7,5 s; doplněny regrese zachování ID a předělu prázdného úseku, undo/redo, nový úsek při opakovaném vložení či vlastním názvu, výchozí CSP/čísla a automatický náhled při změně výběru. Předexistující teardownová diagnostika Tk bez selhání přetrvává. Změny pouze PP7 UI/napojení, jeho testy, obnovované QA snímky a dokument. SuperPresenter a biblické podklady nezměněny, PP8 nezahájena.
+
+### Uživatelské upřesnění našeptávání PP7, 14. 10. 2026
+
+- Trvalý seznam návrhů v levém panelu nahrazen rozbalovací nabídkou přímo pod polem rychlého odkazu. Při psaní názvu/aliasu se objeví odpovídající knihy, při úplném číselném odkazu se běžné našeptávání skryje. Nejednoznačný potvrzený odkaz stále vyžaduje výběr kandidáta v téže nabídce. Nabídka nepřesouvá výběry ani náhled a zabírá nanejvýš šest řádků s posuvníkem.
+- Výběr kliknutím nebo šipkami a Enter, Escape/klik mimo nabídku/opuštění pole ji zavře. Po doplnění knihy se kurzor vrátí do pole pro pokračování odkazu. Nabídka sleduje polohu okna a při zavření/minimalizaci biblického okna nezůstává samostatně otevřená; žádné časovače ani globální vazby.
+- PP7 **9/9 OK**, 5,4 s: doplněny skutečné Tk události klávesnice/myši, poloha nabídky a neměnná poloha ovladačů, výběr a doplnění, Escape, klik mimo, explicitní nejednoznačnost a likvidace popupu při zavření. Obnoveny a prohlédnuty QA snímky. Změny pouze `bible_window.py`, PP7 test, QA snímky a dokument; sdílená data a SuperPresenter nezměněny. PP8 nezahájena.
+
+### Oprava hlavičky biblického úseku PP7, 14. 10. 2026
+
+- Samostatný odkaz bez názvu již nedostává úvodní oddělovač ` • `. Editor i layout spojují pouze neprázdné části hlavičky; Bible tedy zobrazuje např. `Jan 3:15–16 (CSP)` v poli i na snímku. Oddělovač zůstává pouze mezi skutečným názvem a odkazem. Biblická data a obsah prezentace se nepřepisují. Změny `ui.py`, `layout.py`, očekávání v existujícím PP7 testu a tento dokument; PP8 nezahájena.
+
 ## Registr známých chyb a odložených prací
 
 | ID | Popis a reprodukce | Dopad | Cílová etapa | Stav / řešení |

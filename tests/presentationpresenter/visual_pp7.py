@@ -8,7 +8,7 @@ from presentationpresenter.projection import configure_dpi
 
 configure_dpi()
 bible = BibleWindow()
-bible.window.geometry('850x700+80+80')
+bible.window.geometry('900x650+80+80')
 bible.query.set('Jan 3:36–4:2')
 bible.lookup()
 bible.window.update()

@@ -190,7 +190,7 @@ def _flow(section, chunks, config, metrics, typography, image_layout=None):
         left, right = max(intervals, key=lambda pair: pair[1]-pair[0], default=(t.margin, t.margin))
         return left+indent, right
     heading_style = TextStyle(bold=True)
-    heading = section.title + (' • '+section.reference if section.reference else '')
+    heading = ' • '.join(part for part in (section.title, section.reference) if part)
     # Heading also wraps safely around arbitrary future camera geometry.
     remaining = heading
     line_h = metrics.height(heading_style, t.heading)+4

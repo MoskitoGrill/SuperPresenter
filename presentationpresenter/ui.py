@@ -208,8 +208,22 @@ class MainWindow:
             self.bible_window.query_entry.focus_set()
             return self.bible_window
         from .bible_window import BibleWindow
-        self.bible_window = BibleWindow(self.root, insert=self.add_section)
+        self.bible_window = BibleWindow(self.root, insert=self.insert_bible_section)
         return self.bible_window
+
+    def insert_bible_section(self, section):
+        current = self.section()
+        if (isinstance(current, TextSection) and not current.images
+                and not current.title.strip() and not current.reference.strip()
+                and not any(run.text.strip() for block in current.blocks for run in block.runs)):
+            filled = replace(current, title=section.title, reference=section.reference,
+                             blocks=section.blocks)
+            self.preview_section = current.id
+            self.commit(replace(self.document, sections=tuple(
+                filled if s.id == current.id else s for s in self.document.sections)))
+            self.title_entry.focus_set()
+        else:
+            self.add_section(section)
 
     def choose_image(self):
         path = filedialog.askopenfilename(parent=self.root, filetypes=[('Obrázky', '*.png *.jpg *.jpeg *.gif *.bmp *.webp')])
@@ -632,7 +646,7 @@ class MainWindow:
         section = self.section()
         self.title_entry.configure(state='normal')
         self.text.configure(state='normal')
-        self.title.set(section.title + (' • '+section.reference if section.reference else '') if section else '')
+        self.title.set(' • '.join(part for part in (section.title, section.reference) if part) if section else '')
         for mark in self.text.mark_names():
             if mark.startswith('block:'):
                 self.text.mark_unset(mark)
