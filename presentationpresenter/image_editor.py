@@ -6,6 +6,8 @@ from .layout import paginate, LayoutError, geometry, Rect
 from .composition import compose_pair, normalize, constrain
 from .media import dimensions
 from .rendering import draw
+from .appearance import appearance, scrollbar
+from .ribbon import wrap_row
 
 
 class ImageEditor:
@@ -31,11 +33,13 @@ class ImageEditor:
         tk.Checkbutton(top, text='Propojit stream se sálem', variable=self.linked, command=self.change_link).pack(side='left', padx=12)
         tk.Button(top, text='Přepočítat stream ze sálu', command=self.recalculate).pack(side='left')
         tk.Button(top, text='Automatická mřížka', command=self.reset).pack(side='left', padx=6)
-        tk.Label(self.window, text='Přesun: táhněte obrázek. Velikost: táhněte modrý roh. Text se přepočítá po uvolnění myši.\nRuční úprava streamu vypne propojení. Změny jsou pouze v návrhu; projekci potvrdíte v hlavním okně.', anchor='w', justify='left').pack(fill='x', padx=8)
+        help_label = tk.Label(self.window, text='Přesun: táhněte obrázek. Velikost: táhněte modrý roh. Text se přepočítá po uvolnění myši.\nRuční úprava streamu vypne propojení. Změny jsou pouze v návrhu; projekci potvrdíte v hlavním okně.', anchor='w', justify='left', wraplength=1050)
+        help_label.pack(fill='x', padx=8)
+        help_label.bind('<Configure>', lambda e: help_label.configure(wraplength=max(1, e.width)))
         sidebar = tk.Frame(self.window)
         sidebar.pack(side='left', fill='y', padx=8, pady=8)
         sidebar_canvas = tk.Canvas(sidebar, width=280, highlightthickness=0)
-        sidebar_scroll = tk.Scrollbar(sidebar, command=sidebar_canvas.yview)
+        sidebar_scroll = scrollbar(sidebar, command=sidebar_canvas.yview)
         sidebar_scroll.pack(side='right', fill='y')
         sidebar_canvas.pack(side='left', fill='both', expand=True)
         sidebar_canvas.configure(yscrollcommand=sidebar_scroll.set)
@@ -48,9 +52,9 @@ class ImageEditor:
         list_frame.pack(fill='x')
         self.list = tk.Listbox(list_frame, width=24, height=4, exportselection=False)
         self.list.pack(side='left', fill='both', expand=True)
-        scrollbar = tk.Scrollbar(list_frame, command=self.list.yview)
-        scrollbar.pack(side='right', fill='y')
-        self.list.configure(yscrollcommand=scrollbar.set)
+        list_scrollbar = scrollbar(list_frame, command=self.list.yview)
+        list_scrollbar.pack(side='right', fill='y')
+        self.list.configure(yscrollcommand=list_scrollbar.set)
         self.list.bind('<<ListboxSelect>>', self.select)
         for label, command in (('+ Obrázek', self.add), ('Odstranit obrázek', self.remove)):
             tk.Button(controls, text=label, command=command).pack(fill='x', pady=3)
@@ -64,7 +68,8 @@ class ImageEditor:
             entry.bind('<Return>', lambda e: self.apply_fields())
         tk.Button(controls, text='Použít rozměry', command=self.apply_fields).pack(fill='x', pady=8)
         self.repeat = tk.BooleanVar()
-        tk.Checkbutton(controls, text='Na všech pokračováních', variable=self.repeat, command=self.change_repeat).pack(anchor='w')
+        tk.Checkbutton(controls, text='Na všech pokračováních', variable=self.repeat, command=self.change_repeat,
+                       wraplength=240, justify='left').pack(anchor='w')
         tk.Label(controls, text='Vypnuto = jen první pokračování.', justify='left', wraplength=250).pack(anchor='w')
         history = tk.Frame(controls)
         history.pack(fill='x', pady=(12, 3))
@@ -73,7 +78,8 @@ class ImageEditor:
         area = tk.Frame(self.window)
         area.pack(fill='both', expand=True, padx=8, pady=8)
         self.notice = tk.StringVar()
-        tk.Label(area, textvariable=self.notice, fg='#b02020', justify='left', wraplength=780, anchor='w').pack(fill='x')
+        notice_label = tk.Label(area, textvariable=self.notice, justify='left', wraplength=780, anchor='w')
+        notice_label.pack(fill='x')
         nav = tk.Frame(area)
         nav.pack(side='bottom', fill='x')
         tk.Button(nav, text='← Pokračování', command=lambda: self.navigate(-1)).pack(side='left')
@@ -88,6 +94,10 @@ class ImageEditor:
         self.canvas.bind('<ButtonRelease-1>', self.release)
         self.window.protocol('WM_DELETE_WINDOW', self.window.destroy)
         self.window.bind('<Destroy>', self.destroyed, add='+')
+        theme = appearance(owner.root)
+        theme.apply(self.window)
+        wrap_row(top)
+        notice_label.configure(fg=theme.error)
         self.refresh()
         self.job = self.window.after(250, self.poll)
 

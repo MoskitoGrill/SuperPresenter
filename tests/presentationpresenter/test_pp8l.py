@@ -20,6 +20,7 @@ class RibbonTests(unittest.TestCase):
         self.discovery = patch('presentationpresenter.ui.monitors', return_value=[Monitor('QA', 0, 0, 1024, 768)])
         self.discovery.start()
         self.root = tk.Tk()
+        self.default_font_before = self.root.tk.call('font', 'actual', 'TkDefaultFont')
         self.w = MainWindow(self.root, AppSettings(), recovery_dir=self.temp.name)
         self.root.after_cancel(self.w.autosave_job)
         self.w.autosave_job = None
@@ -57,6 +58,11 @@ class RibbonTests(unittest.TestCase):
         self.visible(w.section_scrollbar)
         for button in w.source_buttons:
             self.visible(button)
+        up, down = w.source_buttons[:2]
+        self.assertIs(up.master, down.master)
+        self.assertEqual(up.winfo_x(), down.winfo_x())
+        self.assertLess(up.winfo_y(), down.winfo_y())
+        self.assertIsNot(up.master, w.source_buttons[2].master)
         w.sections.yview_moveto(1)
         self.root.update()
         self.assertGreater(w.sections.yview()[0], 0)
@@ -104,6 +110,7 @@ class RibbonTests(unittest.TestCase):
 
     def test_small_window_actions_and_formatting_selection(self):
         w = self.w
+        self.assertEqual(self.root.tk.call('font', 'actual', 'TkDefaultFont'), self.default_font_before)
         heights = []
         for tab in w.ribbon.panels:
             w.ribbon.show(tab)
@@ -117,6 +124,13 @@ class RibbonTests(unittest.TestCase):
                 self.assertFalse(w.projection_controls.frame.winfo_viewable())
             self.visible(w.projection_controls.play)
             self.visible(w.apply_button)
+            groups = w.ribbon.panels[tab].winfo_children()
+            caption_bottoms = [group.command_caption.winfo_rooty()+group.command_caption.winfo_height()
+                               for group in groups]
+            self.assertEqual(len(set(caption_bottoms)), 1, (tab, caption_bottoms))
+            for group in groups[:-1]:
+                self.assertTrue(group.command_separator.winfo_ismapped())
+            self.assertFalse(groups[-1].command_separator.winfo_ismapped())
             heights.append(w.ribbon.content.winfo_height())
         self.assertEqual(len(set(heights)), 1, heights)
         w.ribbon.show('Domů')
@@ -127,7 +141,13 @@ class RibbonTests(unittest.TestCase):
         w.ribbon.buttons['Soubor'].invoke()
         w.ribbon.buttons['Domů'].invoke()
         self.root.update()
-        w.format_selection('bold')
+        def descendants(widget):
+            for child in widget.winfo_children():
+                yield child
+                yield from descendants(child)
+        bold = next(widget for widget in descendants(w.ribbon.panels['Domů'])
+                    if widget.winfo_class() == 'Button' and widget.cget('text') == 'B')
+        bold.invoke()
         self.assertTrue(w.document.sections[0].blocks[0].runs[0].style.bold)
         self.assertEqual(w.root.focus_get(), w.text)
 

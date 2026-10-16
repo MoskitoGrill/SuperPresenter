@@ -6,6 +6,8 @@ from .profiles import ProjectionPreset, OutputPreset, defaults, load_profiles
 from .domain import Aspect
 from .projection import monitor_labels
 from .monitor_editor import ProfileEditor, ProfileLoader
+from .ribbon import command_group
+from .appearance import appearance
 
 
 class ProjectionControls:
@@ -26,42 +28,48 @@ class ProjectionControls:
         if self.selected.get() not in {p.name for p in self.profiles}:
             self.selected.set(self.profiles[0].name)
         self.applied_name = self.selected.get()
-        self.frame = tk.Frame(parent)
-        self.frame.pack(fill='x')
-        row = tk.Frame(self.frame)
-        row.grid(row=0, column=0, columnspan=5, sticky='w')
-        def button(label, command):
-            b = tk.Button(row, text=label, command=command, takefocus=True)
+        self.frame = parent
+        output = command_group(parent, 'Výstup')
+        monitor = command_group(parent, 'Monitor')
+        layout = command_group(parent, 'Rozložení')
+        profiles = command_group(parent, 'Profily')
+        row = tk.Frame(output)
+        row.pack(anchor='w')
+        def button(label, command, container=row):
+            b = tk.Button(container, text=label, command=command, takefocus=True)
             b.pack(side='left', padx=1)
             return b
         self.previous = button('<', lambda: self.browse(-1))
         self.counter = tk.StringVar()
         tk.Label(row, textvariable=self.counter, width=5).pack(side='left')
         self.following = button('>', lambda: self.browse(1))
-        self.add_button = button('+', self.add_output)
-        self.load_button = button('load', self.load_profile)
-        self.edit_button = button('edit', self.open_editor)
+        self.add_button = tk.Button(output, text='+ Výstup', command=self.add_output)
+        self.add_button.pack(anchor='w', pady=(4, 0))
+        self.load_button = button('Načíst', self.load_profile, profiles)
+        self.edit_button = button('Upravit', self.open_editor, profiles)
+        for action in (self.load_button, self.edit_button):
+            action.pack_configure(side='top', fill='x', pady=1)
         self.display_value = tk.StringVar()
         self.style_value = tk.StringVar()
         self.display_ids = {}
-        tk.Label(self.frame, text='Display').grid(row=1, column=0, padx=(0, 6))
-        tk.Label(self.frame, text='Style').grid(row=1, column=2, padx=(12, 6))
-        self.display = ttk.Combobox(self.frame, state='readonly', textvariable=self.display_value, width=18)
-        self.display.grid(row=1, column=1, sticky='ew', pady=3)
+        tk.Label(monitor, text='Display').pack(anchor='w')
+        tk.Label(layout, text='Style').grid(row=0, column=0, columnspan=2, sticky='w')
+        self.display = ttk.Combobox(monitor, state='readonly', textvariable=self.display_value, width=18)
+        self.display.pack(anchor='w', pady=3)
         self.display.bind('<<ComboboxSelected>>', self.change_display)
-        self.style = ttk.Combobox(self.frame, state='readonly', textvariable=self.style_value, values=('Sál', 'Stream'), width=10)
-        self.style.grid(row=1, column=3, sticky='ew', pady=3, padx=(0, 4))
+        self.style = ttk.Combobox(layout, state='readonly', textvariable=self.style_value, values=('Sál', 'Stream'), width=10)
+        self.style.grid(row=1, column=0, sticky='ew', pady=3, padx=(0, 4))
         self.style.bind('<<ComboboxSelected>>', self.change_style)
         self.aspect_value = tk.StringVar()
-        self.aspect = ttk.Combobox(self.frame, state='readonly', textvariable=self.aspect_value,
+        self.aspect = ttk.Combobox(layout, state='readonly', textvariable=self.aspect_value,
                                    values=tuple(a.value for a in Aspect), width=6)
-        self.aspect.grid(row=1, column=4, sticky='ew', pady=3)
+        self.aspect.grid(row=1, column=1, sticky='ew', pady=3)
         self.aspect.bind('<<ComboboxSelected>>', self.change_aspect)
-        self.play = tk.Button(play_parent, text='▶', command=self.toggle_run, bg='#006400', fg='white', width=3, takefocus=True)
+        self.play = tk.Button(play_parent, text='▶', command=self.toggle_run, bg=appearance(owner.root).run, fg='white', width=3, takefocus=True)
         self.fullscreen_value = tk.BooleanVar(value=True)
-        self.fullscreen_check = tk.Checkbutton(row, text='Celá obrazovka', variable=self.fullscreen_value,
+        self.fullscreen_check = tk.Checkbutton(monitor, text='Celá obrazovka', variable=self.fullscreen_value,
                                               command=self.change_fullscreen)
-        self.fullscreen_check.pack(side='left', padx=8)
+        self.fullscreen_check.pack(anchor='w')
         # Catalog selection is exposed through load/edit; the compact panel
         # retains its Display/Style controls for the current output.
         self.choice = ttk.Combobox(row, state='readonly', textvariable=self.selected,
@@ -133,22 +141,12 @@ class ProjectionControls:
         self.update_summary()
 
     def configure_appearance(self):
-        style = ttk.Style(self.owner.root)
-        style.theme_use('clam')
-        for kind in ('TFrame', 'TLabelframe', 'TLabelframe.Label', 'TLabel', 'TCheckbutton', 'TButton', 'TMenubutton', 'TEntry', 'TCombobox'):
-            name = 'PPProjection.'+kind
-            style.configure(name, background='#444444', foreground='#ffffff',
-                            fieldbackground='#282828', insertcolor='white', padding=4)
-            style.map(name, background=[('active', '#626262')], foreground=[('disabled', '#aaaaaa')])
-        style.map('PPProjection.TCombobox', fieldbackground=[('readonly', '#282828')],
-                  selectbackground=[('readonly', '#282828')], selectforeground=[('readonly', '#ffffff')])
+        theme = appearance(self.owner.root)
+        for widget in (self.display, self.style, self.aspect, self.choice):
+            widget.configure(style='PP.TCombobox', font=theme.text)
 
     def skin(self, widget):
-        kinds = {'TFrame', 'TLabelframe', 'TLabel', 'TCheckbutton', 'TButton', 'TMenubutton', 'TEntry', 'TCombobox'}
-        if widget.winfo_class() in kinds:
-            widget.configure(style='PPProjection.'+widget.winfo_class())
-        for child in widget.winfo_children():
-            self.skin(child)
+        appearance(self.owner.root).apply(widget)
 
     def update_summary(self):
         active = [name for field, name in (('hall', 'Sál'), ('stream', 'Stream')) if self.enabled[field]]
@@ -173,7 +171,10 @@ class ProjectionControls:
             button.configure(state='disabled' if self.owner.session else 'normal')
         self.previous.configure(state='normal' if len(fields) > 1 else 'disabled')
         self.following.configure(state='normal' if len(fields) > 1 else 'disabled')
-        self.play.configure(text='■' if self.owner.session else '▶', bg='#8b2020' if self.owner.session else '#006400')
+        theme = appearance(self.owner.root)
+        self.play.configure(text='■' if self.owner.session else '▶',
+                            bg=theme.stop if self.owner.session else theme.run,
+                            activebackground=theme.run if self.owner.session else theme.stop)
 
     def snapshot(self, name=None):
         w = self.owner

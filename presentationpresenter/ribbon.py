@@ -1,8 +1,23 @@
 """PresentationPresenter's collapsible, keyboard reachable command ribbon."""
 import tkinter as tk
+from .appearance import appearance
 
 
-def wrap_row(frame, reserve_width=None):
+def command_group(parent, name):
+    """A layout group using the current native appearance, with its label below."""
+    frame = tk.Frame(parent, padx=6, pady=2)
+    frame.pack(side='left', anchor='n', padx=(0, 6))
+    content = tk.Frame(frame)
+    content.pack(fill='x', anchor='n')
+    theme = appearance(parent)
+    frame.command_caption = tk.Label(frame, text=name, font=theme.small, fg=theme.muted)
+    frame.command_caption.pack(side='bottom', pady=(5, 0))
+    frame.command_separator = tk.Frame(frame, width=1, bg='#777777')
+    frame.command_separator.ribbon_separator = True
+    return content
+
+
+def wrap_row(frame, reserve_width=None, stretch_groups=False):
     """Wrap command rows using actual requested sizes, including DPI scaling."""
     children = frame.winfo_children()
     positions = {}
@@ -11,19 +26,36 @@ def wrap_row(frame, reserve_width=None):
         child.grid_forget()
 
     def layout(width, place=False):
-        y = used = row_height = 0
+        rows = []
+        row, used, row_height = [], 0, 0
         for child in children:
             needed = child.winfo_reqwidth() + 4
             if used and used + needed > width:
-                y, used, row_height = y+row_height, 0, 0
-            if place:
-                position = (used+2, y)
-                if positions.get(child) != position:
-                    child.place(x=position[0], y=position[1])
-                    positions[child] = position
+                rows.append((row, row_height))
+                row, used, row_height = [], 0, 0
+            row.append((child, used+2))
             used += needed
             row_height = max(row_height, child.winfo_reqheight())
-        return y+row_height
+        if row:
+            rows.append((row, row_height))
+        natural_height = sum(height for _, height in rows)
+        if place:
+            extra = max(0, frame.winfo_height()-8-natural_height) if stretch_groups else 0
+            y = 0
+            for index, (row, height) in enumerate(rows):
+                height += extra // len(rows) + (index < extra % len(rows))
+                for column, (child, x) in enumerate(row):
+                    position = (x, y, height if stretch_groups else None)
+                    if positions.get(child) != position:
+                        child.place(x=x, y=y, height=position[2])
+                        positions[child] = position
+                    if stretch_groups and hasattr(child, 'command_separator'):
+                        if column < len(row)-1:
+                            child.command_separator.place(relx=1, x=-1, y=0, relheight=1)
+                        else:
+                            child.command_separator.place_forget()
+                y += height
+        return natural_height
 
     frame.wrapped_height = layout
 
@@ -42,6 +74,8 @@ class Ribbon:
     def __init__(self, parent):
         self.frame = tk.Frame(parent)
         self.frame.pack(fill='x', padx=8, pady=(4, 0))
+        self.divider = tk.Frame(self.frame, height=1, bg='#777777')
+        self.divider.pack(side='bottom', fill='x', pady=(4, 0))
         self.tabs = tk.Frame(self.frame)
         self.tabs.pack(fill='x')
         self.toggle_button = tk.Button(self.tabs, text='Sbalit lištu ▴', command=self.toggle)
@@ -57,7 +91,21 @@ class Ribbon:
 
     def reserve_height(self, sources):
         self.height_sources = sources
+        self.shade_surface(self.frame)
         self.resize()
+
+    def shade_surface(self, widget):
+        """Keep the entire ribbon surface distinct, including empty space."""
+        if widget is self.divider or getattr(widget, 'ribbon_separator', False):
+            return
+        theme = appearance(self.frame)
+        kind = widget.winfo_class()
+        if kind in ('Frame', 'Label', 'Checkbutton', 'Radiobutton'):
+            widget.configure(background=theme.ribbon)
+            if kind in ('Checkbutton', 'Radiobutton'):
+                widget.configure(activebackground=theme.ribbon, highlightbackground=theme.ribbon)
+        for child in widget.winfo_children():
+            self.shade_surface(child)
 
     def resize(self, event=None):
         width = self.content.winfo_width()
@@ -78,13 +126,16 @@ class Ribbon:
         for panel in self.panels.values():
             panel.pack_forget()
         self.current = name
-        self.panels[name].pack(fill='x')
+        self.panels[name].pack(fill='both', expand=True)
         if not self.expanded:
             self.content.pack(fill='x')
         self.expanded = True
         self.toggle_button.configure(text='Sbalit lištu ▴')
         for label, button in self.buttons.items():
-            button.configure(relief='sunken' if label == name else 'raised')
+            theme = appearance(self.frame)
+            button.configure(relief='sunken' if label == name else 'flat',
+                             background=theme.field if label == name else theme.ribbon,
+                             highlightbackground=theme.foreground if label == name else theme.ribbon)
 
     def toggle(self):
         if self.expanded:

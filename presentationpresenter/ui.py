@@ -19,7 +19,9 @@ from .recovery import Recovery
 from .settings import settings_path
 from pathlib import Path
 from .paths import presentation_directory
-from .ribbon import Ribbon, wrap_row
+from .ribbon import Ribbon, wrap_row, command_group
+from .ribbon_icons import command_icon
+from .appearance import appearance, scrollbar
 from .window_paint import repaint_workspace
 
 THUMBNAIL_WIDTH = 190
@@ -29,6 +31,7 @@ SLIDE_STRIP_HEIGHT = 190
 class MainWindow:
     def __init__(self, root, settings=None, recovery_dir=None):
         self.root, self.settings = root, settings or load_settings()
+        self.appearance = appearance(root, self.settings)
         self.document = blank_document()
         self.history = History(self.document)
         self.saved_document = self.document
@@ -82,63 +85,67 @@ class MainWindow:
         sources = self.ribbon.add('Úseky')
         auto_bar = self.ribbon.add('Auto')
         display_bar = self.ribbon.add('Zobrazení')
-        file_rows = [tk.Frame(filebar) for _ in range(2)]
+        file_commands = command_group(filebar, 'Prezentace')
+        file_rows = [tk.Frame(file_commands) for _ in range(2)]
         for row in file_rows:
             row.pack(fill='x')
-        for label, command in (('Nová prezentace', self.new_document), ('Otevřít', self.open_document), ('Uložit', self.save_document), ('Uložit jako', lambda: self.save_document(True)), ('Import JSON', self.import_document)):
-            self.button(file_rows[0], label, command)
+        for i, (label, command) in enumerate((('Nová prezentace', self.new_document), ('Otevřít', self.open_document), ('Uložit', self.save_document), ('Uložit jako', lambda: self.save_document(True)))):
+            self.button(file_rows[i//2], label, command)
+        self.button(command_group(filebar, 'Přenos'), 'Import JSON', self.import_document)
         for sequence, command in (('<Control-s>', self.save_document), ('<Control-o>', self.open_document)):
             root.bind(sequence, lambda e, c=command: (c(), 'break')[1])
-        self.undo_button = self.button(file_rows[1], 'Zpět', self.undo)
-        self.redo_button = self.button(file_rows[1], 'Znovu', self.redo)
+        history = command_group(filebar, 'Historie')
+        self.undo_button = self.button(history, 'Zpět', self.undo)
+        self.redo_button = self.button(history, 'Znovu', self.redo)
         self.aspects = {}
         for label, field in (('Sál', 'hall'), ('Stream', 'stream')):
             var = tk.StringVar(value=getattr(self.document, field).aspect.value)
             self.aspects[field] = var
         self.black_start = tk.BooleanVar(value=True)
         self.black_end = tk.BooleanVar(value=True)
-        tk.Checkbutton(file_rows[1], text='Černý konec', variable=self.black_end, command=lambda: self.commit(replace(self.document, black_end=self.black_end.get()))).pack(side='left')
+        tk.Checkbutton(command_group(filebar, 'Zakončení'), text='Černý konec', variable=self.black_end, command=lambda: self.commit(replace(self.document, black_end=self.black_end.get()))).pack(side='left')
         self.monitor_choices = {f: tk.StringVar() for f in ('hall', 'stream')}
-        tk.Label(auto_bar, text='Interval (s):').grid(row=0, column=0, padx=4)
+        timing = command_group(auto_bar, 'Časování')
+        auto_actions = command_group(auto_bar, 'Přehrávání')
+        tk.Label(timing, text='Interval (s):').grid(row=0, column=0, padx=4)
         self.auto_interval = tk.StringVar(value='5')
-        tk.Entry(auto_bar, textvariable=self.auto_interval, width=8).grid(row=0, column=1, padx=4)
+        tk.Entry(timing, textvariable=self.auto_interval, width=8).grid(row=0, column=1, padx=4)
         self.auto_repeat = tk.BooleanVar(value=False)
-        tk.Checkbutton(auto_bar, text='Opakovat', variable=self.auto_repeat).grid(row=0, column=2, padx=4)
-        tk.Button(auto_bar, text='Zapnout', command=self.start_playback).grid(row=1, column=0, padx=4)
-        self.auto_stop_button = tk.Button(auto_bar, text='Stop auto', command=self.playback.stop)
-        self.auto_stop_button.grid(row=1, column=1, padx=4)
+        tk.Checkbutton(timing, text='Opakovat', variable=self.auto_repeat).grid(row=1, column=0, columnspan=2, sticky='w', padx=4)
+        tk.Button(auto_actions, text='Zapnout', command=self.start_playback).grid(row=0, column=0, padx=4)
+        self.auto_stop_button = tk.Button(auto_actions, text='Stop auto', command=self.playback.stop)
+        self.auto_stop_button.grid(row=0, column=1, padx=4)
         self.auto_status = tk.StringVar(value='Zastaveno')
-        tk.Label(auto_bar, textvariable=self.auto_status).grid(row=1, column=2, padx=4)
+        tk.Label(auto_actions, textvariable=self.auto_status).grid(row=1, column=0, columnspan=2, sticky='w', padx=4)
         body = tk.PanedWindow(self.workspace, orient='horizontal', sashwidth=7,
                               opaqueresize=True)
         self.body = body
         body.bind('<ButtonRelease-1>', self.finish_workspace_resize)
         self.workspace.add(body, minsize=220, stretch='always')
-        source_list = tk.Frame(sources)
-        source_list.pack(side='left', fill='both', expand=True)
-        self.sections = tk.Listbox(source_list, exportselection=False, height=4, width=1)
-        self.section_scrollbar = tk.Scrollbar(source_list, command=self.sections.yview)
+        source_list = command_group(sources, 'Zdrojové úseky')
+        self.sections = tk.Listbox(source_list, exportselection=False, height=4, width=16)
+        self.section_scrollbar = scrollbar(source_list, command=self.sections.yview)
         self.sections.configure(yscrollcommand=self.section_scrollbar.set)
         self.section_scrollbar.pack(side='right', fill='y')
         self.sections.pack(fill='both', expand=True)
         self.sections.bind('<<ListboxSelect>>', self.select_section)
         self.source_buttons = []
-        source_actions = tk.Frame(sources)
-        source_actions.pack(side='right', padx=(8, 0))
-        for i, (label, command) in enumerate((('+ Úsek', self.add_section), ('↑ Nahoru', lambda: self.move_section(-1)), ('↓ Dolů', lambda: self.move_section(1)), ('Duplikovat úsek', self.copy_section), ('Smazat úsek', self.delete_section))):
-            button = tk.Button(source_actions, text=label, command=command)
-            button.grid(row=i//3, column=i%3, padx=2, pady=2, sticky='ew')
+        movement = command_group(sources, 'Přesouvání')
+        source_actions = command_group(sources, 'Úpravy úseků')
+        for parent, label, command in ((movement, '↑ Nahoru', lambda: self.move_section(-1)), (movement, '↓ Dolů', lambda: self.move_section(1)), (source_actions, '+ Úsek', self.add_section), (source_actions, 'Smazat', self.delete_section), (source_actions, 'Duplikovat', self.copy_section)):
+            button = tk.Button(parent, text=label, command=command)
+            if parent is movement:
+                button.pack(fill='x', pady=1)
+            else:
+                button.grid(row=source_actions.grid_size()[1], column=0, sticky='ew', pady=1)
             self.source_buttons.append(button)
-        self.copy_slide_button = tk.Button(source_actions, text='Snímek → nový úsek', command=self.copy_slide)
-        self.copy_slide_button.grid(row=1, column=2, padx=2, pady=2)
-        tk.Button(source_actions, text='Zatemnit / vrátit (B)', command=self.toggle_blackout).grid(row=2, column=0)
+        self.copy_slide_button = tk.Button(source_actions, text='Snímek →\nnový úsek', font=self.appearance.small, command=self.copy_slide)
+        self.copy_slide_button.grid(row=0, column=1, rowspan=3, padx=(5, 0))
+        source_projection = command_group(sources, 'Projekce a předěly')
+        tk.Button(source_projection, text='Zatemnit', command=self.toggle_blackout).pack(anchor='w', pady=1)
         self.break_before = tk.BooleanVar(value=True)
-        tk.Checkbutton(source_actions, text='Černý předěl před úsekem', variable=self.break_before,
-                       command=self.change_break).grid(row=2, column=1, columnspan=2)
-        wrap_row(source_actions)
-        action_min = max(b.winfo_reqwidth()+4 for b in source_actions.winfo_children())
-        source_actions.configure(width=action_min)
-        sources.bind('<Configure>', lambda e: source_actions.configure(width=max(action_min, int(e.width*.55))))
+        tk.Checkbutton(source_projection, text='Černý předěl\npřed úsekem', justify='left', variable=self.break_before,
+                       command=self.change_break).pack(anchor='w', pady=1)
         editor = tk.Frame(body)
         preview = tk.Frame(body)
         nav = tk.Frame(preview)
@@ -150,26 +157,33 @@ class MainWindow:
         self.title_entry.pack(fill='x', pady=(0, 8))
         self.title.trace_add('write', self.title_changed)
         tk.Label(editor, text='Obsah').pack(anchor='w')
-        formatting = tk.Frame(home)
-        formatting.pack(fill='x')
-        for label, field in (('Tučné', 'bold'), ('Kurzíva', 'italic'), ('Podtržení', 'underline')):
-            self.button(formatting, label, lambda f=field: self.format_selection(f))
-        self.button(formatting, 'Barva', self.choose_color)
-        self.button(formatting, '• Odrážky / odstavce', self.toggle_bullets)
-        insertbar = tk.Frame(home)
-        insertbar.pack(fill='x')
+        formatting = command_group(home, 'Písmo')
+        self.format_fonts = []
+        for label, field in (('B', 'bold'), ('I', 'italic'), ('U', 'underline')):
+            button = self.button(formatting, label, lambda f=field: self.format_selection(f))
+            font = self.appearance.text.copy()
+            font.configure(**{'bold': {'weight': 'bold'}, 'italic': {'slant': 'italic'}, 'underline': {'underline': True}}[field])
+            self.format_fonts.append(font)
+            button.configure(font=font, width=2)
+        color_button = self.button(formatting, 'Barva', self.choose_color)
+        color_button.icon = command_icon(root, 'bucket', self.appearance.foreground)
+        color_button.configure(image=color_button.icon, width=color_button.icon.width()+8, height=color_button.icon.height()+4)
+        bullets = self.button(command_group(home, 'Odstavce'), 'Odrážky / odstavce', self.toggle_bullets)
+        bullets.icon = command_icon(root, 'bullets', self.appearance.foreground)
+        bullets.configure(image=bullets.icon, width=bullets.icon.width()+8, height=bullets.icon.height()+4)
+        insertbar = command_group(home, 'Vložit')
         self.button(insertbar, 'Bible', self.open_bible)
         self.button(insertbar, 'Obrázek', self.choose_image)
-        self.button(insertbar, 'Rozložení obrázků', self.edit_images)
+        self.button(command_group(home, 'Obrázky'), 'Rozložení obrázků', self.edit_images)
         self.ribbon.show('Domů')
         text_frame = tk.Frame(editor)
         text_frame.pack(fill='both', expand=True)
-        self.text = tk.Text(text_frame, wrap='word', undo=False, exportselection=False, bg='#282828', fg='white', insertbackground='white', font=(self.settings.font_family, 12), padx=8, pady=8)
-        scrollbar = tk.Scrollbar(text_frame, command=self.text.yview)
-        self.text.configure(yscrollcommand=scrollbar.set)
-        scrollbar.pack(side='right', fill='y')
+        self.text = tk.Text(text_frame, wrap='word', undo=False, exportselection=False, font=(self.settings.font_family, 12), padx=8, pady=8)
+        text_scrollbar = scrollbar(text_frame, command=self.text.yview)
+        self.text.configure(yscrollcommand=text_scrollbar.set)
+        text_scrollbar.pack(side='right', fill='y')
         self.text.pack(fill='both', expand=True)
-        self.text.tag_configure('bullet', lmargin1=18, lmargin2=18, background='#353535')
+        self.text.tag_configure('bullet', lmargin1=18, lmargin2=18, background='#505050')
         self.text.bind('<<Modified>>', self.text_changed)
         self.text_original = self.text._w + '_original'
         self.root.tk.call('rename', self.text._w, self.text_original)
@@ -193,14 +207,14 @@ class MainWindow:
         apply_row.pack(side='bottom', fill='x', pady=(4, 0))
         self.apply_button = self.button(apply_row, 'Použít do projekce', self.apply_live)
         self.unapplied_changes = tk.StringVar()
-        self.unapplied_label = tk.Label(apply_row, textvariable=self.unapplied_changes, anchor='w', fg='#805000')
+        self.unapplied_label = tk.Label(apply_row, textvariable=self.unapplied_changes, anchor='w', fg=self.appearance.warning, font=self.appearance.small)
         self.unapplied_label.pack(side='left', padx=6)
         self.arrange_apply_row = wrap_row(apply_row)
         text_frame.pack_forget()
         text_frame.pack(fill='both', expand=True)
         self.version_status = tk.StringVar()
         self.layout_warning = tk.StringVar()
-        self.layout_warning_label = tk.Label(preview, textvariable=self.layout_warning, fg='#b02020', anchor='w', wraplength=400)
+        self.layout_warning_label = tk.Label(preview, textvariable=self.layout_warning, fg=self.appearance.error, anchor='w', wraplength=400)
         self.preview = tk.Canvas(preview, bg='black', highlightthickness=0)
         self.preview.pack(fill='both', expand=True)
         self.preview.bind('<Configure>', self.queue_workspace_resize)
@@ -214,27 +228,25 @@ class MainWindow:
         tk.Label(nav, textvariable=self.location).pack(side='left', padx=4)
         self.next_slide_button = self.button(nav, '>', lambda: self.jump(self.current+1))
         self.next_section_button = self.button(nav, '>>', lambda: self.navigate_presenter('next_section'))
-        for row in (*file_rows, formatting, insertbar, output_bar):
-            wrap_row(row)
+        wrap_row(output_bar)
         # Reserve the same navigation height at every pane width, so wrapping
         # cannot feed back into the 16:9 width calculation indefinitely.
         wrap_row(nav, reserve_width=300)
+        for panel in self.ribbon.panels.values():
+            wrap_row(panel, stretch_groups=True)
         self.ribbon.reserve_height([
-            lambda width: sum(row.wrapped_height(max(1, width-8)) for row in file_rows)+8,
-            lambda width: formatting.wrapped_height(max(1, width-8))+insertbar.wrapped_height(max(1, width-8))+8,
-            lambda width: max(source_list.winfo_reqheight(), source_actions.wrapped_height(max(action_min, int((width-8)*.55))))+8,
-            lambda width: auto_bar.winfo_reqheight(),
-            lambda width: display_bar.winfo_reqheight(),
+            lambda width, panel=panel: panel.wrapped_height(max(1, width-8))+8
+            for panel in self.ribbon.panels.values()
         ])
         self.preview.pack_forget()
         self.preview.pack(fill='both', expand=True)
         self.status = tk.StringVar()
-        tk.Label(root, textvariable=self.status, anchor='w', fg='#802020').pack(side='bottom', fill='x', padx=8)
+        tk.Label(root, textvariable=self.status, anchor='w', fg=self.appearance.muted, font=self.appearance.small).pack(side='bottom', fill='x', padx=8)
         strip_frame = tk.Frame(self.bottom_bar)
         self.strip_frame = strip_frame
         strip_frame.pack(side='left', fill='both', expand=True)
         self.strip = tk.Canvas(strip_frame, height=SLIDE_STRIP_HEIGHT, highlightthickness=0)
-        horizontal = tk.Scrollbar(strip_frame, orient='horizontal', command=self.strip.xview)
+        horizontal = scrollbar(strip_frame, orient='horizontal', command=self.strip.xview)
         self.strip.configure(xscrollcommand=horizontal.set, xscrollincrement=30)
         horizontal.pack(side='bottom', fill='x')
         self.strip.pack(fill='both', expand=True)
@@ -797,7 +809,9 @@ class MainWindow:
         draft = self.view_version.get() == 'draft'
         self.draft_button.configure(state='normal' if self.session else 'disabled',
                                     relief='sunken' if draft else 'raised',
-                                    background='#c7dff0' if draft else self.draft_button_background)
+                                    background=self.appearance.hover if draft else self.draft_button_background,
+                                    highlightbackground=self.appearance.foreground if draft else self.draft_button_background,
+                                    disabledforeground=self.appearance.foreground if draft else self.appearance.disabled)
         dirty = self.session and self.session.plan.source != self.document
         self.apply_button.configure(state='normal' if dirty else 'disabled')
         self.unapplied_changes.set('Nepoužité změny' if dirty else '')
@@ -1293,7 +1307,7 @@ class MainWindow:
                 source = next(s for s in plan.source.sections if s.id == slide.section_id)
                 label = ' • '.join(part for part in (source.title, source.reference) if part) or 'Bez názvu'
             self.labels.append(label)
-            caption = tk.Label(frame, text=f'{i+1}. {label}', anchor='w')
+            caption = tk.Label(frame, text=f'{i+1}. {label}', anchor='w', font=self.appearance.small)
             caption.pack(fill='x')
             for widget in (canvas, caption):
                 widget.bind('<Button-1>', lambda e, index=i: self.thumbnail_clicked(index))

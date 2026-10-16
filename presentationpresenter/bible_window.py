@@ -3,11 +3,13 @@ import re
 import tkinter as tk
 from tkinter import ttk, messagebox
 from .bible import BibleService, BibleError, AmbiguousBook
+from .appearance import appearance, scrollbar
 
 
 class BibleWindow:
     def __init__(self, parent=None, service=None, insert=None):
         self.window = tk.Toplevel(parent) if parent is not None else tk.Tk()
+        self.appearance = appearance(self.window)
         self.service = service or BibleService()
         self.insert_callback = insert
         self.passage = None
@@ -24,9 +26,6 @@ class BibleWindow:
         bg, fg = '#555555', '#ffffff'
         font = ('Courier New', 12)
         self.window.configure(bg=bg)
-        # Named styles affect only these selectors, never the editor's ttk theme.
-        style = ttk.Style(self.window)
-        style.configure('Bible.TCombobox', font=('Courier New', 11))
         frame = tk.Frame(self.window, bg=bg)
         frame.pack(fill='both', expand=True, padx=12, pady=12)
         frame.columnconfigure(0, minsize=310)
@@ -48,7 +47,7 @@ class BibleWindow:
                              font=('Courier New', 11, 'bold'), padx=6, pady=2, **kwargs)
 
         tk.Label(self.controls, text='Odkaz (např. Jan 3:16–18)', bg=bg, fg=fg,
-                 font=('Courier New', 10)).pack(anchor='w')
+                 font=('Courier New', 10), wraplength=290, justify='left').pack(anchor='w')
         quick = tk.Frame(self.controls, bg=bg)
         quick.pack(fill='x', pady=(4, 0))
         self.query_entry = tk.Entry(quick, textvariable=self.query, font=('Courier New', 11), width=20)
@@ -68,7 +67,7 @@ class BibleWindow:
                                       selectbackground='#0078d7', selectforeground='white',
                                       relief='solid', borderwidth=1, highlightthickness=0,
                                       takefocus=False)
-        suggestion_scroll = ttk.Scrollbar(self.suggestion_popup, command=self.suggestions.yview)
+        suggestion_scroll = scrollbar(self.suggestion_popup, command=self.suggestions.yview)
         self.suggestions.configure(yscrollcommand=suggestion_scroll.set)
         suggestion_scroll.pack(side='right', fill='y')
         self.suggestions.pack(fill='both', expand=True)
@@ -81,11 +80,11 @@ class BibleWindow:
         self.query.trace_add('write', self.query_changed)
         self.translation_box = ttk.Combobox(self.controls, textvariable=self.translation, state='readonly',
                                           values=tuple(self.service.translations), width=26,
-                                          style='Bible.TCombobox', font=('Courier New', 11))
+                                          style='PP.TCombobox', font=self.appearance.text)
         self.translation_box.pack(fill='x', pady=(6, 8))
         self.translation_box.bind('<<ComboboxSelected>>', self.change_translation)
         self.book_box = ttk.Combobox(self.controls, textvariable=self.book, state='readonly', width=26,
-                                     style='Bible.TCombobox', font=('Courier New', 11))
+                                     style='PP.TCombobox', font=self.appearance.text)
         self.book_box.pack(fill='x', pady=(0, 8))
         self.book_box.bind('<<ComboboxSelected>>', self.change_book)
         pick = tk.Frame(self.controls, bg=bg)
@@ -99,7 +98,7 @@ class BibleWindow:
                 label(pick, caption).grid(row=row+1, column=column, sticky='w')
                 var = tk.StringVar(self.window)
                 box = ttk.Combobox(pick, textvariable=var, state='readonly', width=5,
-                                   style='Bible.TCombobox', font=('Courier New', 11))
+                                   style='PP.TCombobox', font=self.appearance.text)
                 box.grid(row=row+1, column=column+1, sticky='ew', padx=(4, 10))
                 self.selectors[prefix+'_'+field] = (var, box)
                 box.bind('<<ComboboxSelected>>', lambda e, p=prefix, f=field: self.selector_changed(p, f))
@@ -118,7 +117,7 @@ class BibleWindow:
         self.preview = tk.Text(self.preview_frame, width=1, height=6, wrap='word', state='disabled',
                                font=font, bg='#666666', fg=fg, relief='sunken', borderwidth=1,
                                highlightthickness=0, padx=12, pady=12)
-        scroll = tk.Scrollbar(self.preview_frame, command=self.preview.yview)
+        scroll = scrollbar(self.preview_frame, command=self.preview.yview)
         self.preview.configure(yscrollcommand=scroll.set)
         scroll.pack(side='right', fill='y')
         self.preview.pack(fill='both', expand=True)
@@ -130,6 +129,8 @@ class BibleWindow:
                      bg=bg, fg='#ffe2ad', font=('Courier New', 8)).pack(anchor='w')
             button(notice, 'Podrobnosti', lambda: messagebox.showinfo(
                 'Dostupnost biblických dat', diagnostics, parent=self.window)).pack(anchor='w')
+        self.appearance.apply(self.window)
+        self.appearance.apply(self.suggestion_popup)
         codes = tuple(self.service.translations)
         self.translation.set('CSP' if 'CSP' in codes else codes[0] if codes else '')
         self.change_translation()
