@@ -2,26 +2,40 @@
 import tkinter as tk
 
 
-def wrap_row(frame):
+def wrap_row(frame, reserve_width=None):
     """Wrap command rows using actual requested sizes, including DPI scaling."""
     children = frame.winfo_children()
+    positions = {}
     for child in children:
         child.pack_forget()
         child.grid_forget()
 
-    def arrange(event=None):
-        width = max(1, frame.winfo_width())
+    def layout(width, place=False):
         y = used = row_height = 0
         for child in children:
             needed = child.winfo_reqwidth() + 4
             if used and used + needed > width:
                 y, used, row_height = y+row_height, 0, 0
-            child.place(x=used+2, y=y)
+            if place:
+                position = (used+2, y)
+                if positions.get(child) != position:
+                    child.place(x=position[0], y=position[1])
+                    positions[child] = position
             used += needed
             row_height = max(row_height, child.winfo_reqheight())
-        frame.configure(height=y+row_height)
+        return y+row_height
+
+    frame.wrapped_height = layout
+
+    def arrange(event=None):
+        height = layout(max(1, frame.winfo_width()), place=True)
+        if reserve_width is not None:
+            height = max(height, layout(reserve_width))
+        if frame.winfo_reqheight() != height:
+            frame.configure(height=height)
     frame.bind('<Configure>', arrange)
     arrange()
+    return arrange
 
 
 class Ribbon:
@@ -37,6 +51,20 @@ class Ribbon:
         self.panels, self.buttons = {}, {}
         self.current = None
         self.expanded = True
+        self.height_sources = []
+        self.content.pack_propagate(False)
+        self.content.bind('<Configure>', self.resize)
+
+    def reserve_height(self, sources):
+        self.height_sources = sources
+        self.resize()
+
+    def resize(self, event=None):
+        width = self.content.winfo_width()
+        if width > 1 and self.height_sources:
+            height = max(measure(width) for measure in self.height_sources)
+            if self.content.winfo_reqheight() != height:
+                self.content.configure(height=height)
 
     def add(self, name):
         panel = tk.Frame(self.content, padx=4, pady=4)

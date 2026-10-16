@@ -9,7 +9,7 @@ from .monitor_editor import ProfileEditor, ProfileLoader
 
 
 class ProjectionControls:
-    def __init__(self, owner, parent):
+    def __init__(self, owner, parent, play_parent):
         self.owner = owner
         self.editor = None
         self.enabled = {'hall': True, 'stream': False}
@@ -26,19 +26,17 @@ class ProjectionControls:
         if self.selected.get() not in {p.name for p in self.profiles}:
             self.selected.set(self.profiles[0].name)
         self.applied_name = self.selected.get()
-        self.frame = tk.Frame(parent, bg='#555555', bd=1, relief='solid', padx=8, pady=6)
-        self.frame.pack(side='right', anchor='n', padx=8, pady=(0, 6))
-        row = tk.Frame(self.frame, bg='#555555')
-        row.grid(row=0, column=0, columnspan=3, sticky='ew')
+        self.frame = tk.Frame(parent)
+        self.frame.pack(fill='x')
+        row = tk.Frame(self.frame)
+        row.grid(row=0, column=0, columnspan=5, sticky='w')
         def button(label, command):
-            b = tk.Button(row, text=label, command=command, bg='#444444', fg='white',
-                          activebackground='#666666', activeforeground='white',
-                          relief='flat', font=('Courier New', 11, 'bold'), takefocus=True)
+            b = tk.Button(row, text=label, command=command, takefocus=True)
             b.pack(side='left', padx=1)
             return b
         self.previous = button('<', lambda: self.browse(-1))
         self.counter = tk.StringVar()
-        tk.Label(row, textvariable=self.counter, bg='#555555', fg='white', width=5, font=('Courier New', 11)).pack(side='left')
+        tk.Label(row, textvariable=self.counter, width=5).pack(side='left')
         self.following = button('>', lambda: self.browse(1))
         self.add_button = button('+', self.add_output)
         self.load_button = button('load', self.load_profile)
@@ -46,26 +44,24 @@ class ProjectionControls:
         self.display_value = tk.StringVar()
         self.style_value = tk.StringVar()
         self.display_ids = {}
-        for r, label in ((1, 'Display'), (2, 'Style')):
-            tk.Label(self.frame, text=label, bg='#555555', fg='white', font=('Courier New', 11)).grid(row=r, column=0, sticky='e', padx=(0, 10), pady=3)
-        self.frame.columnconfigure(1, weight=1)
+        tk.Label(self.frame, text='Display').grid(row=1, column=0, padx=(0, 6))
+        tk.Label(self.frame, text='Style').grid(row=1, column=2, padx=(12, 6))
         self.display = ttk.Combobox(self.frame, state='readonly', textvariable=self.display_value, width=18)
-        self.display.grid(row=1, column=1, columnspan=2, sticky='ew', pady=3)
+        self.display.grid(row=1, column=1, sticky='ew', pady=3)
         self.display.bind('<<ComboboxSelected>>', self.change_display)
         self.style = ttk.Combobox(self.frame, state='readonly', textvariable=self.style_value, values=('Sál', 'Stream'), width=10)
-        self.style.grid(row=2, column=1, sticky='ew', pady=3, padx=(0, 4))
+        self.style.grid(row=1, column=3, sticky='ew', pady=3, padx=(0, 4))
         self.style.bind('<<ComboboxSelected>>', self.change_style)
         self.aspect_value = tk.StringVar()
         self.aspect = ttk.Combobox(self.frame, state='readonly', textvariable=self.aspect_value,
                                    values=tuple(a.value for a in Aspect), width=6)
-        self.aspect.grid(row=2, column=2, sticky='ew', pady=3)
+        self.aspect.grid(row=1, column=4, sticky='ew', pady=3)
         self.aspect.bind('<<ComboboxSelected>>', self.change_aspect)
-        self.play = tk.Button(self.frame, text='▶', command=self.toggle_run, bg='#006400', fg='white', relief='flat', width=8, takefocus=True)
-        self.play.grid(row=3, column=0, columnspan=2, sticky='w', pady=(5, 0))
+        self.play = tk.Button(play_parent, text='▶', command=self.toggle_run, bg='#006400', fg='white', width=3, takefocus=True)
         self.fullscreen_value = tk.BooleanVar(value=True)
-        self.fullscreen_check = tk.Checkbutton(self.frame, text='Celá obrazovka', variable=self.fullscreen_value,
-                                              command=self.change_fullscreen, bg='#555555', fg='white', selectcolor='#444444', activebackground='#555555', activeforeground='white')
-        self.fullscreen_check.grid(row=3, column=2, sticky='e')
+        self.fullscreen_check = tk.Checkbutton(row, text='Celá obrazovka', variable=self.fullscreen_value,
+                                              command=self.change_fullscreen)
+        self.fullscreen_check.pack(side='left', padx=8)
         # Catalog selection is exposed through load/edit; the compact panel
         # retains its Display/Style controls for the current output.
         self.choice = ttk.Combobox(row, state='readonly', textvariable=self.selected,
@@ -146,7 +142,6 @@ class ProjectionControls:
             style.map(name, background=[('active', '#626262')], foreground=[('disabled', '#aaaaaa')])
         style.map('PPProjection.TCombobox', fieldbackground=[('readonly', '#282828')],
                   selectbackground=[('readonly', '#282828')], selectforeground=[('readonly', '#ffffff')])
-        self.skin(self.frame)
 
     def skin(self, widget):
         kinds = {'TFrame', 'TLabelframe', 'TLabel', 'TCheckbutton', 'TButton', 'TMenubutton', 'TEntry', 'TCombobox'}

@@ -259,6 +259,7 @@ class BibleWindowTests(unittest.TestCase):
         bible.lookup()
         bible.insert()
         first = editor.section()
+        self.assertEqual(editor.sections.get(0), f'1. {first.reference}')
         bible.insert()
         self.assertEqual(len(editor.document.sections), 2)
         self.assertEqual(editor.document.sections[0], first)

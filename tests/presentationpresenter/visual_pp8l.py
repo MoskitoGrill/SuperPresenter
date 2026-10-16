@@ -42,6 +42,8 @@ with tempfile.TemporaryDirectory() as recovery:
     capture('pp8l-home.png', 1280, 900, 'Domů')
     capture('pp8l-small.png', 1024, 768, 'Domů')
     capture('pp8l-collapsed.png', 1100, 720, 'Domů', True)
+    capture('pp8l-display.png', 1280, 900, 'Zobrazení')
+    capture('pp8l-display-small.png', 1024, 768, 'Zobrazení')
     # Long list without producing many expensive intermediate layouts.
     from dataclasses import replace
     sections = tuple(TextSection(title=f'Úsek {i+1}', blocks=(TextBlock(runs=(TextRun(f'Obsah {i+1}'),)),)) for i in range(30))

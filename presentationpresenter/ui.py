@@ -20,6 +20,10 @@ from .settings import settings_path
 from pathlib import Path
 from .paths import presentation_directory
 from .ribbon import Ribbon, wrap_row
+from .window_paint import repaint_workspace
+
+THUMBNAIL_WIDTH = 190
+SLIDE_STRIP_HEIGHT = 190
 
 
 class MainWindow:
@@ -30,6 +34,8 @@ class MainWindow:
         self.saved_document = self.document
         self.file_path = None
         self.autosave_job = None
+        self.resize_job = None
+        self.resizing_workspace = False
         self.recovery = Recovery(recovery_dir or settings_path().parent / 'recovery')
         self.image_editor = None
         self.bible_window = None
@@ -41,6 +47,8 @@ class MainWindow:
         self.pending = self.group_timer = None
         self.loading = False
         self.styles, self.thumbnails = {}, []
+        self.thumbnail_width = THUMBNAIL_WIDTH
+        self.strip_wheel_delta = 0
         self.session = None
         self.playback = Playback(root, lambda: self.session, self.playback_advance, self.playback_status)
         self.draft_plan = None
@@ -63,12 +71,17 @@ class MainWindow:
         root.minsize(900, 600)
         chrome = tk.Frame(root)
         chrome.pack(fill='x')
+        self.workspace = tk.PanedWindow(root, orient='vertical', sashwidth=7, showhandle=True,
+                                       opaqueresize=True)
+        self.workspace.bind('<ButtonRelease-1>', self.finish_workspace_resize)
+        self.bottom_bar = tk.Frame(self.workspace)
         self.ribbon = Ribbon(chrome)
         self.ribbon.frame.pack_configure(side='left', fill='both', expand=True)
         filebar = self.ribbon.add('Soubor')
         home = self.ribbon.add('Domů')
         sources = self.ribbon.add('Úseky')
         auto_bar = self.ribbon.add('Auto')
+        display_bar = self.ribbon.add('Zobrazení')
         file_rows = [tk.Frame(filebar) for _ in range(2)]
         for row in file_rows:
             row.pack(fill='x')
@@ -92,11 +105,15 @@ class MainWindow:
         self.auto_repeat = tk.BooleanVar(value=False)
         tk.Checkbutton(auto_bar, text='Opakovat', variable=self.auto_repeat).grid(row=0, column=2, padx=4)
         tk.Button(auto_bar, text='Zapnout', command=self.start_playback).grid(row=1, column=0, padx=4)
-        tk.Button(auto_bar, text='Vypnout', command=self.playback.stop).grid(row=1, column=1, padx=4)
+        self.auto_stop_button = tk.Button(auto_bar, text='Stop auto', command=self.playback.stop)
+        self.auto_stop_button.grid(row=1, column=1, padx=4)
         self.auto_status = tk.StringVar(value='Zastaveno')
         tk.Label(auto_bar, textvariable=self.auto_status).grid(row=1, column=2, padx=4)
-        body = tk.PanedWindow(root, orient='horizontal', sashwidth=7)
-        body.pack(fill='both', expand=True, padx=8)
+        body = tk.PanedWindow(self.workspace, orient='horizontal', sashwidth=7,
+                              opaqueresize=True)
+        self.body = body
+        body.bind('<ButtonRelease-1>', self.finish_workspace_resize)
+        self.workspace.add(body, minsize=220, stretch='always')
         source_list = tk.Frame(sources)
         source_list.pack(side='left', fill='both', expand=True)
         self.sections = tk.Listbox(source_list, exportselection=False, height=4, width=1)
@@ -114,20 +131,25 @@ class MainWindow:
             self.source_buttons.append(button)
         self.copy_slide_button = tk.Button(source_actions, text='Snímek → nový úsek', command=self.copy_slide)
         self.copy_slide_button.grid(row=1, column=2, padx=2, pady=2)
+        tk.Button(source_actions, text='Zatemnit / vrátit (B)', command=self.toggle_blackout).grid(row=2, column=0)
+        self.break_before = tk.BooleanVar(value=True)
+        tk.Checkbutton(source_actions, text='Černý předěl před úsekem', variable=self.break_before,
+                       command=self.change_break).grid(row=2, column=1, columnspan=2)
         wrap_row(source_actions)
         action_min = max(b.winfo_reqwidth()+4 for b in source_actions.winfo_children())
         source_actions.configure(width=action_min)
         sources.bind('<Configure>', lambda e: source_actions.configure(width=max(action_min, int(e.width*.55))))
         editor = tk.Frame(body)
-        self.projection_controls = ProjectionControls(self, chrome)
-        self.projection_controls.frame.pack_configure(side='right', padx=8)
+        preview = tk.Frame(body)
+        nav = tk.Frame(preview)
+        self.projection_controls = ProjectionControls(self, display_bar, play_parent=nav)
         self.refresh_monitors()
         tk.Label(editor, text='Název / odkaz').pack(anchor='w')
         self.title = tk.StringVar()
         self.title_entry = tk.Entry(editor, textvariable=self.title)
         self.title_entry.pack(fill='x', pady=(0, 8))
         self.title.trace_add('write', self.title_changed)
-        tk.Label(editor, text='Obsah • Enter = odstavec').pack(anchor='w')
+        tk.Label(editor, text='Obsah').pack(anchor='w')
         formatting = tk.Frame(home)
         formatting.pack(fill='x')
         for label, field in (('Tučné', 'bold'), ('Kurzíva', 'italic'), ('Podtržení', 'underline')):
@@ -156,64 +178,77 @@ class MainWindow:
         self.text.bind('<<Paste>>', self.paste_text)
         for widget in (self.text, self.title_entry):
             widget.bind('<FocusOut>', lambda e: self.end_group())
-        self.break_before = tk.BooleanVar(value=True)
-        tk.Checkbutton(editor, text='Černý předěl před úsekem', variable=self.break_before, command=self.change_break).pack(side='bottom', anchor='w')
-        text_frame.pack_forget()
-        text_frame.pack(fill='both', expand=True)
-        preview = tk.Frame(body)
-        body.add(preview, width=650, minsize=300, stretch='always')
-        panel_width = max(380, self.projection_controls.frame.winfo_reqwidth()+4)
-        body.add(editor, width=panel_width, minsize=panel_width, stretch='never')
+        body.add(preview, width=650, minsize=300, stretch='never')
+        panel_width = 380
+        body.add(editor, width=panel_width, minsize=panel_width, stretch='always')
         root.minsize(max(900, panel_width+340), 600)
         output_bar = tk.Frame(preview)
         output_bar.pack(fill='x')
         self.output = tk.StringVar(value='hall')
         self.view_version = tk.StringVar(value='live')
-        self.draft_checkbox = tk.Checkbutton(output_bar, text='Rozpracovaná verze', variable=self.view_version,
-                                            onvalue='draft', offvalue='live', command=self.switch_version)
-        self.draft_checkbox.pack(side='left')
+        self.draft_button = self.button(output_bar, 'Rozpracovaná verze', self.toggle_draft_preview)
+        self.draft_button_background = self.draft_button.cget('background')
         self.output_button = self.button(output_bar, 'Stream', self.toggle_preview_output)
-        apply_row = tk.Frame(preview)
-        apply_row.pack(fill='x')
+        apply_row = tk.Frame(editor)
+        apply_row.pack(side='bottom', fill='x', pady=(4, 0))
         self.apply_button = self.button(apply_row, 'Použít do projekce', self.apply_live)
+        self.unapplied_changes = tk.StringVar()
+        self.unapplied_label = tk.Label(apply_row, textvariable=self.unapplied_changes, anchor='w', fg='#805000')
+        self.unapplied_label.pack(side='left', padx=6)
+        self.arrange_apply_row = wrap_row(apply_row)
+        text_frame.pack_forget()
+        text_frame.pack(fill='both', expand=True)
         self.version_status = tk.StringVar()
-        version_label = tk.Label(preview, textvariable=self.version_status, anchor='w', justify='left', wraplength=400)
-        version_label.pack(fill='x')
-        preview.bind('<Configure>', lambda e: version_label.configure(wraplength=max(100, e.width-8)))
         self.layout_warning = tk.StringVar()
         self.layout_warning_label = tk.Label(preview, textvariable=self.layout_warning, fg='#b02020', anchor='w', wraplength=400)
         self.preview = tk.Canvas(preview, bg='black', highlightthickness=0)
         self.preview.pack(fill='both', expand=True)
-        self.preview.bind('<Configure>', lambda e: self.render_preview())
+        self.preview.bind('<Configure>', self.queue_workspace_resize)
+        body.bind('<Configure>', self.queue_workspace_resize)
         self.preview.bind('<Button-1>', lambda e: self.preview.focus_set())
-        nav = tk.Frame(preview)
         nav.pack(side='bottom', fill='x')
-        self.button(nav, '←', lambda: self.jump(self.current-1))
-        self.button(nav, '→', lambda: self.jump(self.current+1))
-        self.button(nav, 'Zatemnit / vrátit (B)', self.toggle_blackout)
-        self.auto_stop_button = self.button(nav, 'Stop auto', self.playback.stop)
-        tk.Label(nav, textvariable=self.auto_status).pack(side='left')
-        for row in (*file_rows, formatting, insertbar, output_bar, nav):
-            wrap_row(row)
+        self.projection_controls.play.pack(side='left', padx=2)
+        self.previous_section_button = self.button(nav, '<<', lambda: self.navigate_presenter('previous_section'))
+        self.previous_slide_button = self.button(nav, '<', lambda: self.jump(self.current-1))
         self.location = tk.StringVar()
-        tk.Label(preview, textvariable=self.location, wraplength=280).pack(side='bottom', fill='x')
+        tk.Label(nav, textvariable=self.location).pack(side='left', padx=4)
+        self.next_slide_button = self.button(nav, '>', lambda: self.jump(self.current+1))
+        self.next_section_button = self.button(nav, '>>', lambda: self.navigate_presenter('next_section'))
+        for row in (*file_rows, formatting, insertbar, output_bar):
+            wrap_row(row)
+        # Reserve the same navigation height at every pane width, so wrapping
+        # cannot feed back into the 16:9 width calculation indefinitely.
+        wrap_row(nav, reserve_width=300)
+        self.ribbon.reserve_height([
+            lambda width: sum(row.wrapped_height(max(1, width-8)) for row in file_rows)+8,
+            lambda width: formatting.wrapped_height(max(1, width-8))+insertbar.wrapped_height(max(1, width-8))+8,
+            lambda width: max(source_list.winfo_reqheight(), source_actions.wrapped_height(max(action_min, int((width-8)*.55))))+8,
+            lambda width: auto_bar.winfo_reqheight(),
+            lambda width: display_bar.winfo_reqheight(),
+        ])
         self.preview.pack_forget()
         self.preview.pack(fill='both', expand=True)
         self.status = tk.StringVar()
         tk.Label(root, textvariable=self.status, anchor='w', fg='#802020').pack(side='bottom', fill='x', padx=8)
-        strip_frame = tk.Frame(root)
-        strip_frame.pack(side='bottom', fill='x', padx=8, pady=6)
-        self.strip = tk.Canvas(strip_frame, height=145, highlightthickness=0)
+        strip_frame = tk.Frame(self.bottom_bar)
+        self.strip_frame = strip_frame
+        strip_frame.pack(side='left', fill='both', expand=True)
+        self.strip = tk.Canvas(strip_frame, height=SLIDE_STRIP_HEIGHT, highlightthickness=0)
         horizontal = tk.Scrollbar(strip_frame, orient='horizontal', command=self.strip.xview)
-        self.strip.configure(xscrollcommand=horizontal.set)
+        self.strip.configure(xscrollcommand=horizontal.set, xscrollincrement=30)
         horizontal.pack(side='bottom', fill='x')
-        self.strip.pack(fill='x')
+        self.strip.pack(fill='both', expand=True)
         self.strip_inner = tk.Frame(self.strip)
         self.strip.create_window(0, 0, window=self.strip_inner, anchor='nw')
         self.strip_inner.bind('<Configure>', lambda e: self.strip.configure(scrollregion=self.strip.bbox('all')))
-        # Allocate toolbar and bottom strip before giving the editor the remaining space.
-        body.pack_forget()
-        body.pack(fill='both', expand=True, padx=8)
+        self.strip.bind('<Configure>', self.queue_workspace_resize)
+        self.workspace.add(self.bottom_bar, minsize=100, height=SLIDE_STRIP_HEIGHT+horizontal.winfo_reqheight(), stretch='never')
+        self.workspace.pack(fill='both', expand=True, padx=8, pady=6)
+        for sequence in ('<MouseWheel>', '<Shift-MouseWheel>', '<Button-4>', '<Button-5>'):
+            root.bind(sequence, self.thumbnail_wheel, add='+')
+        # Toplevel bindings run after the native Panedwindow class binding.
+        # Paint its completed move before processing the next motion event.
+        root.bind('<B1-Motion>', self.paint_sash_motion, add='+')
         for sequence, command in (('<Control-z>', self.undo), ('<Control-y>', self.redo), ('<Control-Shift-Z>', self.redo)):
             root.bind(sequence, lambda e, c=command: (c(), 'break')[1])
         self.refresh_sections()
@@ -239,6 +274,113 @@ class MainWindow:
         self.output.set('stream' if self.output.get() == 'hall' else 'hall')
         self.output_button.configure(text='Sál' if self.output.get() == 'stream' else 'Stream')
         self.render_preview()
+
+    def toggle_draft_preview(self):
+        self.view_version.set('live' if self.view_version.get() == 'draft' else 'draft')
+        self.switch_version()
+
+    def queue_workspace_resize(self, event=None):
+        # A timer, rather than after_idle: idle painting can starve while native
+        # sash motion continuously supplies Windows events.
+        if self.resize_job is None and not self.resizing_workspace:
+            self.resize_job = self.root.after(16, self.flush_workspace_resize)
+
+    def finish_workspace_resize(self, event=None):
+        if self.resize_job is not None:
+            self.root.after_cancel(self.resize_job)
+        self.resize_job = self.root.after(0, self.flush_workspace_resize)
+
+    def paint_sash_motion(self, event):
+        if event.widget in (self.workspace, self.body):
+            self.flush_workspace_resize()
+
+    def flush_workspace_resize(self):
+        if self.resize_job is not None:
+            self.root.after_cancel(self.resize_job)
+        self.resize_job = None
+        if self.resizing_workspace:
+            return
+        self.resizing_workspace = True
+        try:
+            # Only service geometry/painting here, never input or timer events.
+            # The guard suppresses Configure callbacks generated by this work.
+            for _ in range(2):
+                self.root.update_idletasks()
+                if not self.fit_preview_width():
+                    break
+            self.root.update_idletasks()
+            self.resize_thumbnail_strip()
+            self.render_preview()
+            self.root.update_idletasks()
+            self.redraw_resize_controls()
+            self.root.update_idletasks()
+        finally:
+            repaint_workspace(self.workspace)
+            self.resizing_workspace = False
+
+    def redraw_resize_controls(self):
+        # Native child-window moves on Windows can leave copied pixels behind.
+        # Ask the moved controls to paint after all sibling geometry has settled.
+        def expose(widget):
+            if widget.winfo_class() == 'Text':
+                return
+            if widget.master is self.strip_inner:
+                left = widget.winfo_rootx()
+                strip_left = self.strip.winfo_rootx()
+                if left+widget.winfo_width() < strip_left or left > strip_left+self.strip.winfo_width():
+                    return
+            if widget.winfo_class() in {'Frame', 'Panedwindow', 'Canvas', 'Label', 'Button', 'Checkbutton', 'Entry', 'Scrollbar'}:
+                widget.event_generate('<Expose>')
+            for child in widget.winfo_children():
+                expose(child)
+        expose(self.workspace)
+
+    def thumbnail_wheel(self, event):
+        widget = event.widget
+        while widget is not None and widget is not self.strip_frame:
+            widget = getattr(widget, 'master', None)
+        if widget is None:
+            return
+        if getattr(event, 'num', None) in (4, 5):
+            steps = 1 if event.num == 4 else -1
+        else:
+            self.strip_wheel_delta += event.delta / 120
+            steps = int(self.strip_wheel_delta)
+            self.strip_wheel_delta -= steps
+        if steps:
+            self.strip.xview_scroll(-steps*3, 'units')
+        return 'break'
+
+    def resize_thumbnail_strip(self, event=None):
+        if not self.plan or not self.thumbnails or len(self.thumbnails) != len(self.plan.slides):
+            return
+        height = self.strip.winfo_height()
+        if height < 2:
+            return
+        width, slide_height, _, _ = geometry(self.plan.source.hall)
+        caption_height = self.thumbnails[0].master.winfo_children()[1].winfo_reqheight()
+        target = max(60, round(max(30, height-caption_height-10)*width/slide_height))
+        resized = target != self.thumbnail_width
+        self.thumbnail_width = target
+        for canvas, slide in zip(self.thumbnails, self.plan.slides):
+            canvas.master.configure(width=target+12, height=height)
+            if resized:
+                canvas.configure(width=target, height=round(target*slide_height/width))
+                draw(canvas, slide, 'hall', self.metrics, self.typography, scale=target/width)
+        self.strip.configure(scrollregion=(0, 0, len(self.thumbnails)*(target+18), height))
+
+    def fit_preview_width(self, event=None):
+        # Limit the entire left workspace, not just the painted slide. The
+        # editor receives the excess width for either hall/stream aspect.
+        height = self.preview.winfo_height()
+        if height < 40 or not self.preview.winfo_ismapped():
+            return
+        available = self.body.winfo_width() - 380 - 11
+        target = max(300, min(round(height * 16 / 9), available))
+        x, _ = self.body.sash_coord(0)
+        if abs(x-target) > 2:
+            self.body.sash_place(0, target, 0)
+            return True
 
     def leave_text_input(self, event):
         widget = event.widget
@@ -652,9 +794,14 @@ class MainWindow:
     def update_version_status(self):
         if not self.session:
             self.view_version.set('draft')
-        self.draft_checkbox.configure(state='normal' if self.session else 'disabled')
+        draft = self.view_version.get() == 'draft'
+        self.draft_button.configure(state='normal' if self.session else 'disabled',
+                                    relief='sunken' if draft else 'raised',
+                                    background='#c7dff0' if draft else self.draft_button_background)
         dirty = self.session and self.session.plan.source != self.document
         self.apply_button.configure(state='normal' if dirty else 'disabled')
+        self.unapplied_changes.set('Nepoužité změny' if dirty else '')
+        self.arrange_apply_row()
         text = ('ŽIVÁ verze • navigace ovládá projekci' if self.viewing_live() else 'ROZPRACOVANÁ verze • navigace mění jen náhled')
         if dirty:
             text += ' • Nepoužité změny'
@@ -899,7 +1046,8 @@ class MainWindow:
             self.selected_id = self.document.sections[0].id if self.document.sections else None
         self.sections.delete(0, 'end')
         for i, section in enumerate(self.document.sections):
-            self.sections.insert('end', f'{i+1}. {section.title or "Bez názvu"}')
+            label = ' • '.join(part for part in (section.title, section.reference) if part) or 'Bez názvu'
+            self.sections.insert('end', f'{i+1}. {label}')
             if section.id == self.selected_id:
                 self.sections.selection_set(i)
                 self.sections.see(i)
@@ -1131,29 +1279,27 @@ class MainWindow:
         self.projected_thumbnail_index = None
         self.thumbnails = []
         self.labels = []
-        counts = {}
         for i, slide in enumerate(plan.slides):
-            frame = tk.Frame(self.strip_inner, width=162, height=140)
+            frame = tk.Frame(self.strip_inner, width=self.thumbnail_width+12, height=max(SLIDE_STRIP_HEIGHT, self.strip.winfo_height()))
             frame.pack(side='left', padx=3)
             frame.pack_propagate(False)
             width, height, _, _ = geometry(plan.source.hall)
-            canvas = tk.Canvas(frame, width=150, height=round(150*height/width), bg='black', highlightthickness=3, highlightbackground='#666666', highlightcolor='#666666')
+            canvas = tk.Canvas(frame, width=self.thumbnail_width, height=round(self.thumbnail_width*height/width), bg='black', highlightthickness=3, highlightbackground='#666666', highlightcolor='#666666')
             canvas.pack()
-            draw(canvas, slide, 'hall', self.metrics, self.typography, scale=150/width)
+            draw(canvas, slide, 'hall', self.metrics, self.typography, scale=self.thumbnail_width/width)
             if slide.black:
                 label = 'Černý konec' if slide.id.endswith(':end') else ('Černý začátek' if slide.section_id is None else 'Černý předěl')
             else:
-                counts[slide.section_id] = counts.get(slide.section_id, 0)+1
-                number = counts[slide.section_id]
                 source = next(s for s in plan.source.sections if s.id == slide.section_id)
-                label = ('Úsek' if number == 1 else f'↳ Pokračování {number}')+': '+(source.title or 'Bez názvu')
+                label = ' • '.join(part for part in (source.title, source.reference) if part) or 'Bez názvu'
             self.labels.append(label)
-            caption = tk.Label(frame, text=f'{i+1}. {label}', width=22, anchor='w')
-            caption.pack()
+            caption = tk.Label(frame, text=f'{i+1}. {label}', anchor='w')
+            caption.pack(fill='x')
             for widget in (canvas, caption):
                 widget.bind('<Button-1>', lambda e, index=i: self.thumbnail_clicked(index))
             self.thumbnails.append(canvas)
         self.status.set(self.version_status.get() if self.session else 'Rozpracovaná prezentace • spuštění projekce potvrdí aktuální dokument')
+        self.resize_thumbnail_strip()
         self.jump(self.current, preserve_anchor=True)
         self.history_buttons()
 
@@ -1195,11 +1341,12 @@ class MainWindow:
             self.refresh_sections()
             self.load_editor()
         self.copy_slide_button.configure(state='disabled' if self.viewing_live() or slide.black or self.plan.source != self.document else 'normal')
-        self.location.set(f'Snímek {self.current+1} / {len(self.plan.slides)} • '+self.labels[self.current])
-        total = len(self.thumbnails)*168
+        self.location.set(f'{self.current+1}/{len(self.plan.slides)}')
+        stride = self.thumbnail_width+18
+        total = len(self.thumbnails)*stride
         visible = max(1, self.strip.winfo_width())
-        left, x = self.strip.canvasx(0), self.current*168
-        if x < left or x+168 > left+visible:
+        left, x = self.strip.canvasx(0), self.current*stride
+        if x < left or x+stride > left+visible:
             self.strip.xview_moveto(max(0, min(x, total-visible))/max(1, total))
         self.render_preview()
         self.update_version_status()
@@ -1216,7 +1363,7 @@ class MainWindow:
             self.layout_warning_label.pack_forget()
         width, height, _, _ = geometry(getattr(self.plan.source, output))
         scale = min(max(1, self.preview.winfo_width())/width, max(1, self.preview.winfo_height())/height)
-        draw(self.preview, self.plan.slides[self.current], output, self.metrics, self.typography, scale=scale)
+        draw(self.preview, self.plan.slides[self.current], output, self.metrics, self.typography, scale=scale, resize_canvas=False)
         self.preview.configure(bg='#303030')
         x = (self.preview.winfo_width()-width*scale)/2
         y = (self.preview.winfo_height()-height*scale)/2
@@ -1245,10 +1392,11 @@ class MainWindow:
             self.playback.stop()
             self.recovery.release()
             self.root.tk.deletecommand(self.text._w)
-            for job in (self.pending, self.group_timer, self.monitor_job, self.autosave_job):
+            for job in (self.pending, self.group_timer, self.monitor_job, self.autosave_job, self.resize_job):
                 if job:
                     self.root.after_cancel(job)
             self.pending = self.group_timer = None
             self.monitor_job = None
+            self.resize_job = None
             self.projections.clear()
             self.session = None
