@@ -33,12 +33,12 @@ class ProjectionControls:
         def button(label, command):
             b = tk.Button(row, text=label, command=command, bg='#444444', fg='white',
                           activebackground='#666666', activeforeground='white',
-                          relief='flat', font=('Courier New', 11, 'bold'), width=4, takefocus=False)
-            b.pack(side='left', padx=2)
+                          relief='flat', font=('Courier New', 11, 'bold'), takefocus=True)
+            b.pack(side='left', padx=1)
             return b
         self.previous = button('<', lambda: self.browse(-1))
         self.counter = tk.StringVar()
-        tk.Label(row, textvariable=self.counter, bg='#555555', fg='white', width=7, font=('Courier New', 11)).pack(side='left')
+        tk.Label(row, textvariable=self.counter, bg='#555555', fg='white', width=5, font=('Courier New', 11)).pack(side='left')
         self.following = button('>', lambda: self.browse(1))
         self.add_button = button('+', self.add_output)
         self.load_button = button('load', self.load_profile)
@@ -48,13 +48,19 @@ class ProjectionControls:
         self.display_ids = {}
         for r, label in ((1, 'Display'), (2, 'Style')):
             tk.Label(self.frame, text=label, bg='#555555', fg='white', font=('Courier New', 11)).grid(row=r, column=0, sticky='e', padx=(0, 10), pady=3)
-        self.display = ttk.Combobox(self.frame, state='readonly', textvariable=self.display_value, width=30)
+        self.frame.columnconfigure(1, weight=1)
+        self.display = ttk.Combobox(self.frame, state='readonly', textvariable=self.display_value, width=18)
         self.display.grid(row=1, column=1, columnspan=2, sticky='ew', pady=3)
         self.display.bind('<<ComboboxSelected>>', self.change_display)
-        self.style = ttk.Combobox(self.frame, state='readonly', textvariable=self.style_value, values=('Sál', 'Stream'), width=30)
-        self.style.grid(row=2, column=1, columnspan=2, sticky='ew', pady=3)
+        self.style = ttk.Combobox(self.frame, state='readonly', textvariable=self.style_value, values=('Sál', 'Stream'), width=10)
+        self.style.grid(row=2, column=1, sticky='ew', pady=3, padx=(0, 4))
         self.style.bind('<<ComboboxSelected>>', self.change_style)
-        self.play = tk.Button(self.frame, text='▶', command=self.toggle_run, bg='#006400', fg='white', relief='flat', width=18, takefocus=False)
+        self.aspect_value = tk.StringVar()
+        self.aspect = ttk.Combobox(self.frame, state='readonly', textvariable=self.aspect_value,
+                                   values=tuple(a.value for a in Aspect), width=6)
+        self.aspect.grid(row=2, column=2, sticky='ew', pady=3)
+        self.aspect.bind('<<ComboboxSelected>>', self.change_aspect)
+        self.play = tk.Button(self.frame, text='▶', command=self.toggle_run, bg='#006400', fg='white', relief='flat', width=8, takefocus=True)
         self.play.grid(row=3, column=0, columnspan=2, sticky='w', pady=(5, 0))
         self.fullscreen_value = tk.BooleanVar(value=True)
         self.fullscreen_check = tk.Checkbutton(self.frame, text='Celá obrazovka', variable=self.fullscreen_value,
@@ -117,6 +123,12 @@ class ProjectionControls:
             self.fullscreen[self.outputs()[self.output_index]] = self.fullscreen_value.get()
         self.update_summary()
 
+    def change_aspect(self, event=None):
+        # Aspect edits belong to the draft even while a live session is running.
+        field = self.outputs()[self.output_index]
+        self.owner.change_aspect(field, self.aspect_value.get())
+        self.update_summary()
+
     def toggle_run(self):
         if self.owner.session:
             self.owner.stop_projection()
@@ -153,6 +165,7 @@ class ProjectionControls:
         self.fullscreen_check.configure(state='disabled' if self.owner.session else 'normal')
         self.counter.set(f'{self.output_index+1} / {len(fields)}')
         self.style_value.set('Sál' if field == 'hall' else 'Stream')
+        self.aspect_value.set(getattr(self.owner.document, field).aspect.value)
         self.display_ids = {label: m.id for label, m in zip(self.labels(), self.owner.monitor_inventory)}
         mid = self.owner.monitor_choices[field].get()
         label = next((s for s, value in self.display_ids.items() if value == mid), 'Nedostupný: '+mid)
@@ -206,8 +219,8 @@ class ProjectionControls:
         else:
             self.selected.set(old)
 
-    def start(self):
-        return self.owner.start_projection(tuple(f for f in self.enabled if self.enabled[f]))
+    def start(self, from_current=True):
+        return self.owner.start_projection(tuple(f for f in self.enabled if self.enabled[f]), from_current=from_current)
 
     def load_profile(self):
         if self.owner.session:

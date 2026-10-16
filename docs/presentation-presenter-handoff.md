@@ -1,6 +1,6 @@
 # PresentationPresenter — zadání, etapy a předávání
 
-Datum založení: 11. 10. 2026. Stav: PP1–PP7 implementačně dokončeny; fyzické ověření výstupů čeká. PP8 nezahájeno.
+Datum založení: 11. 10. 2026. Stav: PP1–PP7 implementačně dokončeny; fyzické ověření výstupů čeká. PP8 implementačně dokončena včetně dohodnutého lokálního ovládání; fyzická QA čeká. PP8L: první schválené rozmístění se sbalitelnými záložkami implementováno 16. 10. 2026; čeká uživatelská kontrola a další doladění projekčního ovládání, malé obrazovky / vysokého DPI a finálního vzhledu. PP9 nezačala.
 
 ## Jak používat tento dokument
 
@@ -94,12 +94,33 @@ Každý níže uvedený text je samostatné zadání. Chat má nejprve přečís
 **Text do chatu:**
 > Proveď pouze PP8 podle docs/presentation-presenter-handoff.md. Nejprve zjisti uživatelem požadované konkrétní klávesy a způsob externího/globálního ovládání; nerozhoduj neznámé integrace naslepo. B a ovládání z hlavního okna jsou již schválené. Nezávisle implementuj automatické přehrávání s validovaným intervalem, opakováním, definovaným prvním čekáním a zastavením na konci. Zatemnění pozastaví časovač, návrat začne celý interval. Ošetři ruční přeskok, použití živých úprav, zavření projekce a aplikace bez zbylých časovačů. Implementuj dohodnuté zkratky bez konfliktů s textovými vstupy a případné externí ovládání v samostatném adaptéru. Ověř souběh vstupů a lifecycle. Aktualizuj předávací dokument včetně případné čekající uživatelské volby.
 
-### Etapa PP9 — kontrola, stabilizace a první distribuce
+### Etapa PP8L — vzhled a layout
 
-**Výsledek:** ověřený balíček samostatné aplikace a přehled zbývajících omezení.
+**Výsledek:** schválený návrh a následně implementovaný vlastní vzhled PresentationPresenteru navazující na SuperPresenter, s dostatečným náhledem, editorem a dostupným ovládáním projekce.
 
 **Text do chatu:**
-> Proveď pouze PP9 podle docs/presentation-presenter-handoff.md. Zkontroluj skutečné splnění zadání PP1–PP8 a oprav blokující chyby. Implementuj přehlednou kontrolu před projekcí pro přetékající obsah, chybné/chybějící obrázky, kolize s kamerou a výstupní konfiguraci. Ověř delší prezentace, všechny poměry stran, formátování, živé opravy, Bible, undo/redo, přenos a obnovu. Ověř, že SuperPresenter nebyl změněn ani regresně rozbit. Připrav samostatnou Windows distribuci s vlastní identitou a datovým adresářem; změny společného build procesu izoluj. Rozhodnutí o nahrazení původního spouštěče předlož uživateli až s ověřeným výsledkem. Sepiš krátký návod a checklist fyzického sálu/streamu. Nevydávej automatické testy za ověření hardwaru. Aktualizuj dokument výsledky, přesnou cestou balíčku a známými omezeními. PPTX neimplementuj.
+> Proveď pouze PP8L. Nejprve přečti tento dokument, ověř PP1–PP8 a zachovej předexistující změny. Projdi přípravu a projekci, navrhni rozmístění náhledu, editoru, úseků, miniatur sálu, projekčních akcí a rozlišení verzí; předlož mockup. Rozsáhlý layout implementuj až po schválení konkrétního návrhu uživatelem. Použij vlastní styly bez změn či importování interních UI modulů SuperPresenteru. Ověř resize, menší obrazovku, systémové škálování, čitelnost, fokus a dostupnost akcí i funkční regrese. Zaznamenej výsledky a neověřené scénáře. PP9 nezačínej.
+
+### Etapa PP9 — kontrola a stabilizace
+
+**Výsledek:** ověřená samostatná aplikace po PP8L a přehled zbývajících omezení.
+
+**Text do chatu:**
+> Proveď pouze PP9 podle docs/presentation-presenter-handoff.md. Zkontroluj skutečné splnění PP1–PP8 a PP8L a oprav blokující chyby. Implementuj přehlednou kontrolu před projekcí pro přetékající obsah, chybné/chybějící obrázky, kolize s kamerou a výstupní konfiguraci. Ověř delší prezentace, všechny poměry stran, formátování, živé opravy, Bibli, undo/redo, přenos a obnovu. Ověř izolaci SuperPresenteru. Proveď dostupnou fyzickou QA podle checklistu PP4; neověřené scénáře označ. Aktualizuj dokument výsledky a omezeními. Distribuci, návod ani PPTX neimplementuj. PP10 nezačínej.
+
+### Etapa PP10 — samostatná Windows distribuce
+
+**Výsledek:** ověřený samostatný Windows balíček s vlastní identitou a datovým adresářem.
+
+**Text do chatu:**
+> Proveď pouze PP10 podle tohoto dokumentu a výsledků PP9. Připrav samostatnou Windows distribuci PresentationPresenteru. Izoluj build a zachovej SuperPresenter, jeho spouštěč, nastavení a data. Ověř spuštění, zabalené závislosti, Bibli, média, ukládání a recovery v distribuovaném balíčku. Zaznamenej přesnou cestu balíčku, postup sestavení a známá omezení. Případné nahrazení původního spouštěče předlož uživateli s ověřeným výsledkem. PP11 nezačínej.
+
+### Etapa PP11 — návod a předání
+
+**Výsledek:** stručný návod a předání ověřené aplikace včetně omezení a fyzického checklistu.
+
+**Text do chatu:**
+> Proveď pouze PP11 podle tohoto dokumentu a výsledků PP10. Sepiš návod k přípravě, výstupům, projekci, verzím a potvrzování oprav, obrázkům, Bibli, automatice, zkratkám, uložení a obnově. Připoj checklist fyzického sálu/streamu a jasně rozliš ověřené a neověřené scénáře. Dokonči předávací dokument odkazy na distribuci a seznamem známých omezení. Další funkce nezačínej.
 
 ## Záznamy dokončených etap
 
@@ -433,11 +454,100 @@ Pravidla odvozená z bodů 7–8 a 11 přijatého zadání; nahrazují PP4 nutno
 
 ## Otevřená rozhodnutí
 
+- PP8L: uživatel schválil vlastní rozmístění Soubor/Domů/Úseky/Auto a sbalování; první iterace implementována, viz doplnění z 16. 10. 2026. Původní mockup nebyl schválen jako celek. Zbývá společné doladění, finální vzhled a řešení malé plochy při vysokém DPI.
 - PP1: uzavřeno — cesty a hranice modulů viz záznam dokončení.
 - PP2: uzavřeno — typografie, geometrie a pravidla dělení viz záznam PP2.
 - PP3: uzavřeno — společné pole název/odkaz, ovládání editoru a historie viz záznam PP3.
 - PP5: uzavřeno — konkrétní pravidla, potvrzování a chování náhledu/lišty viz záznam PP5.
 - PP6: uzavřeno — `.ppres` v2 čte v1, jednorázová recovery s archivací, omezený import, smíšený obsah a rozložení kolem kamery s tolerancí 10 % shora / 15 % zleva; viz PP6 a doplnění.
-- PP8: konkrétní zkratky a externí/globální ovládání — projednat s uživatelem.
+- PP8: uzavřeno — lokální klávesnice/prezentér při aktivní aplikaci, šipky/PgUp/PgDn, Shift+←/→, F5 projekce, Esc stop všech výstupů, B zatemnění; viz závěrečné doplnění PP8.
 - PP7: uzavřeno — samostatná read-only služba a launcher `presentation_bible.py`; známá omezení dat viz PP-BIBLE-DATA.
 - Později: PPTX, volná pole, nastavitelné umístění kamery a další šablony.
+
+### PP8 — automatické přehrávání a ovládání, 14. 10. 2026, částečně (čeká volba ovládání)
+
+- Ověřen skutečný stav PP1–PP7: model, společný layout, editor, samostatné projekční výstupy, potvrzení živých oprav, storage/recovery a Bible. Výchozí pracovní strom čistý; žádné předexistující změny odstraněny. Změny pouze nové `presentationpresenter/playback.py`, `tests/presentationpresenter/test_pp8.py`, napojení v `presentationpresenter/ui.py` a tento dokument. SuperPresenter, starý presenter, sdílená data a build nedotčeny. Bez commitu.
+- Hlavní okno: interval v sekundách (výchozí 5), Opakovat, Spustit automatiku, Zastavit automatiku, Zatemnit / vrátit (B), stav Běží/Pozastaveno/Zastaveno. Interval přijímá desetinnou tečku i čárku, pouze konečné číslo 0,1 až 86400 s; chyba se hlásí bez změny běžící automatiky. Interval a opakování se přebírají při stisku Spustit; pro změnu běhu znovu stisknout Spustit. Nejsou ukládány do přenosného dokumentu.
+- Spuštění vyžaduje živou projekci. Aktuální snímek zůstane celý interval, včetně posledního snímku. Na posledním se bez opakování po celém intervalu automatika zastaví a snímek zůstane zobrazen; s opakováním přejde na první. Černé předěly jsou běžné snímky, dočasné zatemnění je samostatný stav.
+- Jediný zrušitelný Tk časovač, generační ochrana proti zastaralému callbacku. Zatemnění pozastaví běh bez změny pozice; návrat obnoví celý interval. Ruční živý přeskok (i na stejné místo) a úspěšné Použít do projekce obnoví celý interval; během zatemnění jej neplánují. Neúspěšné potvrzení session ani timer nemění. Automatika naviguje výhradně potvrzený plán i při prohlížení návrhu, jeho náhled neposouvá. Rozpracované úpravy zůstávají izolované.
+- Zavření jednoho výstupu nechává automatiku na zbývajícím; zavření posledního, zastavení projekce či zánik rootu ji zastaví a zruší callback. Nová projekce automatiku sama nespustí. B zachovává dosavadní ochranu Text/Entry/Spinbox/Combobox; biblické okno nemá globální vazby. Dosavadní Escape v projekčním okně zavírá příslušný výstup.
+- **Čekající uživatelská volba:** v tomto chatu položeny otázky na konkrétní klávesy navigace/začátku/konce/automatiky a způsob externího či globálního ovládání. Odpověď dosud nedorazila. Žádné další zkratky ani neznámá externí integrace nejsou implementovány. B a tlačítka hlavního okna jsou schválená a fungují. Pokud bude požadována integrace, implementovat ji v samostatném adaptéru navazujícím na tytéž akce.
+- Cílené kontroly PP8 **11/11 OK**, 4,4 s: validace, úplný první i poslední interval, opakování, stop/restart, zastaralý callback, zatemnění, ruční přeskok, nové potvrzení, izolace návrhu, dva skutečné Tk výstupy, zavření jednotlivého i posledního a přímé zničení okna. Obsahují také zděděné PP4 lifecycle/regrese. Známá teardownová diagnostika `ttk::ThemeChanged` přetrvává bez selhání testů; žádná chyba Python callbacku v integračním testu. Sandboxovaný kompletní běh zastaven po uváznutí; povolená kompletní sada viz doplnění níže.
+- Spuštění: `python -B presentation_presenter_v2.py`; ověření: `python -B -m unittest tests.presentationpresenter.test_pp8`. Automatika bez spánků testována deterministickým schedulerem, napojení skutečným Tk. Fyzické výstupy, dlouhý provoz a hardware prezentéru nejsou tímto ověřeny, PP-HARDWARE trvá. Vizuální QA nové lišty zatím neprovedena.
+- Předání PP9: zachovat izolaci návrhu/session a jeden časovač, ověřit skutečný interval a ovládání v sále/streamu a při smíšeném DPI. Neoznačovat externí ovládání za dokončené; nejprve uzavřít výše uvedenou volbu v PP8. PP9 ani distribuce nezahájeny.
+- Závěrečná povolená kompletní regresní sada PP1–PP8: **101/101 OK**, 65,9 s. `git diff --check` bez chyb. Přetrvává pouze dříve evidovaná diagnostika Tk ThemeChanged. PP8 ovládání nad rámec B/tlačítek nadále čeká na odpověď uživatele.
+
+### Doplnění PP8 — dohodnutá lokální navigace, 14. 10. 2026
+
+- Uživatel schválil klávesnici/prezentér při aktivní aplikaci a navigaci: **← / ↑ / PgUp předchozí**, **→ / ↓ / PgDn další**, **Shift+← první**, **Shift+→ poslední snímek**. Za hranicí zůstává aktuální snímek. B zachováno. Žádné globální systémové hooky či integrace nejsou požadovány; prezentér vysílající uvedené klávesy používá stejný lokální adaptér `presentationpresenter/keyboard_controls.py`.
+- Vazby pouze v hlavním a projekčních Toplevel, nikoli bind_all: biblické/obrázkové/modální dialogy navigaci nepřebírají. Text, Entry, Spinbox a Combobox jsou chráněny včetně Shift výběru. Ctrl/Alt kombinace se nezachytávají. Bez projekce klávesy navigují přípravný náhled; za běhu vždy živou session, i při zobrazení návrhu. Přeskok obnoví celý interval; během zatemnění se časovač neplánuje.
+- **Zbývající upřesnění:** uživatel uvedl „F5 a Esc pro začátek a konec“. Položena doplňující otázka, zda znamenají spuštění/zastavení celé projekce, nebo automatiky. Dokud neodpoví, nové F5/Esc vazby nejsou přidány; existující Escape v projekčním okně stále zavírá příslušný výstup. Tato položka nahrazuje původní otevřenou volbu navigace/globální integrace. PP8 je stále částečně dokončena pouze kvůli tomuto významu F5/Esc.
+- Cílená PP8 sada **12/12 OK**, 5,5 s. Skutečné Tk klávesové události v hlavním i projekčním okně ověřily všech šest navigačních kláves, Shift začátek/konec, ochranu editoru/názvu, souběh s automatikou, návrhem a zatemněním. Hardwarový prezentér se fyzicky netestoval. Předchozí změny PP8 zachovány, další změny pouze adaptér, napojení `ui.py`/`projection.py`, PP8 test a handoff; SuperPresenter nezměněn. PP9 nezahájena.
+
+
+### Uzavření PP8 — F5/Esc, 14. 10. 2026, hotovo
+
+- Uživatel výslovně potvrdil **F5 spustí projekci**, **Esc zastaví celou projekci**. F5 používá aktuální výběr výstupů hlavního panelu, nespouští automatiku ani neposouvá na první snímek; již spuštěnou projekci zachová. Esc v hlavním i libovolném projekčním okně zavře všechny výstupy a zruší automatiku. Nahrazuje starší Escape zavírající pouze jeden výstup. Jednotlivé výstupy lze stále zavřít standardním zavřením okna.
+- Konečné klávesy: ←/↑/PgUp předchozí, →/↓/PgDn další, Shift+← první, Shift+→ poslední, B zatemnění/návrat, F5 projekce, Esc stop všech výstupů. Automatika má samostatná tlačítka. Zkratky jsou lokální při aktivním hlavním/projekčním okně; textové vstupy jsou chráněné a ostatní dialogy vlastní navigaci zachovávají. Nejsou globální hooky. **Žádná volba ovládání již nečeká na uživatele**; předchozí čekající záznamy jsou historické a toto doplnění je uzavírá.
+- Závěrečná cílená PP8 **13/13 OK**, 13,8 s, včetně skutečného F5 spuštění, Esc zastavení dvou výstupů i časovače, opětovného spuštění a ochrany textového fokusu. Doplňující regresní PP4/PP5/PP7 **29/29 OK**, 45,7 s mimo sandbox; sandboxový pokus měl pouze PermissionError při zápisu testovacích dat do Temp. Předchozí kompletní 101/101 ověřila automatiku před doplněním kláves. `git diff --check` bez chyb; dosavadní Tk ThemeChanged diagnostika přetrvává.
+- Předání PP9: PP8 implementačně dokončena, ovládání dohodnuto. Ověřit fyzický prezentér vysílající schválené klávesy, skutečný dlouhodobý interval, sál/stream a DPI, vizuální dostupnost nové lišty. Tyto provozní/obrazové kontroly zůstávají neověřené, automatické testy je nenahrazují. SuperPresenter a předchozí práce zachovány. PP9 nezahájena.
+
+### Uživatelská oprava PP8 — skoky mezi úseky a ukončení psaní kliknutím, 15. 10. 2026
+
+- **Shift+→ další úsek, Shift+← předchozí úsek** nahrazují dřívější první/poslední snímek. Přechod míří na úvodní černý předěl cílového úseku, při vypnutém předělu na první obsahový snímek. Pokračování se posuzují jako součást téhož úseku. Shift+→ v posledním úseku přejde na poslední snímek prezentace (závěrečný černý, je-li zapnutý); na něm zůstane. Shift+← ze závěrečného samostatného černého vstoupí na začátek posledního úseku; v prvním úseku zůstává na jeho začátku. Sloučený úvodní černý začátek patří prvnímu úseku.
+- Zachována navigace potvrzené živé session i při prohlížení návrhu, reset celého intervalu a pauza při zatemnění. Ostatní klávesy beze změny.
+- Kliknutí mimo textové vstupy v hlavním okně uvolní jejich fokus na hlavní okno. B/šipky pak ovládají prezentaci, místo aby měnily text/kurzor. Kliknutí do jiného vstupu zůstává editací; scrollbar ponechává fokus kvůli posouvání textu. Dialogy a jejich vlastní textové vstupy nejsou tímto pravidlem změněny.
+- Změny pouze `presentationpresenter/keyboard_controls.py`, `ui.py`, PP8 testy a tento dokument. Dosavadní necommitnutá práce PP8 zachována, SuperPresenter beze změny, PP9 nezahájena. Cílené skutečné Tk události ověřily skoky mezi dvěma úseky, konec/zpět a uvolnění fokusu obsahu i názvu kliknutím na pozadí s následným B zatemněním. Samostatná kontrola pokrývá pokračování, vypnutý předěl a hranice.
+- Závěrečná PP8 sada **15/15 OK**, 10,0 s; `git diff --check` bez chyb. Dříve evidovaná Tk ThemeChanged diagnostika při teardownu přetrvává bez selhání testů. Fyzický prezentér a fyzická QA zůstávají neověřené.
+
+### Doplnění PP8 — Shift+F5 od aktuálního snímku, 15. 10. 2026
+
+- Na žádost uživatele **Shift+F5 spustí projekci od aktuálního snímku náhledu**, **F5 spustí od prvního snímku včetně úvodního černého předělu**. Nahrazuje dřívější nerozlišené F5 spuštění od aktuální pozice. Výběr počátečního snímku proběhne před vytvořením projekčních oken, bez mezikroku s jiným snímkem. Tlačítko spuštění nadále používá aktuální snímek.
+- Při již běžící projekci obě klávesy zachovají živou pozici a potvrzenou session; nic nepotvrzují ani nerestartují. Ochrana textových vstupů, lokální rozsah vazeb a Esc stop všech výstupů zachovány. Automatika se spuštěním projekce sama nezapíná.
+- Cílená PP8 sada **16/16 OK**, 11,5 s; skutečné Tk události ověřily rozlišení F5/Shift+F5 a neměnnost běžící session. `git diff --check` bez chyb. Změny v `keyboard_controls.py`, `projection_controls.py`, `ui.py`, PP8 testu a handoffu. Předexistující práce a uživatelská `presentation/pokus.ppres` zachovány. SuperPresenter nezměněn, PP9 nezahájena.
+
+### PP8L — návrh vzhledu a layoutu, 15. 10. 2026, částečně: čeká schválení
+
+- Výchozí stav: zachovány změny `ui.py`, `projection.py`, `projection_controls.py`, handoffu a nové `keyboard_controls.py`, `playback.py`, `test_pp8.py` i uživatelská `presentation/pokus.ppres`. Bez commitu/stashe. Do funkčního kódu aplikace, SuperPresenteru, jeho stylů, nastavení ani dat v této návrhové části nebylo zasahováno.
+- Ověření PP1–PP8: prostudována historie včetně nahrazujících upřesnění a současné UI, nastavení, projekční panel a lifecycle. Existující kompletní sada **106/106 OK, 75,339 s**, bundled Python, `-B -m unittest discover -s tests/presentationpresenter`. Přetrvává známá teardownová diagnostika Tk `ThemeChanged`; fyzické výstupy, prezentér a smíšené DPI tím nejsou ověřeny.
+- Skutečné QA okno bez načtení uživatelské prezentace, zápisu nastavení či recovery: 1280×900; Canvas náhledu **703×135**, textový editor **334×117**. Snímek `tests/presentationpresenter/previews/pp8l-before.png` vizuálně prohlédnut. Horní vysoký projekční panel rezervuje velkou prázdnou plochu vlevo, pod ním jsou další řádky. Kombinace světlých systémových widgetů s tmavým projekčním panelem není jednotná. Minimum okna 950×800 se rozchází s výchozím nastavením 1100×720. To jsou konkrétní problémy pro PP8L, nikoli již opravené závady.
+
+#### Potřeby a hierarchie
+
+- Příprava: rychle vytvořit/otevřít/uložit prezentaci, organizovat úseky, pohodlně psát a formátovat, vkládat Bibli/obrázky, kontrolovat dělení a oba výstupy. Potřebuje velký editor a náhled vedle sebe; nastavení monitoru není každodenní editace.
+- Promítání: ihned poznat běh, zatemnění, skutečně živý snímek a nepublikované změny; další/předchozí, klikací miniatury, Stop a zatemnění bez hledání v nabídce. Musí zůstat možné bezpečně opravit rozpracovaný text a explicitně jej potvrdit.
+- Stále viditelné: přepnutí sál/stream, verze náhledu, označení editoru jako rozpracovaného, stav rozdílu a Použít do projekce, pozice náhledu i odlišná živá pozice, hlavní projekční akce, navigace, lišta miniatur sálu. Aktivní automatika má viditelný stav a rychlé zastavení.
+- Samostatné okno Výstupy: dosavadní monitory, profily load/edit, počet výstupů, styl Sál/Stream, fullscreen/okno a poměry návrhu. Ponechat stručný souhrn aktivních výstupů v hlavní liště. Neodstranit existující profilové funkce ani zámek konfigurace za běhu. Poměry návrhu nadále vyžadují potvrzení do živého obsahu.
+- Automatika: interval/opakování a start/stop do malého dialogu či rozbalovacího panelu; při běhu také trvale dostupný Stop automatiky. Bible zůstává samostatným oknem s krátkým spouštěcím tlačítkem. Obrázky zůstávají samostatným editorem, dostupným u úseku. Import JSON, Uložit jako a černý konec patří do nabídky Soubor/Prezentace. Přesun, duplikace, smazání úseku a kopie pokračování do nabídky Úsek a kontextové nabídky; nespoléhat pouze na pravý klik.
+- Zbytečně výrazné: pět plnošířkových tlačítek úseku, vysoký panel Display/Style, samostatné řádky obou poměrů, dlouhé popisky formátování a trvalá konfigurace automatiky. Dvojí volba „Živá“ při fakticky rozpracovaném náhledu bez projekce má být nahrazena jednoznačným stavem. Nejde o rušení příkazů.
+
+#### Doporučený návrh k diskusi (dosud neschválen)
+
+- Zachovat dříve vyžádaný náhled vlevo, editor vpravo. Dvě kompaktní horní lišty: souborové/nástrojové akce, pak start/stop/zatemnění/automatika a stav výstupů. Vlastní šedá paleta #555555/#666666, tmavá tlačítka #444444, bílý Courier New, zelený start odpovídají referenčnímu projekčnímu editoru a PP7. Implementovat izolovanými styly PP, bez změny sdílených stylů či importů interního UI SuperPresenteru.
+- Vlevo cca 60 % pracovní šířky: jedna řádka Sál/Stream + verze, stručný stav a dominantní náhled s proporčním obsahem, pod ním předchozí/pozice/další. Vpravo cca 40 %: nahoře seznam úseků asi 120–160 logických px s posuvníkem a nabídkou akcí; pod ním oddělený editor s titulkem, stavem nepoužitých změn a potvrzením, kompaktním formátováním, velkým textovým polem a předělem. Vodorovný i svislý dělič nastavitelné.
+- Dole přes celou šířku posuvná lišta snímků sálu cca 110–130 logických px. Vždy patří ke zvolené verzi náhledu. Modrá označuje prohlížený snímek; zelená a text ŽIVĚ skutečně promítaný. V rozpracované verzi klikání pouze prohlíží návrh; po přepnutí verze se session sama neposouvá. Číslo skutečné projekce musí zůstat viditelné i při jiném náhledu.
+- Menší okno: nezmenšovat písmo, ale zkrátit vedlejší popisky, umožnit sbalení seznamu úseků a přepnutí pravého panelu Úseky/Editor. Při projekci lze skrýt pravý panel pro ještě větší náhled. Cíl ověřit 1280×720 a 1024×768 v dostupné pracovní ploše; minsize a rozměry odvodit ze skutečných fontových metrik/DPI. Nebude-li možné zachovat dva použitelné panely, nabídnout přepínaný panel, nikoli oříznuté akce.
+- Smysluplná alternativa: vpravo trvalý úzký seznam úseků a editor ve vysouvacím/samostatném okně; výrazně větší náhled při projekci, ale více přepínání a horší souběžná kontrola při psaní. Proto není výchozí doporučení.
+- Interaktivní schematický mockup předložen v chatu (`pp8l-layout.html` ve vyhrazené složce vizualizací): Sál/Stream, přepnutí verze a vysvětlení přesouvaných příkazů. Není screenshot implementace ani funkční projekce. Případné ovladače slouží jen diskusi o rozložení.
+
+#### Změny, ověření a další postup v PP8L
+
+- Změněné projektové soubory této části: tento handoff; nový izolovaný QA skript `tests/presentationpresenter/visual_pp8l_baseline.py` a jeho snímek `previews/pp8l-before.png`. Skript používá explicitní AppSettings, dočasné recovery a přímé zničení okna bez uložení nastavení. Runtime UI se nemění.
+- Plán závěru na žádost uživatele rozdělen na PP8L vzhled/layout, PP9 kontrola/stabilizace, PP10 Windows distribuce, PP11 návod/předání. Původní historické odkazy na PP9 zůstávají historickými záznamy.
+- Před implementací získat souhlas s konkrétním umístěním seznamu úseků a editoru a přesunem konfigurace výstupů/automatiky. Schválení vyžaduje výslovné zadání uživatele v tomto chatu; nejde o technickou překážku.
+- Po schválení implementovat pouze PP8L a prověřit resize, menší pracovní plochu, systémová škálování 100/125/150/200 % podle dostupného prostředí, čitelnost, tabulátorový fokus, viditelné označení fokusu a hlavních akcí. Zachovat ochranu textových vstupů, fokus po kliknutí, všechny dohodnuté zkratky, miniatury, undo/recovery i izolaci živé session. Kontroly nové implementace ani DPI dosud neproběhly. PP9–PP11 nezahájeny.
+
+### PP8L — schválené první rozmístění se záložkami, 16. 10. 2026, částečně
+
+- Uživatel změnil původní návrh: horní záložky **Soubor, Domů, Úseky, Auto** otevírají vždy jednu lištu; výslovně schválil její sbalování a svislý seznam úseků s posouváním při větším počtu. Nejprve zkoušet rozmístění, další přesuny a projekční tlačítka doladit nad skutečným oknem, **vzhled až na konci**. Tento záznam nahrazuje předchozí čekání na schválení a doporučené trvalé úseky nad editorem; nejde o schválení celého původního mockupu.
+- Implementace: Soubor obsahuje Nová prezentace, Otevřít, Uložit, Uložit jako, Import JSON, Zpět, Znovu a dosavadní Černý konec. Domů obsahuje Tučné/Kurzíva/Podtržení/Barva/Odrážky, Bibli, vložení obrázku a rozložení obrázků. Úseky mají svislý posuvník a příkazy přidání/přesunu/duplikace/smazání, také zachovanou kopii pokračování do nového úseku. Auto obsahuje interval, opakování a Zapnout/Vypnout. Aktivní automatika má nadále stav a Stop auto u navigace i při jiné nebo sbalené záložce.
+- Lištu lze sbalit a znovu rozbalit tlačítkem; výběr záložky ji rozbalí. Výchozí Domů. Skrytí ani přepnutí neobnovuje editor ani nemaže výběr textu. Příkazové řádky a akce úseků se zalamují podle skutečných požadovaných rozměrů widgetů. Úseky zůstávají pod sebou, Listbox poskytuje kolečko/posuvník a vybraný úsek se při obnově seznamu přisune do viditelné části. Hlavní tlačítka jsou dostupná i tabulátorem.
+- Nahoře vpravo ponechán dosavadní projekční panel (nepřesunut do samostatného okna). Style nyní obsahuje vedle sebe **Sál/Stream** a **4:3/16:9**. Poměr upravuje návrh právě prohlíženého výstupu, při živé projekci nepublikuje změny; chování Použít do projekce zůstává. Monitor, typ výstupu a profily jsou za běhu stále zamčené jako dosud. Zmenšeny pevné rezervace v řádce panelu, aby se vešla i původní tlačítka load/edit.
+- Nad levým náhledem je jediný checkbox **Rozpracovaná verze** (zaškrtnuto = návrh, jinak živá session) a přepínací tlačítko pojmenované podle cíle **Stream / Sál**. Při spuštění aplikace je výchozí náhled sálu. Bez živé session checkbox zaškrtnutý a neaktivní; po spuštění projekce ukazuje živou verzi. Přepínání verzí samo nehýbe projekcí; při chybě layoutu se checkbox vrátí k platné živé verzi. Editor nadále mění jen návrh. Miniatury vždy ukazují sál zvolené verze.
+- Náhled vlevo, editor vpravo přes celou dostupnou výšku pod horní oblastí, žádný třetí zdrojový panel. Sníženo minimum okna na 900×600 (šířka případně zvětšena podle požadavku panelu); výchozí geometrie nastavení se nepřepisuje. Dělítko panelů zachováno. Vzhled nebyl celoplošně přestylován, vlastní dosavadní vzhled projekčního panelu zůstává; SuperPresenter ani jeho styly se nemění.
+- Změněné soubory této implementace: `presentationpresenter/ui.py`, `presentationpresenter/projection_controls.py`, nový `presentationpresenter/ribbon.py`, nové `tests/presentationpresenter/test_pp8l.py`, `visual_pp8l.py`, QA snímky `previews/pp8l-*.png` a `scale-*-pp8l-*.png`, tento dokument. Předexistující práce PP8 ve stejných souborech a `projection.py` zachována; do `projection.py` tato iterace nezasahovala. Uživatelská `presentation/pokus.ppres` beze změny, žádný commit/stash, žádný zápis do SuperPresenteru, jeho dat, nastavení či buildu.
+- Kontroly: průběžná kompletní sada **109/109 OK, 47,690 s** (PP1–PP8 + 3 nové PP8L testy). Po finálním umístění panelu a zalamování akcí cílené **PP3/PP8/PP8L 27/27 OK, 12,423 s**. Nové skutečné Tk testy ověřují sbalování/záložky, 25 úseků a posun seznamu/výběr, kopii a undo, dostupnost panelových akcí při 1024×768, formátování po změně záložky a návrat fokusu, checkbox, cílový popisek Sál/Stream, poměr návrhu bez změny živé session a návrat do přípravy. Přetrvává známá Tk ThemeChanged diagnostika při teardownu.
+- Vizuální QA: izolované skutečné Tk screenshoty bez změny uživatelských nastavení, profilu, schránky či prezentací; 1280×900, 1024×768, 1100×720, Domů/Úseky i sbalená lišta, 30 úseků a funkční posuvník. Prohlédnuty snímky Domů a Úseky včetně malé varianty. Na zdejším nativním škálování má při 1280×900 náhled 875×291 a text 354×349 (před PP8L 703×135 / 334×117); při 1024×768 619×159 a 354×217. Zdejší výchozí Tk škálování odpovídá přibližně 150 %.
+- QA skript dále spustil samostatná okna se simulovaným `tk scaling` 100/125/150/200 %, mění fontové metriky před konstrukcí UI. Jde o **simulaci Tk škálování, nikoli skutečnou změnu systémového DPI Windows ani ověření přesunu mezi různými DPI monitory**. 100 % při 1024×768: náhled 619×295, text 354×321; 125 %: 619×227 / 354×269. Při 200 % a 1024×768 zůstává náhled jen asi 30 px vysoký, v otevřených Úsecích téměř nezbývá prostor pro náhled/editor; to je otevřený nedostatek této první iterace. Akce úseků se neztrácejí vodorovným ořezem, ale vysoká lišta ubírá výšku. Další úpravy jsou stále PP8L, nikoli PP9.
+- Další známé omezení: projekční panel zatím drží výšku celé horní oblasti, takže sbalení lišty skryje její obsah, ale nemusí uvolnit výšku pracovní plochy. Při nejmenším povoleném okně také není garantován pohodlný náhled/editor. To vyřešit při dohodnutém dalším uspořádání projekčních tlačítek; nevydávat nynější stav za finální stabilizovaný layout. Fyzická QA PP-HARDWARE stále neprovedena.
+- Spuštění beze změny: `python -B presentation_presenter_v2.py`; cílené testy `python -B -m unittest tests.presentationpresenter.test_pp8l`, snímky `python -B tests/presentationpresenter/visual_pp8l.py` (volitelný argument procent pro Tk simulaci). Předat uživateli skutečné okno/snímek k dalším připomínkám. PP8L zůstává rozpracována; PP9–PP11 nezačínat.

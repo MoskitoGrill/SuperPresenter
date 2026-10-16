@@ -4,6 +4,7 @@ import ctypes
 from ctypes import wintypes
 from dataclasses import dataclass
 import tkinter as tk
+from .keyboard_controls import bind_navigation
 from .layout import geometry
 from .rendering import draw
 
@@ -140,7 +141,7 @@ class ProjectionWindow:
         else:
             self.window.geometry(f'{width}x{height}{x:+d}{y:+d}')
         self.window.protocol('WM_DELETE_WINDOW', lambda: owner.stop_projection(output))
-        self.window.bind('<Escape>', lambda e: owner.stop_projection(output))
+        bind_navigation(self.window, owner)
         self.window.bind('<KeyPress-b>', owner.blackout_key)
         self.window.bind('<KeyPress-B>', owner.blackout_key)
         self.window.bind('<Destroy>', self.destroyed)

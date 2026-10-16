@@ -8,6 +8,8 @@ from .settings import load_settings, save_settings
 from .layout import paginate, Typography, LayoutError, geometry
 from .rendering import TkMetrics, draw
 from .editor import History, duplicate_section, blank_document, editable_section
+from .keyboard_controls import bind_navigation, section_destination, TEXT_INPUTS
+from .playback import Playback
 from .session import ProjectionSession
 from .projection import monitors, ProjectionWindow
 from .projection_controls import ProjectionControls
@@ -17,6 +19,7 @@ from .recovery import Recovery
 from .settings import settings_path
 from pathlib import Path
 from .paths import presentation_directory
+from .ribbon import Ribbon, wrap_row
 
 
 class MainWindow:
@@ -39,6 +42,7 @@ class MainWindow:
         self.loading = False
         self.styles, self.thumbnails = {}, []
         self.session = None
+        self.playback = Playback(root, lambda: self.session, self.playback_advance, self.playback_status)
         self.draft_plan = None
         self.live_anchor = None
         self.anchor_versions = {}
@@ -54,62 +58,88 @@ class MainWindow:
         self.monitor_menus = {}
         self.monitor_inventory = []
         self.monitor_job = None
-        root.title('PresentationPresenter — PP7')
+        root.title('PresentationPresenter — PP8L')
         root.geometry(self.settings.geometry)
-        root.minsize(950, 800)
-        header = tk.Frame(root)
-        header.pack(fill='x', padx=8, pady=6)
-        toolbar = tk.Frame(header)
-        toolbar.pack(side='left', anchor='n')
-        self.button(toolbar, 'Nová prezentace', self.new_document)
-        filebar = tk.Frame(root)
-        filebar.pack(fill='x', padx=8)
-        for label, command in (('Otevřít', self.open_document), ('Uložit', self.save_document), ('Uložit jako', lambda: self.save_document(True)), ('Import JSON', self.import_document), ('+ Obrázek', self.choose_image)):
-            self.button(filebar, label, command)
-        self.button(filebar, 'Bible', self.open_bible)
+        root.minsize(900, 600)
+        chrome = tk.Frame(root)
+        chrome.pack(fill='x')
+        self.ribbon = Ribbon(chrome)
+        self.ribbon.frame.pack_configure(side='left', fill='both', expand=True)
+        filebar = self.ribbon.add('Soubor')
+        home = self.ribbon.add('Domů')
+        sources = self.ribbon.add('Úseky')
+        auto_bar = self.ribbon.add('Auto')
+        file_rows = [tk.Frame(filebar) for _ in range(2)]
+        for row in file_rows:
+            row.pack(fill='x')
+        for label, command in (('Nová prezentace', self.new_document), ('Otevřít', self.open_document), ('Uložit', self.save_document), ('Uložit jako', lambda: self.save_document(True)), ('Import JSON', self.import_document)):
+            self.button(file_rows[0], label, command)
         for sequence, command in (('<Control-s>', self.save_document), ('<Control-o>', self.open_document)):
             root.bind(sequence, lambda e, c=command: (c(), 'break')[1])
-        self.undo_button = self.button(toolbar, 'Zpět', self.undo)
-        self.redo_button = self.button(toolbar, 'Znovu', self.redo)
-        self.apply_button = self.button(toolbar, 'Použít do projekce', self.apply_live)
+        self.undo_button = self.button(file_rows[1], 'Zpět', self.undo)
+        self.redo_button = self.button(file_rows[1], 'Znovu', self.redo)
         self.aspects = {}
         for label, field in (('Sál', 'hall'), ('Stream', 'stream')):
             var = tk.StringVar(value=getattr(self.document, field).aspect.value)
             self.aspects[field] = var
         self.black_start = tk.BooleanVar(value=True)
         self.black_end = tk.BooleanVar(value=True)
-        tk.Checkbutton(toolbar, text='Černý konec', variable=self.black_end, command=lambda: self.commit(replace(self.document, black_end=self.black_end.get()))).pack(side='left')
+        tk.Checkbutton(file_rows[1], text='Černý konec', variable=self.black_end, command=lambda: self.commit(replace(self.document, black_end=self.black_end.get()))).pack(side='left')
         self.monitor_choices = {f: tk.StringVar() for f in ('hall', 'stream')}
-        self.projection_controls = ProjectionControls(self, header)
-        self.refresh_monitors()
+        tk.Label(auto_bar, text='Interval (s):').grid(row=0, column=0, padx=4)
+        self.auto_interval = tk.StringVar(value='5')
+        tk.Entry(auto_bar, textvariable=self.auto_interval, width=8).grid(row=0, column=1, padx=4)
+        self.auto_repeat = tk.BooleanVar(value=False)
+        tk.Checkbutton(auto_bar, text='Opakovat', variable=self.auto_repeat).grid(row=0, column=2, padx=4)
+        tk.Button(auto_bar, text='Zapnout', command=self.start_playback).grid(row=1, column=0, padx=4)
+        tk.Button(auto_bar, text='Vypnout', command=self.playback.stop).grid(row=1, column=1, padx=4)
+        self.auto_status = tk.StringVar(value='Zastaveno')
+        tk.Label(auto_bar, textvariable=self.auto_status).grid(row=1, column=2, padx=4)
         body = tk.PanedWindow(root, orient='horizontal', sashwidth=7)
         body.pack(fill='both', expand=True, padx=8)
-        sources = tk.Frame(body)
-        tk.Label(sources, text='Zdrojové úseky').pack()
-        self.sections = tk.Listbox(sources, exportselection=False)
+        source_list = tk.Frame(sources)
+        source_list.pack(side='left', fill='both', expand=True)
+        self.sections = tk.Listbox(source_list, exportselection=False, height=4, width=1)
+        self.section_scrollbar = tk.Scrollbar(source_list, command=self.sections.yview)
+        self.sections.configure(yscrollcommand=self.section_scrollbar.set)
+        self.section_scrollbar.pack(side='right', fill='y')
         self.sections.pack(fill='both', expand=True)
         self.sections.bind('<<ListboxSelect>>', self.select_section)
         self.source_buttons = []
-        for label, command in reversed((('+ Úsek', self.add_section), ('↑ Nahoru', lambda: self.move_section(-1)), ('↓ Dolů', lambda: self.move_section(1)), ('Duplikovat úsek', self.copy_section), ('Smazat úsek', self.delete_section))):
-            button = tk.Button(sources, text=label, command=command)
-            button.pack(side='bottom', fill='x', pady=2)
+        source_actions = tk.Frame(sources)
+        source_actions.pack(side='right', padx=(8, 0))
+        for i, (label, command) in enumerate((('+ Úsek', self.add_section), ('↑ Nahoru', lambda: self.move_section(-1)), ('↓ Dolů', lambda: self.move_section(1)), ('Duplikovat úsek', self.copy_section), ('Smazat úsek', self.delete_section))):
+            button = tk.Button(source_actions, text=label, command=command)
+            button.grid(row=i//3, column=i%3, padx=2, pady=2, sticky='ew')
             self.source_buttons.append(button)
-        self.sections.pack_forget()
-        self.sections.pack(fill='both', expand=True)
+        self.copy_slide_button = tk.Button(source_actions, text='Snímek → nový úsek', command=self.copy_slide)
+        self.copy_slide_button.grid(row=1, column=2, padx=2, pady=2)
+        wrap_row(source_actions)
+        action_min = max(b.winfo_reqwidth()+4 for b in source_actions.winfo_children())
+        source_actions.configure(width=action_min)
+        sources.bind('<Configure>', lambda e: source_actions.configure(width=max(action_min, int(e.width*.55))))
         editor = tk.Frame(body)
+        self.projection_controls = ProjectionControls(self, chrome)
+        self.projection_controls.frame.pack_configure(side='right', padx=8)
+        self.refresh_monitors()
         tk.Label(editor, text='Název / odkaz').pack(anchor='w')
         self.title = tk.StringVar()
         self.title_entry = tk.Entry(editor, textvariable=self.title)
         self.title_entry.pack(fill='x', pady=(0, 8))
         self.title.trace_add('write', self.title_changed)
         tk.Label(editor, text='Obsah • Enter = odstavec').pack(anchor='w')
-        formatting = tk.Frame(editor)
+        formatting = tk.Frame(home)
         formatting.pack(fill='x')
         for label, field in (('Tučné', 'bold'), ('Kurzíva', 'italic'), ('Podtržení', 'underline')):
             self.button(formatting, label, lambda f=field: self.format_selection(f))
         self.button(formatting, 'Barva', self.choose_color)
-        tk.Button(editor, text='Obrázky / rozložení', command=self.edit_images, takefocus=False).pack(anchor='w')
-        tk.Button(editor, text='• Odrážky / odstavce', command=self.toggle_bullets, takefocus=False).pack(anchor='w')
+        self.button(formatting, '• Odrážky / odstavce', self.toggle_bullets)
+        insertbar = tk.Frame(home)
+        insertbar.pack(fill='x')
+        self.button(insertbar, 'Bible', self.open_bible)
+        self.button(insertbar, 'Obrázek', self.choose_image)
+        self.button(insertbar, 'Rozložení obrázků', self.edit_images)
+        self.ribbon.show('Domů')
         text_frame = tk.Frame(editor)
         text_frame.pack(fill='both', expand=True)
         self.text = tk.Text(text_frame, wrap='word', undo=False, exportselection=False, bg='#282828', fg='white', insertbackground='white', font=(self.settings.font_family, 12), padx=8, pady=8)
@@ -131,29 +161,27 @@ class MainWindow:
         text_frame.pack_forget()
         text_frame.pack(fill='both', expand=True)
         preview = tk.Frame(body)
-        body.add(preview, width=500, minsize=300, stretch='always')
-        body.add(editor, width=360, minsize=290, stretch='never')
-        body.add(sources, width=185, minsize=150, stretch='never')
+        body.add(preview, width=650, minsize=300, stretch='always')
+        panel_width = max(380, self.projection_controls.frame.winfo_reqwidth()+4)
+        body.add(editor, width=panel_width, minsize=panel_width, stretch='never')
+        root.minsize(max(900, panel_width+340), 600)
         output_bar = tk.Frame(preview)
         output_bar.pack(fill='x')
         self.output = tk.StringVar(value='hall')
-        for label, value in (('Náhled sálu', 'hall'), ('Náhled streamu', 'stream')):
-            tk.Radiobutton(output_bar, text=label, variable=self.output, value=value, command=self.render_preview).pack(side='left')
-        version_bar = tk.Frame(preview)
-        version_bar.pack(fill='x')
         self.view_version = tk.StringVar(value='live')
-        for label, value in (('Živá verze', 'live'), ('Rozpracovaná verze', 'draft')):
-            tk.Radiobutton(version_bar, text=label, variable=self.view_version, value=value, command=self.switch_version).pack(side='left')
+        self.draft_checkbox = tk.Checkbutton(output_bar, text='Rozpracovaná verze', variable=self.view_version,
+                                            onvalue='draft', offvalue='live', command=self.switch_version)
+        self.draft_checkbox.pack(side='left')
+        self.output_button = self.button(output_bar, 'Stream', self.toggle_preview_output)
+        apply_row = tk.Frame(preview)
+        apply_row.pack(fill='x')
+        self.apply_button = self.button(apply_row, 'Použít do projekce', self.apply_live)
         self.version_status = tk.StringVar()
-        tk.Label(preview, textvariable=self.version_status, anchor='w', wraplength=400).pack(fill='x')
+        version_label = tk.Label(preview, textvariable=self.version_status, anchor='w', justify='left', wraplength=400)
+        version_label.pack(fill='x')
+        preview.bind('<Configure>', lambda e: version_label.configure(wraplength=max(100, e.width-8)))
         self.layout_warning = tk.StringVar()
         self.layout_warning_label = tk.Label(preview, textvariable=self.layout_warning, fg='#b02020', anchor='w', wraplength=400)
-        aspect_bar = tk.Frame(preview)
-        aspect_bar.pack(fill='x')
-        tk.Label(aspect_bar, text='Poměr návrhu:').pack(side='left')
-        for label, field in (('Sál', 'hall'), ('Stream', 'stream')):
-            tk.Label(aspect_bar, text=label).pack(side='left')
-            tk.OptionMenu(aspect_bar, self.aspects[field], *(a.value for a in Aspect), command=lambda v, f=field: self.change_aspect(f, v)).pack(side='left')
         self.preview = tk.Canvas(preview, bg='black', highlightthickness=0)
         self.preview.pack(fill='both', expand=True)
         self.preview.bind('<Configure>', lambda e: self.render_preview())
@@ -162,7 +190,11 @@ class MainWindow:
         nav.pack(side='bottom', fill='x')
         self.button(nav, '←', lambda: self.jump(self.current-1))
         self.button(nav, '→', lambda: self.jump(self.current+1))
-        self.copy_slide_button = self.button(nav, 'Snímek → nový úsek', self.copy_slide)
+        self.button(nav, 'Zatemnit / vrátit (B)', self.toggle_blackout)
+        self.auto_stop_button = self.button(nav, 'Stop auto', self.playback.stop)
+        tk.Label(nav, textvariable=self.auto_status).pack(side='left')
+        for row in (*file_rows, formatting, insertbar, output_bar, nav):
+            wrap_row(row)
         self.location = tk.StringVar()
         tk.Label(preview, textvariable=self.location, wraplength=280).pack(side='bottom', fill='x')
         self.preview.pack_forget()
@@ -189,6 +221,8 @@ class MainWindow:
         self.rebuild()
         root.protocol('WM_DELETE_WINDOW', self.close)
         root.bind('<Delete>', self.delete_black_slide)
+        root.bind('<Button-1>', self.leave_text_input, add='+')
+        bind_navigation(root, self)
         root.bind('<KeyPress-b>', self.blackout_key)
         root.bind('<KeyPress-B>', self.blackout_key)
         root.bind('<Destroy>', self.destroyed, add='+')
@@ -200,6 +234,57 @@ class MainWindow:
             root.drop_target_register('DND_Files')
             root.dnd_bind('<<Drop>>', self.drop_images)
         self.autosave_job = root.after(1000, self.offer_recovery)
+
+    def toggle_preview_output(self):
+        self.output.set('stream' if self.output.get() == 'hall' else 'hall')
+        self.output_button.configure(text='Sál' if self.output.get() == 'stream' else 'Stream')
+        self.render_preview()
+
+    def leave_text_input(self, event):
+        widget = event.widget
+        if widget.winfo_exists() and widget.winfo_toplevel() == self.root and widget.winfo_class() not in TEXT_INPUTS | {'Scrollbar', 'TScrollbar'}:
+            focused = self.root.focus_get()
+            if focused is not None and focused.winfo_class() in TEXT_INPUTS:
+                self.root.focus_set()
+
+    def navigate_presenter(self, target):
+        if self.session:
+            slides = self.session.plan.slides
+            if not slides:
+                return
+            current = next(i for i, slide in enumerate(slides) if slide.id == self.session.current_slide_id)
+            if target in ('previous_section', 'next_section'):
+                target_index = section_destination(self.session.plan, current, 1 if target == 'next_section' else -1)
+                target = target_index - current
+            index = 0 if target == 'first' else len(slides)-1 if target == 'last' else max(0, min(current + target, len(slides)-1))
+            self.playback_advance(index)
+            self.playback.reset()
+        elif self.plan and self.plan.slides:
+            if target in ('previous_section', 'next_section'):
+                target = section_destination(self.plan, self.current, 1 if target == 'next_section' else -1) - self.current
+            self.jump(0 if target == 'first' else len(self.plan.slides)-1 if target == 'last' else self.current + target)
+
+    def playback_status(self):
+        if hasattr(self, 'auto_status'):
+            self.auto_status.set('Pozastaveno zatemněním' if self.playback.running and self.session and self.session.blackout else 'Běží' if self.playback.running else 'Zastaveno')
+
+    def start_playback(self):
+        try:
+            if not self.playback.start(self.auto_interval.get(), self.auto_repeat.get()):
+                self.status.set('Nejprve spusťte projekci.')
+        except ValueError as exc:
+            self.status.set(str(exc))
+
+    def playback_advance(self, index):
+        # Navigate the confirmed plan even while the operator inspects the draft.
+        self.session = replace(self.session, current_slide_id=self.session.plan.slides[index].id)
+        self.reset_anchor()
+        for window in self.projections.values():
+            window.render()
+        if self.viewing_live():
+            self.jump(index, preserve_anchor=True)
+        else:
+            self.update_version_status()
 
     def open_bible(self):
         if self.bible_window and self.bible_window.alive():
@@ -402,7 +487,7 @@ class MainWindow:
                 self.status.set(str(exc))
         self.monitor_job = self.root.after(1000, self.refresh_monitors)
 
-    def start_projection(self, outputs):
+    def start_projection(self, outputs, from_current=True):
         self.text_changed()
         self.refresh_monitors_now()
         targets = {f: next((m for m in self.monitor_inventory if m.id == self.monitor_choices[f].get()), None) for f in outputs}
@@ -422,7 +507,7 @@ class MainWindow:
             if not self.plan or self.plan.source != self.document or not self.plan.slides:
                 self.status.set('Projekci nelze spustit: připravte platný dokument se snímky.')
                 return False
-            self.session = replace(ProjectionSession.confirm(self.plan), current_slide_id=self.plan.slides[self.current].id)
+            self.session = replace(ProjectionSession.confirm(self.plan), current_slide_id=self.plan.slides[self.current if from_current else 0].id)
             self.reset_anchor()
         created = []
         try:
@@ -462,6 +547,8 @@ class MainWindow:
         self.finish_projection()
 
     def finish_projection(self):
+        if not self.projections:
+            self.playback.stop()
         if not self.projections and self.session:
             self.session = None
             self.live_anchor = None
@@ -485,6 +572,7 @@ class MainWindow:
     def toggle_blackout(self):
         if self.session:
             self.session = replace(self.session, blackout=not self.session.blackout)
+            self.playback.reset()
             for window in self.projections.values():
                 window.render()
             self.status.set('Projekce zatemněna (B vrátí obsah)' if self.session.blackout else 'Živá potvrzená session • editor je rozpracovaná verze')
@@ -562,6 +650,9 @@ class MainWindow:
         return self.session is not None and self.view_version.get() == 'live'
 
     def update_version_status(self):
+        if not self.session:
+            self.view_version.set('draft')
+        self.draft_checkbox.configure(state='normal' if self.session else 'disabled')
         dirty = self.session and self.session.plan.source != self.document
         self.apply_button.configure(state='normal' if dirty else 'disabled')
         text = ('ŽIVÁ verze • navigace ovládá projekci' if self.viewing_live() else 'ROZPRACOVANÁ verze • navigace mění jen náhled')
@@ -586,6 +677,7 @@ class MainWindow:
                 except LayoutError as exc:
                     self.view_version.set('live')
                     self.status.set('Rozpracovaný náhled není dostupný: '+str(exc))
+                    self.update_version_status()
                     return
                 self.switch_slide_id = anchors.locate(draft, self.anchor_tracks[slide.id][self.document])
                 self.preview_origin_id = slide.id
@@ -611,6 +703,7 @@ class MainWindow:
             return False
         # One publication, no update()/event processing between output renders.
         self.session = session
+        self.playback.reset()
         self.preview_origin_id = None
         self.anchor_tracks.clear()
         if position:
@@ -625,7 +718,7 @@ class MainWindow:
 
     @staticmethod
     def button(parent, label, command):
-        button = tk.Button(parent, text=label, command=command, takefocus=False)
+        button = tk.Button(parent, text=label, command=command, takefocus=True)
         button.pack(side='left', padx=2)
         return button
 
@@ -809,10 +902,13 @@ class MainWindow:
             self.sections.insert('end', f'{i+1}. {section.title or "Bez názvu"}')
             if section.id == self.selected_id:
                 self.sections.selection_set(i)
+                self.sections.see(i)
         for field, var in self.aspects.items():
             var.set(getattr(self.document, field).aspect.value)
         self.black_start.set(self.document.black_start)
         self.black_end.set(self.document.black_end)
+        if hasattr(self, 'projection_controls'):
+            self.projection_controls.update_summary()
 
     def select_section(self, event=None):
         selected = self.sections.curselection()
@@ -1074,6 +1170,7 @@ class MainWindow:
         if self.viewing_live() and not preserve_anchor:
             moved = self.session.current_slide_id != self.session.plan.slides[self.current].id
             self.session = replace(self.session, current_slide_id=self.session.plan.slides[self.current].id)
+            self.playback.reset()
             if moved:
                 self.reset_anchor()
             for window in self.projections.values():
@@ -1145,6 +1242,7 @@ class MainWindow:
 
     def destroyed(self, event):
         if event.widget is self.root:
+            self.playback.stop()
             self.recovery.release()
             self.root.tk.deletecommand(self.text._w)
             for job in (self.pending, self.group_timer, self.monitor_job, self.autosave_job):
