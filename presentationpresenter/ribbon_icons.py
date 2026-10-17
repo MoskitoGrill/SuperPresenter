@@ -12,9 +12,15 @@ def command_icon(root, name, color='#202020'):
         pen.line([(43, 55), (64, 35)], fill=color, width=5)
         pen.polygon([(65, 43), (57, 59), (59, 66), (65, 69), (71, 65), (72, 59)], fill=color)
         pen.line([(12, 75), (73, 75)], fill=color, width=5)
-    elif name == 'bullets':
-        for y in (17, 39, 61):
-            pen.ellipse((7, y-4, 15, y+4), fill=color)
+    elif name in ('bullets', 'numbered'):
+        digits = (((7, -5), (11, -8), (11, 7)),
+                  ((5, -7), (15, -7), (15, -1), (5, 7), (15, 7)),
+                  ((5, -7), (15, -7), (10, 0), (15, 1), (15, 7), (5, 7)))
+        for i, y in enumerate((17, 39, 61)):
+            if name == 'bullets':
+                pen.ellipse((7, y-4, 15, y+4), fill=color)
+            else:
+                pen.line([(x, y+dy) for x, dy in digits[i]], fill=color, width=3)
             pen.line([(26, y), (72, y)], fill=color, width=5)
     else:
         raise ValueError(name)

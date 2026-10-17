@@ -9,6 +9,10 @@ def dumps(document: Presentation) -> str:
     data = asdict(document)
     for section, encoded in zip(document.sections, data['sections']):
         encoded['type'] = 'text' if isinstance(section, TextSection) else 'image'
+        if isinstance(section, TextSection):
+            for block in encoded['blocks']:
+                if block['level'] == 0:
+                    block.pop('level')
     return json.dumps(data, ensure_ascii=False, indent=2, allow_nan=False)
 
 def loads(payload: str) -> Presentation:

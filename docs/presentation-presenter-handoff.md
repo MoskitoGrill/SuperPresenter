@@ -4,6 +4,12 @@ Datum založení: 11. 10. 2026. Stav: PP1–PP7 implementačně dokončeny; fyzi
 
 ## Jak používat tento dokument
 
+Aktualizace 17. 10. 2026: PP8F po společném výběru implementuje F1–F3 a navíc Ctrl+M / Ctrl+Shift+D. Platný rozsah a nové zkratky viz závěrečný záznam PP8F níže; starší návrhové zápisy se tím uzavírají. PP9 nezahájena.
+
+Následné výslovné rozšíření 17. 10. 2026: do 1.0 přidány číslované seznamy, viz poslední doplnění PP8F. Pododrážky přes Tab a font/velikost označeného textu zatím pouze projednány, implementace neschválena.
+
+Další souhlas 17. 10. 2026: uživatel následně schválil také podseznamy přes Tab; platné chování a ověření viz závěrečné doplnění níže. Font/velikost zůstávají mimo dosud schválenou implementaci.
+
 Tento soubor je společný zdroj zadání a předávání mezi chaty. Před každou etapou jej přečti, ověř skutečný stav kódu a předchozí výsledky. Po etapě jej aktualizuj. Historii dokončených etap nepřepisuj; změny rozhodnutí zaznamenej s důvodem. Nepovažuj plánovanou funkci za hotovou.
 
 Etapy prováděj postupně. Každá má skončit konkrétním spustitelným nebo ověřitelným výsledkem. Neodkládej chybu, která brání dokončení aktuální etapy nebo bezpečnému pokračování. Ostatní závady eviduj s dopadem, reprodukcí a cílovou etapou. Skutečné promítání na fyzické monitory a kontrolu streamového skládání nelze nahradit automatickým testem; neověřené scénáře označ.
@@ -100,6 +106,13 @@ Každý níže uvedený text je samostatné zadání. Chat má nejprve přečís
 
 **Text do chatu:**
 > Proveď pouze PP8L. Nejprve přečti tento dokument, ověř PP1–PP8 a zachovej předexistující změny. Projdi přípravu a projekci, navrhni rozmístění náhledu, editoru, úseků, miniatur sálu, projekčních akcí a rozlišení verzí; předlož mockup. Rozsáhlý layout implementuj až po schválení konkrétního návrhu uživatelem. Použij vlastní styly bez změn či importování interních UI modulů SuperPresenteru. Ověř resize, menší obrazovku, systémové škálování, čitelnost, fokus a dostupnost akcí i funkční regrese. Zaznamenej výsledky a neověřené scénáře. PP9 nezačínej.
+
+### Etapa PP8F — revize funkčnosti před 1.0
+
+**Výsledek:** uživatelská revize přípravy i živé projekce, společný výběr a implementace F1–F3 včetně přidaných Ctrl+M a Ctrl+Shift+D. Výsledky ověření a konkrétní předání PP9 viz závěrečný záznam PP8F.
+
+**Text do chatu:**
+> Proveď PP8F po PP8L a před PP9. Přečti historii a registr, ověř současné chování a zachovej cizí práci i izolaci SuperPresenteru. Odděl chyby a nedokončené schválené požadavky od nových návrhů. Navrhni jen drobné praktické doplňky pro 1.0 a konkrétní lokální zkratky s rozsahem a konflikty; respektuj konečná rozhodnutí PP8 a PP8L. Nové funkce implementuj až po společném výběru, větší layout znovu výslovně projednej. Zapiš výběr, implementaci, odklady a ověření pro PP9. PP9 ani distribuci nezačínej a aplikaci neoznačuj za finálně ověřenou.
 
 ### Etapa PP9 — kontrola a stabilizace
 
@@ -447,6 +460,7 @@ Pravidla odvozená z bodů 7–8 a 11 přijatého zadání; nahrazují PP4 nutno
 | PP-LAYOUT | PP1 inspektor nepočítal společné dělení, kamerové obtékání ani skutečnou geometrii. | Původní inspektor nebyl projekční náhled. | PP2 | Vyřešeno: společný plán, měřené geometrie a skutečné Tk náhledy; viz záznam PP2. |
 | PP-STORAGE | JSON codec nebalil média a neměl UI ukládání prezentace, autosave ani recovery. | Změny dokumentu byly pouze v paměti. | PP6 | Vyřešeno: `.ppres` v2 (čte v1) s vloženými médii, atomické souborové akce, autosave a recovery; viz PP6 a rozšíření. |
 | PP-HARDWARE | Neproveden fyzický průchod dvěma externími monitory a capture streamu, odpojením, změnou rozlišení a smíšeným DPI. | Zbývá ověřit reálné zařízení a streamové skládání. | PP9 / fyzická QA | Neověřeno; provést checklist uvedený v PP4. |
+| PP8L-DRAG | Souvislé živé tažení vnitřních děličů ve Windows/Tk zanechává přechodné obrazové stopy, viz videa a návrat průběžného tažení 16. 10. | Dočasné artefakty ovladačů během změny velikosti. | PP9 / stabilizace | Otevřeno; uživatel upřednostnil živé tažení před vodicí čárou. PP8F pouze sjednocuje evidenci existující chyby. |
 | PP-BIBLE-DATA | NKB obsahuje pouze neidentifikovaný klíč `null`; EKU má prázdné verše v Mk 9/15, Sk 8/15/24/28 a Ř 16. | NKB nelze bezpečně nabídnout; rozsah obsahující chybějící text EKU se odmítá. | Podklady / PP9 evidence | Služba bezpečně hlásí omezení; sdílená data se v PP7 neopravují. |
 | PP5-SHORT | Vložení před kotvu vynucovalo samostatný krátký snímek pouze s vloženým textem. | Nevhodné pro drobné živé opravy. | PP5 | Vyřešeno dle uživatelského upřesnění: přirozené dělení a výběr obsahujícího snímku. |
 | PP5-PREVIEW | Verze obnovovaly nezávislé číslo náhledu, takže přepnutí skákalo jinam. | Matoucí orientace v živé a rozpracované verzi. | PP5 | Vyřešeno: obsahové mapování a oddělená projekční pozice, návrat bez postupného posunu. |
@@ -454,6 +468,7 @@ Pravidla odvozená z bodů 7–8 a 11 přijatého zadání; nahrazují PP4 nutno
 
 ## Otevřená rozhodnutí
 
+- PP8F: výběr uzavřen — uživatel schválil F1–F3 a přidal Ctrl+M / Ctrl+Shift+D; viz závěrečný záznam implementace. Další návrhy se nepřidávají do 1.0.
 - PP8L: uživatel schválil vlastní rozmístění Soubor/Domů/Úseky/Auto a sbalování; první iterace implementována, viz doplnění z 16. 10. 2026. Původní mockup nebyl schválen jako celek. Zbývá společné doladění, finální vzhled a řešení malé plochy při vysokém DPI.
 - PP1: uzavřeno — cesty a hranice modulů viz záznam dokončení.
 - PP2: uzavřeno — typografie, geometrie a pravidla dělení viz záznam PP2.
@@ -818,3 +833,140 @@ Pravidla odvozená z bodů 7–8 a 11 přijatého zadání; nahrazují PP4 nutno
 - Snímek → nový úsek přejmenováno na Duplikovat slide, původní funkce zachována. Skupina Úpravy úseků má dva sloupce: vlevo + Úsek / Smazat, vpravo Duplikovat / Duplikovat slide. Obě duplikace mají běžné stejné písmo a šířku druhého sloupce, tlačítko již nezabírá tři řádky.
 - Změněny presentationpresenter/ui.py a tento handoff. Předexistující práce i SuperPresenter zachovány. PP8L pokračuje, další etapa nezahájena. Změna po restartu aplikace.
 - Cílené PP8L 7/7 OK, 13,224 s; git diff --check bez chyb.
+
+### PP8F — revize a návrh rozsahu, 17. 10. 2026, historický návrh
+
+Následující návrhová část zachovává stav před souhlasem uživatele. Její čekající výběr a podmíněná doporučení uzavírá závěrečný záznam implementace níže.
+
+- Výchozí `git status --short` čistý. Runtime, uživatelské prezentace, nastavení, Bible a SuperPresenter se v návrhové části nemění. Žádný commit/stash. Pořadí etap nyní PP8L → PP8F → PP9 → PP10 → PP11. Starší odkazy na přímý přechod z PP8L do PP9 jsou historické.
+- Podklady: historie PP1–PP8L včetně nahrazujících rozhodnutí, registr a současné UI, lokální klávesový adaptér, obrázkový a biblický editor. Rozlišovat prohlídku implementace a izolované Tk scénáře od fyzické produkce. Nové funkce zatím žádné schválené ani implementované; PP8F není dokončena.
+- Ověření aktuálního stavu: bundled Python `-B -m unittest tests.presentationpresenter.test_pp3 tests.presentationpresenter.test_pp6 tests.presentationpresenter.test_pp7 tests.presentationpresenter.test_pp8 tests.presentationpresenter.test_pp8l`: **54/54 OK, 40,937 s**, včetně skutečných Tk vstupů a projekčních oken nad dočasnými daty. První sandboxový běh skončil po chybách a uváznutí přerušením; povolené opakování mimo sandbox prošlo. Známá teardownová `ttk::ThemeChanged` diagnostika přetrvává. Nejde o nový fyzický uživatelský průchod dvěma monitory ani finální PP9 QA. `git diff --check` bez chyb; změněn pouze tento dokument.
+
+#### Průchod současnou funkčností
+
+| Situace | Současný stav a závěr revize |
+| --- | --- |
+| Nová / otevření / uložení / import | Nová vyžaduje potvrzení a lze ji vrátit historií. Otevření a import nejprve validují data a mění jen návrh; předchozí návrh lze vrátit Zpět. Uložit a Uložit jako zapisují přenosný návrh, nikoli živou session. Před otevřením/importem chybí nabídka uložení současné práce. Zavření ji má. |
+| Text / formátování | Odstavce, odrážky, označení textu, B/I/U a barva existují tlačítky. Historie dokumentu seskupuje psaní. Vlastní zkratky formátování nejsou zavedeny. |
+| Obrázky | Více obrázků i smíšený text, přesun/velikost tažením i čísly, odstranění konkrétního obrázku, propojený/odpojený stream a první/všechna pokračování existují. Výběr souboru je dostupná cesta; DND s nepřítomnou volitelnou závislostí není provozně doloženo. |
+| Bible | Samostatné okno, rychlý odkaz, našeptávání, výběry, překlad, náhled a kopírování existují. Vložení využije prázdný úsek, jinak přidá nový; výchozí CSP bez čísel. Omezení podkladů nejsou chybějící funkcí. |
+| Výběr / přesun / duplikace / smazání | Seznam Úseky a tlačítka existují. Duplikovat kopíruje celý úsek; Duplikovat slide kopíruje pouze obsah vybraného pokračování do nového úseku. Delete v návrhovém náhledu/miniatuře maže jen černý snímek; nemaže běžné pokračování ani celý úsek. Nezavádět neurčité mazání podle posledního výběru. |
+| Náhled a lišta | Sál/stream, rozpracovaná/živá verze, modré prohlížené a zelené živé místo, posuvník i kolečko a nastavitelná výška existují. Jednoduché šipky tlačítek a miniatury ovládají prohlíženou verzi; lokální klávesy a dvojité šipky za běhu živou session. Rozdíl je záměrný, nesjednocovat bez změny dohody. |
+| Start / přepínání / konec | F5 od prvního snímku, Shift+F5 a Play od náhledu, Esc stop všech výstupů. Již běžící session F5 nerestartuje ani nepotvrzuje návrh. Šipky a skoky mezi úseky jsou schválené. |
+| Zatemnění / automatika | B i tlačítko v Úsecích; při psaní B zůstává znakem. Auto má interval, opakování a samostatný start/stop v Auto. Zatemnění pozastaví časovač, návrat/ruční živý skok/potvrzení obnoví celý interval. Stop auto mimo záložku byl v PP8L výslovně odstraněn. |
+| Živé opravy / neuložené změny | Použít do projekce je trvale pod editorem a indikace nepoužitých změn existuje. Uložení nemění živý obsah a publikace neukládá soubor. Trvalá indikace názvu souboru a neuloženosti chybí; přechodné hlášení Uloženo ji nenahrazuje. |
+
+#### Povinná práce a chyby, nikoli volitelné doplňky
+
+- Již schválená souhrnná předprojekční kontrola přetečení, médií, kamery a výstupů je stále úkolem PP9. Jednotlivé validace při načtení/paginaci/startu nejsou hotovým souhrnným přehledem. Nehlasovat o ní jako o nové funkci.
+- PP-HARDWARE, skutečný prezentér, stream capture, odpojení monitoru a smíšené DPI zůstávají neověřené. Dlouhé dokumenty, paměť historie a synchronní paginace patří ke stabilizaci PP9.
+- PP8L stále vyžaduje uživatelské uzavření vzhledu a provozní kontrolu malé plochy/vysokého DPI. Poslední schválený layout včetně živého tažení a pevné navigace se zachovává.
+- PP8L-DRAG: při souvislém živém tažení děličů přechodné stopy Windows/Tk, doložené videi; reprodukce a poslední platné rozhodnutí viz návrat průběžného tažení 16. 10. Chyba zůstává otevřená pro stabilizaci PP9, nejde o nový návrh animace či layoutu.
+- PP-ENV-1 a PP-BIBLE-DATA trvají dle registru. Historická `ttk::ThemeChanged` diagnostika při teardownu je oddělená od chyby uživatelského callbacku. Žádnou starší opravenou závadu znovu nevydávat za otevřenou.
+
+#### Prioritizované nové návrhy — dosud neschválené
+
+| ID | Uživatelská situace a existující cesta | Přínos / náročnost / riziko | Doporučení |
+| --- | --- | --- | --- |
+| F1 | Před Nová/Otevřít/Import nabídnout Uložit / Pokračovat bez uložení / Zrušit při změněném návrhu; trvale zobrazit jméno souboru a neuloženost. Nyní je ochrana při zavření, Nová má potvrzení, předchozí návrh lze vrátit undo a funguje recovery. | Jasné rozlišení disk/projekce a menší riziko záměny práce. Přibližně 0,5–1 den; střední riziko hranic historie a cesty souboru. Zrušené/neúspěšné uložení musí přerušit navazující akci. Bez nové velké plochy UI. | Zařadit do 1.0. Jde o doplnění ochrany, ne tvrzení, že dnešní otevření automaticky nevratně maže práci. |
+| F2 | Běžné souborové akce a formátování vyvolat bez přepínání ribbonu; po živé opravě potvrdit z editoru. Všechny akce již existují tlačítky. Doplnit Ctrl+N, Ctrl+Shift+S, Ctrl+B/I/U a Ctrl+Enter. | Méně klikání při přípravě a živé opravě. Přibližně 0,5–1 den; střední riziko Tk class bindingů, zachování výběru a nechtěné publikace. | Zařadit do 1.0 s přesným rozsahem níže. |
+| F3 | V seznamu úseků duplikovat a přesunout vybraný úsek klávesnicí. Nyní tlačítka Duplikovat a Nahoru/Dolů. Doplnit Ctrl+D a Alt+↑/↓ jen do seznamu. | Kratší organizace prezentace bez změny layoutu. Přibližně 0,25–0,5 dne; nízké až střední riziko změny fokusu po operaci. | Zařadit do 1.0, pokud tyto operace uživatel používá často. |
+
+Odhady zahrnují cílené ověření, nejsou závazný termín. K výběru doporučeny F1+F2, F3 je menší doplněk.
+
+#### Existující zkratky — skutečný stav před PP8F
+
+| Akce | Klávesy | Rozsah a konflikty |
+| --- | --- | --- |
+| Uložit / Otevřít | Ctrl+S / Ctrl+O | Hlavní okno včetně textových vstupů; nikoli vlastní projekční/dialogová vazba. |
+| Zpět / Znovu | Ctrl+Z / Ctrl+Y nebo Ctrl+Shift+Z | Hlavní okno, společná historie návrhu. Při regresi hlídat přednost nativních Tk tříd, zejména Entry; nejsou to klávesy změny živé session. |
+| Předchozí / další snímek | ←, ↑, PgUp / →, ↓, PgDn | Hlavní a projekční okno mimo Text/Entry/Spinbox/Combobox; bez Ctrl/Alt. Bez projekce návrh, za běhu živá session i při náhledu návrhu. |
+| Předchozí / další úsek | Shift+← / Shift+→ | Stejný rozsah a ochrany, včetně předělů a dohodnutého konce. Neznamená první/poslední snímek. |
+| Start od začátku / od náhledu | F5 / Shift+F5 | Hlavní a projekční okno mimo textové vstupy; aktuální výběr výstupů. Živou session znovu nepotvrzuje. |
+| Zastavit všechny výstupy a auto | Esc | Hlavní a projekční okno mimo textové vstupy. Bible používá vlastní Esc pro nabídku. |
+| Zatemnit / vrátit | B (také velké B) | Hlavní a projekční okno mimo textové vstupy. Psaní b/B v obsahu, názvu, biblickém odkazu i dalších vstupech musí zůstat běžné psaní. |
+| Odstranit černý snímek | Delete | Jen náhled/miniatura návrhu s fokusem; běžný obsahový snímek se nemaže, v editoru se maže text. |
+| Odstavec / vložení textu | Enter / Ctrl+V | Obsah editoru, prostý text s lokálním stylem. Běžné vyjmutí/kopírování a pohyb/výběr obsluhuje Tk; neplést s projekčními příkazy. |
+| Bible | Enter, ↑/↓, Esc | Jen rychlý odkaz/nabídka: najít/potvrdit, procházet, zavřít nabídku. Nenaviguje projekci. |
+| Obrázkové číselné hodnoty | Enter | Potvrdí pole v obrázkovém editoru. Projekční zkratky se do dialogu nepřenášejí. |
+
+Žádné systémové globální zkratky ani hooky nejsou dohodnuté. Hardwarový prezentér má vysílat schválené lokální klávesy a vyžaduje aktivní hlavní/projekční okno. Automatika nemá klávesovou zkratku.
+
+#### Konkrétní návrh doplnění zkratek
+
+| Návrh | Akce / kombinace | Kde platí | Konflikt a pravidlo |
+| --- | --- | --- | --- |
+| F2 | Nová: Ctrl+N | Hlavní okno včetně editoru, nikoli dialog/projekční okno | Tk Text může mít vlastní Ctrl+N pro pohyb; cíleně přepsat, dokončit vstup a použít ochranu F1. |
+| F2 | Uložit jako: Ctrl+Shift+S | Hlavní okno včetně editoru | Odlišit od Ctrl+S, jedna akce na stisk, Zrušit nezmění cestu. |
+| F2 | Tučně / kurzíva / podtržení: Ctrl+B / Ctrl+I / Ctrl+U | Pouze pole Obsah hlavního editoru | Přepsat nativní Tk pohyb/tabulátor/mazání před class bindingem. Stejná sémantika jako tlačítka: jen označený text, bez výběru zpráva; ne nové průběžné formátování. Samotné B vždy píše, Ctrl+B nesmí zatemňovat. |
+| F2 | Použít do projekce: Ctrl+Enter | Hlavní okno včetně názvu/obsahu; jen s běžící session a platným návrhem | Explicitní publikace všech změn, ne ukládání. Potlačit vložení nového odstavce a dokončit poslední editaci. V Bibli/obrázkových/modálních oknech nezachytávat. |
+| F3 | Duplikovat úsek: Ctrl+D | Jen seznam Úseky s fokusem | Jinde nechat nativní význam; nekopíruje jednotlivé pokračování. Výběr po akci nový úsek, fokus zůstane v seznamu. |
+| F3 | Přesun úseku: Alt+↑ / Alt+↓ | Jen seznam Úseky s fokusem | Nezasahovat do šipek navigace PP8 ani Alt+šipky v comboboxu. Zachovat výběr a fokus, na hranici beze změny. |
+
+Nové projekční ani globální kombinace nejsou potřeba. Není navrženo přepsat F5/Esc/Shift+šipky ani přidat Space jako navigaci či automatiku: mezera při psaní a aktivace tlačítka musí zůstat předvídatelné.
+
+#### Odložené návrhy a předání
+
+- Zkratka automatiky např. Ctrl+F6 jen mimo textový vstup hlavního/projekčního okna: odložit; přínos pro start/stop z jiné záložky existuje, ale přepínač musí jasně odlišit auto od projekce a vyřešit neplatný interval. Současná tlačítka Auto jsou schválená. Nevracet bez dohody dříve odstraněné Stop auto do navigace.
+- Hromadný výběr úseků, drag-and-drop pořadí, hledání v celé prezentaci a seznam nedávných souborů nyní nepřidávat; pro 1.0 existují jednoduché cesty a náklady/hranice chování převyšují doložený přínos. Nejde o nové schválené závazky.
+- Nápovědy ikon a další názvy byly v PP8L neschválené, zde se nenavrhují znovu. PPTX/PowerPoint, volná textová pole, skutečná kamera, animace a skrývání zůstávají mimo 1.0.
+- PP9 dostane po výběru konkrétní seznam implementovaných F položek; do té doby jde o podmíněný checklist: F1 save/discard/cancel včetně chyby zápisu a undo přes dokumenty; F2 poslední napsaný znak, výběr a undo formátování, jediná publikace bez odstavce, ochrana Bible/obrázků/dialogů a b/B; F3 fokus, hranice, identity kopie, undo/redo a nezměněná živá session do publikace. U všech také česká klávesnice a Ctrl/Shift/Alt konflikty.
+- Předběžná hranice 1.0: dosavadní schválený text/obrázky/Bible, dva výstupy, přenosné soubory/recovery, živé potvrzení, automatika a lokální ovládání; navíc pouze společně vybrané drobnosti F1–F3, povinné dokončení a stabilizace v PP9. **Finální výběr doplňků zatím neuzavřen.** Distribuce až PP10, návod PP11. PP9 nezahájena a finální ověření se netvrdí.
+
+### PP8F — schválený rozsah a implementace, 17. 10. 2026, implementačně hotovo
+
+- Uživatel výslovně schválil **F1, F2 i F3** a přidal **Ctrl+M pro nový úsek a Ctrl+Shift+D pro duplikaci pouze slidu**. Tento záznam uzavírá předchozí čekající výběr. Žádná větší změna layoutu ani další funkce se nepřidává.
+- **F1:** při neuložených změnách před Nová/Otevřít/Import nabídka Ano = uložit / Ne = pokračovat bez uložení / Zrušit = zůstat. Zrušený výběr cesty a chyba zápisu přeruší navazující akci. U změněné prezentace Nová již nežádá druhé potvrzení téže akce; u čisté zachovává dosavadní potvrzení. Zavření dokončí poslední textový vstup před kontrolou změn.
+- Existující spodní stavový řádek má trvalý prefix **jméno souboru • uloženo / neuložené změny**, u nové/importované/obnovené prezentace **Nová prezentace • dosud neuloženo**; hlášení aplikace pokračuje za oddělovačem. Stav se mění i po undo/redo. Titulek okna/taskbaru obsahuje jméno souboru a hvězdičku změn. Nezabírá se nový panel nebo další řádek. Dosavadní indikace **Nepoužité změny** u potvrzení projekce zůstává samostatná.
+- Při undo/redo přes otevření/novou/import/obnovu se s obsahem vrací příslušná cesta a poslední uložený snapshot. Identita souborového kontextu je nezávislá na ID prezentace, takže dvě kopie vzniklé Uložit jako mohou mít stejné ID a různé cesty. Metadata zůstávají pouze v paměti této instance, nemění formát `.ppres` ani recovery. Předchozí návrh je nadále vratný historií. Import a obnova nemají cestu k přepsání originálu a zůstávají neuložené.
+- **F2/F3:** akce jsou společné s existujícími tlačítky. Vazby běží před nativními Tk class bindingy, aby Ctrl+I/M/U neměnily text vlastní nativní akcí a undo neproběhlo dvakrát. Nové příkazy jsou lokální pro hlavní okno; dialogy a projekční okna je nedědí. Upravená ochrana B navíc odmítá Ctrl/Alt, takže Ctrl+B mimo obsah nemůže náhodně zatemnit. Psaní b/B a schválené lokální ovládání PP8 zůstává.
+
+#### Nově implementované zkratky — platný doplněk mapy PP8
+
+| Akce | Klávesy | Přesný rozsah / konflikt |
+| --- | --- | --- |
+| Nová prezentace | Ctrl+N | Hlavní okno včetně textových vstupů; ochrana F1. Přepisuje nativní Ctrl+N pohyb v Text. |
+| Uložit jako | Ctrl+Shift+S | Hlavní okno včetně vstupů; nezaměňuje se s Ctrl+S. |
+| Tučně / kurzíva / podtržení | Ctrl+B / Ctrl+I / Ctrl+U | Jen pole Obsah, pouze označený text, stejné jako tlačítka. Bez výběru zpráva. Ctrl+I nevloží tabulátor, Ctrl+U nemaže text. |
+| Použít do projekce | Ctrl+Enter | Hlavní okno včetně obsahu/názvu, pouze s běžící session; potvrdí celý návrh. Dokončí poslední editaci, nevloží odstavec, neuloží soubor. Neplatný layout zachová původní živou session. |
+| Nový úsek | Ctrl+M | Hlavní okno včetně obsahu/názvu; vloží prázdný úsek za vybraný a přejde do jeho názvu. Nevkládá nový řádek do původního textu. |
+| Duplikovat slide | Ctrl+Shift+D | Hlavní okno včetně vstupů; existující akce kopie právě prohlíženého obsahového pokračování návrhu za zdrojový úsek. Zachová formátování a viditelné obrázky, původní úsek nemění. Na černém snímku, neplatném plánu či při živém náhledu nic nekopíruje. |
+| Duplikovat úsek | Ctrl+D | Jen seznam Úseky s fokusem; kopie celého úseku, vybere kopii, fokus zůstane v seznamu. V textu se Ctrl+D nepřebírá. |
+| Přesun úseku nahoru / dolů | Alt+↑ / Alt+↓ | Jen seznam Úseky s fokusem; zachová výběr/fokus, na hranici nic nemění. Nezasahuje do navigace PP8 ani výběrů dialogů. |
+
+Ctrl+S/O, Ctrl+Z/Y/Shift+Z, F5/Shift+F5, Esc, šipky/PgUp/PgDn, Shift+←/→, B, Delete předělů i vlastní klávesy Bible/obrázků zůstávají dle mapy výše. Globální ovládání ani klávesa automatiky se nepřidávají.
+
+#### Ověření a předání PP9
+
+- Nový `tests/presentationpresenter/test_pp8f.py` používá izolované soubory, recovery, skutečná Tk okna a klávesové události. Pokrývá save/cancel/failure před náhradou dokumentu, souborový kontext přes undo/redo i při stejném ID v jiném souboru, poslední znak při uložení, formátování/výběr/undo, nový úsek bez řídicího znaku, přesnou menší kopii pokračování, černý snímek, seznam/fokus/hranice, izolaci session, import bez zápisu originálu, platnou i neplatnou publikaci a dialogový fokus. Stávající PP3 test pouze doplněn o odpověď na novou ochranu F1.
+- Kompletní regrese PP1–PP8F/PP8L **119/119 OK, 65,546 s**. Po odstranění druhého potvrzení Nová a doplnění dvou dalších scénářů cílené PP8F/PP3 **16/16 OK, 19,865 s**. Závěrečný výsledek konfliktu Ctrl+B a PP8 je uveden v doplnění níže. První sandboxové běhy měly WinError 5 při úklidu Temp; povolené běhy mimo sandbox tuto chybu neměly. Známá teardownová `ttk::ThemeChanged` diagnostika přetrvává. Žádné nové fyzické ověření externích monitorů/stream capture/prezentéru ani systémové změny DPI se netvrdí.
+- PP9 konkrétně ověří: (1) nabídku uložení a poslední napsaný znak při rychlém Nová/Otevřít/Import/Zavřít; (2) Zrušit a reálnou chybu zápisu, návrat správné cesty přes undo/redo; (3) viditelnost prefixu souboru vedle dlouhých stavových zpráv při malé ploše/vysokém DPI; (4) Ctrl+B/I/U s českým rozložením, b/B a Ctrl+B mimo editor; (5) Ctrl+M a Ctrl+Shift+D z textu, názvu a miniatur, rozdíl kopie úseku/pokračování včetně médií a zákaz kopie živého náhledu; (6) Ctrl+D a Alt+↑/↓ pouze v seznamu, hranice, fokus a undo/redo; (7) Ctrl+Enter během automatiky/zatemnění, neplatný layout a zachování pokračování; (8) nepřebírání nových příkazů v Bibli, obrázkovém editoru a modálních oknech. K tomu stále platí povinná souhrnná předprojekční kontrola a PP-HARDWARE.
+- Odklady z návrhové části zůstávají: zkratka automatiky, hromadný výběr, přetahování pořadí, hledání v celé prezentaci, nedávné soubory. Dříve neschválené tooltipy se nevracejí. Nová nevyřešená funkční chyba PP8F zatím nezjištěna; PP8L-DRAG, PP-ENV-1, PP-BIBLE-DATA a PP-HARDWARE zůstávají dle registru.
+- **Finální funkční rozsah 1.0 je uzavřen:** dosavadní schválený text, odrážky a základní formátování; samostatné úseky a kopie pokračování; obrázky i smíšený obsah; Bible; společná paginace sálu/streamu; dva nezávisle konfigurované výstupy; potvrzované živé opravy; zatemnění a automatika; historie, přenosné `.ppres`, import starého JSON a recovery; schválený layout PP8L a lokální ovládání PP8 doplněné o implementované F1–F3, Ctrl+M a Ctrl+Shift+D. Povinná předprojekční kontrola a stabilizace se dokončí v PP9. Mimo 1.0 zůstávají PowerPoint/PPTX, volná textová pole, skutečná kamera, animace, skrývání a výše odložené drobnosti. **Uzavření rozsahu není finální ověření aplikace. PP9 nezahájena, distribuce nevytvořena.**
+- Závěrečné doplnění ověření: **PP8F/PP8 24/24 OK, 23,361 s**, včetně ochrany Ctrl+B mimo text a běžného zatemnění B. Mezilehlá kontrola zachytila neúplné syntetické události starších testů (chybějící `state`) a chybnou kontrolu identity session po úmyslném B přepnutí; obojí upraveno před úspěšným závěrečným během. `git diff --check` bez chyb; prázdný diff chráněných cest SuperPresenteru, nastavení, písní, Bible a buildu. Změny této implementace pouze `presentationpresenter/ui.py`, nový `tests/presentationpresenter/test_pp8f.py`, doplnění odpovědi v existujícím PP3 testu a tento handoff. Předexistující návrhová dokumentace zachována, žádný commit/stash ani ukončení běžící uživatelské instance. Pro načtení změn je nutné nové spuštění PresentationPresenteru.
+
+### Doplnění PP8F — číslované seznamy, 17. 10. 2026
+
+- Uživatel po uzavření původního rozsahu výslovně schválil první postupný doplněk: **číslované seznamy a tlačítko vedle odrážek s obdobnou ikonou, ale s čísly**. Tím se rozsah 1.0 rozšiřuje pouze o číslované seznamy. Pododrážky/Tab, změna fontu a velikost označeného textu zůstávají návrhy pro samostatný další výběr, nejsou implementované ani slíbené jako hotové.
+- Doménový typ `BlockKind.NUMBERED` ukládá druh odstavce, nikoli číslice do textu. Souvislá řada číslovaných odstavců v jednom úseku začíná 1; běžný odstavec či odrážka ji ukončí, další řada a nový úsek opět začínají 1. Přesunutí/smazání/vložení přepočítá čísla. Samostatná kopie pokračování tvoří nový úsek, tedy také čísluje od 1. Ruční počáteční číslo ani více úrovní se nepřidávají.
+- Domů → Odstavce: nové tlačítko bez textového rozšíření ribbonu hned vedle odrážek. Ikona stejné velikosti a barvy kreslí řádky s čísly 1/2/3 nezávisle na emoji či dostupnosti symbolového fontu. Kliknutí přepne aktuální/označené odstavce na číslované, při celém již číslovaném výběru zpět na běžné; běžné odrážky a číslování lze mezi sebou převést. Stejně jako dosavadní odrážky jsou položky v textovém editoru odsazené a podbarvené; skutečné značky/čísla kreslí náhled, miniatury a projekce.
+- Enter v číslované položce vytvoří další číslovanou položku, v prázdné položce ukončí seznam bez přidání dalšího odstavce. Funguje také psaní do prázdné položky a vložení více řádků prostého textu do číslovaného odstavce. Ctrl+Enter nadále publikuje návrh a nevytváří položku. Žádná nová klávesová zkratka a žádné přebírání Tab.
+- Layout používá společné zdrojové rozsahy obou výstupů, číslované položky se přesouvají jako odrážky. Dlouhá rozdělená položka si zachová původní číslo se značkou pokračování, např. `2. ↳`; další položka dostane 3, nikoli nové číslo za každý snímek. Šířka odsazení zahrnuje skutečně naměřenou šířku čísla i značky pokračování, takže dvouciferné číslo nezasahuje do textu. Čísla nejsou zdrojové znaky ani součást textových kotev.
+- Ukládání `.ppres`, recovery, historie a kopie používají stejný zdrojový codec; dosavadní soubory zůstávají čitelné, čísla se po načtení odvodí z druhů odstavců. Schéma/envelope zůstává v2, přidána povolená hodnota enumu. Starší sestavení bez podpory `numbered` takovou prezentaci odmítne validací neznámého druhu, neztratí číslování potichu. Živá session se nemění do Použít do projekce.
+- Cílená regrese editoru, paginace a číslování **17/17 OK, 9,960 s**. Nové `test_numbered.py` pokrývá ikonu/tlačítkovou akci, přepínání seznamu, Enter/prázdnou položku/psaní/undo, čísla 1–12 a restart, dlouhou položku se stejným číslem napříč snímky, nekolizi markeru s textem, rekonstrukci zdroje, roundtrip a kopii i izolaci živé session. Následně doplněna regrese víceřádkového vložení bez přepisu uživatelské schránky. Kompletní ověření viz doplnění níže.
+- PP9 nově ověří praktické psaní číslovaného seznamu a návrat na běžný odstavec, výběr přes více položek, vložení a mazání položek, restart po nečíslovaném odstavci a v novém úseku, delší čísla a pokračování vedle kamerové rezervy/obrázků, kopii celého úseku a pouze slidu, recovery a otevření na jiné instalaci, živou opravu v běžící automatice. PP8L layout zachován; fyzické výstupy, DPI a dlouhodobý provoz nadále neověřené. PP9 ani distribuce nezačínají.
+- Změny tohoto doplnění pouze `domain.py`, `layout.py`, `ribbon_icons.py`, `ui.py`, nový `tests/presentationpresenter/test_numbered.py` a tento handoff. Předexistující F1–F3 a dokumentace zachovány. SuperPresenter, jeho nastavení/data, sdílené biblické podklady a build se nemění. Restart PresentationPresenteru načte novou funkci.
+- Závěrečná kompletní regrese **125/125 OK, 68,608 s**, včetně dodatečného testu víceřádkového vložení. Přetrvává známá teardownová diagnostika `ttk::ThemeChanged`, žádné selhání testů ani sledovaných Python callbacků. `git diff --check` bez chyb a prázdný diff chráněných cest SuperPresenteru. Číslované seznamy implementačně hotové; finální fyzická QA zůstává PP9.
+
+### Doplnění PP8F — podseznamy přes Tab, 17. 10. 2026
+
+- Uživatel po číslovaných seznamech výslovně požádal přidat Tab. Toto postupné rozšíření 1.0 přidává **tři úrovně odrážek i číslovaných seznamů**, bez nových panelů a bez implementace fontu/velikosti.
+- **Tab** v poli Obsah nad položkou seznamu zvýší úroveň, **Shift+Tab** ji sníží. Platí pro aktuální položku nebo položky zasažené označením, koncový začátek dalšího řádku se do výběru nepřibírá. U smíšeného výběru se mění pouze položky seznamu. Výběr a kurzor zůstávají, jeden příkaz = jeden undo krok. Na hranicích úrovní se nevkládá tabulátor ani nepřesouvá fokus. Mimo seznam se vlastní obsluha neuplatní a zůstává nativní Tab/Shift+Tab; Ctrl/Alt kombinace se nepřebírají. Vazby pouze v hlavním textovém editoru, nikoli v názvu, Bibli, obrázkovém/projekčním či modálním okně. Na Windows se používá Shift+Tab, ISO_Left_Tab je registrován pouze na X11.
+- Odrážky rozlišují úroveň značkami **• / ◦ / ▪**, editor má odpovídající větší odsazení. Číslování je hierarchické, např. **1., 1.1., 1.1.1., 1.2., 2.** Návrat na vyšší úroveň obnoví její počítání a resetuje podřízená počítadla; nový nečíslovaný blok na dané úrovni ukončí její řadu. Bez číslovaného rodiče se nevykreslují umělé nulové předpony. Vnoření první položky je dovoleno; nevytváří se automatický prázdný rodič.
+- **Enter** v obou druzích seznamu vytvoří další položku stejného druhu a úrovně. V prázdné položce nejprve sníží úroveň, na základní úrovni změní položku na běžný odstavec. Víceřádkové vložení do seznamu zachovává druh a úroveň. Ctrl+Enter dál publikuje celý návrh. Vypnutí seznamu vrátí úroveň na základní; převod odrážek na čísla a zpět zachová úroveň.
+- Model má volitelné `TextBlock.level` 0–2, celé číslo bez boolean, běžný odstavec má vždy 0. Chybějící pole ve starých souborech znamená 0; při zápisu se nulová úroveň vynechá, takže nevnořené dokumenty nezískávají nové povinné pole. Schéma/envelope zůstává v2. Starší sestavení bez podpory úrovní odmítne dokument s nenulovým `level` validací neznámého pole; nelze očekávat jeho zpětné otevření ve starší verzi. Původní soubory se samy nepřepisují.
+- Layout zohledňuje úroveň a naměřenou šířku celé číselné značky v obou výstupech. Pokračování např. **1.1.1. ↳** nese stejné číslo a úroveň; společné zdrojové rozsahy a textové kotvy zůstávají bez čísel/tabulátorových znaků. Úroveň přežívá přenosné uložení, recovery, historii, přesun i obě duplikace. Úprava seznamu nemění živou session před potvrzením.
+- Cílené testy seznamů **7/7 OK, 6,278 s**: skutečné Tab/Shift+Tab, vícenásobný výběr a limit, zachování textu bez tabulátoru, undo/redo a živá izolace, prázdná vnořená položka/Enter a paste, nativní Tab mimo seznam, roundtrip, kopie, validace i rekonstrukce textu a vnořené číslování přes pokračování ve všech čtyřech kombinacích poměrů. První kontrola odhalila nepodporovaný ISO_Left_Tab na Windows a nesprávně vložené testovací řádky; opraveno před úspěšným během. Kompletní regrese viz závěrečné doplnění.
+- **PP9 přebírá navíc:** fyzický Tab/Shift+Tab na české klávesnici a kombinace Ctrl+Tab, směs běžného textu a obou typů seznamu, hranice označení a úrovní, Enter v prázdné položce, víceřádkové vložení, mazání/přesuny rodičů a podřízených položek, dlouhé hierarchické značky u kamery/obrázků, úrovně po kopii pouze slidu, recovery a potvrzovanou živou opravu při automatice/zatemnění. Font a velikost označeného textu nejsou tímto schválené ani implementované. PP9 ani distribuce nezačínají, finální fyzické ověření se netvrdí.
+- Změny pouze `domain.py`, `persistence.py`, `layout.py`, `ui.py`, rozšíření `test_numbered.py` a handoff. Předexistující změny F1–F3 a číslování zachovány. SuperPresenter, jeho data/nastavení, Bible a build beze změn. Nová funkce se načte po restartu PresentationPresenteru.
+- Závěrečné ověření: kompletní sada **127/128 OK, 93,092 s**, jediný neúspěch existujícího `test_strip_drag_and_wheel_preserve_preview_and_editor_focus` měl `focus_get() == None` (stejné kolísání je evidováno již v PP8L). Následné opakování **PP8L + seznamy + PP8 30/30 OK, 24,776 s**, beze změny kódu mezi běhy, včetně původně neúspěšného testu. Nejde o tvrzení 128/128; výsledek i opakování předány PP9. Známá teardownová `ttk::ThemeChanged` diagnostika přetrvává, žádný nový sledovaný Python callback neselhal. `git diff --check` bez chyb a prázdný diff chráněných cest. Podseznamy implementačně hotové; PP9 ani distribuce nezahájeny.

@@ -215,9 +215,23 @@ def _flow(section, chunks, config, metrics, typography, image_layout=None):
         remaining = remaining[n:]
         y += line_h
     y += t.paragraph_gap
+    numbers = {}
+    counts = [0, 0, 0]
+    for item in section.blocks:
+        depth = item.level
+        counts[depth+1:] = [0] * (2-depth)
+        if item.kind == BlockKind.NUMBERED:
+            counts[depth] += 1
+            numbers[item.id] = '.'.join(str(n) for n in counts[:depth+1] if n)
+        else:
+            counts[depth] = 0
     for block, chars, continued in chunks:
         line_h = max([metrics.height(s, t.body) for _, s, _ in chars] or [metrics.height(TextStyle(), t.body)])+6
-        indent = t.bullet_indent if block.kind == BlockKind.BULLET else 0
+        marker = ('↳' if continued else ('•', '◦', '▪')[block.level]) if block.kind == BlockKind.BULLET else ''
+        if block.kind == BlockKind.NUMBERED:
+            marker = f'{numbers[block.id]}.' + (' ↳' if continued else '')
+        marker_indent = max(t.bullet_indent, metrics.width(marker, TextStyle(), t.body)+12) if marker else 0
+        indent = marker_indent + block.level*t.bullet_indent
         first = True
         cursor = 0
         while cursor < len(chars) or (first and not chars):
@@ -257,8 +271,7 @@ def _flow(section, chunks, config, metrics, typography, image_layout=None):
                 if boundary:
                     n = boundary
             if first and indent:
-                marker = '↳' if continued else '•'
-                pieces.append(Piece(marker, TextStyle(), Rect(x-indent, y, metrics.width(marker, TextStyle(), t.body), line_h), font_size=t.body))
+                pieces.append(Piece(marker, TextStyle(), Rect(x-marker_indent, y, metrics.width(marker, TextStyle(), t.body), line_h), font_size=t.body))
             for text, style, span in _groups(chars[cursor:cursor+n]):
                 # Newlines belong to source ranges but have no visible glyph.
                 visible = text.replace('\n', '')
@@ -337,7 +350,7 @@ def image_layout(config, size, locator):
 
 
 def _paginate_chunk(block, chars, continued, pending, fits, emit, can_advance=lambda: False):
-    if pending and block.kind == BlockKind.BULLET and not fits(pending+[(block, chars, False)]) and fits([(block, chars, False)]):
+    if pending and block.kind in (BlockKind.BULLET, BlockKind.NUMBERED) and not fits(pending+[(block, chars, False)]) and fits([(block, chars, False)]):
         emit(pending)
         pending = []
     while True:

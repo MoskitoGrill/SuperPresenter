@@ -16,6 +16,7 @@ class Aspect(str, Enum):
 class BlockKind(str, Enum):
     PARAGRAPH = 'paragraph'
     BULLET = 'bullet'
+    NUMBERED = 'numbered'
 
 @dataclass(frozen=True)
 class TextStyle:
@@ -45,8 +46,11 @@ class TextBlock:
     runs: tuple[TextRun, ...]
     kind: BlockKind = BlockKind.PARAGRAPH
     id: str = field(default_factory=new_id)
+    level: int = 0
 
     def __post_init__(self):
+        if type(self.level) is not int or not 0 <= self.level <= 2 or (self.kind == BlockKind.PARAGRAPH and self.level):
+            raise ValueError('Invalid list level')
         if type(self.runs) is not tuple or not isinstance(self.kind, BlockKind) or any(not isinstance(r, TextRun) for r in self.runs):
             raise ValueError('Invalid text block')
 

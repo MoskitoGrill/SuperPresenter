@@ -151,7 +151,7 @@ class EditorTests(unittest.TestCase):
         self.assertIn('není aktuální', w.status.get())
         w.undo()
         self.assertEqual(w.plan.source, w.document)
-        with patch('presentationpresenter.ui.messagebox.askyesno', return_value=True):
+        with patch('presentationpresenter.ui.messagebox.askyesno', return_value=True), patch('presentationpresenter.ui.messagebox.askyesnocancel', return_value=False):
             before = w.document
             w.new_document()
         w.undo()
