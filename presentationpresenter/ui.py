@@ -21,7 +21,8 @@ from pathlib import Path
 from .paths import presentation_directory
 from .ribbon import Ribbon, wrap_row, command_group
 from .ribbon_icons import command_icon
-from .appearance import appearance, scrollbar
+from .navigation_bar import NavigationLayout
+from .appearance import appearance, scrollbar, reserve_button_labels
 from .window_paint import repaint_workspace
 
 THUMBNAIL_WIDTH = 190
@@ -74,11 +75,13 @@ class MainWindow:
         root.minsize(900, 600)
         chrome = tk.Frame(root)
         chrome.pack(fill='x')
-        self.workspace = tk.PanedWindow(root, orient='vertical', sashwidth=7, showhandle=True,
+        self.workspace = tk.PanedWindow(root, orient='vertical', sashwidth=8, showhandle=True,
+                                       sashrelief='raised', background='#777777',
+                                       sashcursor='sb_v_double_arrow', handlesize=14,
                                        opaqueresize=True)
         self.workspace.bind('<ButtonRelease-1>', self.finish_workspace_resize)
         self.bottom_bar = tk.Frame(self.workspace)
-        self.ribbon = Ribbon(chrome)
+        self.ribbon = Ribbon(chrome, close=self.close)
         self.ribbon.frame.pack_configure(side='left', fill='both', expand=True)
         filebar = self.ribbon.add('Soubor')
         home = self.ribbon.add('Domů')
@@ -86,24 +89,31 @@ class MainWindow:
         auto_bar = self.ribbon.add('Auto')
         display_bar = self.ribbon.add('Zobrazení')
         file_commands = command_group(filebar, 'Prezentace')
-        file_rows = [tk.Frame(file_commands) for _ in range(2)]
+        file_rows = [tk.Frame(file_commands) for _ in range(3)]
         for row in file_rows:
             row.pack(fill='x')
-        for i, (label, command) in enumerate((('Nová prezentace', self.new_document), ('Otevřít', self.open_document), ('Uložit', self.save_document), ('Uložit jako', lambda: self.save_document(True)))):
-            self.button(file_rows[i//2], label, command)
+        self.new_button = self.button(file_rows[0], 'Nová', self.new_document)
+        self.open_button = self.button(file_rows[0], '+', self.open_document)
+        self.save_button = self.button(file_rows[1], 'Uložit', self.save_document)
+        self.save_as_button = self.button(file_rows[2], 'Uložit jako', lambda: self.save_document(True))
         self.button(command_group(filebar, 'Přenos'), 'Import JSON', self.import_document)
         for sequence, command in (('<Control-s>', self.save_document), ('<Control-o>', self.open_document)):
             root.bind(sequence, lambda e, c=command: (c(), 'break')[1])
         history = command_group(filebar, 'Historie')
         self.undo_button = self.button(history, 'Zpět', self.undo)
         self.redo_button = self.button(history, 'Znovu', self.redo)
+        for button in (self.undo_button, self.redo_button):
+            button.pack_configure(side='top', fill='x', pady=1)
         self.aspects = {}
         for label, field in (('Sál', 'hall'), ('Stream', 'stream')):
             var = tk.StringVar(value=getattr(self.document, field).aspect.value)
             self.aspects[field] = var
         self.black_start = tk.BooleanVar(value=True)
         self.black_end = tk.BooleanVar(value=True)
-        tk.Checkbutton(command_group(filebar, 'Zakončení'), text='Černý konec', variable=self.black_end, command=lambda: self.commit(replace(self.document, black_end=self.black_end.get()))).pack(side='left')
+        self.black_end_button = tk.Checkbutton(command_group(filebar, 'Zakončení'), text='Černý konec',
+            indicatoron=False, selectcolor=self.appearance.selected, relief='raised', offrelief='raised',
+            variable=self.black_end, command=lambda: self.commit(replace(self.document, black_end=self.black_end.get())))
+        self.black_end_button.pack(side='left')
         self.monitor_choices = {f: tk.StringVar() for f in ('hall', 'stream')}
         timing = command_group(auto_bar, 'Časování')
         auto_actions = command_group(auto_bar, 'Přehrávání')
@@ -137,10 +147,11 @@ class MainWindow:
             if parent is movement:
                 button.pack(fill='x', pady=1)
             else:
-                button.grid(row=source_actions.grid_size()[1], column=0, sticky='ew', pady=1)
+                row, column = (0, 1) if label == 'Duplikovat' else (source_actions.grid_size()[1], 0)
+                button.grid(row=row, column=column, sticky='ew', padx=(5, 0) if column else 0, pady=1)
             self.source_buttons.append(button)
-        self.copy_slide_button = tk.Button(source_actions, text='Snímek →\nnový úsek', font=self.appearance.small, command=self.copy_slide)
-        self.copy_slide_button.grid(row=0, column=1, rowspan=3, padx=(5, 0))
+        self.copy_slide_button = tk.Button(source_actions, text='Duplikovat slide', command=self.copy_slide)
+        self.copy_slide_button.grid(row=1, column=1, sticky='ew', padx=(5, 0), pady=1)
         source_projection = command_group(sources, 'Projekce a předěly')
         tk.Button(source_projection, text='Zatemnit', command=self.toggle_blackout).pack(anchor='w', pady=1)
         self.break_before = tk.BooleanVar(value=True)
@@ -203,6 +214,7 @@ class MainWindow:
         self.draft_button = self.button(output_bar, 'Rozpracovaná verze', self.toggle_draft_preview)
         self.draft_button_background = self.draft_button.cget('background')
         self.output_button = self.button(output_bar, 'Stream', self.toggle_preview_output)
+        reserve_button_labels(self.output_button, 'Sál', 'Stream')
         apply_row = tk.Frame(editor)
         apply_row.pack(side='bottom', fill='x', pady=(4, 0))
         self.apply_button = self.button(apply_row, 'Použít do projekce', self.apply_live)
@@ -221,17 +233,21 @@ class MainWindow:
         body.bind('<Configure>', self.queue_workspace_resize)
         self.preview.bind('<Button-1>', lambda e: self.preview.focus_set())
         nav.pack(side='bottom', fill='x')
-        self.projection_controls.play.pack(side='left', padx=2)
-        self.previous_section_button = self.button(nav, '<<', lambda: self.navigate_presenter('previous_section'))
-        self.previous_slide_button = self.button(nav, '<', lambda: self.jump(self.current-1))
+        self.projection_controls.play.pack(side='left', padx=2, anchor='n')
+        self.navigation_group = tk.Frame(nav)
+        self.previous_section_button = self.button(self.navigation_group, '<<', lambda: self.navigate_presenter('previous_section'))
+        self.previous_slide_button = self.button(self.navigation_group, '<', lambda: self.jump(self.current-1))
         self.location = tk.StringVar()
-        tk.Label(nav, textvariable=self.location).pack(side='left', padx=4)
-        self.next_slide_button = self.button(nav, '>', lambda: self.jump(self.current+1))
-        self.next_section_button = self.button(nav, '>>', lambda: self.navigate_presenter('next_section'))
+        self.location_label = tk.Label(self.navigation_group, textvariable=self.location)
+        self.location_label.pack(side='left', padx=4)
+        self.next_slide_button = self.button(self.navigation_group, '>', lambda: self.jump(self.current+1))
+        self.next_section_button = self.button(self.navigation_group, '>>', lambda: self.navigate_presenter('next_section'))
+        self.navigation_layout = NavigationLayout(nav, self.projection_controls.play, self.navigation_group,
+            (self.previous_section_button, self.previous_slide_button, self.next_slide_button, self.next_section_button),
+            self.location_label, self.settings.font_family)
+        self.body.paneconfigure(preview, minsize=self.navigation_layout.minimum_width)
+        root.minsize(max(900, self.navigation_layout.minimum_width+panel_width+31), 600)
         wrap_row(output_bar)
-        # Reserve the same navigation height at every pane width, so wrapping
-        # cannot feed back into the 16:9 width calculation indefinitely.
-        wrap_row(nav, reserve_width=300)
         for panel in self.ribbon.panels.values():
             wrap_row(panel, stretch_groups=True)
         self.ribbon.reserve_height([
@@ -388,7 +404,7 @@ class MainWindow:
         if height < 40 or not self.preview.winfo_ismapped():
             return
         available = self.body.winfo_width() - 380 - 11
-        target = max(300, min(round(height * 16 / 9), available))
+        target = max(self.navigation_layout.minimum_width, min(round(height * 16 / 9), available))
         x, _ = self.body.sash_coord(0)
         if abs(x-target) > 2:
             self.body.sash_place(0, target, 0)

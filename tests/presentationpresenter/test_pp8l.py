@@ -45,12 +45,15 @@ class RibbonTests(unittest.TestCase):
         w = self.w
         self.assertEqual(w.ribbon.current, 'Domů')
         document = w.document
+        toggle_width = w.ribbon.toggle_button.winfo_reqwidth()
         w.ribbon.toggle()
         self.root.update()
         self.assertFalse(w.ribbon.content.winfo_viewable())
         self.assertIs(w.document, document)
         self.visible(w.ribbon.toggle_button)
+        self.assertEqual(w.ribbon.toggle_button.winfo_reqwidth(), toggle_width)
         w.ribbon.show('Úseky')
+        self.assertEqual(w.ribbon.toggle_button.winfo_reqwidth(), toggle_width)
         sections = tuple(TextSection(title=f'Úsek {i}', blocks=(TextBlock(runs=(TextRun(str(i)),)),)) for i in range(25))
         w.commit(replace(w.document, sections=sections))
         w.rebuild()
@@ -81,8 +84,10 @@ class RibbonTests(unittest.TestCase):
         self.assertEqual(w.output.get(), 'hall')
         self.assertEqual(w.view_version.get(), 'draft')
         self.assertEqual(str(w.draft_button['state']), 'disabled')
+        output_width = w.output_button.winfo_reqwidth()
         w.output_button.invoke()
         self.assertEqual((w.output.get(), w.output_button['text']), ('stream', 'Sál'))
+        self.assertEqual(w.output_button.winfo_reqwidth(), output_width)
         w.output_button.invoke()
         self.assertEqual((w.output.get(), w.output_button['text']), ('hall', 'Stream'))
         w.projection_controls.fullscreen['hall'] = False
@@ -111,6 +116,48 @@ class RibbonTests(unittest.TestCase):
     def test_small_window_actions_and_formatting_selection(self):
         w = self.w
         self.assertEqual(self.root.tk.call('font', 'actual', 'TkDefaultFont'), self.default_font_before)
+        if w.ribbon.title_bar.native:
+            bar = w.ribbon.title_bar
+            original = self.root.geometry()
+            bar.maximize_button.invoke()
+            self.root.update()
+            self.assertEqual(self.root.state(), 'zoomed')
+            import ctypes
+            from ctypes import wintypes
+            class MonitorInfo(ctypes.Structure):
+                _fields_ = [('size', wintypes.DWORD), ('monitor', wintypes.RECT),
+                            ('work', wintypes.RECT), ('flags', wintypes.DWORD)]
+            user = ctypes.WinDLL('user32')
+            user.MonitorFromWindow.argtypes = [wintypes.HWND, wintypes.DWORD]
+            user.MonitorFromWindow.restype = wintypes.HANDLE
+            user.GetMonitorInfoW.argtypes = [wintypes.HANDLE, ctypes.POINTER(MonitorInfo)]
+            user.GetWindowRect.argtypes = [wintypes.HWND, ctypes.POINTER(wintypes.RECT)]
+            monitor = MonitorInfo()
+            monitor.size = ctypes.sizeof(monitor)
+            self.assertTrue(user.GetMonitorInfoW(user.MonitorFromWindow(bar.hwnd(), 2), ctypes.byref(monitor)))
+            bounds = wintypes.RECT()
+            self.assertTrue(user.GetWindowRect(bar.hwnd(), ctypes.byref(bounds)))
+            self.assertEqual((bounds.left, bounds.top, bounds.right, bounds.bottom),
+                             (monitor.work.left, monitor.work.top, monitor.work.right, monitor.work.bottom))
+            self.assertEqual((self.root.winfo_rootx(), self.root.winfo_rooty(),
+                              self.root.winfo_width(), self.root.winfo_height()),
+                             (monitor.work.left, monitor.work.top,
+                              monitor.work.right-monitor.work.left, monitor.work.bottom-monitor.work.top))
+            self.assertFalse(self.root.attributes('-fullscreen'))
+            bar.maximize_button.invoke()
+            self.root.update()
+            self.assertEqual(self.root.state(), 'normal')
+            bar.buttons[2].invoke()
+            self.root.update()
+            self.assertEqual(self.root.state(), 'iconic')
+            self.root.deiconify()
+            self.root.update()
+            self.assertEqual(self.root.geometry(), original)
+            with patch('presentationpresenter.ui.messagebox.askyesnocancel', return_value=None):
+                w.document = replace(w.document, title='Neuložená změna')
+                bar.buttons[0].invoke()
+                self.assertTrue(self.root.winfo_exists())
+                w.document = w.saved_document
         heights = []
         for tab in w.ribbon.panels:
             w.ribbon.show(tab)
@@ -130,7 +177,7 @@ class RibbonTests(unittest.TestCase):
             self.assertEqual(len(set(caption_bottoms)), 1, (tab, caption_bottoms))
             for group in groups[:-1]:
                 self.assertTrue(group.command_separator.winfo_ismapped())
-            self.assertFalse(groups[-1].command_separator.winfo_ismapped())
+            self.assertTrue(groups[-1].command_separator.winfo_ismapped())
             heights.append(w.ribbon.content.winfo_height())
         self.assertEqual(len(set(heights)), 1, heights)
         w.ribbon.show('Domů')
@@ -153,6 +200,30 @@ class RibbonTests(unittest.TestCase):
 
     def test_navigation_buttons_use_section_and_slide_controls(self):
         w = self.w
+        dimensions = None
+        for size in ('1280x900', '1024x768', '900x600'):
+            self.root.geometry(size+'+20+20')
+            self.root.update()
+            group = w.navigation_group
+            current_dimensions = tuple((widget.winfo_width(), widget.winfo_height()) for widget in
+                (w.previous_section_button, w.previous_slide_button, w.location_label,
+                 w.next_slide_button, w.next_section_button))
+            if dimensions is None:
+                dimensions = current_dimensions
+            self.assertEqual(current_dimensions, dimensions)
+            self.assertAlmostEqual(group.winfo_rootx()+group.winfo_width()/2,
+                                   w.preview.winfo_rootx()+w.preview.winfo_width()/2, delta=1)
+            play = w.projection_controls.play
+            self.assertEqual((play.winfo_width(), play.winfo_height()),
+                             (w.previous_section_button.winfo_width(), w.previous_section_button.winfo_height()))
+            self.assertAlmostEqual(play.winfo_rootx()+play.winfo_width()/2,
+                                   (w.preview.winfo_rootx()+group.winfo_rootx())/2, delta=1)
+            self.assertGreaterEqual(group.winfo_rootx(), play.winfo_rootx()+play.winfo_width())
+            self.assertGreaterEqual(group.winfo_y(), 8)
+            self.assertGreaterEqual(group.master.winfo_height()-group.winfo_y()-group.winfo_height(), 8)
+            for widget in (w.previous_section_button, w.previous_slide_button, w.location_label,
+                           w.next_slide_button, w.next_section_button, play):
+                self.visible(widget)
         w.add_section()
         w.rebuild()
         self.root.update()

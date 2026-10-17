@@ -1,6 +1,7 @@
 """PresentationPresenter's collapsible, keyboard reachable command ribbon."""
 import tkinter as tk
-from .appearance import appearance
+from .appearance import appearance, reserve_button_labels
+from .window_chrome import TabTitleBar
 
 
 def command_group(parent, name):
@@ -44,23 +45,25 @@ def wrap_row(frame, reserve_width=None, stretch_groups=False):
             y = 0
             for index, (row, height) in enumerate(rows):
                 height += extra // len(rows) + (index < extra % len(rows))
+                free_width = max(0, width-sum(child.winfo_reqwidth()+4 for child, _ in row))
+                width_extra = min(32, free_width//len(row)) if stretch_groups else 0
                 for column, (child, x) in enumerate(row):
-                    position = (x, y, height if stretch_groups else None)
+                    x += column*width_extra
+                    group_width = child.winfo_reqwidth()+width_extra if stretch_groups else None
+                    position = (x, y, height if stretch_groups else None, group_width)
                     if positions.get(child) != position:
-                        child.place(x=x, y=y, height=position[2])
+                        child.place(x=x, y=y, height=position[2], width=position[3])
                         positions[child] = position
                     if stretch_groups and hasattr(child, 'command_separator'):
-                        if column < len(row)-1:
-                            child.command_separator.place(relx=1, x=-1, y=0, relheight=1)
-                        else:
-                            child.command_separator.place_forget()
+                        child.command_separator.place(relx=1, x=-1, y=0, relheight=1)
                 y += height
         return natural_height
 
     frame.wrapped_height = layout
 
     def arrange(event=None):
-        height = layout(max(1, frame.winfo_width()), place=True)
+        inner_width = frame.winfo_width()-2*frame.winfo_pixels(frame.cget('padx'))
+        height = layout(max(1, inner_width), place=True)
         if reserve_width is not None:
             height = max(height, layout(reserve_width))
         if frame.winfo_reqheight() != height:
@@ -71,15 +74,22 @@ def wrap_row(frame, reserve_width=None, stretch_groups=False):
 
 
 class Ribbon:
-    def __init__(self, parent):
+    def __init__(self, parent, close=None):
         self.frame = tk.Frame(parent)
         self.frame.pack(fill='x', padx=8, pady=(4, 0))
         self.divider = tk.Frame(self.frame, height=1, bg='#777777')
         self.divider.pack(side='bottom', fill='x', pady=(4, 0))
         self.tabs = tk.Frame(self.frame)
         self.tabs.pack(fill='x')
+        self.title_bar = TabTitleBar(parent._root(), self.tabs, close, appearance(parent)) if close else None
+        if self.title_bar and self.title_bar.native:
+            self.frame.pack_configure(padx=0, pady=0)
         self.toggle_button = tk.Button(self.tabs, text='Sbalit lištu ▴', command=self.toggle)
+        if self.title_bar and self.title_bar.native:
+            self.toggle_button.configure(font=('Segoe UI', 9), bg=appearance(parent).background,
+                                         highlightthickness=0, padx=10, pady=4)
         self.toggle_button.pack(side='right')
+        reserve_button_labels(self.toggle_button, 'Sbalit lištu ▴', 'Rozbalit lištu ▾')
         self.content = tk.Frame(self.frame)
         self.content.pack(fill='x')
         self.panels, self.buttons = {}, {}
@@ -96,7 +106,8 @@ class Ribbon:
 
     def shade_surface(self, widget):
         """Keep the entire ribbon surface distinct, including empty space."""
-        if widget is self.divider or getattr(widget, 'ribbon_separator', False):
+        if (widget is self.divider or getattr(widget, 'ribbon_separator', False)
+                or getattr(widget, 'ribbon_chrome', False)):
             return
         theme = appearance(self.frame)
         kind = widget.winfo_class()
@@ -118,6 +129,8 @@ class Ribbon:
         panel = tk.Frame(self.content, padx=4, pady=4)
         self.panels[name] = panel
         button = tk.Button(self.tabs, text=name, command=lambda: self.show(name))
+        if self.title_bar and self.title_bar.native:
+            button.configure(font=('Segoe UI', 10), highlightthickness=0, padx=12, pady=6)
         button.pack(side='left', padx=(0, 4))
         self.buttons[name] = button
         return panel
@@ -136,6 +149,8 @@ class Ribbon:
             button.configure(relief='sunken' if label == name else 'flat',
                              background=theme.field if label == name else theme.ribbon,
                              highlightbackground=theme.foreground if label == name else theme.ribbon)
+            if self.title_bar and self.title_bar.native:
+                button.configure(relief='flat', background=theme.field if label == name else theme.background)
 
     def toggle(self):
         if self.expanded:

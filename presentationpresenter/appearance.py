@@ -137,3 +137,11 @@ def scrollbar(parent, **options):
     """The Windows classic scrollbar ignores most palette options."""
     orientation = 'Horizontal' if options.get('orient') == 'horizontal' else 'Vertical'
     return ttk.Scrollbar(parent, style=f'PP.{orientation}.TScrollbar', **options)
+
+
+def reserve_button_labels(button, *labels):
+    """Reserve the longest label using this button's final font and DPI."""
+    font = tkfont.Font(root=button, font=button.cget('font'))
+    unit = max(1, font.measure('0'))
+    pixels = max(font.measure(line) for label in labels for line in label.split('\n'))
+    button.configure(width=max(int(button.cget('width')), (pixels+unit-1)//unit))
