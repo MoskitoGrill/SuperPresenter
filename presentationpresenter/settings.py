@@ -16,6 +16,7 @@ class AppSettings:
     show_projection_button: bool = True
     show_apply_button: bool = True
     show_navigation_buttons: bool = True
+    temporary_ribbon_tabs: bool = False
 
 def settings_path() -> Path:
     return Path(os.environ.get('LOCALAPPDATA', str(Path.home() / '.config'))) / 'PresentationPresenter' / 'settings.json'
@@ -39,7 +40,7 @@ def load_settings(path: Path | None = None) -> AppSettings:
         if type(settings.content_font_size) is not int or not 8 <= settings.content_font_size <= 144:
             raise ValueError('Invalid content size')
         if any(type(value) is not bool for value in (settings.show_projection_button,
-                settings.show_apply_button, settings.show_navigation_buttons)):
+                settings.show_apply_button, settings.show_navigation_buttons, settings.temporary_ribbon_tabs)):
             raise ValueError('Invalid control visibility')
         return settings
     except (OSError, ValueError, TypeError, AttributeError):

@@ -115,7 +115,7 @@ class MainWindow:
                                        opaqueresize=True)
         self.workspace.bind('<ButtonRelease-1>', self.finish_workspace_resize)
         self.bottom_bar = tk.Frame(self.workspace)
-        self.ribbon = Ribbon(chrome, close=self.close)
+        self.ribbon = Ribbon(chrome, close=self.close, temporary_tabs=self.settings.temporary_ribbon_tabs)
         self.ribbon.frame.pack_configure(side='left', fill='both', expand=True)
         filebar = self.ribbon.add('Soubor')
         home = self.ribbon.add('Domů')
@@ -155,6 +155,13 @@ class MainWindow:
         tk.Label(defaults_size_row, text='px').pack(side='left')
         self.default_save_button = self.button(defaults_size_row, 'Uložit', self.save_content_defaults)
         self.default_save_button.pack_configure(side='right')
+        ribbon_preferences = command_group(preferences, 'Chování lišty')
+        self.ribbon_mode_button = tk.Button(ribbon_preferences, command=self.toggle_ribbon_mode)
+        self.ribbon_mode_button.pack(fill='x')
+        reserve_button_labels(self.ribbon_mode_button, 'Trvale rozbalit', 'Přes obsah')
+        self.update_ribbon_mode_label()
+        self.ribbon_mode_save_button = self.button(ribbon_preferences, 'Uložit', self.save_ribbon_mode)
+        self.ribbon_mode_save_button.pack_configure(side='top', anchor='w', pady=(4, 0))
         file_commands = command_group(filebar, 'Prezentace')
         file_rows = [tk.Frame(file_commands) for _ in range(3)]
         for row in file_rows:
@@ -429,6 +436,25 @@ class MainWindow:
         self.autosave_job = root.after(1000, self.offer_recovery)
         self.apply_control_visibility()
 
+    def update_ribbon_mode_label(self):
+        self.ribbon_mode_button.configure(text=('Přes obsah'
+            if self.ribbon.temporary_tabs else 'Trvale rozbalit'))
+
+    def toggle_ribbon_mode(self):
+        self.ribbon.set_temporary_tabs(not self.ribbon.temporary_tabs)
+        self.update_ribbon_mode_label()
+        self.status.set('Chování lišty změněno. Pro příští spuštění klikněte na Uložit.')
+
+    def save_ribbon_mode(self):
+        updated = replace(self.settings, temporary_ribbon_tabs=self.ribbon.temporary_tabs)
+        try:
+            save_settings(updated)
+        except OSError as exc:
+            messagebox.showerror('Nastavení', f'Nastavení se nepodařilo uložit: {exc}', parent=self.root)
+            return
+        self.settings = updated
+        self.status.set('Výchozí chování lišty uloženo pro příští spuštění aplikace.')
+
     def save_control_visibility(self):
         updated = replace(self.settings, **{field: var.get() for field, var in self.visibility_vars.items()})
         try:
@@ -466,6 +492,7 @@ class MainWindow:
             self.header_location_label.pack(side='right', padx=(6, 4))
         self.apply_button.layout_hidden = not self.visibility_vars['show_apply_button'].get()
         self.arrange_apply_row()
+        self.align_editor_preview()
         self.queue_workspace_resize()
 
     def toggle_preview_output(self):

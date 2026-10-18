@@ -60,7 +60,7 @@ def wrap_row(frame, reserve_width=None, stretch_groups=False):
                     positions.pop(child, None)
                 continue
             needed = child.winfo_reqwidth() + 4
-            if used and used + needed > width:
+            if used and used + needed > width and not getattr(frame, 'ribbon_no_wrap', False):
                 rows.append((row, row_height))
                 row, used, row_height = [], 0, 0
             row.append((child, used+2))
@@ -103,7 +103,7 @@ def wrap_row(frame, reserve_width=None, stretch_groups=False):
 
 
 class Ribbon:
-    def __init__(self, parent, close=None):
+    def __init__(self, parent, close=None, temporary_tabs=False):
         self.frame = tk.Frame(parent)
         self.frame.pack(fill='x', padx=8, pady=(4, 0))
         self.divider = tk.Frame(self.frame, height=1, bg='#777777')
@@ -119,18 +119,35 @@ class Ribbon:
                                          highlightthickness=0, padx=10, pady=4)
         self.toggle_button.pack(side='right')
         reserve_button_labels(self.toggle_button, 'Sbalit lištu ▴', 'Rozbalit lištu ▾')
-        self.content = tk.Frame(self.frame)
-        self.content.pack(fill='x')
+        self.root = parent._root()
+        self.temporary_tabs = temporary_tabs
+        self.temporary_open = False
+        self.content = tk.Frame(self.root)
+        self.content.pack(in_=self.frame, fill='x')
+        self.viewport = tk.Canvas(self.content, highlightthickness=0, borderwidth=0,
+                                  background=appearance(parent).ribbon)
+        self.scrollbar = tk.Scrollbar(self.content, orient='horizontal', command=self.viewport.xview)
+        self.viewport.configure(xscrollcommand=self.scrollbar.set)
+        self.viewport.pack(fill='both', expand=True)
+        self.panel_window = self.viewport.create_window(0, 0, anchor='nw')
+        self.viewport.bind('<Configure>', self.resize)
+        self.resizing = False
         self.panels, self.buttons = {}, {}
         self.current = None
         self.expanded = True
         self.height_sources = []
         self.content.pack_propagate(False)
         self.content.bind('<Configure>', self.resize)
+        self.root.bind('<Button-1>', self.outside_click, add='+')
+        self.root.bind('<FocusOut>', self.focus_out, add='+')
+        self.root.bind('<Escape>', lambda event: self.dismiss(), add='+')
+        self.root.bind('<Configure>', self.position_overlay, add='+')
+        self.root.bind('<FocusIn>', self.reveal_focus, add='+')
 
     def reserve_height(self, sources):
         self.height_sources = sources
         self.shade_surface(self.frame)
+        self.shade_surface(self.content)
         self.resize()
 
     def shade_surface(self, widget):
@@ -148,14 +165,52 @@ class Ribbon:
             self.shade_surface(child)
 
     def resize(self, event=None):
+        if self.resizing:
+            return
         width = self.content.winfo_width()
         if width > 1 and self.height_sources:
-            height = max(measure(width) for measure in self.height_sources)
-            if self.content.winfo_reqheight() != height:
-                self.content.configure(height=height)
+            self.resizing = True
+            try:
+                widths = {name: sum(child.winfo_reqwidth()+4 for child in panel.winfo_children()
+                                    if not getattr(child, 'layout_hidden', False))+8
+                          for name, panel in self.panels.items()}
+                overflow = any(value > width for value in widths.values())
+                if overflow:
+                    self.scrollbar.pack(side='bottom', fill='x', before=self.viewport)
+                else:
+                    self.scrollbar.pack_forget()
+                height = max(measure(width) for measure in self.height_sources)
+                total = height + (self.scrollbar.winfo_reqheight() if overflow else 0)
+                if self.content.winfo_reqheight() != total:
+                    self.content.configure(height=total)
+                if self.current:
+                    panel_width = max(width, widths[self.current])
+                    self.viewport.itemconfigure(self.panel_window, width=panel_width, height=height)
+                    self.viewport.configure(scrollregion=(0, 0, panel_width, height))
+            finally:
+                self.resizing = False
+
+    def reveal_focus(self, event):
+        if not self.current:
+            return
+        panel = self.panels[self.current]
+        widget = event.widget
+        ancestor = widget
+        while ancestor is not None and ancestor is not panel:
+            ancestor = getattr(ancestor, 'master', None)
+        if ancestor is None:
+            return
+        left = widget.winfo_rootx()-panel.winfo_rootx()
+        right = left+widget.winfo_width()
+        visible_left = self.viewport.canvasx(0)
+        visible_width = self.viewport.winfo_width()
+        target = left if left < visible_left else right-visible_width if right > visible_left+visible_width else None
+        if target is not None:
+            self.viewport.xview_moveto(max(0, target)/max(1, panel.winfo_width()))
 
     def add(self, name):
-        panel = tk.Frame(self.content, padx=4, pady=4)
+        panel = tk.Frame(self.viewport, padx=4, pady=4)
+        panel.ribbon_no_wrap = True
         self.panels[name] = panel
         button = tk.Button(self.tabs, text=name, command=lambda: self.show(name))
         if self.title_bar and self.title_bar.native:
@@ -168,11 +223,17 @@ class Ribbon:
         for panel in self.panels.values():
             panel.pack_forget()
         self.current = name
-        self.panels[name].pack(fill='both', expand=True)
-        if not self.expanded:
-            self.content.pack(fill='x')
-        self.expanded = True
-        self.toggle_button.configure(text='Sbalit lištu ▴')
+        self.viewport.itemconfigure(self.panel_window, window=self.panels[name])
+        self.viewport.xview_moveto(0)
+        self.resize()
+        if not self.expanded and self.temporary_tabs:
+            self.temporary_open = True
+            self.position_overlay()
+        else:
+            if not self.expanded:
+                self.content.pack(in_=self.frame, fill='x')
+            self.expanded = True
+            self.toggle_button.configure(text='Sbalit lištu ▴')
         for label, button in self.buttons.items():
             theme = appearance(self.frame)
             button.configure(relief='sunken' if label == name else 'flat',
@@ -181,11 +242,47 @@ class Ribbon:
             if self.title_bar and self.title_bar.native:
                 button.configure(relief='flat', background=theme.field if label == name else theme.background)
 
+    def position_overlay(self, event=None):
+        if not self.temporary_open or (event is not None and event.widget is not self.root):
+            return
+        self.content.place(x=self.frame.winfo_rootx()-self.root.winfo_rootx(),
+                           y=self.tabs.winfo_rooty()+self.tabs.winfo_height()-self.root.winfo_rooty(),
+                           width=self.frame.winfo_width())
+        self.resize()
+        self.content.lift()
+
+    def dismiss(self):
+        if self.temporary_open:
+            self.content.place_forget()
+            self.temporary_open = False
+
+    def outside_click(self, event):
+        widget = event.widget
+        while widget is not None:
+            if widget in (self.frame, self.content):
+                return
+            widget = getattr(widget, 'master', None)
+        self.dismiss()
+
+    def focus_out(self, event):
+        self.root.after_idle(self.check_focus)
+
+    def check_focus(self):
+        if self.root.winfo_exists() and self.root.focus_displayof() is None:
+            self.dismiss()
+
+    def set_temporary_tabs(self, enabled):
+        self.dismiss()
+        self.temporary_tabs = enabled
+
     def toggle(self):
+        self.dismiss()
         if self.expanded:
             self.content.pack_forget()
             self.expanded = False
             self.toggle_button.configure(text='Rozbalit lištu ▾')
             self.toggle_button.focus_set()
         else:
+            self.expanded = True
+            self.content.pack(in_=self.frame, fill='x')
             self.show(self.current)
