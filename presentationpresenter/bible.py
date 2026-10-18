@@ -122,8 +122,8 @@ class Passage:
         return self.reference + '\n' + '\n'.join(self.lines(numbers))
 
     def section(self, numbers=True):
-        from .domain import TextSection, TextBlock, TextRun
-        return TextSection('', tuple(TextBlock((TextRun(line),)) for line in self.lines(numbers)),
+        from .domain import TextSection, TextBlock, TextRun, TextStyle, DEFAULT_CONTENT_FONT
+        return TextSection('', tuple(TextBlock((TextRun(line, TextStyle(family=DEFAULT_CONTENT_FONT)),)) for line in self.lines(numbers)),
                            reference=self.reference, break_before=True)
 
 

@@ -5,6 +5,7 @@ import re
 from uuid import uuid4
 
 SCHEMA_VERSION = 2
+DEFAULT_CONTENT_FONT = 'Calibri'
 
 def new_id() -> str:
     return str(uuid4())
@@ -24,8 +25,14 @@ class TextStyle:
     italic: bool = False
     underline: bool = False
     color: str = '#ffffff'
+    size: int = 36
+    family: str = ''
 
     def __post_init__(self):
+        if type(self.family) is not str or len(self.family) > 128 or self.family != self.family.strip() or any(ord(c) < 32 for c in self.family):
+            raise ValueError('Invalid font family')
+        if type(self.size) is not int or not 8 <= self.size <= 144:
+            raise ValueError('Font size must be an integer from 8 to 144 px')
         if any(type(v) is not bool for v in (self.bold, self.italic, self.underline)):
             raise ValueError('Formatting flags must be boolean')
         if not re.fullmatch(r'#[0-9a-fA-F]{6}', self.color):

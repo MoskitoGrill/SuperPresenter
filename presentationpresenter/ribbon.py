@@ -18,6 +18,30 @@ def command_group(parent, name):
     return content
 
 
+def space_control_rows(widget):
+    """Add breathing room between stacked ribbon rows, including labels and fields."""
+    children = widget.winfo_children()
+    if not hasattr(widget, 'command_caption'):
+        packed = [child for child in children if child.winfo_manager() == 'pack'
+                  and child.pack_info()['side'] in ('top', 'bottom')]
+        gridded = [child for child in children if child.winfo_manager() == 'grid']
+        rows = {int(child.grid_info()['row']) for child in gridded}
+        targets = packed if len(packed) > 1 else []
+        targets += gridded if len(rows) > 1 else []
+        for child in targets:
+            manager = child.winfo_manager()
+            options = child.pack_info() if manager == 'pack' else child.grid_info()
+            value = options['pady']
+            values = value if isinstance(value, (tuple, list)) else child.tk.splitlist(str(value))
+            pads = [child.winfo_pixels(value)+2 for value in values]
+            if manager == 'pack':
+                child.pack_configure(pady=tuple(pads))
+            else:
+                child.grid_configure(pady=tuple(pads))
+    for child in children:
+        space_control_rows(child)
+
+
 def wrap_row(frame, reserve_width=None, stretch_groups=False):
     """Wrap command rows using actual requested sizes, including DPI scaling."""
     children = frame.winfo_children()
@@ -30,6 +54,11 @@ def wrap_row(frame, reserve_width=None, stretch_groups=False):
         rows = []
         row, used, row_height = [], 0, 0
         for child in children:
+            if getattr(child, 'layout_hidden', False):
+                if place:
+                    child.place_forget()
+                    positions.pop(child, None)
+                continue
             needed = child.winfo_reqwidth() + 4
             if used and used + needed > width:
                 rows.append((row, row_height))

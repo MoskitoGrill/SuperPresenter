@@ -11,6 +11,11 @@ class AppSettings:
     panel: str = '#444444'
     foreground: str = '#ffffff'
     font_family: str = 'Courier New'
+    content_font_family: str = 'Calibri'
+    content_font_size: int = 36
+    show_projection_button: bool = True
+    show_apply_button: bool = True
+    show_navigation_buttons: bool = True
 
 def settings_path() -> Path:
     return Path(os.environ.get('LOCALAPPDATA', str(Path.home() / '.config'))) / 'PresentationPresenter' / 'settings.json'
@@ -26,6 +31,16 @@ def load_settings(path: Path | None = None) -> AppSettings:
             raise ValueError('Invalid color')
         if type(settings.font_family) is not str or not settings.font_family.strip():
             raise ValueError('Invalid font')
+        if (type(settings.content_font_family) is not str or not settings.content_font_family.strip()
+                or settings.content_font_family != settings.content_font_family.strip()
+                or len(settings.content_font_family) > 128
+                or any(ord(c) < 32 for c in settings.content_font_family)):
+            raise ValueError('Invalid content font')
+        if type(settings.content_font_size) is not int or not 8 <= settings.content_font_size <= 144:
+            raise ValueError('Invalid content size')
+        if any(type(value) is not bool for value in (settings.show_projection_button,
+                settings.show_apply_button, settings.show_navigation_buttons)):
+            raise ValueError('Invalid control visibility')
         return settings
     except (OSError, ValueError, TypeError, AttributeError):
         return AppSettings()

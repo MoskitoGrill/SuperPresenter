@@ -226,15 +226,25 @@ def _flow(section, chunks, config, metrics, typography, image_layout=None):
         else:
             counts[depth] = 0
     for block, chars, continued in chunks:
-        line_h = max([metrics.height(s, t.body) for _, s, _ in chars] or [metrics.height(TextStyle(), t.body)])+6
+        marker_family = chars[0][1].family if chars else next((r.style.family for r in block.runs), '')
+        marker_style = TextStyle(family=marker_family)
+        marker_size = chars[0][1].size if chars else next((r.style.size for r in block.runs), t.body)
         marker = ('↳' if continued else ('•', '◦', '▪')[block.level]) if block.kind == BlockKind.BULLET else ''
         if block.kind == BlockKind.NUMBERED:
             marker = f'{numbers[block.id]}.' + (' ↳' if continued else '')
-        marker_indent = max(t.bullet_indent, metrics.width(marker, TextStyle(), t.body)+12) if marker else 0
+        marker_indent = max(t.bullet_indent, metrics.width(marker, marker_style, marker_size)+12) if marker else 0
         indent = marker_indent + block.level*t.bullet_indent
         first = True
         cursor = 0
         while cursor < len(chars) or (first and not chars):
+            row_style = chars[cursor][1] if cursor < len(chars) else next((r.style for r in block.runs), TextStyle())
+            ascent = getattr(metrics, 'ascent', metrics.height)
+            row_ascent = ascent(row_style, row_style.size)
+            row_descent = metrics.height(row_style, row_style.size)-row_ascent
+            if first and marker:
+                row_ascent = max(row_ascent, ascent(marker_style, marker_size))
+                row_descent = max(row_descent, metrics.height(marker_style, marker_size)-ascent(marker_style, marker_size))
+            line_h = row_ascent+row_descent+6
             x, right = band(y, line_h, indent)
             if y+line_h > h-t.margin:
                 return None
@@ -253,12 +263,24 @@ def _flow(section, chunks, config, metrics, typography, image_layout=None):
                 key = (style, span.run_id)
                 if key != group_key:
                     if group_key is not None:
-                        committed_width += metrics.width(group_text, group_key[0], t.body)
+                        committed_width += metrics.width(group_text, group_key[0], group_key[0].size)
                     group_key, group_text = key, ''
                 group_text += char
-                width = committed_width + metrics.width(group_text, style, t.body)
+                width = committed_width + metrics.width(group_text, style, style.size)
                 if width > right-x:
                     break
+                row_ascent = max(row_ascent, ascent(style, style.size))
+                row_descent = max(row_descent, metrics.height(style, style.size)-ascent(style, style.size))
+                required_height = row_ascent+row_descent+6
+                if required_height > line_h:
+                    # A larger glyph can intersect the camera/image band. Rewrap
+                    # this row with its full height before accepting any glyphs.
+                    line_h = required_height
+                    if y+line_h > h-t.margin:
+                        return None
+                    x, right = band(y, line_h, indent)
+                    n, committed_width, group_text, group_key = 0, 0, '', None
+                    continue
                 n += 1
             if not n and cursor < len(chars):
                 # An obstructed band can be skipped; an oversized glyph is an explicit error.
@@ -270,13 +292,18 @@ def _flow(section, chunks, config, metrics, typography, image_layout=None):
                 boundary = next((i+1 for i in range(n-1, -1, -1) if chars[cursor+i][0].isspace()), 0)
                 if boundary:
                     n = boundary
+            baseline = max([ascent(s, s.size) for _, s, _ in chars[cursor:cursor+n]] or [ascent(row_style, row_style.size)])
+            if first and marker:
+                baseline = max(baseline, ascent(marker_style, marker_size))
             if first and indent:
-                pieces.append(Piece(marker, TextStyle(), Rect(x-marker_indent, y, metrics.width(marker, TextStyle(), t.body), line_h), font_size=t.body))
+                offset = baseline-ascent(marker_style, marker_size)
+                pieces.append(Piece(marker, marker_style, Rect(x-marker_indent, y+offset, metrics.width(marker, marker_style, marker_size), line_h-offset), font_size=marker_size))
             for text, style, span in _groups(chars[cursor:cursor+n]):
                 # Newlines belong to source ranges but have no visible glyph.
                 visible = text.replace('\n', '')
-                size = metrics.width(visible, style, t.body)
-                pieces.append(Piece(visible, style, Rect(x, y, size, line_h), span, t.body))
+                size = metrics.width(visible, style, style.size)
+                offset = baseline-ascent(style, style.size)
+                pieces.append(Piece(visible, style, Rect(x, y+offset, size, line_h-offset), span, style.size))
                 x += size
             cursor += n
             first = False

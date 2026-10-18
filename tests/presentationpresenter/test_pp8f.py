@@ -217,7 +217,9 @@ class FinalizationTests(unittest.TestCase):
         w.title.set('W' * 10000)
         self.key(w.title_entry, '<Control-Return>')
         self.assertIs(w.session, live)
-        self.assertIn('nebyly použity', w.status.get())
+        # The queued draft rebuild may replace the publish-error prefix, but
+        # must retain the concrete layout error and the unchanged live session.
+        self.assertIn('Název/odkaz zabírá celý snímek', w.status.get())
         w.undo()
         self.type_text(' oprava')
         dialog = tk.Toplevel(self.root)

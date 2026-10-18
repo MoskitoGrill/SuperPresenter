@@ -6,10 +6,20 @@ from .domain import TextStyle
 class TkMetrics:
     def __init__(self, root, family='Courier New'):
         self.root, self.family = root, family
+        self.available_families = {name.casefold(): name for name in tkfont.families(root) if not name.startswith('@')}
+        self.fallback_family = self.available_families.get(family.casefold(), tkfont.nametofont('TkDefaultFont', root=root).actual('family'))
 
-    @lru_cache(maxsize=64)
+    def resolve_family(self, family):
+        return self.available_families.get(family.casefold(), self.fallback_family)
+
+    def missing_families(self, document):
+        from .domain import TextSection
+        return sorted({r.style.family for s in document.sections if isinstance(s, TextSection)
+                       for b in s.blocks for r in b.runs if r.style.family and r.style.family.casefold() not in self.available_families}, key=str.casefold)
+
+    @lru_cache(maxsize=512)
     def font(self, style, size):
-        return tkfont.Font(root=self.root, family=self.family, size=-size,
+        return tkfont.Font(root=self.root, family=self.resolve_family(style.family), size=-size,
                            weight='bold' if style.bold else 'normal',
                            slant='italic' if style.italic else 'roman', underline=style.underline)
 
@@ -21,6 +31,10 @@ class TkMetrics:
     @lru_cache(maxsize=64)
     def height(self, style, size):
         return self.font(style, size).metrics('linespace')
+
+    @lru_cache(maxsize=256)
+    def ascent(self, style, size):
+        return self.font(style, size).metrics('ascent')
 
 
 def draw(canvas, slide, output, metrics, typography, show_camera=True, scale=1, resize_canvas=True):

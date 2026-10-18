@@ -13,6 +13,11 @@ def dumps(document: Presentation) -> str:
             for block in encoded['blocks']:
                 if block['level'] == 0:
                     block.pop('level')
+                for run in block['runs']:
+                    if not run['style']['family']:
+                        run['style'].pop('family')
+                    if run['style']['size'] == 36:
+                        run['style'].pop('size')
     return json.dumps(data, ensure_ascii=False, indent=2, allow_nan=False)
 
 def loads(payload: str) -> Presentation:

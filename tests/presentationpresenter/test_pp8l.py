@@ -83,6 +83,7 @@ class RibbonTests(unittest.TestCase):
         w = self.w
         self.assertEqual(w.output.get(), 'hall')
         self.assertEqual(w.view_version.get(), 'draft')
+
         self.assertEqual(str(w.draft_button['state']), 'disabled')
         output_width = w.output_button.winfo_reqwidth()
         w.output_button.invoke()
@@ -112,6 +113,33 @@ class RibbonTests(unittest.TestCase):
         self.assertEqual(w.unapplied_changes.get(), '')
         w.stop_projection()
         self.assertEqual(w.view_version.get(), 'draft')
+
+    def test_ribbon_start_and_apply_remain_available_when_footer_hidden(self):
+        w = self.w
+        for var in w.visibility_vars.values():
+            var.set(False)
+        w.apply_control_visibility()
+        w.ribbon.show('Soubor')
+        self.root.update()
+        with patch.object(w.projection_controls, 'start') as start:
+            for button, current in zip(w.file_start_buttons, (False, True)):
+                self.visible(button)
+                button.invoke()
+                start.assert_called_with(from_current=current)
+        self.assertEqual(str(w.section_apply_button['state']), 'disabled')
+        w.projection_controls.fullscreen['hall'] = False
+        self.assertTrue(w.start_projection(('hall',)))
+        w.title.set('Změna pro publikaci')
+        w.finish_editing()
+        w.ribbon.show('Úseky')
+        self.root.update()
+        self.visible(w.section_apply_button)
+        self.assertEqual(str(w.section_apply_button['state']), 'normal')
+        w.section_apply_button.invoke()
+        self.assertEqual(w.session.plan.source, w.document)
+        self.assertEqual(str(w.section_apply_button['state']), 'disabled')
+        self.assertFalse(w.apply_button.winfo_ismapped())
+        w.stop_projection()
 
     def test_small_window_actions_and_formatting_selection(self):
         w = self.w

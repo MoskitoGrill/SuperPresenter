@@ -1,6 +1,6 @@
 """Draft editing commands and immutable history, independent of projection."""
 from dataclasses import replace
-from .domain import Presentation, TextSection, ImageSection, ImageItem, TextBlock, TextRun, new_id
+from .domain import Presentation, TextSection, ImageSection, ImageItem, TextBlock, TextRun, TextStyle, DEFAULT_CONTENT_FONT, new_id
 
 
 def duplicate_section(section, slide=None):
@@ -67,6 +67,6 @@ class History:
         return self.document
 
 
-def blank_document():
+def blank_document(style=None):
     return Presentation(black_start=False, black_end=True,
-                        sections=(TextSection('', (TextBlock((TextRun(''),)),), break_after=False, break_before=True),))
+                        sections=(TextSection('', (TextBlock((TextRun('', style or TextStyle(family=DEFAULT_CONTENT_FONT)),)),), break_after=False, break_before=True),))

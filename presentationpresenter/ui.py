@@ -1,6 +1,6 @@
 """PP3 draft editor. Preview and thumbnails share the measured slide plan."""
 import tkinter as tk
-from tkinter import messagebox, colorchooser, filedialog
+from tkinter import messagebox, filedialog, colorchooser, ttk
 from dataclasses import replace
 from difflib import SequenceMatcher
 from .domain import *
@@ -19,7 +19,7 @@ from .recovery import Recovery
 from .settings import settings_path
 from pathlib import Path
 from .paths import presentation_directory
-from .ribbon import Ribbon, wrap_row, command_group
+from .ribbon import Ribbon, wrap_row, command_group, space_control_rows
 from .ribbon_icons import command_icon
 from .navigation_bar import NavigationLayout
 from .appearance import appearance, scrollbar, reserve_button_labels
@@ -30,10 +30,36 @@ SLIDE_STRIP_HEIGHT = 190
 
 
 class MainWindow:
+    def default_content_style(self):
+        return TextStyle(family=self.settings.content_font_family, size=self.settings.content_font_size)
+
+    def save_content_defaults(self):
+        family = self.metrics.available_families.get(self.default_family.get().strip().casefold())
+        if family is None:
+            self.status.set('Vyberte nainstalovaný font.')
+            return
+        try:
+            size = int(self.default_size.get().strip())
+            if not 8 <= size <= 144:
+                raise ValueError()
+        except ValueError:
+            self.status.set('Velikost musí být celé číslo od 8 do 144 px.')
+            return
+        updated = replace(self.settings, content_font_family=family, content_font_size=size)
+        try:
+            save_settings(updated)
+        except OSError as exc:
+            messagebox.showerror('Nastavení', f'Nastavení se nepodařilo uložit: {exc}', parent=self.root)
+            return
+        self.settings = updated
+        self.default_family.set(family)
+        self.default_size.set(str(size))
+        self.status.set(f'Výchozí písmo uloženo: {family}, {size} px. Platí pro nový obsah.')
+
     def __init__(self, root, settings=None, recovery_dir=None):
         self.root, self.settings = root, settings or load_settings()
         self.appearance = appearance(root, self.settings)
-        self.document = blank_document()
+        self.document = blank_document(self.default_content_style())
         self.history = History(self.document)
         self.saved_document = self.document
         self.file_path = None
@@ -46,6 +72,7 @@ class MainWindow:
         self.recovery = Recovery(recovery_dir or settings_path().parent / 'recovery')
         self.image_editor = None
         self.bible_window = None
+        self.preflight_window = None
         self.metrics = TkMetrics(root, self.settings.font_family)
         self.typography = Typography()
         self.selected_id = self.document.sections[0].id
@@ -54,6 +81,9 @@ class MainWindow:
         self.pending = self.group_timer = None
         self.loading = False
         self.styles, self.thumbnails = {}, []
+        self.typing_override = None
+        self.typing_position = None
+        self.size_target = None
         self.thumbnail_width = THUMBNAIL_WIDTH
         self.strip_wheel_delta = 0
         self.session = None
@@ -72,6 +102,7 @@ class MainWindow:
         self.monitor_choices = {}
         self.monitor_menus = {}
         self.monitor_inventory = []
+        self.monitor_error = None
         self.monitor_job = None
         root.title('PresentationPresenter — PP8L')
         root.geometry(self.settings.geometry)
@@ -91,6 +122,39 @@ class MainWindow:
         sources = self.ribbon.add('Úseky')
         auto_bar = self.ribbon.add('Auto')
         display_bar = self.ribbon.add('Zobrazení')
+        preferences = self.ribbon.add('Nastavení')
+        visibility = command_group(preferences, 'Zobrazit ovládací tlačítka')
+        self.visibility_vars = {}
+        self.visibility_buttons = {}
+        for field, label in (('show_projection_button', 'Spuštění / ukončení projekce'),
+                             ('show_apply_button', 'Použít do projekce'),
+                             ('show_navigation_buttons', 'Přepínání snímků a úseků')):
+            var = tk.BooleanVar(value=getattr(self.settings, field))
+            self.visibility_vars[field] = var
+            button = tk.Button(visibility, text=label,
+                command=lambda field=field: self.toggle_control_visibility(field), takefocus=True)
+            button.pack(fill='x')
+            self.visibility_buttons[field] = button
+        self.visibility_save_button = self.button(visibility, 'Uložit defaultně', self.save_control_visibility)
+        self.visibility_save_button.pack_configure(side='top', anchor='w', pady=(4, 0))
+        defaults = command_group(preferences, 'Výchozí písmo')
+        defaults_row = tk.Frame(defaults)
+        defaults_row.pack(fill='x', padx=(0, 10))
+        self.default_family = tk.StringVar(value=self.settings.content_font_family)
+        self.default_size = tk.StringVar(value=str(self.settings.content_font_size))
+        tk.Label(defaults_row, text='Font:').pack(side='left')
+        self.default_family_box = ttk.Combobox(defaults_row, textvariable=self.default_family, width=18,
+            values=sorted(self.metrics.available_families.values(), key=str.casefold), style='PP.TCombobox')
+        self.default_family_box.pack(side='left', fill='x', expand=True, padx=(4, 2))
+        defaults_size_row = tk.Frame(defaults)
+        defaults_size_row.pack(fill='x', padx=(0, 10), pady=(4, 0))
+        tk.Label(defaults_size_row, text='Velikost:').pack(side='left')
+        self.default_size_box = ttk.Combobox(defaults_size_row, textvariable=self.default_size, width=4,
+            values=(8, 12, 16, 20, 24, 28, 32, 36, 40, 48, 60, 72, 96, 120, 144), style='PP.TCombobox')
+        self.default_size_box.pack(side='left', padx=4)
+        tk.Label(defaults_size_row, text='px').pack(side='left')
+        self.default_save_button = self.button(defaults_size_row, 'Uložit', self.save_content_defaults)
+        self.default_save_button.pack_configure(side='right')
         file_commands = command_group(filebar, 'Prezentace')
         file_rows = [tk.Frame(file_commands) for _ in range(3)]
         for row in file_rows:
@@ -99,6 +163,9 @@ class MainWindow:
         self.open_button = self.button(file_rows[0], '+', self.open_document)
         self.save_button = self.button(file_rows[1], 'Uložit', self.save_document)
         self.save_as_button = self.button(file_rows[2], 'Uložit jako', lambda: self.save_document(True))
+        self.file_start_buttons = self.add_start_controls(filebar)
+        self.preflight_button = self.button(self.file_start_buttons[0].master, 'Kontrola', self.show_preflight)
+        self.preflight_button.pack_configure(side='top', fill='x')
         self.button(command_group(filebar, 'Přenos'), 'Import JSON', self.import_document)
         for sequence, command in (('<Control-s>', self.save_document), ('<Control-o>', self.open_document)):
             root.bind(sequence, lambda e, c=command: (c(), 'break')[1])
@@ -160,12 +227,15 @@ class MainWindow:
         self.break_before = tk.BooleanVar(value=True)
         tk.Checkbutton(source_projection, text='Černý předěl\npřed úsekem', justify='left', variable=self.break_before,
                        command=self.change_break).pack(anchor='w', pady=1)
+        self.section_apply_button = self.button(source_projection, 'Použít do projekce', self.apply_live)
+        self.section_apply_button.pack_configure(side='top', anchor='w')
         editor = tk.Frame(body)
         preview = tk.Frame(body)
         nav = tk.Frame(preview)
         self.projection_controls = ProjectionControls(self, display_bar, play_parent=nav)
         self.refresh_monitors()
-        tk.Label(editor, text='Název / odkaz').pack(anchor='w')
+        self.editor_title_label = tk.Label(editor, text='Název / odkaz')
+        self.editor_title_label.pack(anchor='w')
         self.title = tk.StringVar()
         self.title_entry = tk.Entry(editor, textvariable=self.title)
         self.title_entry.pack(fill='x', pady=(0, 8))
@@ -173,13 +243,41 @@ class MainWindow:
         tk.Label(editor, text='Obsah').pack(anchor='w')
         formatting = command_group(home, 'Písmo')
         self.format_fonts = []
+        size_controls = tk.Frame(formatting)
+        size_controls.pack(side='left', padx=2)
+        font_row = tk.Frame(size_controls)
+        font_row.pack(anchor='w')
+        self.font_family = tk.StringVar(value=self.metrics.fallback_family)
+        self.family_box = ttk.Combobox(font_row, textvariable=self.font_family, width=14,
+            values=sorted(self.metrics.available_families.values(), key=str.casefold), style='PP.TCombobox')
+        self.family_box.pack(side='left')
+        self.family_box.bind('<FocusIn>', self.capture_size_target)
+        self.family_box.bind('<Return>', self.apply_font_family)
+        self.family_box.bind('<<ComboboxSelected>>', self.apply_font_family)
+        self.family_box.bind('<Escape>', self.cancel_font_size)
+        self.family_box.bind('<FocusOut>', lambda e: self.sync_font_size())
+        size_row = tk.Frame(font_row)
+        size_row.pack(side='left', padx=(6, 0))
+        self.font_size = tk.StringVar(value='36')
+        self.size_box = ttk.Combobox(size_row, textvariable=self.font_size, width=4,
+            values=(8, 12, 16, 20, 24, 28, 32, 36, 40, 48, 60, 72, 96, 120, 144), style='PP.TCombobox')
+        self.size_box.pack(side='left')
+        tk.Label(size_row, text='px').pack(side='left')
+        self.size_box.bind('<FocusIn>', self.capture_size_target)
+        self.size_box.bind('<Return>', self.apply_font_size)
+        self.size_box.bind('<<ComboboxSelected>>', self.apply_font_size)
+        self.size_box.bind('<Escape>', self.cancel_font_size)
+        self.size_box.bind('<FocusOut>', lambda e: self.sync_font_size())
+        emphasis_row = tk.Frame(size_controls)
+        emphasis_row.pack(anchor='w', pady=(4, 0))
         for label, field in (('B', 'bold'), ('I', 'italic'), ('U', 'underline')):
-            button = self.button(formatting, label, lambda f=field: self.format_selection(f))
+            button = self.button(emphasis_row, label, lambda f=field: self.format_selection(f))
             font = self.appearance.text.copy()
             font.configure(**{'bold': {'weight': 'bold'}, 'italic': {'slant': 'italic'}, 'underline': {'underline': True}}[field])
             self.format_fonts.append(font)
             button.configure(font=font, width=2)
-        color_button = self.button(formatting, 'Barva', self.choose_color)
+        color_button = self.button(emphasis_row, 'Barva', self.choose_color)
+        color_button.pack_configure(padx=(12, 2))
         color_button.icon = command_icon(root, 'bucket', self.appearance.foreground)
         color_button.configure(image=color_button.icon, width=color_button.icon.width()+8, height=color_button.icon.height()+4)
         bullets = self.button(command_group(home, 'Odstavce'), 'Odrážky / odstavce', self.toggle_bullets)
@@ -194,8 +292,10 @@ class MainWindow:
         self.button(command_group(home, 'Obrázky'), 'Rozložení obrázků', self.edit_images)
         self.ribbon.show('Domů')
         text_frame = tk.Frame(editor)
+        self.editor_text_frame = text_frame
+        text_frame.configure(highlightthickness=1, highlightbackground='#888888')
         text_frame.pack(fill='both', expand=True)
-        self.text = tk.Text(text_frame, wrap='word', undo=False, exportselection=False, font=(self.settings.font_family, 12), padx=8, pady=8)
+        self.text = tk.Text(text_frame, wrap='word', undo=False, exportselection=False, font=(self.settings.font_family, 12), padx=8, pady=8, highlightthickness=0)
         text_scrollbar = scrollbar(text_frame, command=self.text.yview)
         self.text.configure(yscrollcommand=text_scrollbar.set)
         text_scrollbar.pack(side='right', fill='y')
@@ -209,6 +309,8 @@ class MainWindow:
         if root.tk.call('tk', 'windowingsystem') == 'x11':
             self.text.bind('<ISO_Left_Tab>', lambda e: self.change_list_level(-1, e))
         self.text.bind('<<Modified>>', self.text_changed)
+        self.text.bind('<KeyRelease>', lambda e: self.sync_font_size())
+        self.text.bind('<ButtonRelease-1>', lambda e: self.sync_font_size())
         self.text_original = self.text._w + '_original'
         self.root.tk.call('rename', self.text._w, self.text_original)
         self.root.tk.createcommand(self.text._w, self.text_operation)
@@ -222,13 +324,17 @@ class MainWindow:
         root.minsize(max(900, panel_width+340), 600)
         output_bar = tk.Frame(preview)
         output_bar.pack(fill='x')
+        self.preview_output_bar = output_bar
+        output_actions = tk.Frame(output_bar)
+        output_actions.pack(side='left', fill='x', expand=True)
         self.output = tk.StringVar(value='hall')
         self.view_version = tk.StringVar(value='live')
-        self.draft_button = self.button(output_bar, 'Rozpracovaná verze', self.toggle_draft_preview)
+        self.draft_button = self.button(output_actions, 'Rozpracovaná verze', self.toggle_draft_preview)
         self.draft_button_background = self.draft_button.cget('background')
-        self.output_button = self.button(output_bar, 'Stream', self.toggle_preview_output)
+        self.output_button = self.button(output_actions, 'Stream', self.toggle_preview_output)
         reserve_button_labels(self.output_button, 'Sál', 'Stream')
         apply_row = tk.Frame(editor)
+        self.editor_apply_row = apply_row
         apply_row.pack(side='bottom', fill='x', pady=(4, 0))
         self.apply_button = self.button(apply_row, 'Použít do projekce', self.apply_live)
         self.unapplied_changes = tk.StringVar()
@@ -246,6 +352,7 @@ class MainWindow:
         body.bind('<Configure>', self.queue_workspace_resize)
         self.preview.bind('<Button-1>', lambda e: self.preview.focus_set())
         nav.pack(side='bottom', fill='x')
+        self.preview_navigation = nav
         self.projection_controls.play.pack(side='left', padx=2, anchor='n')
         self.navigation_group = tk.Frame(nav)
         self.previous_section_button = self.button(self.navigation_group, '<<', lambda: self.navigate_presenter('previous_section'))
@@ -258,10 +365,13 @@ class MainWindow:
         self.navigation_layout = NavigationLayout(nav, self.projection_controls.play, self.navigation_group,
             (self.previous_section_button, self.previous_slide_button, self.next_slide_button, self.next_section_button),
             self.location_label, self.settings.font_family)
+        self.header_location_label = tk.Label(output_bar, textvariable=self.location,
+            font=self.navigation_layout.counter_font, width=11, anchor='e')
         self.body.paneconfigure(preview, minsize=self.navigation_layout.minimum_width)
         root.minsize(max(900, self.navigation_layout.minimum_width+panel_width+31), 600)
-        wrap_row(output_bar)
+        wrap_row(output_actions)
         for panel in self.ribbon.panels.values():
+            space_control_rows(panel)
             wrap_row(panel, stretch_groups=True)
         self.ribbon.reserve_height([
             lambda width, panel=panel: panel.wrapped_height(max(1, width-8))+8
@@ -305,6 +415,9 @@ class MainWindow:
         root.bind('<KeyPress-b>', self.blackout_key)
         root.bind('<KeyPress-B>', self.blackout_key)
         self.bind_editing_shortcuts()
+        from .font_suggestions import FontSuggestions
+        self.font_suggestions = FontSuggestions(root, self.family_box, self.font_family,
+            self.metrics.available_families.values(), self.apply_font_family, self.cancel_font_size, self.appearance)
         root.bind('<Destroy>', self.destroyed, add='+')
         self.projection_controls.update_summary()
         self.projection_controls.choose()
@@ -314,6 +427,46 @@ class MainWindow:
             root.drop_target_register('DND_Files')
             root.dnd_bind('<<Drop>>', self.drop_images)
         self.autosave_job = root.after(1000, self.offer_recovery)
+        self.apply_control_visibility()
+
+    def save_control_visibility(self):
+        updated = replace(self.settings, **{field: var.get() for field, var in self.visibility_vars.items()})
+        try:
+            save_settings(updated)
+        except OSError as exc:
+            messagebox.showerror('Nastavení', f'Nastavení se nepodařilo uložit: {exc}', parent=self.root)
+            return
+        self.settings = updated
+        self.status.set('Výchozí zobrazení tlačítek uloženo.')
+
+    def add_start_controls(self, panel):
+        group = command_group(panel, 'Spuštění projekce')
+        buttons = []
+        for label, from_current in (('Spustit', False), ('Spustit od', True)):
+            button = self.button(group, label,
+                lambda current=from_current: self.projection_controls.start(from_current=current))
+            button.pack_configure(side='top', fill='x')
+            buttons.append(button)
+        return buttons
+
+    def toggle_control_visibility(self, field):
+        var = self.visibility_vars[field]
+        var.set(not var.get())
+        self.apply_control_visibility()
+
+    def apply_control_visibility(self):
+        for field, button in self.visibility_buttons.items():
+            color = self.appearance.panel if self.visibility_vars[field].get() else '#3c3c3c'
+            button.configure(background=color, highlightbackground=color)
+        self.navigation_layout.set_visibility(self.visibility_vars['show_projection_button'].get(),
+                                              self.visibility_vars['show_navigation_buttons'].get())
+        if self.visibility_vars['show_navigation_buttons'].get():
+            self.header_location_label.pack_forget()
+        else:
+            self.header_location_label.pack(side='right', padx=(6, 4))
+        self.apply_button.layout_hidden = not self.visibility_vars['show_apply_button'].get()
+        self.arrange_apply_row()
+        self.queue_workspace_resize()
 
     def toggle_preview_output(self):
         self.output.set('stream' if self.output.get() == 'hall' else 'hall')
@@ -354,6 +507,10 @@ class MainWindow:
                 if not self.fit_preview_width():
                     break
             self.root.update_idletasks()
+            self.align_editor_preview()
+            self.root.update_idletasks()
+            self.ensure_editor_space()
+            self.root.update_idletasks()
             self.resize_thumbnail_strip()
             self.render_preview()
             self.root.update_idletasks()
@@ -362,6 +519,44 @@ class MainWindow:
         finally:
             repaint_workspace(self.workspace)
             self.resizing_workspace = False
+
+    def ensure_editor_space(self):
+        # A high-DPI ribbon must not squeeze the writing area to one pixel.
+        # Reclaim only excess thumbnail height; keep the existing 100px minimum.
+        linespace = int(self.root.tk.call('font', 'metrics', self.text.cget('font'), '-linespace'))
+        minimum = 2*linespace+8
+        required = (self.root.winfo_height()-self.workspace.winfo_height()
+                    + self.body.winfo_height()-self.text.winfo_height()+minimum+110)
+        width, height = self.root.minsize()
+        minimum_height = max(600, min(required, self.root.winfo_screenheight()-80))
+        if height != minimum_height:
+            self.root.minsize(width, minimum_height)
+        missing = minimum-self.text.winfo_height()
+        if missing > 0 and self.workspace.winfo_height() > 110:
+            x, y = self.workspace.sash_coord(0)
+            target = min(y+missing, self.workspace.winfo_height()-110)
+            if target > y:
+                self.workspace.sash_place(0, x, target)
+
+    def align_editor_preview(self):
+        """Keep the writing fields aligned with the preview, including wrapped controls."""
+        label = self.editor_title_label
+        top = max(0, self.preview.winfo_y()-label.winfo_reqheight())
+        label.pack_configure(pady=(top, 0))
+        compact = not any(var.get() for var in self.visibility_vars.values())
+        self.preview_navigation.configure(height=8 if compact else self.navigation_layout.normal_height)
+        hide_actions = compact and not self.unapplied_changes.get()
+        if hide_actions:
+            self.editor_apply_row.pack_forget()
+        else:
+            self.editor_apply_row.pack(side='bottom', fill='x', before=self.editor_text_frame)
+        navigation = self.preview_navigation.winfo_reqheight()
+        actions = 0 if hide_actions else self.editor_apply_row.winfo_reqheight()+4
+        footer = max(navigation, actions)
+        self.preview.pack_configure(pady=(0, footer-navigation))
+        self.editor_text_frame.pack_configure(pady=(0, footer) if hide_actions else 0)
+        if not hide_actions:
+            self.editor_apply_row.pack_configure(pady=(4, footer-actions))
 
     def redraw_resize_controls(self):
         # Native child-window moves on Windows can leave copied pixels behind.
@@ -484,6 +679,10 @@ class MainWindow:
         return self.bible_window
 
     def insert_bible_section(self, section):
+        style = self.default_content_style()
+        section = replace(section, blocks=tuple(replace(block, runs=tuple(
+            replace(run, style=replace(run.style, family=style.family, size=style.size))
+            for run in block.runs)) for block in section.blocks))
         current = self.section()
         if (isinstance(current, TextSection) and not current.images
                 and not current.title.strip() and not current.reference.strip()
@@ -508,7 +707,7 @@ class MainWindow:
             section = editable_section(self.section())
             sections = list(self.document.sections)
             if section is None:
-                section = blank_document().sections[0]
+                section = blank_document(self.default_content_style()).sections[0]
                 sections.append(section)
             section = replace(section, images=section.images+(ImageItem(asset.id),))
             sections = [section if s.id == section.id else s for s in sections]
@@ -549,7 +748,11 @@ class MainWindow:
         name = Path(self.file_path).name if self.file_path else 'Nová prezentace'
         state = ('neuložené změny' if self.document != self.saved_document else 'uloženo') if self.file_path else 'dosud neuloženo'
         self.file_status.set(f'{name} • {state}')
-        self.display_status.set(f'{self.file_status.get()}   |   {self.status.get()}')
+        missing = set(self.metrics.missing_families(self.document))
+        if self.session:
+            missing.update(self.metrics.missing_families(self.session.plan.source))
+        warning = ('Chybí font: '+', '.join(sorted(missing))+' → '+self.metrics.fallback_family+'   |   ') if missing else ''
+        self.display_status.set(f'{self.file_status.get()}   |   {warning}{self.status.get()}')
         self.root.title(f'PresentationPresenter — {name}' + (' *' if self.document != self.saved_document else ''))
 
     def confirm_document_change(self):
@@ -732,6 +935,7 @@ class MainWindow:
         self.monitor_job = None
         try:
             inventory = monitors(self.root)
+            self.monitor_error = None
             self.monitor_inventory = inventory
             for field, choice in self.monitor_choices.items():
                 if not choice.get() and inventory:
@@ -746,13 +950,78 @@ class MainWindow:
                     self.stop_projection(field)
                     self.status.set('Monitor byl odpojen nebo změnil geometrii. Výstup zastaven; vyberte monitor a spusťte jej znovu.')
         except RuntimeError as exc:
+            self.monitor_error = str(exc)
             if hasattr(self, 'status'):
                 self.status.set(str(exc))
         self.monitor_job = self.root.after(1000, self.refresh_monitors)
 
+    def collect_preflight(self, outputs=None, refresh=True):
+        from .preflight import check, Issue
+        self.text_changed()
+        if refresh:
+            self.refresh_monitors_now()
+        issues = check(self.document, self.metrics, self.typography, self.monitor_inventory,
+                     {f: v.get() for f, v in self.monitor_choices.items()},
+                     self.projection_controls.fullscreen,
+                     outputs if outputs is not None else self.projection_controls.outputs(),
+                     self.draft_plan)
+        return issues + ((Issue('Nelze ověřit monitory: '+self.monitor_error),) if self.monitor_error else ())
+
+    def show_preflight(self):
+        from .preflight_window import PreflightWindow
+        if self.preflight_window and self.preflight_window.win.winfo_exists():
+            self.preflight_window.refresh()
+            self.preflight_window.win.lift()
+        else:
+            self.preflight_window = PreflightWindow(self)
+
+    def navigate_preflight(self, issue):
+        if not issue.section_id:
+            self.ribbon.show('Zobrazení')
+            fields = self.projection_controls.outputs()
+            if issue.output in fields:
+                self.projection_controls.output_index = fields.index(issue.output)
+                self.projection_controls.update_summary()
+            self.root.lift()
+            return
+        if not any(s.id == issue.section_id for s in self.document.sections):
+            self.status.set('Úsek již neexistuje; obnovte kontrolu.')
+            return
+        self.text_changed()
+        self.view_version.set('draft')
+        self.selected_id = issue.section_id
+        self.refresh_sections()
+        self.preview_section = issue.section_id
+        if issue.output:
+            self.output.set(issue.output)
+            self.output_button.configure(text='Sál' if issue.output == 'stream' else 'Stream')
+        self.rebuild()
+        if issue.slide_id and self.plan and self.plan.source == self.document:
+            index = next((n for n, s in enumerate(self.plan.slides) if s.id == issue.slide_id), None)
+            if index is not None:
+                self.jump(index)
+        self.load_editor()
+        self.ribbon.show('Úseky')
+        self.root.lift()
+
     def start_projection(self, outputs, from_current=True):
         self.text_changed()
         self.refresh_monitors_now()
+        if self.monitor_error:
+            self.status.set('Projekci nelze spustit: nelze ověřit dostupnost monitorů. '+self.monitor_error)
+            return False
+        outputs = tuple(outputs)
+        if not outputs or any(f not in ('hall', 'stream') for f in outputs):
+            self.status.set('Vyberte alespoň jeden platný výstup (Sál / Stream).')
+            return False
+        if self.session is None:
+            issues = self.collect_preflight(outputs, refresh=False)
+            if any(i.blocking for i in issues):
+                self.show_preflight()
+                self.status.set('Projekci nelze spustit: opravte chyby v kontrole před projekcí.')
+                return False
+        else:
+            issues = ()
         targets = {f: next((m for m in self.monitor_inventory if m.id == self.monitor_choices[f].get()), None) for f in outputs}
         if any(m is None for m in targets.values()):
             self.status.set('Vybraný monitor není dostupný. Vyberte dostupný monitor.')
@@ -790,6 +1059,8 @@ class MainWindow:
         self.plan = None
         self.rebuild()
         self.projection_controls.update_summary()
+        if issues:
+            self.status.set(f'Kontrola: {len(issues)} upozornění. Podrobnosti: Soubor → Kontrola.')
         return True
 
     def refresh_monitors_now(self):
@@ -878,6 +1149,11 @@ class MainWindow:
         self.exact_positions.clear()
 
     def text_operation(self, *args):
+        insertion_style = None
+        if not self.loading and args[0] == 'insert' and args[1] == 'insert' and len(args) == 3:
+            insertion_style = self.cursor_style()
+            tags = tuple(t for t in self.text.tag_names('insert') if t in ('bullet', 'numbered') or t.startswith('listlevel:'))
+            args += (tags + (self.style_tag(insertion_style),),)
         # Intercept the actual edit range before Tk changes it. This distinguishes
         # identical occurrences even when their text and formatting are equal.
         if not self.loading and self.session and args[0] in ('insert', 'delete', 'replace') and self.live_anchor:
@@ -909,7 +1185,11 @@ class MainWindow:
                     elif args[0] != 'insert' or self.deleted_anchor_start != a:
                         self.deleted_anchor_start = None
                 self.exact_positions[sid] = mapped.offset
-        return self.root.tk.call(self.text_original, *args)
+        result = self.root.tk.call(self.text_original, *args)
+        if insertion_style is not None:
+            self.typing_override = insertion_style
+            self.typing_position = self.text.index('insert')
+        return result
 
     def viewing_live(self):
         return self.session is not None and self.view_version.get() == 'live'
@@ -925,8 +1205,10 @@ class MainWindow:
                                     disabledforeground=self.appearance.foreground if draft else self.appearance.disabled)
         dirty = self.session and self.session.plan.source != self.document
         self.apply_button.configure(state='normal' if dirty else 'disabled')
+        self.section_apply_button.configure(state='normal' if dirty else 'disabled')
         self.unapplied_changes.set('Nepoužité změny' if dirty else '')
         self.arrange_apply_row()
+        self.queue_workspace_resize()
         text = ('ŽIVÁ verze • navigace ovládá projekci' if self.viewing_live() else 'ROZPRACOVANÁ verze • navigace mění jen náhled')
         if dirty:
             text += ' • Nepoužité změny'
@@ -946,7 +1228,7 @@ class MainWindow:
             if self.plan is self.session.plan and not self.viewing_live():
                 try:
                     draft = paginate(self.document, self.metrics, self.typography)
-                except LayoutError as exc:
+                except ValueError as exc:
                     self.view_version.set('live')
                     self.status.set('Rozpracovaný náhled není dostupný: '+str(exc))
                     self.update_version_status()
@@ -968,6 +1250,14 @@ class MainWindow:
             return False
         try:
             plan = paginate(self.document, self.metrics, self.typography)
+            from .preflight import check
+            issues = check(self.document, self.metrics, self.typography, self.monitor_inventory,
+                           {f: v.get() for f, v in self.monitor_choices.items()},
+                           self.projection_controls.fullscreen, self.projection_controls.outputs(), plan)
+            failure = next((i for i in issues if i.blocking and i.section_id), None)
+            if failure:
+                self.status.set('Změny nebyly použity: '+failure.message+' Otevřete Soubor → Kontrola.')
+                return False
             position = anchors.confirmed_position(self.session.plan, self.session.current_slide_id, plan, self.live_anchor)
             session = ProjectionSession(plan, position, self.session.blackout)
         except (LayoutError, ValueError) as exc:
@@ -997,17 +1287,113 @@ class MainWindow:
     def section(self):
         return next((s for s in self.document.sections if s.id == self.selected_id), None)
 
+    def cursor_style(self):
+        cursor = self.text.index('insert')
+        if self.typing_override is not None and cursor == self.typing_position:
+            return self.typing_override
+        self.typing_override = None
+        self.typing_position = None
+        at = self.text.index(cursor+'-1c') if not cursor.endswith('.0') else cursor
+        tags = self.text.tag_names(at)
+        style = next((self.styles[t] for t in reversed(tags) if t in self.styles), None)
+        if style is not None:
+            return style
+        section = self.section()
+        if isinstance(section, TextSection):
+            block = next((b for b in reversed(section.blocks) if 'block:'+b.id in self.text.mark_names()
+                          and self.text.compare('block:'+b.id, '<=', cursor)), None)
+            if block and block.runs and not any(r.text for r in block.runs):
+                return block.runs[0].style
+        return TextStyle()
+
+    def sync_font_size(self, clear=False):
+        if clear:
+            self.typing_override = None
+            self.typing_position = None
+        if not isinstance(self.section(), TextSection):
+            self.size_box.configure(state='disabled')
+            self.family_box.configure(state='disabled')
+            return
+        self.size_box.configure(state='normal')
+        self.family_box.configure(state='normal')
+        selection = self.text.tag_ranges('sel')
+        if selection:
+            sizes = set()
+            families = set()
+            at, end = map(str, selection)
+            while self.text.compare(at, '<', end):
+                tags = self.text.tag_names(at)
+                style = next((self.styles[t] for t in reversed(tags) if t in self.styles), TextStyle())
+                if self.text.get(at, at+'+1c') != '\n':
+                    sizes.add(style.size)
+                    families.add(self.metrics.available_families.get(style.family.casefold(), style.family) if style.family else self.metrics.fallback_family)
+                at = self.text.index(at+'+1c')
+            self.font_size.set(str(next(iter(sizes))) if len(sizes) == 1 else '')
+            self.font_family.set(next(iter(families)) if len(families) == 1 else '')
+        else:
+            style = self.cursor_style()
+            self.font_size.set(str(style.size))
+            self.font_family.set(self.metrics.available_families.get(style.family.casefold(), style.family) if style.family else self.metrics.fallback_family)
+
+    def capture_size_target(self, event=None):
+        self.finish_editing()
+        self.size_target = (self.selected_id, tuple(map(str, self.text.tag_ranges('sel'))), self.text.index('insert'))
+
+    def cancel_font_size(self, event=None):
+        self.sync_font_size()
+        self.text.focus_set()
+        return 'break'
+
+    def apply_font_size(self, event=None):
+        try:
+            value = int(self.font_size.get())
+            if not 8 <= value <= 144:
+                raise ValueError()
+        except ValueError:
+            self.status.set('Velikost písma musí být celé číslo od 8 do 144 px.')
+            return 'break'
+        return self.apply_text_style('size', value)
+
+    def apply_font_family(self, event=None):
+        value = self.metrics.available_families.get(self.font_family.get().strip().casefold())
+        if value is None:
+            self.status.set('Vyberte nainstalovaný font ze seznamu.')
+            return 'break'
+        return self.apply_text_style('family', value)
+
+    def apply_text_style(self, field, value):
+        if not isinstance(self.section(), TextSection):
+            return 'break'
+        if self.size_target and self.size_target[0] == self.selected_id:
+            _, selection, cursor = self.size_target
+            self.text.mark_set('insert', cursor)
+            self.text.tag_remove('sel', '1.0', 'end')
+            if selection:
+                self.text.tag_add('sel', *selection)
+        if self.text.tag_ranges('sel'):
+            self.typing_override = None
+            self.format_selection(field, value)
+        else:
+            self.typing_override = replace(self.cursor_style(), **{field: value})
+            self.typing_position = self.text.index('insert')
+        self.size_target = None
+        self.text.focus_set()
+        self.sync_font_size()
+        return 'break'
+
     def style_tag(self, style):
         for tag, value in self.styles.items():
             if value == style:
                 return tag
         tag = f'style{len(self.styles)}'
         self.styles[tag] = style
-        self.text.tag_configure(tag, font=self.metrics.font(style, 16), foreground=style.color)
+        self.text.tag_configure(tag, font=self.metrics.font(style, max(4, round(style.size*16/36))), foreground=style.color)
         return tag
 
     def load_editor(self):
         self.loading = True
+        self.typing_override = None
+        self.typing_position = None
         section = self.section()
         self.title_entry.configure(state='normal')
         self.text.configure(state='normal')
@@ -1043,6 +1429,7 @@ class MainWindow:
             self.text.configure(state='disabled')
         self.text.edit_modified(False)
         self.loading = False
+        self.sync_font_size()
 
     def read_blocks(self):
         # Marks retain source identities; tagged source newlines stay inside blocks.
@@ -1096,7 +1483,8 @@ class MainWindow:
             if not runs:
                 rid = previous.runs[0].id if previous and previous.runs and previous.runs[0].id not in used else new_id()
                 used.add(rid)
-                runs = [] if previous and not previous.runs else [TextRun('', id=rid)]
+                empty_style = self.typing_override if self.typing_override is not None and self.typing_position == starts[number] else previous.runs[0].style if previous and previous.runs else TextStyle()
+                runs = [] if previous and not previous.runs else [TextRun('', style=empty_style, id=rid)]
             tags = self.text.tag_names(starts[number])
             kind = BlockKind.NUMBERED if 'numbered' in tags else BlockKind.BULLET if 'bullet' in tags else BlockKind.PARAGRAPH
             if previous and not line:
@@ -1128,6 +1516,7 @@ class MainWindow:
 
     def insert_newline(self, event=None):
         self.text_changed()
+        next_style = self.cursor_style()
         section = self.section()
         at = str(self.text.tag_ranges('sel')[0]) if self.text.tag_ranges('sel') else self.text.index('insert')
         active = next((i for i in range(len(section.blocks)-1, -1, -1)
@@ -1141,12 +1530,17 @@ class MainWindow:
             self.update_section(replace(section, blocks=tuple(blocks)))
             self.load_editor()
             self.text.mark_set('insert', at)
+            self.typing_override = next_style
+            self.typing_position = at
+            self.sync_font_size()
             return 'break'
         if numbered:
             self.end_group()
         if self.text.tag_ranges('sel'):
             self.text.delete('sel.first', 'sel.last')
-        self.text.insert('insert', '\n', ())
+        self.text.insert('insert', '\n', (self.style_tag(next_style),))
+        self.typing_override = next_style
+        self.typing_position = self.text.index('insert')
         if numbered:
             cursor = self.text.index('insert')
             self.text_changed()
@@ -1157,6 +1551,9 @@ class MainWindow:
             self.update_section(replace(section, blocks=tuple(blocks)), ('text', self.selected_id))
             self.load_editor()
             self.text.mark_set('insert', cursor)
+            self.typing_override = next_style
+            self.typing_position = cursor
+        self.sync_font_size()
         return 'break'
 
     def paste_text(self, event=None):
@@ -1165,7 +1562,9 @@ class MainWindow:
         except tk.TclError:
             return 'break'
         self.text_changed()
+        paste_style = self.cursor_style()
         tags = tuple(t for t in self.text.tag_names('insert') if t in self.styles or t in ('bullet', 'numbered') or t.startswith('listlevel:'))
+        tags = tuple(t for t in tags if t not in self.styles) + (self.style_tag(paste_style),)
         section = self.section()
         at = str(self.text.tag_ranges('sel')[0]) if self.text.tag_ranges('sel') else self.text.index('insert')
         if isinstance(section, TextSection):
@@ -1177,6 +1576,8 @@ class MainWindow:
             self.text.delete('sel.first', 'sel.last')
         self.end_group()
         self.text.insert('insert', value, tags)
+        self.typing_override = paste_style
+        self.typing_position = self.text.index('insert')
         return 'break'
 
     def title_changed(self, *args):
@@ -1245,7 +1646,7 @@ class MainWindow:
         if not self.confirm_document_change():
             return
         if had_changes or messagebox.askyesno('Nová prezentace', 'Vytvořit prázdnou prezentaci? Současnou lze vrátit pomocí Zpět.', parent=self.root):
-            document = blank_document()
+            document = blank_document(self.default_content_style())
             self.remember_file()
             self.selected_id = document.sections[0].id
             self.preview_section = self.selected_id
@@ -1258,7 +1659,7 @@ class MainWindow:
             self.title_entry.focus_set()
 
     def add_section(self, section=None):
-        section = section or blank_document().sections[0]
+        section = section or blank_document(self.default_content_style()).sections[0]
         sections = list(self.document.sections)
         index = next((i+1 for i, s in enumerate(sections) if s.id == self.selected_id), len(sections))
         sections.insert(index, section)
@@ -1388,6 +1789,7 @@ class MainWindow:
         if event is not None and event.state & (0x4 | 0x8 | 0x20000):
             return
         self.finish_editing()
+        insertion_style = self.cursor_style()
         section = self.section()
         if not isinstance(section, TextSection):
             return
@@ -1409,14 +1811,18 @@ class MainWindow:
             self.update_section(replace(section, blocks=tuple(blocks)))
             self.load_editor()
             self.text.mark_set('insert', cursor)
+            self.typing_override = insertion_style
+            self.typing_position = cursor
             if selection:
                 self.text.tag_add('sel', *selection)
             self.text.see('insert')
+            self.sync_font_size()
         return 'break'
 
     def toggle_bullets(self, list_kind=BlockKind.BULLET):
         if not isinstance(self.section(), TextSection):
             return
+        insertion_style = self.cursor_style()
         selection = self.text.tag_ranges('sel')
         start = self.text.index(str(selection[0])+' linestart' if selection else 'insert linestart')
         end = self.text.index(str(selection[1]) if selection else 'insert lineend')
@@ -1435,6 +1841,9 @@ class MainWindow:
         self.update_section(replace(self.section(), blocks=tuple(blocks)))
         self.load_editor()
         self.text.mark_set('insert', cursor)
+        self.typing_override = insertion_style
+        self.typing_position = cursor
+        self.sync_font_size()
         self.text.focus_set()
 
     def copy_slide(self):
@@ -1454,10 +1863,13 @@ class MainWindow:
             self.pending = None
         previous = self.plan.slides[self.current] if self.plan and self.plan.slides else None
         previous_plan = self.plan
+        had_layout_error = getattr(self, 'layout_failed', False)
         try:
             self.draft_plan = paginate(self.document, self.metrics, self.typography)
+            self.layout_failed = False
             plan = self.session.plan if self.viewing_live() else self.draft_plan
-        except LayoutError as exc:
+        except ValueError as exc:
+            self.layout_failed = True
             self.status.set('Náhled není aktuální: '+str(exc))
             self.copy_slide_button.configure(state='disabled')
             self.update_version_status()
@@ -1467,6 +1879,9 @@ class MainWindow:
                 return
         self.update_version_status()
         if plan == self.plan:
+            if had_layout_error and not self.layout_failed:
+                self.jump(self.current, preserve_anchor=True)
+                self.status.set(self.version_status.get() if self.session else 'Rozpracovaná prezentace • náhled je aktuální')
             return
         self.plan = plan
         self.current = next((i for i, s in enumerate(plan.slides) if previous and s.id == previous.id), min(self.current, max(0, len(plan.slides)-1)))
