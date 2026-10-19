@@ -36,6 +36,18 @@ def editable_section(section):
     return section
 
 
+def merge_sections(first, second):
+    """Explicit merge: keep first identity/header and outer boundaries."""
+    first, second = editable_section(first), editable_section(second)
+    images = first.images + second.images
+    if len(images) > 64:
+        raise ValueError('Sloučený úsek by obsahoval více než 64 obrázků.')
+    # Reset placement: a new composition must use the automatic grid.
+    images = tuple(replace(i, hall=None, stream=None) for i in images)
+    return replace(first, blocks=first.blocks + second.blocks, images=images,
+                   break_after=second.break_after, stream_linked=True, origin=None)
+
+
 class History:
     def __init__(self, document):
         self.document = document

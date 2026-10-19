@@ -7,7 +7,7 @@ from .domain import *
 from .settings import load_settings, save_settings
 from .layout import paginate, Typography, LayoutError, geometry
 from .rendering import TkMetrics, draw
-from .editor import History, duplicate_section, blank_document, editable_section
+from .editor import History, duplicate_section, blank_document, editable_section, merge_sections
 from .keyboard_controls import bind_navigation, section_destination, TEXT_INPUTS
 from .playback import Playback
 from .session import ProjectionSession
@@ -173,7 +173,9 @@ class MainWindow:
         self.file_start_buttons = self.add_start_controls(filebar)
         self.preflight_button = self.button(self.file_start_buttons[0].master, 'Kontrola', self.show_preflight)
         self.preflight_button.pack_configure(side='top', fill='x')
-        self.button(command_group(filebar, 'Přenos'), 'Import JSON', self.import_document)
+        transfer = command_group(filebar, 'Přenos')
+        self.button(transfer, 'Import JSON', self.import_document)
+        self.button(transfer, 'Import PPTX', self.import_pptx)
         for sequence, command in (('<Control-s>', self.save_document), ('<Control-o>', self.open_document)):
             root.bind(sequence, lambda e, c=command: (c(), 'break')[1])
         history = command_group(filebar, 'Historie')
@@ -228,6 +230,8 @@ class MainWindow:
                 button.grid(row=row, column=column, sticky='ew', padx=(5, 0) if column else 0, pady=1)
             self.source_buttons.append(button)
         self.copy_slide_button = tk.Button(source_actions, text='Duplikovat slide', command=self.copy_slide)
+        self.merge_button = tk.Button(source_actions, text='Sloučit s následujícím', command=self.merge_next_section)
+        self.merge_button.grid(row=2, column=0, columnspan=2, sticky='ew', padx=3, pady=2)
         self.copy_slide_button.grid(row=1, column=1, sticky='ew', padx=(5, 0), pady=1)
         source_projection = command_group(sources, 'Projekce a předěly')
         tk.Button(source_projection, text='Zatemnit', command=self.toggle_blackout).pack(anchor='w', pady=1)
@@ -902,6 +906,52 @@ class MainWindow:
             messagebox.showwarning('Import JSON', '\n'.join(warnings[:30]), parent=self.root)
         except (OSError, ValueError) as exc:
             messagebox.showerror('Import JSON', str(exc), parent=self.root)
+
+    def import_pptx(self):
+        self.finish_editing()
+        directory = self.file_dialog_directory()
+        if directory is None:
+            return
+        path = filedialog.askopenfilename(parent=self.root, initialdir=str(directory),
+                                          filetypes=[('PowerPoint', '*.pptx')])
+        if not path:
+            return
+        from .pptx_import_window import ImportWindow
+        review = ImportWindow(self, path)
+        self.root.wait_window(review.window)
+        if review.accepted is not None:
+            try:
+                self.insert_pptx_document(review.accepted)
+            except (ValueError, OSError) as exc:
+                messagebox.showerror('Import PPTX', str(exc), parent=self.root)
+
+    def insert_pptx_document(self, imported):
+        """One undo step. Preserve current file context, outputs and live session."""
+        self.finish_editing()
+        sections = list(self.document.sections)
+        index = next((i+1 for i, s in enumerate(sections) if s.id == self.selected_id), len(sections))
+        # Replace only the untouched empty starter, not intentional blank sections.
+        starter = (self.file_path is None and self.document == self.saved_document and len(sections) == 1
+                   and not sections[0].title and isinstance(sections[0], TextSection)
+                   and not sections[0].images and not any(r.text for b in sections[0].blocks for r in b.runs))
+        if starter:
+            sections, index = [], 0
+        incoming = list(imported.sections)
+        if imported.black_start:
+            incoming[0] = replace(incoming[0], break_before=True)
+        if imported.black_end and index < len(sections):
+            sections[index] = replace(sections[index], break_before=True)
+        end = imported.black_end if starter else self.document.black_end or (imported.black_end and index == len(sections))
+        sections[index:index] = incoming
+        document = replace(self.document, sections=tuple(sections), media=self.document.media+imported.media,
+                           black_end=end, black_start=False if starter else self.document.black_start)
+        storage.encode(document)
+        paginate(document, self.metrics, self.typography)
+        self.selected_id = incoming[0].id
+        self.preview_section = self.selected_id
+        self.commit(document)
+        self.rebuild()
+        self.status.set('PPTX vloženo do návrhu. Originál beze změny; Zpět vrátí celý import. Živou projekci potvrďte zvlášť.')
 
     def offer_recovery(self):
         if self.autosave_job:
@@ -1705,6 +1755,33 @@ class MainWindow:
     def copy_section(self):
         if isinstance(self.section(), (TextSection, ImageSection)):
             self.add_section(duplicate_section(self.section()))
+
+    def merge_next_section(self):
+        self.finish_editing()
+        sections = list(self.document.sections)
+        index = next((i for i, s in enumerate(sections) if s.id == self.selected_id), -1)
+        if index < 0 or index+1 >= len(sections):
+            self.status.set('Za vybraným úsekem není další úsek ke sloučení.')
+            return
+        first, second = sections[index:index+2]
+        details = ('Zůstane název/odkaz prvního úseku. Texty se spojí jako odstavce a znovu automaticky rozdělí. '
+                   'Obrázky dostanou automatickou mřížku pro sál i stream; volba prvního/všech pokračování zůstane. Operaci lze vrátit Zpět.')
+        if second.break_before or first.break_after:
+            details += '\nČerný předěl mezi úseky bude tímto ručním sloučením odstraněn.'
+        if (first.title, first.reference) != (second.title, second.reference):
+            details += f'\nDruhý název/odkaz „{second.title} {second.reference}“ se neponechá v hlavičce.'
+        if not messagebox.askyesno('Sloučit dva úseky?', details, parent=self.root):
+            return
+        try:
+            sections[index:index+2] = [merge_sections(first, second)]
+            document = replace(self.document, sections=tuple(sections))
+            paginate(document, self.metrics, self.typography)
+            self.preview_section = first.id
+            self.commit(document)
+            self.rebuild()
+            self.status.set('Dva úseky sloučeny a znovu rozděleny. Živá projekce se změní až po potvrzení.')
+        except (ValueError, LayoutError) as exc:
+            messagebox.showerror('Sloučení úseků', str(exc), parent=self.root)
 
     def delete_section(self):
         if self.section():
