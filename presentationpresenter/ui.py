@@ -313,6 +313,7 @@ class MainWindow:
         self.text.pack(fill='both', expand=True)
         self.text.tag_configure('bullet', lmargin1=18, lmargin2=18, background='#505050')
         self.text.tag_configure('numbered', lmargin1=18, lmargin2=18, background='#50505e')
+        self.text.tag_configure('preview_content', background='#5a5a5a')
         for level in range(3):
             self.text.tag_configure(f'listlevel:{level}', lmargin1=18+24*level, lmargin2=18+24*level)
         self.text.bind('<Tab>', lambda e: self.change_list_level(1, e))
@@ -1508,6 +1509,42 @@ class MainWindow:
         self.loading = False
         self.sync_font_size()
 
+        self.update_preview_highlight()
+
+    def update_preview_highlight(self, scroll=False):
+        """Paint exact preview source spans, independently of the user's selection."""
+        self.text.tag_remove('preview_content', '1.0', 'end')
+        if not self.plan or not self.plan.slides or (getattr(self, 'layout_failed', False) and not self.viewing_live()):
+            return
+        slide = self.plan.slides[self.current]
+        section = self.section()
+        if slide.black or not isinstance(section, TextSection) or slide.section_id != section.id:
+            return
+        source = next((s for s in self.plan.source.sections if s.id == section.id), None)
+        # A live snapshot can differ from the editable draft. Never pretend that
+        # changed draft text is the old projected content.
+        if not isinstance(source, TextSection) or source.blocks != section.blocks:
+            return
+        if self.text.get('1.0', 'end-1c') != '\n'.join(''.join(r.text for r in b.runs) for b in section.blocks):
+            return
+        starts = {}
+        for block in section.blocks:
+            mark = 'block:'+block.id
+            if mark not in self.text.mark_names():
+                return
+            offset = 0
+            for run in block.runs:
+                starts[run.id] = (self.text.index(mark), offset)
+                offset += len(run.text)
+        for span in slide.ranges:
+            mark, offset = starts[span.run_id]
+            self.text.tag_add('preview_content', f'{mark}+{offset+span.start}c', f'{mark}+{offset+span.end}c')
+        self.text.tag_raise('preview_content')
+        self.text.tag_raise('sel')
+        ranges = self.text.tag_ranges('preview_content')
+        if scroll and ranges:
+            self.text.yview(ranges[0])
+
     def read_blocks(self):
         # Marks retain source identities; tagged source newlines stay inside blocks.
         section = self.section()
@@ -1681,6 +1718,8 @@ class MainWindow:
         self.pending = self.root.after(180, self.rebuild)
         self.history_buttons()
         self.update_version_status()
+
+        self.update_preview_highlight()
 
     def history_buttons(self):
         self.update_file_status()
@@ -1980,9 +2019,11 @@ class MainWindow:
             if self.viewing_live():
                 plan = self.session.plan
             else:
+                self.update_preview_highlight()
                 return
         self.update_version_status()
         if plan == self.plan:
+            self.update_preview_highlight()
             if had_layout_error and not self.layout_failed:
                 self.jump(self.current, preserve_anchor=True)
                 self.status.set(self.version_status.get() if self.session else 'Rozpracovaná prezentace • náhled je aktuální')
@@ -2037,6 +2078,7 @@ class MainWindow:
             self.preview.delete('all')
             self.location.set('Žádné snímky • přidejte úsek')
             self.copy_slide_button.configure(state='disabled')
+            self.update_preview_highlight()
             return
         previous = self.current
         self.current = max(0, min(index, len(self.plan.slides)-1))
@@ -2064,7 +2106,7 @@ class MainWindow:
                 self.thumbnails[projected].configure(highlightbackground='#36b36b', highlightcolor='#36b36b')
                 self.projected_thumbnail_index = projected
         slide = self.plan.slides[self.current]
-        if select and slide.section_id in {s.id for s in self.document.sections} and self.selected_id != slide.section_id:
+        if (select or not preserve_anchor) and slide.section_id in {s.id for s in self.document.sections} and self.selected_id != slide.section_id:
             self.selected_id = slide.section_id
             self.end_group()
             self.refresh_sections()
@@ -2079,6 +2121,7 @@ class MainWindow:
             self.strip.xview_moveto(max(0, min(x, total-visible))/max(1, total))
         self.render_preview()
         self.update_version_status()
+        self.update_preview_highlight(scroll=not preserve_anchor)
 
     def render_preview(self):
         if not self.plan or not self.plan.slides:
