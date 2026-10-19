@@ -163,19 +163,19 @@ class MainWindow:
         self.ribbon_mode_save_button = self.button(ribbon_preferences, 'Uložit', self.save_ribbon_mode)
         self.ribbon_mode_save_button.pack_configure(side='top', anchor='w', pady=(4, 0))
         file_commands = command_group(filebar, 'Prezentace')
-        file_rows = [tk.Frame(file_commands) for _ in range(3)]
+        file_rows = [tk.Frame(file_commands) for _ in range(4)]
         for row in file_rows:
             row.pack(fill='x')
         self.new_button = self.button(file_rows[0], 'Nová', self.new_document)
-        self.open_button = self.button(file_rows[0], '+', self.open_document)
-        self.save_button = self.button(file_rows[1], 'Uložit', self.save_document)
-        self.save_as_button = self.button(file_rows[2], 'Uložit jako', lambda: self.save_document(True))
+        self.open_button = self.button(file_rows[1], 'Otevřít', self.open_document)
+        self.save_button = self.button(file_rows[2], 'Uložit', self.save_document)
+        self.save_as_button = self.button(file_rows[3], 'Uložit jako', lambda: self.save_document(True))
         self.file_start_buttons = self.add_start_controls(filebar)
         self.preflight_button = self.button(self.file_start_buttons[0].master, 'Kontrola', self.show_preflight)
         self.preflight_button.pack_configure(side='top', fill='x')
         transfer = command_group(filebar, 'Přenos')
-        self.button(transfer, 'Import JSON', self.import_document)
-        self.button(transfer, 'Import PPTX', self.import_pptx)
+        for label, command in (('Import PPTX', self.import_pptx), ('Import JSON', self.import_document)):
+            self.button(transfer, label, command).pack_configure(side='top', fill='x')
         for sequence, command in (('<Control-s>', self.save_document), ('<Control-o>', self.open_document)):
             root.bind(sequence, lambda e, c=command: (c(), 'break')[1])
         history = command_group(filebar, 'Historie')

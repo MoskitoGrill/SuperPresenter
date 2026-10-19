@@ -31,22 +31,34 @@ class ImportWindow:
         ttk.Button(footer, text='Zrušit', command=self.window.destroy).pack(side='right', padx=8)
         navigation = tk.Frame(self.window)
         navigation.pack(side='bottom', fill='x', padx=12)
-        ttk.Button(navigation, text='←', command=lambda: self.move(-1)).pack(side='left')
+        self.previous_button = ttk.Button(navigation, text='←', command=lambda: self.move(-1))
+        self.previous_button.pack(side='left')
         self.position = tk.StringVar()
-        tk.Label(navigation, textvariable=self.position).pack(side='left', padx=12)
-        ttk.Button(navigation, text='→', command=lambda: self.move(1)).pack(side='left')
+        self.position_label = tk.Label(navigation, textvariable=self.position, width=9)
+        self.position_label.pack(side='left', padx=12)
+        self.next_button = ttk.Button(navigation, text='→', command=lambda: self.move(1))
+        self.next_button.pack(side='left')
+        self.slide_description = tk.StringVar()
+        self.description_label = tk.Label(navigation, textvariable=self.slide_description, anchor='w', justify='left', width=1)
+        self.description_label.pack(side='left', fill='x', expand=True, padx=(12, 0))
         notebook = ttk.Notebook(self.window)
         notebook.pack(fill='both', expand=True, padx=12, pady=8)
         preview = tk.Frame(notebook)
         notebook.add(preview, text='Výsledek — sál a stream')
         self.canvases = {}
-        for field, title in (('hall', 'Sál'), ('stream', 'Stream — rezerva kamery')):
+        self.preview_holders = {}
+        preview.grid_rowconfigure(0, weight=1)
+        for column, (field, title) in enumerate((('hall', 'Sál'), ('stream', 'Stream — rezerva kamery'))):
+            preview.grid_columnconfigure(column, weight=1, uniform='outputs')
             frame = tk.Frame(preview)
-            frame.pack(side='left', fill='both', expand=True)
+            frame.grid(row=0, column=column, sticky='nsew', padx=3)
             tk.Label(frame, text=title).pack()
+            holder = tk.Frame(frame, width=1, height=1)
+            holder.pack(fill='both', expand=True)
+            self.preview_holders[field] = holder
             canvas = tk.Canvas(frame, bg='black', highlightthickness=0)
-            canvas.pack(fill='both', expand=True, padx=3)
-            canvas.bind('<Configure>', lambda e: self.render())
+            canvas.place(in_=holder, relx=.5, rely=.5, anchor='center', width=1, height=1)
+            holder.bind('<Configure>', lambda e: self.render())
             self.canvases[field] = canvas
         details = tk.Frame(notebook)
         notebook.add(details, text='Obsah, mapování a upozornění')
@@ -58,8 +70,24 @@ class ImportWindow:
         owner.appearance.apply(self.window)
         self.details.configure(font=owner.appearance.text)
         self.window.bind('<Configure>', self.resize_labels, add='+')
+        self.bind_navigation(self.window)
         self.refresh()
         self.window.grab_set()
+        self.window.focus_set()
+
+    def bind_navigation(self, widget):
+        # Widget bindings precede Text/Notebook class bindings, so arrows only
+        # navigate slides here, never switch tabs or reach the owner's projection.
+        for sequence, delta in (('<Left>', -1), ('<Right>', 1)):
+            widget.bind(sequence, lambda e, d=delta: self.navigation_key(e, d))
+        for child in widget.winfo_children():
+            self.bind_navigation(child)
+
+    def navigation_key(self, event, delta):
+        if event.state & (0x1 | 0x4 | 0x8 | 0x20000):
+            return
+        self.move(delta)
+        return 'break'
 
     def resize_labels(self, event):
         if event.widget is self.window:
@@ -74,6 +102,7 @@ class ImportWindow:
             from .storage import validate, encode
             encode(validate(self.result.document))
             self.plan = paginate(self.result.document, self.owner.metrics, self.owner.typography)
+            self.position_label.configure(width=2*max(2, len(str(len(self.plan.slides))))+3)
             self.index = 0
             self.summary.set(f'{len(self.result.document.sections)} úseků → {len(self.plan.slides)} snímků včetně předělů; '
                              f'{len(self.result.warnings)} upozornění.')
@@ -107,16 +136,28 @@ class ImportWindow:
         if not self.plan:
             for canvas in self.canvases.values():
                 canvas.delete('all')
-            self.position.set('Bez platného náhledu')
+            self.position.set('—/—')
+            self.slide_description.set('Bez platného náhledu')
             return
         slide = self.plan.slides[self.index]
-        self.position.set(f'{self.index+1} / {len(self.plan.slides)}' + (' — černý předěl' if slide.black else ''))
+        self.position.set(f'{self.index+1} / {len(self.plan.slides)}')
+        section = next((s for s in self.result.document.sections if s.id == slide.section_id), None)
+        title = ' • '.join(p for p in (section.title, section.reference) if p) if section else ''
+        if slide.black:
+            kind = 'Černý konec' if slide.id.endswith(':end') else 'Černý začátek' if slide.id.endswith(':start') else 'Černý předěl'
+            self.slide_description.set(kind + (' — '+title if title else ''))
+        else:
+            self.slide_description.set(title or 'Bez názvu')
         for field, canvas in self.canvases.items():
             from .layout import geometry
             w, h, _, _ = geometry(getattr(self.result.document, field))
-            scale = min(max(1, canvas.winfo_width())/w, max(1, canvas.winfo_height())/h)
+            holder = self.preview_holders[field]
+            scale = min(max(1, holder.winfo_width())/w, max(1, holder.winfo_height())/h)
+            width, height = max(1, int(w*scale)), max(1, int(h*scale))
+            canvas.place_configure(width=width, height=height)
+            scale = min(width/w, height/h)
             draw(canvas, slide, field, self.owner.metrics, self.owner.typography, scale=scale, resize_canvas=False)
-            canvas.move('all', (canvas.winfo_width()-w*scale)/2, (canvas.winfo_height()-h*scale)/2)
+            canvas.move('all', (width-w*scale)/2, (height-h*scale)/2)
 
     def accept(self):
         if self.plan:

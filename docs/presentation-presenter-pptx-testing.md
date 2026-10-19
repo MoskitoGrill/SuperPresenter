@@ -7,6 +7,7 @@ Import je převod obsahu do našich úseků, ne přehrávač PowerPointu. Nevyž
 - **Soubor → Přenos → Import PPTX**, vedle Import JSON.
 - **Úseky → Úpravy úseků → Sloučit s následujícím**, pod dvojicemi přidání/mazání a duplikování. V malé šířce použijte stávající vodorovný posuvník ribbonu.
 - Import otevře samostatné modální okno. První karta ukazuje zároveň sál a stream, šipky procházejí všechna odvozená pokračování a černé předěly. Druhá karta obsahuje úplné mapování původních snímků, upozornění a převedený text.
+- Oba náhledy zachovávají vlastní nastavený poměr 4:3 nebo 16:9 a zmenší se podle dostupného místa. Pod nimi je pevná navigace `← xx / yy →` a až za ní název/odkaz nebo typ černého snímku. Klávesy ←/→ přepínají snímky v importním okně, také při fokusu na tlačítku nebo reportu; neovládají živou projekci. Vyzkoušejte změnu velikosti okna a přechod 9→10: tlačítka se nemají posunout. Velikost počítadla se při načtení automaticky rozšíří i pro trojciferné počty.
 - Zaškrtávátko pro spojení stejného odkazu je nahoře. Vložení je dole, dostupné ihned při platném převodu. Kliknutí na Vložit je samotné potvrzení; obecný varovný text ani souhlasový checkbox se nezobrazují. Konkrétní upozornění zůstávají na druhé kartě.
 
 ## Ruční scénáře

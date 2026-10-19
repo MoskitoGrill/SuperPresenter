@@ -200,6 +200,54 @@ class ImportGuiTests(unittest.TestCase):
         self.assertIsNone(review.accepted)
         review.window.destroy()
 
+    def test_preview_aspects_fit_both_outputs_on_resize(self):
+        for hall in (Aspect.STANDARD, Aspect.WIDE):
+            for stream in (Aspect.STANDARD, Aspect.WIDE):
+                self.w.document = replace(self.w.document, hall=OutputConfig(hall), stream=OutputConfig(stream, CameraRegion()))
+                review = ImportWindow(self.w, self.path)
+                for size in ('1050x760', '760x600'):
+                    review.window.geometry(size)
+                    self.root.update()
+                    for field, canvas in review.canvases.items():
+                        holder = review.preview_holders[field]
+                        ratio = 4/3 if getattr(self.w.document, field).aspect == Aspect.STANDARD else 16/9
+                        self.assertLess(abs(canvas.winfo_width()-canvas.winfo_height()*ratio), 2)
+                        self.assertLessEqual(canvas.winfo_width(), holder.winfo_width())
+                        self.assertLessEqual(canvas.winfo_height(), holder.winfo_height())
+                        self.assertGreaterEqual(canvas.winfo_rootx(), holder.winfo_rootx())
+                        self.assertGreaterEqual(canvas.winfo_rooty(), holder.winfo_rooty())
+                review.window.destroy()
+
+    def test_fixed_counter_description_and_keyboard_navigation(self):
+        fixture(self.path, [slide(shape('Přísloví 2:16', True)+shape('A')) for _ in range(11)] + [slide(black=True)])
+        review = ImportWindow(self.w, self.path)
+        review.join.set(False)
+        review.refresh()
+        self.root.update()
+        self.assertEqual(review.slide_description.get(), 'Přísloví 2:16')
+        review.move(8)
+        self.root.update()
+        position = (review.next_button.winfo_rootx(), review.next_button.winfo_rooty())
+        review.next_button.focus_force()
+        self.root.update()
+        review.next_button.event_generate('<Right>')
+        self.root.update()
+        self.assertEqual(review.index, 9)
+        self.assertEqual(review.position.get(), '10 / 12')
+        self.assertEqual(position, (review.next_button.winfo_rootx(), review.next_button.winfo_rooty()))
+        review.move(2)
+        self.root.update()
+        self.assertEqual(review.position.get(), '12 / 12')
+        self.assertEqual(review.slide_description.get(), 'Černý konec')
+        self.assertEqual(position, (review.next_button.winfo_rootx(), review.next_button.winfo_rooty()))
+        review.details.focus_force()
+        self.root.update()
+        review.details.event_generate('<Left>')
+        self.root.update()
+        self.assertEqual(review.index, 10)
+        self.assertIsNone(self.w.session)
+        review.window.destroy()
+
     def test_insert_undo_redo_live_isolation_and_manual_merge(self):
         w = self.w
         w.text.insert('end', 'Původní obsah')
