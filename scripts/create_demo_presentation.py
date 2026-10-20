@@ -112,7 +112,11 @@ def build():
          block('Spusťte projekci. Potom v editoru změňte tuto větu.'),
          block('Živý výstup se změní až po potvrzení do projekce.'),
          block('Vyzkoušejte šipky, černou obrazovku, návrat a ukončení podle ovládání aplikace.'))
-    text('22 • Konec ukázky', block('Další možnosti vyzkoušíte podle přiloženého návodu.'),
+    text('22 • Okno Zdrojové úseky',
+         block('Na kartě Úseky otevřete Zobrazit všechny…'),
+         block('Vyberte úsek podle názvu a přetáhněte jej myší na nové místo. Čára ukazuje místo vložení.'),
+         block('Vyzkoušejte Zpět a také původní tlačítka Nahoru / Dolů.'))
+    text('23 • Konec ukázky', block('Další možnosti vyzkoušíte podle přiloženého návodu.'),
          block('Prezentaci si uložte pod vlastním názvem a upravujte její kopii.'),
          break_after=False)
     return Presentation(title='PresentationPresenter — průvodce funkcemi', sections=tuple(sections),

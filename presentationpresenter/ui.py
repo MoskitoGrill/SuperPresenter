@@ -227,6 +227,8 @@ class MainWindow:
         self.section_scrollbar.pack(side='right', fill='y')
         self.sections.pack(fill='both', expand=True)
         self.sections.bind('<<ListboxSelect>>', self.select_section)
+        self.sections_window_button = tk.Button(source_list, text='Zobrazit všechny…', command=self.show_sections_window)
+        self.sections_window_button.pack(fill='x', pady=(4, 0))
         self.source_buttons = []
         movement = command_group(sources, 'Přesouvání')
         source_actions = command_group(sources, 'Úpravy úseků')
@@ -1771,11 +1773,12 @@ class MainWindow:
         self.redo_button.configure(state='normal' if self.history.future else 'disabled')
 
     def refresh_sections(self):
+        from .sections_window import section_label
         if self.selected_id not in {s.id for s in self.document.sections}:
             self.selected_id = self.document.sections[0].id if self.document.sections else None
         self.sections.delete(0, 'end')
         for i, section in enumerate(self.document.sections):
-            label = ' • '.join(part for part in (section.title, section.reference) if part) or 'Bez názvu'
+            label = section_label(section)
             self.sections.insert('end', f'{i+1}. {label}')
             if section.id == self.selected_id:
                 self.sections.selection_set(i)
@@ -1786,6 +1789,42 @@ class MainWindow:
         self.black_end.set(self.document.black_end)
         if hasattr(self, 'projection_controls'):
             self.projection_controls.update_summary()
+        overview = getattr(self, 'sections_window', None)
+        if overview and overview.alive():
+            overview.refresh()
+
+    def show_sections_window(self):
+        overview = getattr(self, 'sections_window', None)
+        if overview and overview.alive():
+            overview.window.deiconify()
+            overview.window.lift()
+        else:
+            from .sections_window import SectionsWindow
+            overview = self.sections_window = SectionsWindow(self)
+        return overview
+
+    def choose_source_section(self, sid):
+        index = next((i for i, s in enumerate(self.document.sections) if s.id == sid), None)
+        if index is not None:
+            self.finish_editing()
+            self.sections.selection_clear(0, 'end')
+            self.sections.selection_set(index)
+            self.sections.see(index)
+            self.select_section()
+
+    def reorder_source_section(self, sid, slot):
+        self.finish_editing()
+        sections = list(self.document.sections)
+        index = next((i for i, s in enumerate(sections) if s.id == sid), None)
+        if index is None:
+            return
+        destination = max(0, min(len(sections), slot)) - (slot > index)
+        if destination == index:
+            return
+        sections.insert(destination, sections.pop(index))
+        self.selected_id = sid
+        self.end_group()
+        self.commit(replace(self.document, sections=tuple(sections)))
 
     def select_section(self, event=None):
         selected = self.sections.curselection()
@@ -1795,6 +1834,9 @@ class MainWindow:
                 self.end_group()
                 self.selected_id = sid
                 self.load_editor()
+                overview = getattr(self, 'sections_window', None)
+                if overview and overview.alive():
+                    overview.refresh()
                 if self.plan and not self.viewing_live():
                     index = next((i for i, s in enumerate(self.plan.slides) if s.section_id == sid and not s.black), None)
                     if index is not None:

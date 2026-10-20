@@ -2,7 +2,7 @@
 
 V aplikaci použijte **Soubor → Otevřít** a vyberte `Vzorova_prezentace.ppres` z této složky. Nejde o import PPTX. Doporučený první krok je Uložit jako pod vlastním názvem, abyste si zachovali originál ukázky.
 
-Soubor obsahuje 22 upravitelných úseků, při výchozím nastavení 53 snímků včetně černých předělů a čtyři vložené PNG: korálový obdélník na šířku, tyrkysový na výšku, žlutý čtverec a fialový široký obdélník. Nepotřebuje externí obrázky. Nastavení dokumentu: sál 4:3, stream 16:9, prostor kamery vpravo dole. Kamera je rezervovaná plocha; aplikace do ní nepřipojuje video.
+Soubor obsahuje 23 upravitelných úseků, při výchozím nastavení 55 snímků včetně černých předělů a čtyři vložené PNG: korálový obdélník na šířku, tyrkysový na výšku, žlutý čtverec a fialový široký obdélník. Nepotřebuje externí obrázky. Nastavení dokumentu: sál 4:3, stream 16:9, prostor kamery vpravo dole. Kamera je rezervovaná plocha; aplikace do ní nepřipojuje video.
 
 ## Co uvidíte v jednotlivých úsecích
 
@@ -25,11 +25,14 @@ Soubor obsahuje 22 upravitelných úseků, při výchozím nastavení 53 snímk�
 | 19 | Obrázek pouze na prvním pokračování. |
 | 20 | Obrázek opakovaný na všech pokračováních. |
 | 21 | Text připravený ke zkoušce oddělení návrhu od živé projekce. |
-| 22 | Závěr a následný koncový černý snímek. |
+| 22 | Samostatné okno Zdrojové úseky, výběr a přesouvání myší. |
+| 23 | Závěr a následný koncový černý snímek. |
 
 Počet pokračování se může změnit podle dostupných písem, velikostí textu, poměrů stran a kamery.
 
 ## Doporučené pokusy
+
+Na kartě **Úseky** ve skupině **Zdrojové úseky** klikněte na **Zobrazit všechny…**. V novém okně kliknutím vyberete úsek do editoru. Přetáhněte ho na jiné místo: světlá čára ukazuje hranici vložení, u horního a spodního okraje seznam automaticky posouvá. Změna se provede až po puštění myši uvnitř seznamu; Escape nebo puštění mimo seznam přesun zruší. Vyzkoušejte Zpět/Znovu a původní tlačítka Nahoru/Dolů. Seznamy zobrazují název, při prázdném názvu biblický či jiný odkaz. Přesun mění návrh; živou projekci až po potvrzení.
 
 1. **Náhled a navigace:** projděte prezentaci šipkami ovládání i klávesnice. U dlouhého úseku sledujte šedé označení právě zobrazené části v editoru. Porovnejte sál a stream, jejich proporce a rezervu kamery. Zmenšete okno a ověřte, že oba náhledy zůstávají dostupné. Ovládání klávesami zkoušejte mimo psaní v textovém poli.
 2. **Úpravy a historie:** označte část textu v úseku 03, změňte styl, velikost nebo font. Vyzkoušejte také psaní s nově vybraným stylem, zpět a znovu. Zduplikujte úsek, změňte pořadí a kopii odstraňte.
