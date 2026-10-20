@@ -30,6 +30,10 @@ SLIDE_STRIP_HEIGHT = 190
 
 
 class MainWindow:
+    def default_document(self):
+        document = blank_document(self.default_content_style())
+        return replace(document, stream=replace(document.stream, camera=self.settings.default_camera()))
+
     def default_content_style(self):
         return TextStyle(family=self.settings.content_font_family, size=self.settings.content_font_size)
 
@@ -59,7 +63,7 @@ class MainWindow:
     def __init__(self, root, settings=None, recovery_dir=None):
         self.root, self.settings = root, settings or load_settings()
         self.appearance = appearance(root, self.settings)
-        self.document = blank_document(self.default_content_style())
+        self.document = self.default_document()
         self.history = History(self.document)
         self.saved_document = self.document
         self.file_path = None
@@ -162,6 +166,11 @@ class MainWindow:
         self.update_ribbon_mode_label()
         self.ribbon_mode_save_button = self.button(ribbon_preferences, 'Uložit', self.save_ribbon_mode)
         self.ribbon_mode_save_button.pack_configure(side='top', anchor='w', pady=(4, 0))
+        folders = command_group(preferences, 'Složky a kamera')
+        self.folder_settings_button = self.button(folders, 'Nastavit složky…', self.show_folder_settings)
+        self.folder_settings_button.pack_configure(side='top', fill='x')
+        self.camera_settings_button = self.button(folders, 'Kamera streamu…', self.show_camera_settings)
+        self.camera_settings_button.pack_configure(side='top', fill='x')
         file_commands = command_group(filebar, 'Prezentace')
         file_rows = [tk.Frame(file_commands) for _ in range(4)]
         for row in file_rows:
@@ -729,7 +738,10 @@ class MainWindow:
             self.add_section(section)
 
     def choose_image(self):
-        path = filedialog.askopenfilename(parent=self.root, filetypes=[('Obrázky', '*.png *.jpg *.jpeg *.gif *.bmp *.webp')])
+        directory = self.file_dialog_directory('image')
+        if directory is None:
+            return
+        path = filedialog.askopenfilename(parent=self.root, initialdir=str(directory), filetypes=[('Obrázky', '*.png *.jpg *.jpeg *.gif *.bmp *.webp')])
         if path:
             self.insert_image(path)
 
@@ -835,7 +847,7 @@ class MainWindow:
         self.finish_editing()
         path = None if save_as else self.file_path
         if not path:
-            directory = self.file_dialog_directory()
+            directory = self.file_dialog_directory('save')
             if directory is None:
                 return False
             path = filedialog.asksaveasfilename(parent=self.root, initialdir=str(directory), defaultextension='.ppres', filetypes=[('PresentationPresenter', '*.ppres')])
@@ -855,8 +867,35 @@ class MainWindow:
             messagebox.showerror('Uložení', str(exc), parent=self.root)
             return False
 
-    def file_dialog_directory(self):
+    def show_folder_settings(self):
+        existing = getattr(self, 'folder_settings_window', None)
+        if existing and existing.window.winfo_exists():
+            existing.window.lift()
+            return
+        from .folder_settings_window import FolderSettingsWindow
+        self.folder_settings_window = FolderSettingsWindow(self)
+
+    def show_camera_settings(self):
+        existing = getattr(self, 'camera_settings_window', None)
+        if existing and existing.window.winfo_exists():
+            existing.window.lift()
+            return
+        self.finish_editing()
+        from .camera_settings_window import CameraSettingsWindow
+        self.camera_settings_window = CameraSettingsWindow(self)
+
+    def file_dialog_directory(self, purpose='open'):
         try:
+            configured = getattr(self.settings, purpose+'_directory')
+            if configured:
+                directory = Path(configured)
+                try:
+                    available = directory.is_dir()
+                except OSError:
+                    available = False
+                if available:
+                    return directory
+                self.status.set('Výchozí složka není dostupná; použita složka presentation: '+configured)
             return presentation_directory()
         except OSError as exc:
             messagebox.showerror('Složka prezentací', 'Složku presentation nelze připravit: '+str(exc), parent=self.root)
@@ -888,7 +927,7 @@ class MainWindow:
     def import_document(self):
         if not self.confirm_document_change():
             return
-        directory = self.file_dialog_directory()
+        directory = self.file_dialog_directory('import')
         if directory is None:
             return
         path = filedialog.askopenfilename(parent=self.root, initialdir=str(directory), filetypes=[('Původní prezentace', '*.json')])
@@ -896,6 +935,7 @@ class MainWindow:
             return
         try:
             document, warnings = storage.import_legacy(path)
+            document = replace(document, stream=replace(document.stream, camera=self.settings.default_camera()))
             paginate(document, self.metrics, self.typography)
             self.remember_file()
             self.commit(document)
@@ -910,7 +950,7 @@ class MainWindow:
 
     def import_pptx(self):
         self.finish_editing()
-        directory = self.file_dialog_directory()
+        directory = self.file_dialog_directory('import')
         if directory is None:
             return
         path = filedialog.askopenfilename(parent=self.root, initialdir=str(directory),
@@ -1083,6 +1123,10 @@ class MainWindow:
         self.root.lift()
 
     def start_projection(self, outputs, from_current=True):
+        camera = getattr(self, 'camera_settings_window', None)
+        if camera and camera.test is not None:
+            self.status.set('Nejprve ukončete zkušební projekci kamery.')
+            return False
         self.text_changed()
         self.refresh_monitors_now()
         if self.monitor_error:
@@ -1762,7 +1806,7 @@ class MainWindow:
         if not self.confirm_document_change():
             return
         if had_changes or messagebox.askyesno('Nová prezentace', 'Vytvořit prázdnou prezentaci? Současnou lze vrátit pomocí Zpět.', parent=self.root):
-            document = blank_document(self.default_content_style())
+            document = self.default_document()
             self.remember_file()
             self.selected_id = document.sections[0].id
             self.preview_section = self.selected_id

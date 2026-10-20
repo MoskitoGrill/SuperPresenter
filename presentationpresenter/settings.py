@@ -17,6 +17,30 @@ class AppSettings:
     show_apply_button: bool = True
     show_navigation_buttons: bool = True
     temporary_ribbon_tabs: bool = False
+    import_directory: str = ''
+    open_directory: str = ''
+    save_directory: str = ''
+    image_directory: str = ''
+    camera_x: float = .5
+    camera_y: float = .5
+    camera_width: float = .5
+    camera_height: float = .5
+    camera_gap: float = .02
+
+    def default_camera(self):
+        from .domain import CameraRegion
+        return CameraRegion(self.camera_x, self.camera_y, self.camera_width, self.camera_height, self.camera_gap)
+
+FOLDER_LABELS = {'import_directory': 'Importy (PPTX / JSON)', 'open_directory': 'Otevření prezentací',
+                 'save_directory': 'Ukládání prezentací', 'image_directory': 'Obrázky'}
+
+def validate_directories(values, require_existing=False):
+    for field, label in FOLDER_LABELS.items():
+        value = values[field]
+        if type(value) is not str or any(ord(c) < 32 for c in value) or (value and not Path(value).is_absolute()):
+            raise ValueError(label+': zadejte úplnou cestu ke složce nebo pole nechte prázdné.')
+        if require_existing and value and not Path(value).is_dir():
+            raise ValueError(label+': složka neexistuje nebo není dostupná.')
 
 def settings_path() -> Path:
     return Path(os.environ.get('LOCALAPPDATA', str(Path.home() / '.config'))) / 'PresentationPresenter' / 'settings.json'
@@ -25,6 +49,8 @@ def load_settings(path: Path | None = None) -> AppSettings:
     try:
         data = json.loads((path or settings_path()).read_text(encoding='utf-8'))
         settings = AppSettings(**data)
+        settings.default_camera()
+        validate_directories({field: getattr(settings, field) for field in FOLDER_LABELS})
         import re
         if not re.fullmatch(r'\d{2,5}x\d{2,5}(?:[+-]\d+[+-]\d+)?', settings.geometry):
             raise ValueError('Invalid geometry')
