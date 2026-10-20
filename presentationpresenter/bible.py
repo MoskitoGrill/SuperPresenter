@@ -113,17 +113,23 @@ class Passage:
         suffix = '' if (c, v) == (ec, ev) else f'–{ev}' if c == ec else f'–{ec}:{ev}'
         return f'{self.book} {c}:{v}{suffix} ({self.translation})'
 
-    def lines(self, numbers=True):
+    def lines(self, numbers=True, verse_per_line=False):
         cross = self.verses[0][0] != self.verses[-1][0]
-        return tuple((f'{c}:{v} ' if cross else f'{v} ') + text if numbers else text
-                     for c, v, text in self.verses)
+        verses = tuple((f'{c}:{v} ' if cross else f'{v} ') + text if numbers else text
+                       for c, v, text in self.verses)
+        if verse_per_line:
+            return verses
+        # Verse boundaries are spaces, but explicit paragraph breaks in the
+        # source text remain separate blocks in the editor and projection.
+        return tuple(' '.join(part.split()) for part in ' '.join(verses).splitlines()
+                     if part.strip())
 
-    def clipboard_text(self, numbers=True):
-        return self.reference + '\n' + '\n'.join(self.lines(numbers))
+    def clipboard_text(self, numbers=True, verse_per_line=False):
+        return self.reference + '\n' + '\n'.join(self.lines(numbers, verse_per_line))
 
-    def section(self, numbers=True):
+    def section(self, numbers=True, verse_per_line=False):
         from .domain import TextSection, TextBlock, TextRun, TextStyle, DEFAULT_CONTENT_FONT
-        return TextSection('', tuple(TextBlock((TextRun(line, TextStyle(family=DEFAULT_CONTENT_FONT)),)) for line in self.lines(numbers)),
+        return TextSection('', tuple(TextBlock((TextRun(line, TextStyle(family=DEFAULT_CONTENT_FONT)),)) for line in self.lines(numbers, verse_per_line)),
                            reference=self.reference, break_before=True)
 
 

@@ -6,7 +6,7 @@ import tkinter as tk
 import unittest
 from unittest.mock import patch
 
-from presentationpresenter.bible import BibleService, BibleError, AmbiguousBook
+from presentationpresenter.bible import BibleService, BibleError, AmbiguousBook, Passage
 from presentationpresenter.bible_window import BibleWindow
 from presentationpresenter.ui import MainWindow
 from presentationpresenter.settings import AppSettings
@@ -17,6 +17,21 @@ class BibleTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.service = BibleService()
+
+    def test_continuous_text_and_verse_layout(self):
+        passage = Passage('TEST', 'Jan', ((3, 36, 'První věta.'),
+                                          (4, 1, 'Další věta.\n\nNový odstavec.'),
+                                          (4, 2, 'Pokračování.')))
+        self.assertEqual(passage.lines(False),
+                         ('První věta. Další věta.', 'Nový odstavec. Pokračování.'))
+        self.assertEqual(passage.lines(True),
+                         ('3:36 První věta. 4:1 Další věta.', 'Nový odstavec. 4:2 Pokračování.'))
+        self.assertEqual(len(passage.lines(False, True)), 3)
+        self.assertEqual(passage.lines(True, True)[2], '4:2 Pokračování.')
+        self.assertEqual(len(passage.section(False).blocks), 2)
+        self.assertEqual(len(passage.section(False, True).blocks), 3)
+        self.assertEqual(passage.clipboard_text(False), passage.reference + '\n' +
+                         'První věta. Další věta.\nNový odstavec. Pokračování.')
 
     def test_names_aliases_and_john(self):
         s = self.service
@@ -59,9 +74,13 @@ class BibleTests(unittest.TestCase):
         folder = self.service.directory
         before = {p:hashlib.sha256(p.read_bytes()).hexdigest() for p in folder.glob('*.json')}
         s = BibleService()
-        self.assertEqual({code:len(s.books(code)) for code in s.translations}, {'B21':66,'BKR':66,'CSP':66,'EKU':66})
-        self.assertIn('NKB', s.problems)
-        self.assertNotIn('NKB', s.translations)
+        self.assertEqual({code:len(s.books(code)) for code in s.translations}, {'B21':66,'BKR':66,'CSP':66,'EKU':66,'NKB':27})
+        self.assertEqual(s.problems, {})
+        self.assertNotIn('Genesis', s.books('NKB'))
+        self.assertEqual(len(s.parse('B21', 'Žalmy 119').verses), 176)
+        self.assertEqual(len(s.parse('B21', 'Deuteronomium 9:23–24').verses), 2)
+        self.assertEqual(len(s.parse('BKR', 'Žalmy 55:23–24').verses), 2)
+        self.assertEqual(len(s.parse('BKR', 'Žalmy 65:13–14').verses), 2)
         for code in s.translations:
             self.assertEqual(s.parse(code, 'Jan 3:16').book, 'Jan')
             self.assertEqual(s.parse(code, '1 Jan 1:1').book, '1 Janův')
@@ -97,6 +116,28 @@ class BibleWindowTests(unittest.TestCase):
         self.tmp.cleanup()
         self.assertEqual(self.errors, [])
 
+    def test_layout_switch_preview_copy_and_insert(self):
+        inserted = []
+        bible = BibleWindow(self.root, insert=inserted.append)
+        bible.query.set('Jan 3:16–18')
+        bible.lookup()
+        self.assertFalse(bible.verse_per_line.get())
+        for separate in (False, True, False):
+            for numbers in (False, True):
+                bible.verse_per_line.set(separate)
+                bible.numbers.set(numbers)
+                bible.render()
+                expected = bible.passage.clipboard_text(numbers, separate)
+                self.assertEqual(bible.preview.get('1.0', 'end-1c'), expected)
+                with patch.object(bible.window, 'clipboard_clear'), patch.object(
+                        bible.window, 'clipboard_append') as append:
+                    bible.copy()
+                    append.assert_called_once_with(expected)
+                bible.insert()
+                self.assertEqual(len(inserted[-1].blocks), 3 if separate else 1)
+                self.assertEqual('\n'.join(block.runs[0].text for block in inserted[-1].blocks),
+                                 '\n'.join(bible.passage.lines(numbers, separate)))
+
     def test_embedded_insert_history_live_and_lifecycle(self):
         editor = MainWindow(self.root, AppSettings(), recovery_dir=self.tmp.name)
         self.root.update()
@@ -123,7 +164,7 @@ class BibleWindowTests(unittest.TestCase):
         self.assertEqual(len(editor.document.sections), len(before.sections))
         self.assertEqual(section.id, before.sections[0].id)
         self.assertEqual(section.images, ())
-        self.assertEqual(len(section.blocks), 3)
+        self.assertEqual(len(section.blocks), 1)
         self.assertFalse(section.blocks[0].runs[0].text.startswith('36 '))
         self.assertIs(editor.session.plan, live)
         inserted = editor.document
@@ -255,6 +296,7 @@ class BibleWindowTests(unittest.TestCase):
         bible = editor.open_bible()
         self.assertEqual(bible.translation.get(), 'CSP')
         self.assertFalse(bible.numbers.get())
+        self.assertFalse(bible.verse_per_line.get())
         bible.query.set('Jan 3:16')
         bible.lookup()
         bible.insert()

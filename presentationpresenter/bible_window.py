@@ -22,6 +22,7 @@ class BibleWindow:
         self.query = tk.StringVar(self.window)
         self.book = tk.StringVar(self.window)
         self.numbers = tk.BooleanVar(self.window, value=False)
+        self.verse_per_line = tk.BooleanVar(self.window, value=False)
         self.status = tk.StringVar(self.window)
         bg, fg = '#555555', '#ffffff'
         font = ('Courier New', 12)
@@ -105,6 +106,9 @@ class BibleWindow:
         self.copy_button = button(self.controls, 'Zkopírovat do schránky', self.copy, state='disabled')
         self.copy_button.pack(fill='x', pady=2)
         tk.Checkbutton(self.controls, text='Zobrazit čísla veršů', variable=self.numbers,
+                       command=self.render, bg=bg, fg=fg, selectcolor='#444444',
+                       activebackground=bg, activeforeground=fg, font=('Courier New', 11)).pack(anchor='w', pady=2)
+        tk.Checkbutton(self.controls, text='Každý verš na nový řádek', variable=self.verse_per_line,
                        command=self.render, bg=bg, fg=fg, selectcolor='#444444',
                        activebackground=bg, activeforeground=fg, font=('Courier New', 11)).pack(anchor='w', pady=2)
         self.insert_button = None
@@ -308,7 +312,7 @@ class BibleWindow:
         self.preview.configure(state='normal')
         self.preview.delete('1.0', 'end')
         if self.passage:
-            self.preview.insert('1.0', self.passage.clipboard_text(self.numbers.get()))
+            self.preview.insert('1.0', self.passage.clipboard_text(self.numbers.get(), self.verse_per_line.get()))
         self.preview.configure(state='disabled')
         state = 'normal' if self.passage else 'disabled'
         self.copy_button.configure(state=state)
@@ -318,12 +322,12 @@ class BibleWindow:
     def copy(self):
         if self.passage:
             self.window.clipboard_clear()
-            self.window.clipboard_append(self.passage.clipboard_text(self.numbers.get()))
+            self.window.clipboard_append(self.passage.clipboard_text(self.numbers.get(), self.verse_per_line.get()))
             self.status.set('Pasáž a odkaz byly zkopírovány.')
 
     def insert(self):
         if self.passage and self.insert_callback:
-            self.insert_callback(self.passage.section(self.numbers.get()))
+            self.insert_callback(self.passage.section(self.numbers.get(), self.verse_per_line.get()))
             self.status.set('Pasáž vložena do návrhu. Projekci potvrďte v editoru.')
 
 

@@ -4,6 +4,10 @@ Datum založení: 11. 10. 2026. Aktuální stav 18. 10. 2026: PP1–PP8L/PP8F im
 
 ## Jak používat tento dokument
 
+### Průběžná údržba vzorové prezentace (schváleno 20. 10. 2026)
+
+Při každém přidání nebo změně funkce PresentationPresenteru aktualizuj v rámci stejné úpravy také `presentation/Vzorova_prezentace.ppres`, její průvodce `presentation/Vzorova_prezentace_navod.md` a odpovídající generátor `scripts/create_demo_presentation.py`. Vzor musí ukazovat aktuální možnosti a chování aplikace; obrázky v něm zastupují barevné obdélníky. Novou funkci předveď konkrétním příkladem, změněné či odstraněné chování oprav i ve starších příkladech. Funkce, které nelze uložit do prezentace (například nastavení aplikace, importy nebo ovládání projekce), popiš v průvodci konkrétním postupem k vyzkoušení. Po aktualizaci ověř otevření a vykreslení pro sál i stream a případně oprav uvedené počty úseků a snímků. Do záznamu změny uveď také aktualizaci ukázky a výsledek ověření.
+
 Nejnovější doplnění PP8F (17. 10. 2026): výchozí font **nového obsahu je Calibri** a pole fontu při psaní nabízí filtrované návrhy. Dříve uložené fonty a vzhled ovládání se nepřepisují; viz závěrečný záznam. PP9 nezahájena.
 
 Další schválené doplnění PP8F (17. 10. 2026): uživatel po velikosti požádal dokončit **výběr fontu obsahu**. Aktuální chování a ověření viz poslední záznam; dřívější odklad rodiny fontu tím končí. PP9 nezahájena.
@@ -1243,3 +1247,11 @@ Ctrl+S/O, Ctrl+Z/Y/Shift+Z, F5/Shift+F5, Esc, šipky/PgUp/PgDn, Shift+←/→, B
 - Kotva osy se drží při změně velikosti i při dočasném roztažení na celý rozměr snímku, takže následné zmenšení neobrátí pravé/spodní kotvení na levé/horní. Ruční změna polohy kotvu znovu určí. Zpětná volání Scale po automatické synchronizaci polohy ji nesmějí přepsat. Poloha má krok 0,25 % kvůli zachování středu při půlprocentní změně velikosti; velikost a odstup dál 0,5 %. Změny jsou lokální pro kalibrační dialog a nemění formát dokumentu ani způsob ukládání/publikace.
 - Rozšířené testy kontrolují všechny čtyři hrany, volný střed, symetrický limit u kraje, pravý dolní roh, návrat ze 100 % na 30 % se zpracováním skutečných odložených Scale callbacků a jemnou šířku 40,5 % se středem přesně 50 %. První kamera sada 8/8 OK, 10,314 s; po jemném kroku polohy a ochraně nezměněné kotvy následuje závěrečný výsledek níže. Uživatelský návod aktualizován; SuperPresenter a jeho data beze změn. Změna se načte po restartu aplikace.
 - Závěrečná cílená sada kamery 8/8 OK, 10,460 s; git diff --check bez chyb. Celá regrese se pro změnu lokálního přepočtu posuvníků neopakovala; dřívější evidované omezení testu tažení děliče zůstává beze změny.
+
+### Souvislé zobrazení biblických pasáží, 20. 10. 2026
+
+- Bible má pod volbou Zobrazit čísla veršů nové nezávislé zaškrtávátko Každý verš na nový řádek. Obě volby jsou při otevření vypnuté: výchozí text je souvislý bez čísel. Změna platí shodně pro náhled, schránku i následující vložení do editoru; již vložené úseky se automaticky nemění.
+- Souvislý režim spojuje verše mezerou, přičemž explicitní zalomení ve zdrojovém textu zachovává jako odstavce. Čísla se mohou zobrazit uvnitř souvislého textu; při rozsahu přes kapitoly mají tvar kapitola:verš. Režim veršů pod sebou zachovává dosavadní samostatné bloky. Vložený obsah dále používá běžné automatické dělení pro sál a stream.
+- Aktuální JSON podklady neobsahují původní členění do odstavců ani zalomení uvnitř veršů. Původní odstavce proto z těchto dat nelze rekonstruovat; nepřidáváme odhadované hranice. Zdrojové Bible a rozpracované změny jejich ověřovacího importu nebyly touto úpravou měněny.
+- Ověření: tests.presentationpresenter.test_pp7, 11/11 OK (8,037 s). Kontrolovány kombinace obou voleb, náhled/kopírování/vložení, explicitní odstavce, číslování přes kapitoly, undo a izolace živé projekce i dostupnost vložení v okně 650×580. Známá diagnostika ttk::ThemeChanged při rušení testovacích oken se vyskytla bez selhání testů.
+- Ručně: otevřít Bibli, najít Jan 3:16–18, ověřit souvislý text bez čísel; postupně přepnout obě volby a zkusit vložení. U Jan 3:36–4:2 ověřit čísla kapitol. Nové okno znovu začíná se souvislým textem bez čísel.
