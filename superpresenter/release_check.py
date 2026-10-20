@@ -1,7 +1,6 @@
 """Opt-in packaged GUI smoke test; all writes use isolated temporary data."""
 import os
 from pathlib import Path
-import runpy
 import tempfile
 from types import SimpleNamespace
 from unittest.mock import patch
@@ -112,21 +111,22 @@ def run_check():
             assert not errors, errors
             gui = None
             tk.Tk = original_tk
-            # Execute the legacy file with its real data-root __file__, as the
-            # packaged --presentation-editor command does, without mainloop.
-            legacy = runpy.run_path(str(root / 'presentation_presenter.py'))
+            # Exercise the current companion used by --presentation-editor.
+            from presentationpresenter.ui import MainWindow
+            from presentationpresenter.settings import AppSettings
             dnd = TkinterDnD.Tk()
             dnd.withdraw()
             try:
-                legacy['PresentationEditor'](dnd)
+                presenter = MainWindow(dnd, AppSettings(), recovery_dir=Path(temp) / 'presentation-recovery')
                 dnd.update_idletasks()
+                assert presenter.plan.slides
                 assert dnd.tk.call('package', 'require', 'tkdnd')
             finally:
                 dnd.destroy()
             return {'ok': True, 'version': VERSION, 'stage': RELEASE_STAGE,
                     'root': str(root), 'tcl': tcl_version,
                     'styles': tested_styles, 'song_roundtrip': True,
-                    'presentation_editor': True, 'taskbar_properties': True,
+                    'presentation_editor': True, 'presentation_editor_version': 2, 'taskbar_properties': True,
                     'start_stop_cycles': 31, 'rapid_navigation_pairs': 120,
                     'edit_during_projection': True, 'invalid_inputs_rejected': len(rejected),
                     'close_during_projection': True, 'callback_errors': errors,

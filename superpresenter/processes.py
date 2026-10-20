@@ -7,6 +7,7 @@ from superpresenter.paths import PROJECT_ROOT
 
 def tool_command(script):
     flags = {'presentation_presenter.py': '--presentation-editor',
+             'presentation_presenter_v2.py': '--presentation-editor',
              'oprava_xml_tagu.py': '--repair-xml'}
     if script not in flags:
         raise ValueError('Unknown companion tool: ' + script)

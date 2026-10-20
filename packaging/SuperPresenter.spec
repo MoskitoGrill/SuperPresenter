@@ -1,6 +1,6 @@
 # Build on Windows with the pinned dependencies in requirements-build.txt.
 from pathlib import Path
-from PyInstaller.utils.hooks import collect_all
+from PyInstaller.utils.hooks import collect_all, collect_submodules
 
 root = Path(SPECPATH).parent
 icon = root / 'images' / 'ikona.ico'
@@ -10,7 +10,7 @@ dnd_data, dnd_binaries, dnd_imports = collect_all('tkinterdnd2')
 a = Analysis(
     [str(root / 'scripts' / 'standalone_entry.py')],
     pathex=[str(root)], binaries=dnd_binaries, datas=dnd_data,
-    hiddenimports=['presentation_presenter'] + dnd_imports,
+    hiddenimports=['presentation_presenter'] + collect_submodules('presentationpresenter') + dnd_imports,
     hookspath=[], hooksconfig={}, runtime_hooks=[], excludes=[], noarchive=False,
 )
 pyz = PYZ(a.pure)

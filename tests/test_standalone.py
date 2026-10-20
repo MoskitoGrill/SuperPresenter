@@ -20,14 +20,29 @@ class StandaloneTests(unittest.TestCase):
         with patch.object(sys, 'frozen', True, create=True):
             self.assertEqual(processes.tool_command('presentation_presenter.py'),
                              [sys.executable, '--presentation-editor'])
+            self.assertEqual(processes.tool_command('presentation_presenter_v2.py'),
+                             [sys.executable, '--presentation-editor'])
             self.assertEqual(processes.tool_command('oprava_xml_tagu.py'),
                              [sys.executable, '--repair-xml'])
 
     def test_source_companion_uses_script_path(self):
         with patch.object(sys, 'frozen', False, create=True):
-            command = processes.tool_command('presentation_presenter.py')
+            command = processes.tool_command('presentation_presenter_v2.py')
         self.assertEqual(command[0], sys.executable)
         self.assertTrue(Path(command[1]).is_file())
+        self.assertEqual(Path(command[1]).name, 'presentation_presenter_v2.py')
+
+    def test_packaged_presentation_dispatch_uses_v2(self):
+        import tempfile
+        entry = Path(__file__).resolve().parents[1] / 'scripts' / 'standalone_entry.py'
+        module = runpy.run_path(str(entry))
+        with tempfile.TemporaryDirectory() as temp, \
+             patch.object(sys, 'argv', ['SuperPresenter.exe', '--presentation-editor']), \
+             patch('os.chdir'), \
+             patch('superpresenter.services.projection_config.user_config_dir', return_value=Path(temp)), \
+             patch('presentationpresenter.app.main') as launch:
+            self.assertEqual(module['main'](), 0)
+            launch.assert_called_once_with()
 
     def test_unknown_companion_is_rejected(self):
         with self.assertRaises(ValueError):

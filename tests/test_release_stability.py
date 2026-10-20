@@ -233,12 +233,15 @@ class ReleaseTests(unittest.TestCase):
         self.gui.stepsLangUpdate()
         self.error.assert_not_called()
 
-    def test_presentation_editor_button_keeps_its_original_command(self):
+    def test_presentation_editor_button_launches_v2(self):
         self.assertEqual(self.gui.openPresentation.cget('text'), 'prez')
         self.assertEqual(self.gui.openPresentation.winfo_manager(), 'grid')
         with patch('subprocess.Popen') as launch:
+            launch.return_value.poll.return_value = None
             self.gui.openPresentation.invoke()
-        self.assertEqual(Path(launch.call_args.args[0][1]).name, 'presentation_presenter.py')
+            self.gui.openPresentation.invoke()
+        launch.assert_called_once()
+        self.assertEqual(Path(launch.call_args.args[0][1]).name, 'presentation_presenter_v2.py')
 
 
 class LoggingTests(unittest.TestCase):

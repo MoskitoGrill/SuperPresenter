@@ -551,7 +551,7 @@ class GUI(ProjectionProfiles, SongEditorPanel):
         if hasattr(self, "presentation_editor_win") and self.presentation_editor_win.poll() is None:
             return  # Prezentace už běží
         self.presentation_editor_win = subprocess.Popen(
-            tool_command('presentation_presenter.py'), cwd=self.dir)
+            tool_command('presentation_presenter_v2.py'), cwd=self.dir)
 
     def getProjectorStyles(self):
         try:

@@ -2,6 +2,8 @@
 
 V aplikaci použijte **Soubor → Otevřít** a vyberte `Vzorova_prezentace.ppres` z této složky. Nejde o import PPTX. Doporučený první krok je Uložit jako pod vlastním názvem, abyste si zachovali originál ukázky.
 
+PresentationPresenter nyní otevřete také tlačítkem **prez** v SuperPresenteru. To spouští novou verzi `presentation_presenter_v2.py`; další kliknutí během jejího běhu nezakládá druhý proces. Ve společném EXE se používá přepínač `--presentation-editor`, který spouští stejnou novou aplikaci. Již vytvořené EXE se změní až novým sestavením distribuce.
+
 Soubor obsahuje 23 upravitelných úseků, při výchozím nastavení 55 snímků včetně černých předělů a čtyři vložené PNG: korálový obdélník na šířku, tyrkysový na výšku, žlutý čtverec a fialový široký obdélník. Nepotřebuje externí obrázky. Nastavení dokumentu: sál 4:3, stream 16:9, prostor kamery vpravo dole. Kamera je rezervovaná plocha; aplikace do ní nepřipojuje video.
 
 ## Co uvidíte v jednotlivých úsecích

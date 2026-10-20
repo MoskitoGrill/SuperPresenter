@@ -22,6 +22,8 @@ Vzdáleně běžící Bitfocus musí spouštět program na cílovém Windows po�
 
 ## Data a další verze
 
+Tlačítko **prez** a přepínač `--presentation-editor` spouštějí nový PresentationPresenter (`presentation_presenter_v2.py`). Jeho balíček je zahrnutý ve společném EXE a složka `presentation` obsahuje také vzorovou prezentaci a průvodce. Tato změna platí pro nově sestavené distribuce.
+
 Písně, obrázky, Bible, prezentace a JSON styly jsou vedle EXE a zůstávají
 editovatelné. Průběžná obnova editoru je v `.song-recovery` vedle EXE.
 Uživatelské profily a logy jsou v `%APPDATA%\SuperPresenter` a sdílejí se
