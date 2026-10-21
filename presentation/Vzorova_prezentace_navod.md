@@ -4,7 +4,13 @@ V aplikaci použijte **Soubor → Otevřít** a vyberte `Vzorova_prezentace.ppre
 
 PresentationPresenter nyní otevřete také tlačítkem **prez** v SuperPresenteru. To spouští novou verzi `presentation_presenter_v2.py`; další kliknutí během jejího běhu nezakládá druhý proces. Ve společném EXE se používá přepínač `--presentation-editor`, který spouští stejnou novou aplikaci. Již vytvořené EXE se změní až novým sestavením distribuce.
 
+Hned napravo od **prez** je v SuperPresenteru tlačítko **bible**. Otevře samostatný výběr biblické pasáže s náhledem, překlady, volbou čísel a souvislého textu / veršů pod sebou. Výsledek lze zkopírovat do schránky; tlačítko pro vložení do prezentace zde není. Vložení je dostupné jen v Bibli otevřené z editoru PresentationPresenteru. Opakovaný klik během běhu nezakládá druhý proces; po zavření lze Bibli znovu otevřít. Společné EXE podporuje také přímý přepínač `--bible`.
+
+Pokud při zavírání SuperPresenteru ještě běží prezentace nebo Bible spuštěná jeho tlačítkem, objeví se volby **Zavřít vše**, **Jen SuperPresenter** a **Zrušit**. Volba Jen SuperPresenter ponechá tyto nástroje (i případnou projekci prezentace) běžet samostatně. Zavřít vše požádá jejich okna o běžné zavření: prezentace se může zeptat na uložení a zrušení tohoto dotazu ponechá prezentaci otevřenou, i když už SuperPresenter skončil. Zrušit v prvním dialogu ponechá otevřené všechny aplikace. Samostatně spuštěné nástroje mimo tlačítka SuperPresenter neukončuje. Vyzkoušejte obě volby a storno na pracovní kopii ukázky.
+
 Soubor obsahuje 23 upravitelných úseků, při výchozím nastavení 55 snímků včetně černých předělů a čtyři vložené PNG: korálový obdélník na šířku, tyrkysový na výšku, žlutý čtverec a fialový široký obdélník. Nepotřebuje externí obrázky. Nastavení dokumentu: sál 4:3, stream 16:9, prostor kamery vpravo dole. Kamera je rezervovaná plocha; aplikace do ní nepřipojuje video.
+
+Při ověřování společného zavření zkuste také spuštění přes projektový Python ve virtuálním prostředí nebo společné EXE: vlastní okno může běžet v navazujícím procesu spouštěče. Zavřít vše musí stále vyvolat standardní dotaz prezentace na uložení; jeho storno musí ponechat prezentaci otevřenou.
 
 ## Co uvidíte v jednotlivých úsecích
 

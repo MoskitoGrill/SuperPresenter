@@ -26,7 +26,7 @@ def main():
         shutil.copytree(ROOT / name, app / name,
                         ignore=shutil.ignore_patterns('__pycache__', '.song-recovery', '*.tmp', '*.temp'))
     for name in ('gui_style.json', 'projectors_styles.json', 'settings.json',
-                 'presentation_presenter.py', 'presentation_presenter_v2.py', 'oprava_xml_tagu.py'):
+                 'presentation_presenter.py', 'presentation_presenter_v2.py', 'presentation_bible.py', 'oprava_xml_tagu.py'):
         shutil.copy2(ROOT / name, app / name)
     shutil.copy2(ROOT / 'docs' / 'windows-release.md', app / 'CTI-ME.md')
     packages = subprocess.check_output([sys.executable, '-m', 'pip', 'freeze'], text=True)

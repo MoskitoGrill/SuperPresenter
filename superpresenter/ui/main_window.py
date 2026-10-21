@@ -195,6 +195,7 @@ class GUI(ProjectionProfiles, SongEditorPanel):
         self.newSource.config(style['projButton'])
         self.changeOrder.config(style['projButton'], width=8)
         self.openPresentation.config(style['projButton'], width=5)
+        self.openBible.config(style['projButton'], width=5)
         self.sourceLab.config(style['sourcesLabel'])
         self.dirtyLabel.config(style['sourcesLabel'], width=2)
         try:
@@ -327,6 +328,7 @@ class GUI(ProjectionProfiles, SongEditorPanel):
         self.newSource = tk.Button(self.sourceNav, text='new')
         self.changeOrder = tk.Button(self.sourceNav, text='order')
         self.openPresentation = tk.Button(self.sourceNav, text='prez')
+        self.openBible = tk.Button(self.sourceNav, text='bible')
         self.sourceLab = tk.Label(self.sourceNav, text='-----')
         self.song_title = tk.StringVar(master=self.win)
         self.sourceTitleEntry = tk.Entry(self.sourceNav, width=40, textvariable=self.song_title)
@@ -454,6 +456,7 @@ class GUI(ProjectionProfiles, SongEditorPanel):
         self.newSource.grid(column=5,row=0, padx=3)
         self.changeOrder.grid(column=6, row=0, sticky='e', padx=3)
         self.openPresentation.grid(column=7, row=0, sticky='e', padx=3)
+        self.openBible.grid(column=8, row=0, sticky='e', padx=3)
         self.sourceTitleEntry.grid(column=0, row=2, columnspan=8, padx=3, pady=5, sticky='we')
         self.dirtyLabel.grid(column=8, row=2, sticky='w')
         # variants
@@ -467,12 +470,26 @@ class GUI(ProjectionProfiles, SongEditorPanel):
         self.addLangBtn.grid(column=2, row=1, padx=(20, 4))
 
     def on_closing(self):
+        from superpresenter.ui.close_scope_dialog import ask_close_scope
+        from superpresenter.processes import request_tool_close
+        companions = []
+        for field, name, prefix in (('presentation_editor_win', 'PresentationPresenter', 'PresentationPresenter —'),
+                                    ('bible_win', 'Bible', 'Bible — PresentationPresenter')):
+            process = getattr(self, field, None)
+            if process is not None and process.poll() is None:
+                companions.append((process, name, prefix))
+        scope = ask_close_scope(self.win, [name for _, name, _ in companions]) if companions else 'main'
+        if scope is None:
+            return
         if not self._prepare_song_transition():
             return
-        # Zavřít editor prezentací, pokud běží
-        if hasattr(self, "presentation_editor_win"):
-            if self.presentation_editor_win.poll() is None:
-                self.presentation_editor_win.terminate()
+        if scope == 'all':
+            for process, name, prefix in companions:
+                if not request_tool_close(process, prefix):
+                    tkmsg.showerror('Zavření aplikací',
+                        f'{name} se nepodařilo požádat o zavření. Zavřete jeho okno ručně, '
+                        'nebo vyberte Jen SuperPresenter.', parent=self.win)
+                    return
 
         self.stop_monitor_watch()
         editor = getattr(self, '_projection_editor', None)
@@ -501,6 +518,7 @@ class GUI(ProjectionProfiles, SongEditorPanel):
         self.newSource.configure(command=self.newSongFun)
         self.changeOrder.configure(command=self.sortSources)
         self.openPresentation.configure(command=self.openPresentationEditor)
+        self.openBible.configure(command=self.openBibleWindow)
 
 
         self.saveProjs.configure(command=self.edit_profiles)
@@ -552,6 +570,14 @@ class GUI(ProjectionProfiles, SongEditorPanel):
             return  # Prezentace už běží
         self.presentation_editor_win = subprocess.Popen(
             tool_command('presentation_presenter_v2.py'), cwd=self.dir)
+
+    def openBibleWindow(self):
+        import subprocess
+        from superpresenter.processes import tool_command
+        if hasattr(self, 'bible_win') and self.bible_win.poll() is None:
+            return
+        self.bible_win = subprocess.Popen(
+            tool_command('presentation_bible.py'), cwd=self.dir)
 
     def getProjectorStyles(self):
         try:
