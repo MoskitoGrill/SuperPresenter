@@ -50,11 +50,11 @@ class PreviewImageEdit:
 
     @property
     def active(self):
-        return self.enabled or self.owner.settings.direct_image_edit
+        return self.enabled or self.owner.direct_image_edit.get()
 
     def update_button(self):
         self.owner.image_edit_button.configure(
-            state='disabled' if self.owner.settings.direct_image_edit else 'normal',
+            state='disabled' if self.owner.direct_image_edit.get() else 'normal',
             relief='sunken' if self.active else 'raised')
 
     def preference_changed(self):
@@ -70,7 +70,7 @@ class PreviewImageEdit:
                               else 'Úpravy obrázků se zapínají tlačítkem Upravit obrázky.')
 
     def toggle(self):
-        if self.owner.settings.direct_image_edit:
+        if self.owner.direct_image_edit.get():
             return
         self.owner.finish_editing()
         self.enabled = not self.enabled
@@ -226,7 +226,7 @@ class PreviewImageEdit:
             self.drag = None
             self.ghost = None
             self.owner.render_preview()
-        elif self.owner.settings.direct_image_edit:
+        elif self.owner.direct_image_edit.get():
             self.selected = None
             self.owner.render_preview()
         elif self.enabled:

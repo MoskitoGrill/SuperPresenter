@@ -118,13 +118,17 @@ def build():
          block('Na kartě Úseky otevřete Zobrazit všechny…'),
          block('Vyberte úsek podle názvu a přetáhněte jej myší na nové místo. Čára ukazuje místo vložení.'),
          block('Vyzkoušejte Zpět a také původní tlačítka Nahoru / Dolů.'))
-    text('23 • Konec ukázky', block('Další možnosti vyzkoušíte podle přiloženého návodu.'),
+    text('23 • Nastavení a výchozí hodnoty',
+         block('Nastavení → Uložit defaultně: jedním tlačítkem vpravo uložíte ovládání, písmo, chování lišty a přímé úpravy obrázků.', size=28),
+         block('Malé Uložit u fontu a velikosti platí jen pro nový obsah této prezentace. Zachová se při uložení souboru.', size=28),
+         block('Nová prezentace používá globální výchozí hodnoty. Složky a kameru nastavujete v jejich vlastních dialozích.', size=28))
+    text('24 • Konec ukázky', block('Další možnosti vyzkoušíte podle přiloženého návodu.'),
          block('Prezentaci si uložte pod vlastním názvem a upravujte její kopii.'),
          break_after=False)
     return Presentation(title='PresentationPresenter — průvodce funkcemi', sections=tuple(sections),
                         media=tuple(media), hall=OutputConfig(Aspect.STANDARD),
                         stream=OutputConfig(Aspect.WIDE, CameraRegion(.64, .62, .36, .38, .02)),
-                        black_start=True, black_end=True)
+                        black_start=True, black_end=True, content_defaults=TextStyle(family='Calibri', size=36))
 
 
 def main():

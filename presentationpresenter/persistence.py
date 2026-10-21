@@ -63,6 +63,8 @@ def loads(payload: str) -> Presentation:
         data['media'] = tuple(MediaAsset(**m) for m in data['media'])
         data['hall'] = output(data['hall'])
         data['stream'] = output(data['stream'])
+        if data.get('content_defaults') is not None:
+            data['content_defaults'] = TextStyle(**data['content_defaults'])
         return Presentation(**data)
     except (KeyError, TypeError, AttributeError, ValueError) as exc:
         raise ValueError(f'Invalid presentation: {exc}') from exc

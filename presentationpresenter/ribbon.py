@@ -79,6 +79,8 @@ def wrap_row(frame, reserve_width=None, stretch_groups=False):
                 for column, (child, x) in enumerate(row):
                     x += column*width_extra
                     group_width = child.winfo_reqwidth()+width_extra if stretch_groups else None
+                    if getattr(child, 'layout_align_right', False) and column == len(row)-1:
+                        x = max(x, width-(group_width or child.winfo_reqwidth())-2)
                     position = (x, y, height if stretch_groups else None, group_width)
                     if positions.get(child) != position:
                         child.place(x=x, y=y, height=position[2], width=position[3])

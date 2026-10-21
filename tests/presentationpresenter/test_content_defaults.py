@@ -11,6 +11,64 @@ from presentationpresenter.domain import TextSection, TextBlock, TextRun
 
 
 class ContentDefaultsTests(unittest.TestCase):
+    def test_one_global_save_collects_every_group_and_local_save_is_portable(self):
+        from presentationpresenter import storage
+        from dataclasses import replace
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp)/'settings.json'
+            root = tk.Tk()
+            try:
+                initial = AppSettings(import_directory=tmp, content_font_size=36)
+                w = MainWindow(root, initial, recovery_dir=Path(tmp)/'recovery')
+                w.ribbon.show('Nastavení')
+                root.update()
+                original_sections = w.document.sections
+                group = w.save_defaults_button.master.master
+                inner_right = group.master.winfo_width()-group.master.winfo_pixels(group.master.cget('padx'))
+                self.assertAlmostEqual(group.winfo_x()+group.winfo_width(), inner_right-2, delta=2)
+                w.default_size.set('28')
+                with patch('presentationpresenter.ui.save_settings') as save:
+                    w.default_save_button.invoke()
+                    save.assert_not_called()
+                self.assertEqual(w.settings, initial)
+                self.assertEqual(w.document.content_defaults.size, 28)
+                self.assertEqual(w.document.sections, original_sections)
+                local = w.document
+                w.undo()
+                self.assertEqual(w.document.content_defaults.size, 36)
+                w.redo()
+                self.assertEqual(w.document, local)
+                payload = storage.encode(local)
+                old_payload = json.loads(payload)
+                old_payload['document'].pop('content_defaults')
+                legacy = Path(tmp)/'legacy.ppres'
+                legacy.write_text(json.dumps(old_payload), encoding='utf-8')
+                self.assertIsNone(storage.load(legacy).content_defaults)
+                # Uncommitted runtime toggles do not save anything until the global action.
+                with patch('presentationpresenter.ui.save_settings') as save:
+                    for field in w.visibility_vars:
+                        w.visibility_buttons[field].invoke()
+                    w.toggle_ribbon_mode()
+                    w.direct_image_edit_check.invoke()
+                    save.assert_not_called()
+                w.default_size.set('44')
+                with patch('presentationpresenter.ui.save_settings', side_effect=lambda s: save_settings(s, path)) as save:
+                    w.save_defaults_button.invoke()
+                    save.assert_called_once()
+                restored = load_settings(path)
+                self.assertEqual(restored.content_font_size, 44)
+                self.assertEqual(restored.temporary_ribbon_tabs, w.ribbon.temporary_tabs)
+                self.assertFalse(restored.direct_image_edit)
+                self.assertTrue(all(not getattr(restored, field) for field in w.visibility_vars))
+                self.assertEqual(restored.import_directory, tmp)
+                self.assertEqual(restored.default_camera(), initial.default_camera())
+                self.assertEqual(w.document.content_defaults.size, 44)
+                self.assertEqual(w.default_document().content_defaults.size, 44)
+                self.assertFalse(hasattr(w, 'visibility_save_button'))
+                self.assertFalse(hasattr(w, 'ribbon_mode_save_button'))
+            finally:
+                root.destroy()
+
     def test_control_visibility_persists_and_survives_refresh(self):
         with tempfile.TemporaryDirectory() as tmp:
             path = Path(tmp)/'settings.json'
@@ -26,7 +84,7 @@ class ContentDefaultsTests(unittest.TestCase):
                         w.visibility_buttons[field].invoke()
                     save.assert_not_called()
                     self.assertTrue(w.settings.show_projection_button)
-                    w.visibility_save_button.invoke()
+                    w.save_defaults_button.invoke()
                     save.assert_called_once()
                 w.update_version_status()
                 w.projection_controls.update_summary()
@@ -56,7 +114,7 @@ class ContentDefaultsTests(unittest.TestCase):
                 self.assertEqual(w.header_location_label.winfo_rooty(), w.preview_output_bar.winfo_rooty())
                 self.assertEqual(w.header_location_label.winfo_rootx()+w.header_location_label.winfo_width(),
                     w.preview_output_bar.winfo_rootx()+w.preview_output_bar.winfo_width()-4)
-                self.assertEqual(w.document, original)
+                self.assertEqual(w.document.sections, original.sections)
                 restored = load_settings(path)
                 self.assertFalse(restored.show_projection_button)
                 self.assertFalse(restored.show_apply_button)
@@ -127,10 +185,15 @@ class ContentDefaultsTests(unittest.TestCase):
                 w.default_size.set('8')
                 with patch('presentationpresenter.ui.save_settings', side_effect=lambda s: save_settings(s, path)):
                     w.default_save_button.invoke()
-                self.assertEqual(w.document, original)
+                self.assertEqual(w.document.sections, original.sections)
                 self.assertIsNone(w.session)
                 restored = load_settings(path)
-                self.assertEqual((restored.content_font_family, restored.content_font_size), (family, 8))
+                self.assertEqual((restored.content_font_family, restored.content_font_size), ('Calibri', 36))
+                self.assertEqual((w.document.content_defaults.family, w.document.content_defaults.size), (family, 8))
+                from presentationpresenter import storage
+                ppres = Path(tmp)/'local.ppres'
+                storage.save(ppres, w.document)
+                self.assertEqual(storage.load(ppres).content_defaults, w.document.content_defaults)
                 w.add_section()
                 self.assertEqual(w.section().blocks[0].runs[0].style, w.default_content_style())
                 w.insert_bible_section(TextSection('Bible', (TextBlock((TextRun('Text Bible'),)),)))
@@ -139,14 +202,14 @@ class ContentDefaultsTests(unittest.TestCase):
                 self.assertEqual(w.document.sections[0], original.sections[0])
                 with patch('presentationpresenter.ui.messagebox.askyesnocancel', return_value=False):
                     w.new_document()
-                self.assertEqual(w.section().blocks[0].runs[0].style.size, 8)
+                self.assertEqual(w.section().blocks[0].runs[0].style.size, 36)
                 root.destroy()
                 root = tk.Tk()
                 w = MainWindow(root, restored, recovery_dir=Path(tmp)/'restart')
                 root.after_cancel(w.autosave_job)
                 w.autosave_job = None
-                self.assertEqual(w.section().blocks[0].runs[0].style.family, family)
-                self.assertEqual(w.section().blocks[0].runs[0].style.size, 8)
+                self.assertEqual(w.section().blocks[0].runs[0].style.family, 'Calibri')
+                self.assertEqual(w.section().blocks[0].runs[0].style.size, 36)
             finally:
                 root.destroy()
 
@@ -168,7 +231,7 @@ class ContentDefaultsTests(unittest.TestCase):
                     save.assert_not_called()
                 w.default_family.set(next(iter(w.metrics.available_families.values())))
                 with patch('presentationpresenter.ui.save_settings', side_effect=OSError('test')), patch('presentationpresenter.ui.messagebox.showerror') as error:
-                    w.save_content_defaults()
+                    w.save_all_defaults()
                     error.assert_called_once()
                 self.assertEqual(w.settings, previous)
             finally:

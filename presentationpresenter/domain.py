@@ -167,10 +167,13 @@ class Presentation:
     id: str = field(default_factory=new_id)
     schema_version: int = SCHEMA_VERSION
     black_end: bool = False
+    content_defaults: TextStyle | None = None
 
     def __post_init__(self):
         if type(self.schema_version) is not int or self.schema_version != SCHEMA_VERSION:
             raise ValueError('Unsupported presentation schema')
+        if self.content_defaults is not None and not isinstance(self.content_defaults, TextStyle):
+            raise ValueError('Invalid presentation content defaults')
         ids = [self.id]
         for sequence in (self.sections, self.media):
             if type(sequence) is not tuple:

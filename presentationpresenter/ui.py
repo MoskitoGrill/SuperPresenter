@@ -31,13 +31,17 @@ SLIDE_STRIP_HEIGHT = 190
 
 class MainWindow:
     def default_document(self):
-        document = blank_document(self.default_content_style())
-        return replace(document, stream=replace(document.stream, camera=self.settings.default_camera()))
+        style = TextStyle(family=self.settings.content_font_family, size=self.settings.content_font_size)
+        document = blank_document(style)
+        return replace(document, stream=replace(document.stream, camera=self.settings.default_camera()), content_defaults=style)
 
     def default_content_style(self):
+        document = getattr(self, 'document', None)
+        if document and document.content_defaults is not None:
+            return document.content_defaults
         return TextStyle(family=self.settings.content_font_family, size=self.settings.content_font_size)
 
-    def save_content_defaults(self):
+    def selected_content_defaults(self):
         family = self.metrics.available_families.get(self.default_family.get().strip().casefold())
         if family is None:
             self.status.set('Vyberte nainstalovaný font.')
@@ -49,16 +53,33 @@ class MainWindow:
         except ValueError:
             self.status.set('Velikost musí být celé číslo od 8 do 144 px.')
             return
-        updated = replace(self.settings, content_font_family=family, content_font_size=size)
+        return TextStyle(family=family, size=size)
+
+    def save_content_defaults(self):
+        style = self.selected_content_defaults()
+        if style is None:
+            return
+        self.finish_editing()
+        self.commit(replace(self.document, content_defaults=style))
+        self.status.set(f'Písmo pro nový obsah této prezentace: {style.family}, {style.size} px. Uložte prezentaci pro zachování.')
+
+    def save_all_defaults(self):
+        style = self.selected_content_defaults()
+        if style is None:
+            return
+        updated = replace(self.settings, content_font_family=style.family, content_font_size=style.size,
+            temporary_ribbon_tabs=self.ribbon.temporary_tabs,
+            direct_image_edit=self.direct_image_edit.get(),
+            **{field: var.get() for field, var in self.visibility_vars.items()})
         try:
             save_settings(updated)
         except OSError as exc:
             messagebox.showerror('Nastavení', f'Nastavení se nepodařilo uložit: {exc}', parent=self.root)
             return
         self.settings = updated
-        self.default_family.set(family)
-        self.default_size.set(str(size))
-        self.status.set(f'Výchozí písmo uloženo: {family}, {size} px. Platí pro nový obsah.')
+        self.finish_editing()
+        self.commit(replace(self.document, content_defaults=style))
+        self.status.set('Všechna výchozí nastavení uložena pro příští spuštění a nové prezentace.')
 
     def __init__(self, root, settings=None, recovery_dir=None):
         self.root, self.settings = root, settings or load_settings()
@@ -139,8 +160,6 @@ class MainWindow:
                 command=lambda field=field: self.toggle_control_visibility(field), takefocus=True)
             button.pack(fill='x')
             self.visibility_buttons[field] = button
-        self.visibility_save_button = self.button(visibility, 'Uložit defaultně', self.save_control_visibility)
-        self.visibility_save_button.pack_configure(side='top', anchor='w', pady=(4, 0))
         defaults = command_group(preferences, 'Výchozí písmo')
         defaults_row = tk.Frame(defaults)
         defaults_row.pack(fill='x', padx=(0, 10))
@@ -164,8 +183,6 @@ class MainWindow:
         self.ribbon_mode_button.pack(fill='x')
         reserve_button_labels(self.ribbon_mode_button, 'Trvale rozbalit', 'Přes obsah')
         self.update_ribbon_mode_label()
-        self.ribbon_mode_save_button = self.button(ribbon_preferences, 'Uložit', self.save_ribbon_mode)
-        self.ribbon_mode_save_button.pack_configure(side='top', anchor='w', pady=(4, 0))
         folders = command_group(preferences, 'Složky a kamera')
         self.folder_settings_button = self.button(folders, 'Nastavit složky…', self.show_folder_settings)
         self.folder_settings_button.pack_configure(side='top', fill='x')
@@ -178,6 +195,10 @@ class MainWindow:
             selectcolor=self.appearance.selected, relief='raised', offrelief='raised',
             variable=self.direct_image_edit, command=self.save_direct_image_edit)
         self.direct_image_edit_check.pack(anchor='w')
+        default_actions = command_group(preferences, 'Výchozí nastavení')
+        default_actions.master.layout_align_right = True
+        self.save_defaults_button = self.button(default_actions, 'Uložit defaultně', self.save_all_defaults)
+        self.save_defaults_button.pack_configure(side='top', fill='x')
         file_commands = command_group(filebar, 'Prezentace')
         file_rows = [tk.Frame(file_commands) for _ in range(4)]
         for row in file_rows:
@@ -471,27 +492,7 @@ class MainWindow:
     def toggle_ribbon_mode(self):
         self.ribbon.set_temporary_tabs(not self.ribbon.temporary_tabs)
         self.update_ribbon_mode_label()
-        self.status.set('Chování lišty změněno. Pro příští spuštění klikněte na Uložit.')
-
-    def save_ribbon_mode(self):
-        updated = replace(self.settings, temporary_ribbon_tabs=self.ribbon.temporary_tabs)
-        try:
-            save_settings(updated)
-        except OSError as exc:
-            messagebox.showerror('Nastavení', f'Nastavení se nepodařilo uložit: {exc}', parent=self.root)
-            return
-        self.settings = updated
-        self.status.set('Výchozí chování lišty uloženo pro příští spuštění aplikace.')
-
-    def save_control_visibility(self):
-        updated = replace(self.settings, **{field: var.get() for field, var in self.visibility_vars.items()})
-        try:
-            save_settings(updated)
-        except OSError as exc:
-            messagebox.showerror('Nastavení', f'Nastavení se nepodařilo uložit: {exc}', parent=self.root)
-            return
-        self.settings = updated
-        self.status.set('Výchozí zobrazení tlačítek uloženo.')
+        self.status.set('Chování lišty změněno. Pro příští spuštění klikněte na Uložit defaultně.')
 
     def add_start_controls(self, panel):
         group = command_group(panel, 'Spuštění projekce')
@@ -524,14 +525,6 @@ class MainWindow:
         self.queue_workspace_resize()
 
     def save_direct_image_edit(self):
-        updated = replace(self.settings, direct_image_edit=self.direct_image_edit.get())
-        try:
-            save_settings(updated)
-        except OSError as exc:
-            self.direct_image_edit.set(self.settings.direct_image_edit)
-            messagebox.showerror('Nastavení', 'Volbu se nepodařilo uložit: '+str(exc), parent=self.root)
-            return
-        self.settings = updated
         self.preview_image_edit.preference_changed()
 
     def toggle_preview_output(self):
@@ -1810,6 +1803,9 @@ class MainWindow:
             var.set(getattr(self.document, field).aspect.value)
         self.black_start.set(self.document.black_start)
         self.black_end.set(self.document.black_end)
+        style = self.default_content_style()
+        self.default_family.set(style.family)
+        self.default_size.set(str(style.size))
         if hasattr(self, 'projection_controls'):
             self.projection_controls.update_summary()
         overview = getattr(self, 'sections_window', None)

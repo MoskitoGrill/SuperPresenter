@@ -98,6 +98,8 @@ class PreviewImageEditTests(unittest.TestCase):
         self.assertFalse(int(owner.direct_image_edit_check.cget('indicatoron')))
         with patch('presentationpresenter.ui.save_settings', side_effect=lambda settings: save_settings(settings, path)):
             owner.direct_image_edit_check.invoke()
+            owner.save_defaults_button.invoke()
+        owner.rebuild()
         self.assertTrue(edit.active)
         self.assertFalse(edit.enabled)
         self.assertEqual(str(owner.image_edit_button.cget('state')), 'disabled')
@@ -124,14 +126,14 @@ class PreviewImageEditTests(unittest.TestCase):
         owner.image_edit_button.invoke()
         self.assertTrue(edit.active)
 
-    def test_preference_save_failure_restores_old_value(self):
+    def test_preference_waits_for_global_save(self):
         with patch('presentationpresenter.ui.save_settings', side_effect=OSError('QA')), \
              patch('presentationpresenter.ui.messagebox.showerror') as error:
             self.owner.direct_image_edit_check.invoke()
-        error.assert_called_once()
-        self.assertFalse(self.owner.direct_image_edit.get())
+        error.assert_not_called()
+        self.assertTrue(self.owner.direct_image_edit.get())
         self.assertFalse(self.owner.settings.direct_image_edit)
-        self.assertTrue(self.edit.enabled)  # Existing manually enabled mode remains unchanged.
+        self.assertTrue(self.edit.active)
 
     def test_move_is_one_undo_and_leaves_peer_and_live_unchanged(self):
         owner, edit = self.owner, self.edit

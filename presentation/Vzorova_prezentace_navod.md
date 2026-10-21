@@ -8,7 +8,7 @@ Hned napravo od **prez** je v SuperPresenteru tlačítko **bible**. Otevře samo
 
 Pokud při zavírání SuperPresenteru ještě běží prezentace nebo Bible spuštěná jeho tlačítkem, objeví se volby **Zavřít vše**, **Jen SuperPresenter** a **Zrušit**. Volba Jen SuperPresenter ponechá tyto nástroje (i případnou projekci prezentace) běžet samostatně. Zavřít vše požádá jejich okna o běžné zavření: prezentace se může zeptat na uložení a zrušení tohoto dotazu ponechá prezentaci otevřenou, i když už SuperPresenter skončil. Zrušit v prvním dialogu ponechá otevřené všechny aplikace. Samostatně spuštěné nástroje mimo tlačítka SuperPresenter neukončuje. Vyzkoušejte obě volby a storno na pracovní kopii ukázky.
 
-Soubor obsahuje 23 upravitelných úseků, při výchozím nastavení 55 snímků včetně černých předělů a čtyři vložené PNG: korálový obdélník na šířku, tyrkysový na výšku, žlutý čtverec a fialový široký obdélník. Nepotřebuje externí obrázky. Nastavení dokumentu: sál 4:3, stream 16:9, prostor kamery vpravo dole. Kamera je rezervovaná plocha; aplikace do ní nepřipojuje video.
+Soubor obsahuje 24 upravitelných úseků, při výchozím nastavení 57 snímků včetně černých předělů a čtyři vložené PNG: korálový obdélník na šířku, tyrkysový na výšku, žlutý čtverec a fialový široký obdélník. Nepotřebuje externí obrázky. Nastavení dokumentu: sál 4:3, stream 16:9, prostor kamery vpravo dole. Kamera je rezervovaná plocha; aplikace do ní nepřipojuje video.
 
 Při ověřování společného zavření zkuste také spuštění přes projektový Python ve virtuálním prostředí nebo společné EXE: vlastní okno může běžet v navazujícím procesu spouštěče. Zavřít vše musí stále vyvolat standardní dotaz prezentace na uložení; jeho storno musí ponechat prezentaci otevřenou.
 
@@ -34,7 +34,8 @@ Při ověřování společného zavření zkuste také spuštění přes projekt
 | 20 | Obrázek opakovaný na všech pokračováních. |
 | 21 | Text připravený ke zkoušce oddělení návrhu od živé projekce. |
 | 22 | Samostatné okno Zdrojové úseky, výběr a přesouvání myší. |
-| 23 | Závěr a následný koncový černý snímek. |
+| 23 | Společné ukládání výchozích nastavení a písmo platné jen pro tuto prezentaci. |
+| 24 | Závěr a následný koncový černý snímek. |
 
 Počet pokračování se může změnit podle dostupných písem, velikostí textu, poměrů stran a kamery.
 
@@ -64,7 +65,15 @@ Během tažení se mění jen obrazová ukázka, text zůstává na místě. Po 
 
 Zkouška: v úseku 18 posuňte jeden obdélník, druhý má zůstat na svém místě. Zmenšete jej za různé rohy a zkuste Zpět/Znovu i Escape. Pak přepněte na stream. V úsecích 19 a 20 porovnejte pravidla opakování obrázků. Původní dialog Rozložení obrázků zůstává dostupný pro přesné rozměry, propojení a obnovu automatické mřížky.
 
-Pro porovnání v praxi otevřete **Nastavení → Úpravy obrázků** a použijte přepínací tlačítko **Úprava obrázků napřímo**. Zatlačené tlačítko znamená zapnuto. Výchozí stav je zapnutý; dříve výslovně uložená volba zůstává zachovaná. Volba se uloží okamžitě i pro další spuštění. Při zapnutí obrázky v rozpracovaném náhledu reagují přímo na kliknutí a tažení; tlačítko Upravit obrázky zůstává viditelné, ale neaktivní, protože zapnutí režimu není potřeba. Escape zruší tah nebo označení, trvalé přímé úpravy nevypne. Vypnutí volby znovu vyžaduje zapnutí režimu tlačítkem Upravit obrázky. Živý náhled nelze přímo upravovat; zapnutí této volby při jeho zobrazení přepne na rozpracovanou verzi.
+Pro porovnání v praxi otevřete **Nastavení → Úpravy obrázků** a použijte přepínací tlačítko **Úprava obrázků napřímo**. Zatlačené tlačítko znamená zapnuto. Výchozí stav je zapnutý; dříve výslovně uložená volba zůstává zachovaná. Přepnutí platí hned; pro další spuštění je uložte společným **Uložit defaultně** napravo v Nastavení. Při zapnutí obrázky v rozpracovaném náhledu reagují přímo na kliknutí a tažení; tlačítko Upravit obrázky zůstává viditelné, ale neaktivní, protože zapnutí režimu není potřeba. Escape zruší tah nebo označení, trvalé přímé úpravy nevypne. Vypnutí volby znovu vyžaduje zapnutí režimu tlačítkem Upravit obrázky. Živý náhled nelze přímo upravovat; zapnutí této volby při jeho zobrazení přepne na rozpracovanou verzi.
+
+### Jedno společné ukládání výchozích nastavení
+
+Na kartě **Nastavení** je úplně napravo jediné **Uložit defaultně**. Uloží současné hodnoty skupin Zobrazit ovládací tlačítka, Výchozí písmo, Chování lišty a Úpravy obrázků pro budoucí spuštění / nové prezentace. Přepínání viditelnosti, lišty a přímých úprav nejdříve platí jen během aktuálního běhu; bez společného uložení se do příštího spuštění nepřenese. Složky a kamera si zachovávají vlastní dialogy a jejich dosavadní ukládání.
+
+Malé **Uložit** vedle fontu a velikosti nastaví výchozí styl pro nový obsah jen v aktuální prezentaci. Dosavadní texty a jejich formátování se nezmění. Výchozí styl je součástí souboru `.ppres`, takže pro uchování použijte také běžné Soubor → Uložit. Změnu lze vrátit pomocí Zpět. Nová nebo jiná prezentace tuto místní volbu nepřevezme; při otevření použije vlastní uložený styl, nebo u starších souborů globální výchozí písmo.
+
+Zkouška: u úseku 23 změňte velikost ve Výchozím písmu, stiskněte malé Uložit a přidejte nový úsek. Má použít tuto velikost. Po uložení a otevření `.ppres` má volba zůstat. Nová prezentace má používat globální hodnoty. Potom změňte více skupin v Nastavení a použijte společné Uložit defaultně; po restartu mají přetrvat všechny tyto volby.
 
 - **Import PPTX:** potřebuje samostatný vstupní PPTX. V nabídce Soubor vyberte Import PPTX, projděte náhled a konkrétní upozornění a až potom vložte výsledek. Zdejší soubor není zkouškou věrnosti převodu PowerPointu. Volitelné spojení sousedních snímků se stejným nadpisem je funkcí importu.
 - **Import starého JSON:** potřebuje soubor původního Presenteru. Použijte Import JSON; očekávejte omezení převodu popsaná importem.
