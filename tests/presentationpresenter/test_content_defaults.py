@@ -23,6 +23,11 @@ class ContentDefaultsTests(unittest.TestCase):
                 w.ribbon.show('Nastavení')
                 root.update()
                 original_sections = w.document.sections
+                appearance_keys = ('background', 'foreground', 'activebackground', 'activeforeground',
+                                   'font', 'relief', 'borderwidth', 'highlightbackground', 'padx', 'pady')
+                for button in (*w.visibility_buttons.values(), w.direct_image_edit_check):
+                    for key in appearance_keys:
+                        self.assertEqual(str(button.cget(key)), str(w.ribbon_mode_button.cget(key)))
                 group = w.save_defaults_button.master.master
                 inner_right = group.master.winfo_width()-group.master.winfo_pixels(group.master.cget('padx'))
                 self.assertAlmostEqual(group.winfo_x()+group.winfo_width(), inner_right-2, delta=2)
@@ -51,6 +56,9 @@ class ContentDefaultsTests(unittest.TestCase):
                     w.toggle_ribbon_mode()
                     w.direct_image_edit_check.invoke()
                     save.assert_not_called()
+                for button in (*w.visibility_buttons.values(), w.direct_image_edit_check):
+                    for key in appearance_keys:
+                        self.assertEqual(str(button.cget(key)), str(w.ribbon_mode_button.cget(key)))
                 w.default_size.set('44')
                 with patch('presentationpresenter.ui.save_settings', side_effect=lambda s: save_settings(s, path)) as save:
                     w.save_defaults_button.invoke()

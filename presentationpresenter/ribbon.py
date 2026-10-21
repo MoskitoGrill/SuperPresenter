@@ -6,10 +6,12 @@ from .window_chrome import TabTitleBar
 
 def command_group(parent, name):
     """A layout group using the current native appearance, with its label below."""
-    frame = tk.Frame(parent, padx=6, pady=2)
+    frame = tk.Frame(parent, padx=0, pady=2)
     frame.pack(side='left', anchor='n', padx=(0, 6))
     content = tk.Frame(frame)
-    content.pack(fill='x', anchor='n')
+    # A four-pixel inter-group gap plus this inset gives five pixels on
+    # either side of the content, measured against adjacent separator lines.
+    content.pack(anchor='n', padx=(0, 6))
     theme = appearance(parent)
     frame.command_caption = tk.Label(frame, text=name, font=theme.small, fg=theme.muted)
     frame.command_caption.pack(side='bottom', pady=(5, 0))
@@ -74,11 +76,8 @@ def wrap_row(frame, reserve_width=None, stretch_groups=False):
             y = 0
             for index, (row, height) in enumerate(rows):
                 height += extra // len(rows) + (index < extra % len(rows))
-                free_width = max(0, width-sum(child.winfo_reqwidth()+4 for child, _ in row))
-                width_extra = min(32, free_width//len(row)) if stretch_groups else 0
                 for column, (child, x) in enumerate(row):
-                    x += column*width_extra
-                    group_width = child.winfo_reqwidth()+width_extra if stretch_groups else None
+                    group_width = child.winfo_reqwidth() if stretch_groups else None
                     if getattr(child, 'layout_align_right', False) and column == len(row)-1:
                         x = max(x, width-(group_width or child.winfo_reqwidth())-2)
                     position = (x, y, height if stretch_groups else None, group_width)

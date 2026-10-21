@@ -1331,3 +1331,27 @@ Ctrl+S/O, Ctrl+Z/Y/Shift+Z, F5/Shift+F5, Esc, šipky/PgUp/PgDn, Shift+←/→, B
 - Codec podporuje volitelné content_defaults v současném modelu; staré soubory bez pole dál načte s None a použije globální font. Nové prezentace materializují svůj výchozí styl. Model typ kontroluje, TextStyle ověřuje jeho hodnoty. Pro uchování místní volby je nutné běžné uložení prezentace, nikoliv jen kliknutí na malé Uložit.
 - Ověření: sada content defaults / preview image / PP6 / camera / folder 40/40 OK (21,761 s), model/editor/Bible 28/28 OK (9,785 s). Po doplnění zarovnání závěrečná cílená sada content defaults + preview image 15/15 OK (8,496 s). Dvě mezikontroly souřadnice pravého kraje testu nezohlednily správně Tk padding; výsledná kontrola používá pravý vnitřní kraj a prošla. Testuje se společný jediný zápis všech skupin, selhání/validace, místní písmo bez zápisu aplikace, zdrojový text beze změn, undo/redo, ppres roundtrip, staré ppres bez pole, nové dokumenty a restart. Známá ttk::ThemeChanged teardown diagnostika bez funkčních selhání.
 - Vzorová prezentace, generátor a průvodce aktualizovány: nový úsek 23 Nastavení a výchozí hodnoty, závěr nyní 24. Soubor má explicitní místní Calibri 36. Ověřen save/load, vykreslení všech snímků sál/stream a oba poměry; 24 úseků / 57 snímků. Vizuálně prohlédnut vlastní QA snímek nastavení. Distribuce se nesestavovala.
+
+### Sjednocení vzhledu přepínačů v Nastavení, 21. 10. 2026
+
+- Na přání uživatele berou tři tlačítka Zobrazit ovládací tlačítka a Úprava obrázků napřímo vzhled přímo z přepínače Trvale rozbalit / Přes obsah. Sjednocena běžná/aktivní barva pozadí a textu, font, okraje, relief, focus a padding. Odstraněna vlastní alternativní tmavší šedá vypnuté viditelnosti; indikátorový Checkbutton používá stejný selectcolor a off/over relief jako referenční tlačítko. Funkce, hodnoty i ukládání zůstávají stejné.
+- Cílené testy porovnávají skutečné Tk atributy všech čtyř ovládacích prvků s referencí před a po změně stavů, zároveň zachovávají zkoušky společného ukládání a přímých úprav. Průvodce vzorové prezentace doplněn; jde pouze o vzhled existujících ovladačů, obsah příkladů/generátor ani ppres se nemění.
+- Výsledek cílené sady content_defaults + preview_image_edit: 15/15 OK (10,506 s). Známá ttk::ThemeChanged diagnostika při teardownu bez selhání testů; git diff --check bez chyb.
+
+### Vystředění obsahu skupin mezi oddělovacími čárami, 21. 10. 2026
+
+- command_group ponechává vnitřnímu obsahu přirozenou šířku, pack anchor=n jej vystředí a symetrické padx=6 přidá odstup od čar. Obsah se již neroztahuje přes celou šířku skupiny pomocí fill=x. Platí pro všechny skupiny pásu karet; příkazy, funkce a pravé umístění skupiny Uložit defaultně se nemění.
+- Ověřeno přímým měřením skutečných Tk souřadnic všech šesti skupin Nastavení: odchylka středu obsahu od středu skupiny ve všech případech 0,0 px. Snímek obrazovky nebyl použit jako důkaz kvůli překrytí QA okna; pořízený QA soubor byl odstraněn. Nové jednotkové testy se pro čistou změnu zarovnání nepřidávaly.
+- Doplněn průvodce vzorové prezentace; jde o čisté zarovnání existujícího ovládání, obsah prezentace/generátor se nemění.
+
+### Korekce vystředění podle čar, 21. 10. 2026
+
+- Uživatel upřesnil, že po předchozí úpravě zůstává obsah lehce napravo. Přímé měření prokázalo rozdíl: střed rámu neodpovídá středu mezi čárami, protože čára je uvnitř pravého paddingu a mezi sousedními rámy je další mezera. Předchozí ověření 0 px vůči rámu tedy nestačilo.
+- Vnitřní horizontální odsazení obsahu upraveno tak, aby jeho střed posunulo o 9 px doleva vůči rámu. Zachováno centrované packování, dostatečná přirozená šířka a ostatní chování pásu karet.
+- Ověření vůči skutečným root souřadnicím obou sousedních oddělovacích čar v Nastavení: všech pět skupin s čárou na obou stranách má odchylku středu obsahu 0,0 px. Bez snímání obrazovky. Jde o korekci vzhledu existujícího rozvržení; obsah vzorové prezentace ani generátor se nemění, průvodce už požaduje střed mezi čárami.
+
+### Zmenšení mezer u oddělovacích čar na 5 px, 21. 10. 2026
+
+- Na přání uživatele zmenšeny horizontální okraje command_group: bez vnějšího frame paddingu, obsah s padx=(0,6) spolu se čtyřpixelovou mezerou rámů ponechává vystředěných 5 px od sousedních čar. Zrušeno dodatečné horizontální roztažení skupin do volného místa, které by mezery znovu zvětšovalo. Svislé roztažení, pravé umístění společného Uložit defaultně a funkce ovladačů zůstávají zachovány.
+- Ověřeny skutečné souřadnice v Nastavení: všechny čtyři běžné vnitřní skupiny mají levou i pravou mezeru přesně (5,5) px. Dlouhý název skupiny může přirozenou šířku zvětšit; první skupina nemá čáru zleva a pravá ukládací skupina zůstává zvlášť vpravo. Bez snímání obrazovky a bez nových testů pro tuto čistě vizuální změnu.
+- Průvodce aktualizován, příklady prezentace/generátor beze změny.

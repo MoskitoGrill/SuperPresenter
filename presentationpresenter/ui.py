@@ -510,9 +510,7 @@ class MainWindow:
         self.apply_control_visibility()
 
     def apply_control_visibility(self):
-        for field, button in self.visibility_buttons.items():
-            color = self.appearance.panel if self.visibility_vars[field].get() else '#3c3c3c'
-            button.configure(background=color, highlightbackground=color)
+        self.sync_settings_toggle_appearance()
         self.navigation_layout.set_visibility(self.visibility_vars['show_projection_button'].get(),
                                               self.visibility_vars['show_navigation_buttons'].get())
         if self.visibility_vars['show_navigation_buttons'].get():
@@ -526,6 +524,18 @@ class MainWindow:
 
     def save_direct_image_edit(self):
         self.preview_image_edit.preference_changed()
+        self.sync_settings_toggle_appearance()
+
+    def sync_settings_toggle_appearance(self):
+        reference = self.ribbon_mode_button
+        options = {key: reference.cget(key) for key in (
+            'background', 'foreground', 'activebackground', 'activeforeground',
+            'disabledforeground', 'font', 'relief', 'borderwidth', 'highlightthickness',
+            'highlightbackground', 'highlightcolor', 'padx', 'pady')}
+        for button in self.visibility_buttons.values():
+            button.configure(**options)
+        self.direct_image_edit_check.configure(**options,
+            selectcolor=options['background'], offrelief=options['relief'], overrelief=options['relief'])
 
     def toggle_preview_output(self):
         self.output.set('stream' if self.output.get() == 'hall' else 'hall')

@@ -71,6 +71,10 @@ Pro porovnání v praxi otevřete **Nastavení → Úpravy obrázků** a použij
 
 Na kartě **Nastavení** je úplně napravo jediné **Uložit defaultně**. Uloží současné hodnoty skupin Zobrazit ovládací tlačítka, Výchozí písmo, Chování lišty a Úpravy obrázků pro budoucí spuštění / nové prezentace. Přepínání viditelnosti, lišty a přímých úprav nejdříve platí jen během aktuálního běhu; bez společného uložení se do příštího spuštění nepřenese. Složky a kamera si zachovávají vlastní dialogy a jejich dosavadní ukládání.
 
+Přepínače viditelnosti ovládacích tlačítek a Úprava obrázků napřímo mají sjednocenou šedou, font, okraje a vzhled pod myší podle přepínače Trvale rozbalit / Přes obsah. Jejich funkce ani společné ukládání se tím nemění.
+
+Obsah skupin pásu karet je vodorovně vystředěný mezi oddělovacími čárami, s drobným odstupem přibližně 5 px po obou stranách. Skupiny se zbytečně neroztahují do volné šířky; delší popisek skupiny může vyžadovat více místa. Tlačítka se neroztahují až k pravé čáře skupiny.
+
 Malé **Uložit** vedle fontu a velikosti nastaví výchozí styl pro nový obsah jen v aktuální prezentaci. Dosavadní texty a jejich formátování se nezmění. Výchozí styl je součástí souboru `.ppres`, takže pro uchování použijte také běžné Soubor → Uložit. Změnu lze vrátit pomocí Zpět. Nová nebo jiná prezentace tuto místní volbu nepřevezme; při otevření použije vlastní uložený styl, nebo u starších souborů globální výchozí písmo.
 
 Zkouška: u úseku 23 změňte velikost ve Výchozím písmu, stiskněte malé Uložit a přidejte nový úsek. Má použít tuto velikost. Po uložení a otevření `.ppres` má volba zůstat. Nová prezentace má používat globální hodnoty. Potom změňte více skupin v Nastavení a použijte společné Uložit defaultně; po restartu mají přetrvat všechny tyto volby.
