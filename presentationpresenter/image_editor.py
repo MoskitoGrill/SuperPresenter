@@ -3,7 +3,7 @@ import tkinter as tk
 from dataclasses import replace
 from .domain import ImagePlacement
 from .layout import paginate, LayoutError, geometry, Rect
-from .composition import compose_pair, normalize, constrain
+from .composition import compose_pair, normalize, constrain, with_image_box
 from .media import dimensions
 from .rendering import draw
 from .appearance import appearance, scrollbar
@@ -259,12 +259,7 @@ class ImageEditor:
         config = getattr(self.owner.document, output)
         proposed = box
         box = constrain(box, config)
-        if output == 'stream':
-            section = self.detached(section)
-        # Freeze the current automatic positions before manually changing one.
-        pair = compose_pair(self.owner.document, section)
-        positions = {p.item_id: normalize(p.box, config) for p in pair[0 if output == 'hall' else 1].images}
-        section = replace(section, images=tuple(replace(i, **{output: normalize(box, config) if i.id == item.id else positions[i.id]}) for i in section.images))
+        section = with_image_box(self.owner.document, section, item.id, output, box)
         self.commit(section)
         if any(abs(getattr(box, field)-getattr(proposed, field)) > 1e-6 for field in ('x', 'y', 'width', 'height')):
             self.notice.set('Obrázek byl přizpůsoben hranicím plochy a limitu přesahu kamery.\n'+self.notice.get())

@@ -62,7 +62,8 @@ def draw(canvas, slide, output, metrics, typography, show_camera=True, scale=1, 
         image = decode(layout.image_locator)
         image = image.resize((max(1, int(box.width*scale)), max(1, int(box.height*scale))), Image.Resampling.LANCZOS)
         canvas._pp_image = ImageTk.PhotoImage(image, master=canvas)
-        canvas.create_image((box.x+box.width/2)*scale, (box.y+box.height/2)*scale, image=canvas._pp_image)
+        canvas.create_image((box.x+box.width/2)*scale, (box.y+box.height/2)*scale, image=canvas._pp_image,
+                            tags=('placed-image', 'image:'+slide.section_id))
     for placed in layout.images:
         from PIL import Image, ImageTk
         from .media import decode
@@ -70,7 +71,8 @@ def draw(canvas, slide, output, metrics, typography, show_camera=True, scale=1, 
         image = decode(placed.locator).resize((max(1, int(box.width*scale)), max(1, int(box.height*scale))), Image.Resampling.LANCZOS)
         photo = ImageTk.PhotoImage(image, master=canvas)
         canvas._pp_images.append(photo)
-        canvas.create_image((box.x+box.width/2)*scale, (box.y+box.height/2)*scale, image=photo)
+        canvas.create_image((box.x+box.width/2)*scale, (box.y+box.height/2)*scale, image=photo,
+                            tags=('placed-image', 'image:'+placed.item_id))
     for piece in layout.pieces:
         size = max(1, int(piece.font_size*scale))
         if scale < 1:

@@ -29,7 +29,7 @@ Při ověřování společného zavření zkuste také spuštění přes projekt
 | 15 | Samostatný obrázkový úsek; obdélník zachová poměr stran, stream jej umístí mimo kameru. |
 | 16 | Čtyři obrázky různých proporcí v automatické mřížce. |
 | 17 | Smíšený text s obrázkem, obtékání a pokračování. |
-| 18 | Ruční pozice a velikosti dvou obrázků, samostatné pro sál a stream; propojení výstupů je vypnuté. |
+| 18 | Ruční pozice a velikosti dvou obrázků, samostatné pro sál a stream; propojení výstupů je vypnuté. Vyzkoušejte přímé tažení přes Upravit obrázky. |
 | 19 | Obrázek pouze na prvním pokračování. |
 | 20 | Obrázek opakovaný na všech pokračováních. |
 | 21 | Text připravený ke zkoušce oddělení návrhu od živé projekce. |
@@ -55,6 +55,16 @@ Na kartě **Úseky** ve skupině **Zdrojové úseky** klikněte na **Zobrazit v�
 11. **Uložení a znovuotevření:** uložte upravenou kopii jako `.ppres`, zavřete ji a znovu otevřete. Obdélníky jsou vložené v souboru; nepoužívají cesty k obrázkům na disku.
 
 ## Funkce mimo obsah souboru
+
+### Přímé úpravy obrázků v hlavním náhledu
+
+Na kartě **Domů → Obrázky** je pod **Rozložení obrázků** nové tlačítko **Upravit obrázky**. Zapíná a vypíná přímé úpravy v hlavním náhledu. Zvolte náhled sálu nebo streamu; je-li zobrazena živá verze, zapnutí přepne na rozpracovanou verzi. Klikněte na obdélník: objeví se světlý rámeček se čtyřmi rohy. Tažením plochy jej přesunete, tažením libovolného rohu změníte velikost při zachování proporcí a protějšího rohu. U hran snímku a kamery platí dosavadní limity. Mřížka ani ostatní obrázky se při úpravě jednoho nepřeskupují.
+
+Během tažení se mění jen obrazová ukázka, text zůstává na místě. Po puštění se přepočítá obtékání i pokračování. Pokud by rozložení nemělo místo pro text, úprava se odmítne se zprávou a předchozí stav zůstane. Každý dokončený tah lze vrátit jedním **Zpět**. **Escape** během tažení ho zruší, další Escape nebo nové kliknutí na tlačítko režim vypne. Přepnutí výstupu, snímku nebo změna dokumentu rozpracovaný tah ruší. Úprava streamu jej podle dosavadních pravidel odpojí od sálu; úprava sálu ponechá propojený stream propojený. Živá projekce se mění až přes Použít do projekce.
+
+Zkouška: v úseku 18 posuňte jeden obdélník, druhý má zůstat na svém místě. Zmenšete jej za různé rohy a zkuste Zpět/Znovu i Escape. Pak přepněte na stream. V úsecích 19 a 20 porovnejte pravidla opakování obrázků. Původní dialog Rozložení obrázků zůstává dostupný pro přesné rozměry, propojení a obnovu automatické mřížky.
+
+Pro porovnání v praxi otevřete **Nastavení → Úpravy obrázků** a použijte přepínací tlačítko **Úprava obrázků napřímo**. Zatlačené tlačítko znamená zapnuto. Výchozí stav je zapnutý; dříve výslovně uložená volba zůstává zachovaná. Volba se uloží okamžitě i pro další spuštění. Při zapnutí obrázky v rozpracovaném náhledu reagují přímo na kliknutí a tažení; tlačítko Upravit obrázky zůstává viditelné, ale neaktivní, protože zapnutí režimu není potřeba. Escape zruší tah nebo označení, trvalé přímé úpravy nevypne. Vypnutí volby znovu vyžaduje zapnutí režimu tlačítkem Upravit obrázky. Živý náhled nelze přímo upravovat; zapnutí této volby při jeho zobrazení přepne na rozpracovanou verzi.
 
 - **Import PPTX:** potřebuje samostatný vstupní PPTX. V nabídce Soubor vyberte Import PPTX, projděte náhled a konkrétní upozornění a až potom vložte výsledek. Zdejší soubor není zkouškou věrnosti převodu PowerPointu. Volitelné spojení sousedních snímků se stejným nadpisem je funkcí importu.
 - **Import starého JSON:** potřebuje soubor původního Presenteru. Použijte Import JSON; očekávejte omezení převodu popsaná importem.

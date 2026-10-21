@@ -171,6 +171,13 @@ class MainWindow:
         self.folder_settings_button.pack_configure(side='top', fill='x')
         self.camera_settings_button = self.button(folders, 'Kamera streamu…', self.show_camera_settings)
         self.camera_settings_button.pack_configure(side='top', fill='x')
+        image_preferences = command_group(preferences, 'Úpravy obrázků')
+        self.direct_image_edit = tk.BooleanVar(value=self.settings.direct_image_edit)
+        self.direct_image_edit_check = tk.Checkbutton(image_preferences,
+            text='Úprava obrázků napřímo', indicatoron=False,
+            selectcolor=self.appearance.selected, relief='raised', offrelief='raised',
+            variable=self.direct_image_edit, command=self.save_direct_image_edit)
+        self.direct_image_edit_check.pack(anchor='w')
         file_commands = command_group(filebar, 'Prezentace')
         file_rows = [tk.Frame(file_commands) for _ in range(4)]
         for row in file_rows:
@@ -311,7 +318,10 @@ class MainWindow:
         insertbar = command_group(home, 'Vložit')
         self.button(insertbar, 'Bible', self.open_bible)
         self.button(insertbar, 'Obrázek', self.choose_image)
-        self.button(command_group(home, 'Obrázky'), 'Rozložení obrázků', self.edit_images)
+        image_commands = command_group(home, 'Obrázky')
+        self.button(image_commands, 'Rozložení obrázků', self.edit_images).pack_configure(side='top', fill='x')
+        self.image_edit_button = self.button(image_commands, 'Upravit obrázky', lambda: self.preview_image_edit.toggle())
+        self.image_edit_button.pack_configure(side='top', fill='x')
         self.ribbon.show('Domů')
         text_frame = tk.Frame(editor)
         self.editor_text_frame = text_frame
@@ -374,6 +384,8 @@ class MainWindow:
         self.preview.bind('<Configure>', self.queue_workspace_resize)
         body.bind('<Configure>', self.queue_workspace_resize)
         self.preview.bind('<Button-1>', lambda e: self.preview.focus_set())
+        from .preview_image_edit import PreviewImageEdit
+        self.preview_image_edit = PreviewImageEdit(self)
         nav.pack(side='bottom', fill='x')
         self.preview_navigation = nav
         self.projection_controls.play.pack(side='left', padx=2, anchor='n')
@@ -510,6 +522,17 @@ class MainWindow:
         self.arrange_apply_row()
         self.align_editor_preview()
         self.queue_workspace_resize()
+
+    def save_direct_image_edit(self):
+        updated = replace(self.settings, direct_image_edit=self.direct_image_edit.get())
+        try:
+            save_settings(updated)
+        except OSError as exc:
+            self.direct_image_edit.set(self.settings.direct_image_edit)
+            messagebox.showerror('Nastavení', 'Volbu se nepodařilo uložit: '+str(exc), parent=self.root)
+            return
+        self.settings = updated
+        self.preview_image_edit.preference_changed()
 
     def toggle_preview_output(self):
         self.output.set('stream' if self.output.get() == 'hall' else 'hall')
@@ -2225,9 +2248,11 @@ class MainWindow:
         self.preview.configure(bg='#303030')
         x = (self.preview.winfo_width()-width*scale)/2
         y = (self.preview.winfo_height()-height*scale)/2
+        self.preview_geometry = (scale, (x, y))
         self.preview.move('all', x, y)
         background = self.preview.create_rectangle(x, y, x+width*scale, y+height*scale, fill='black', outline='#777777')
         self.preview.tag_lower(background)
+        self.preview_image_edit.painted()
 
     def close(self):
         self.finish_editing()

@@ -17,6 +17,7 @@ class AppSettings:
     show_apply_button: bool = True
     show_navigation_buttons: bool = True
     temporary_ribbon_tabs: bool = False
+    direct_image_edit: bool = True
     import_directory: str = ''
     open_directory: str = ''
     save_directory: str = ''
@@ -66,7 +67,8 @@ def load_settings(path: Path | None = None) -> AppSettings:
         if type(settings.content_font_size) is not int or not 8 <= settings.content_font_size <= 144:
             raise ValueError('Invalid content size')
         if any(type(value) is not bool for value in (settings.show_projection_button,
-                settings.show_apply_button, settings.show_navigation_buttons, settings.temporary_ribbon_tabs)):
+                settings.show_apply_button, settings.show_navigation_buttons, settings.temporary_ribbon_tabs,
+                settings.direct_image_edit)):
             raise ValueError('Invalid control visibility')
         return settings
     except (OSError, ValueError, TypeError, AttributeError):

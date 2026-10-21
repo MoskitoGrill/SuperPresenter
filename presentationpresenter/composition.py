@@ -183,6 +183,21 @@ def normalize(box, config):
     w, h, _, _ = geometry(config)
     return ImagePlacement(max(0, min(1, box.x/w)), max(0, min(1, box.y/h)), max(.000001, min(1, box.width/w)))
 
+
+def with_image_box(document, section, item_id, output, box):
+    """Freeze existing geometry before a single manual edit; never reshuffle peers."""
+    pair = compose_pair(document, section)
+    if output == 'stream' and section.stream_linked:
+        positions = {p.item_id: normalize(p.box, document.stream) for p in pair[1].images}
+        section = replace(section, stream_linked=False, images=tuple(
+            replace(i, stream=positions[i.id]) for i in section.images))
+    config = getattr(document, output)
+    positions = {p.item_id: normalize(p.box, config) for p in pair[0 if output == 'hall' else 1].images}
+    box = constrain(box, config)
+    return replace(section, images=tuple(replace(i, **{
+        output: normalize(box, config) if i.id == item_id else positions[i.id]
+    }) for i in section.images))
+
 def constrain(box, config):
     """Asymmetric edge intrusion limits are measured against camera height."""
     w, h, camera, _ = geometry(config)
