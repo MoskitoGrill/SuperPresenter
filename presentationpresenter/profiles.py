@@ -64,11 +64,12 @@ def validate_catalog(profiles):
 
 
 def load_profiles(path=None):
+    from .atomic_file import read_text
     path = path or profile_path()
     if not path.exists():
         return defaults()
     try:
-        data = json.loads(path.read_text(encoding='utf-8'))
+        data = json.loads(read_text(path))
         if type(data.get('version')) is not int or data['version'] != 1:
             raise ValueError('Nepodporovaná verze profilů.')
         profiles = tuple(ProjectionPreset(p['name'], OutputPreset(**p['hall']), OutputPreset(**p['stream']),
@@ -80,9 +81,7 @@ def load_profiles(path=None):
 
 
 def save_profiles(profiles, path=None):
+    from .atomic_file import atomic_write
     validate_catalog(profiles)
     path = path or profile_path()
-    path.parent.mkdir(parents=True, exist_ok=True)
-    temporary = path.with_suffix('.tmp')
-    temporary.write_text(json.dumps(dict(version=1, profiles=[asdict(p) for p in profiles]), ensure_ascii=False, indent=2), encoding='utf-8')
-    temporary.replace(path)
+    atomic_write(path, json.dumps(dict(version=1, profiles=[asdict(p) for p in profiles]), ensure_ascii=False, indent=2).encode('utf-8'))

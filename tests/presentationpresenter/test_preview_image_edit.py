@@ -179,6 +179,32 @@ class PreviewImageEditTests(unittest.TestCase):
         self.assertAlmostEqual(box.x, image.box.x)
         self.assertAlmostEqual(box.y, image.box.y)
 
+    def test_escape_preserves_projection_stop_when_no_edit_is_being_cancelled(self):
+        owner, edit = self.owner, self.edit
+        owner.direct_image_edit.set(True)
+        owner.session = ProjectionSession.confirm(owner.draft_plan)
+        owner.view_version.set('live')
+        owner.rebuild()
+        owner.preview.focus_force()
+        self.root.update()
+        with patch.object(owner, 'stop_projection') as stop:
+            owner.preview.event_generate('<Escape>')
+            self.root.update()
+            stop.assert_called_once_with()
+        owner.view_version.set('draft')
+        owner.rebuild()
+        edit.selected = owner.document.sections[0].images[0].id
+        owner.preview.focus_force()
+        self.root.update()
+        with patch.object(owner, 'stop_projection') as stop:
+            owner.preview.event_generate('<Escape>')
+            self.root.update()
+            self.assertIsNone(edit.selected)
+            stop.assert_not_called()
+            owner.preview.event_generate('<Escape>')
+            self.root.update()
+            stop.assert_called_once_with()
+
     def test_stream_detaches_and_does_not_move_hall(self):
         owner, edit = self.owner, self.edit
         original = owner.document.sections[0]

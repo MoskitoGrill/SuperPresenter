@@ -7,6 +7,7 @@ import base64
 import json
 import os
 import tempfile
+from .atomic_file import atomic_write
 from pathlib import Path
 from dataclasses import replace
 from . import persistence
@@ -34,20 +35,6 @@ def encode(document):
     if len(payload) > MAX_FILE:
         raise ValueError('Prezentace překračuje 100 MiB')
     return payload
-
-def atomic_write(path, payload):
-    path = Path(path)
-    path.parent.mkdir(parents=True, exist_ok=True)
-    fd, temporary = tempfile.mkstemp(prefix=path.name+'.', suffix='.tmp', dir=path.parent)
-    try:
-        with os.fdopen(fd, 'wb') as target:
-            target.write(payload)
-            target.flush()
-            os.fsync(target.fileno())
-        os.replace(temporary, path)
-    finally:
-        if os.path.exists(temporary):
-            os.unlink(temporary)
 
 def save(path, document):
     atomic_write(path, encode(document))

@@ -67,6 +67,8 @@ Zkouška: v úseku 18 posuňte jeden obdélník, druhý má zůstat na svém mí
 
 Pro porovnání v praxi otevřete **Nastavení → Úpravy obrázků** a použijte přepínací tlačítko **Úprava obrázků napřímo**. Zatlačené tlačítko znamená zapnuto. Výchozí stav je zapnutý; dříve výslovně uložená volba zůstává zachovaná. Přepnutí platí hned; pro další spuštění je uložte společným **Uložit defaultně** napravo v Nastavení. Při zapnutí obrázky v rozpracovaném náhledu reagují přímo na kliknutí a tažení; tlačítko Upravit obrázky zůstává viditelné, ale neaktivní, protože zapnutí režimu není potřeba. Escape zruší tah nebo označení, trvalé přímé úpravy nevypne. Vypnutí volby znovu vyžaduje zapnutí režimu tlačítkem Upravit obrázky. Živý náhled nelze přímo upravovat; zapnutí této volby při jeho zobrazení přepne na rozpracovanou verzi.
 
+Při živém náhledu **Escape zastaví projekci** i se zapnutými přímými úpravami obrázků. V rozpracovaném náhledu má přednost zrušení právě taženého obrázku nebo jeho označení; pokud není co rušit, Escape pokračuje do běžného projekčního ovládání. Zkouška: spusťte projekci, klikněte do živého náhledu a stiskněte Escape. Pak v návrhu označte obrázek a ověřte, že první Escape nejdříve zruší označení.
+
 ### Jedno společné ukládání výchozích nastavení
 
 Na kartě **Nastavení** je úplně napravo jediné **Uložit defaultně**. Uloží současné hodnoty skupin Zobrazit ovládací tlačítka, Výchozí písmo, Chování lišty a Úpravy obrázků pro budoucí spuštění / nové prezentace. Přepínání viditelnosti, lišty a přímých úprav nejdříve platí jen během aktuálního běhu; bez společného uložení se do příštího spuštění nepřenese. Složky a kamera si zachovávají vlastní dialogy a jejich dosavadní ukládání.

@@ -206,6 +206,10 @@ class PlaybackIntegrationTests(test_pp4.ProjectionTests):
         w.preview.event_generate('<F5>')
         self.root.update()
         self.assertIsNotNone(w.session)
+        # Starting native projection windows can move the actual keyboard focus.
+        # Generate the next key on the canvas that is really focused.
+        w.preview.focus_force()
+        self.root.update()
         w.preview.event_generate('<Escape>')
         self.root.update()
         self.assertIsNone(w.session)

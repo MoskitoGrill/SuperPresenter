@@ -2,12 +2,18 @@
 import tkinter.font as tkfont
 from functools import lru_cache
 from .domain import TextStyle
+from .media import ScaledRasterCache
 
 class TkMetrics:
     def __init__(self, root, family='Courier New'):
         self.root, self.family = root, family
         self.available_families = {name.casefold(): name for name in tkfont.families(root) if not name.startswith('@')}
         self.fallback_family = self.available_families.get(family.casefold(), tkfont.nametofont('TkDefaultFont', root=root).actual('family'))
+        # Instance-owned caches must not retain destroyed Tk interpreters via
+        # class-level lru_cache keys containing self.
+        for name, limit in (('font', 512), ('width', 16384), ('height', 64), ('ascent', 256)):
+            setattr(self, name, lru_cache(maxsize=limit)(getattr(self, name)))
+        self.rasters = ScaledRasterCache()
 
     def resolve_family(self, family):
         return self.available_families.get(family.casefold(), self.fallback_family)
@@ -17,24 +23,25 @@ class TkMetrics:
         return sorted({r.style.family for s in document.sections if isinstance(s, TextSection)
                        for b in s.blocks for r in b.runs if r.style.family and r.style.family.casefold() not in self.available_families}, key=str.casefold)
 
-    @lru_cache(maxsize=512)
     def font(self, style, size):
         return tkfont.Font(root=self.root, family=self.resolve_family(style.family), size=-size,
                            weight='bold' if style.bold else 'normal',
                            slant='italic' if style.italic else 'roman', underline=style.underline)
 
-    @lru_cache(maxsize=16384)
     def width(self, text, style, size):
         # Canvas text has side bearings/overhang; retain four pixels of ink guard.
         return self.font(style, size).measure(display_text(text)) + (4 if text else 0)
 
-    @lru_cache(maxsize=64)
     def height(self, style, size):
         return self.font(style, size).metrics('linespace')
 
-    @lru_cache(maxsize=256)
     def ascent(self, style, size):
         return self.font(style, size).metrics('ascent')
+
+    def clear(self):
+        for name in ('font', 'width', 'height', 'ascent'):
+            getattr(self, name).cache_clear()
+        self.rasters.clear()
 
 
 def draw(canvas, slide, output, metrics, typography, show_camera=True, scale=1, resize_canvas=True):
@@ -56,19 +63,16 @@ def draw(canvas, slide, output, metrics, typography, show_camera=True, scale=1, 
         if scale > .3 and not camera_warning:
             canvas.create_text((c.x+12)*scale, (c.y+12)*scale, text='Rezerva kamery', anchor='nw', fill='#777777', font=metrics.font(TextStyle(), max(1, round(18*scale))))
     if layout.image_box:
-        from PIL import Image, ImageTk
-        from .media import decode
+        from PIL import ImageTk
         box = layout.image_box
-        image = decode(layout.image_locator)
-        image = image.resize((max(1, int(box.width*scale)), max(1, int(box.height*scale))), Image.Resampling.LANCZOS)
+        image = metrics.rasters.get(layout.image_locator, (max(1, int(box.width*scale)), max(1, int(box.height*scale))))
         canvas._pp_image = ImageTk.PhotoImage(image, master=canvas)
         canvas.create_image((box.x+box.width/2)*scale, (box.y+box.height/2)*scale, image=canvas._pp_image,
                             tags=('placed-image', 'image:'+slide.section_id))
     for placed in layout.images:
-        from PIL import Image, ImageTk
-        from .media import decode
+        from PIL import ImageTk
         box = placed.box
-        image = decode(placed.locator).resize((max(1, int(box.width*scale)), max(1, int(box.height*scale))), Image.Resampling.LANCZOS)
+        image = metrics.rasters.get(placed.locator, (max(1, int(box.width*scale)), max(1, int(box.height*scale))))
         photo = ImageTk.PhotoImage(image, master=canvas)
         canvas._pp_images.append(photo)
         canvas.create_image((box.x+box.width/2)*scale, (box.y+box.height/2)*scale, image=photo,

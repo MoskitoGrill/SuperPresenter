@@ -176,15 +176,14 @@ class PreviewImageEdit:
             try:
                 box = self.proposed(event)
                 if box:
-                    from PIL import Image, ImageTk
-                    from .media import decode
+                    from PIL import ImageTk
                     canvas = self.owner.preview
                     context = self.drag['context']
                     scale, (ox, oy) = context[2:4]
                     self.outline(box, context)
                     canvas.itemconfigure('image:'+self.selected, state='hidden')
-                    image = decode(self.drag['image'].locator).resize(
-                        (max(1, round(box.width*scale)), max(1, round(box.height*scale))), Image.Resampling.LANCZOS)
+                    image = self.owner.metrics.rasters.get(self.drag['image'].locator,
+                        (max(1, round(box.width*scale)), max(1, round(box.height*scale))))
                     self.ghost = ImageTk.PhotoImage(image, master=canvas)
                     canvas.create_image(ox+(box.x+box.width/2)*scale, oy+(box.y+box.height/2)*scale,
                                         image=self.ghost, tags='image-edit')
@@ -226,9 +225,15 @@ class PreviewImageEdit:
             self.drag = None
             self.ghost = None
             self.owner.render_preview()
+        elif self.owner.viewing_live():
+            return  # Preserve Escape = stop projection in the live preview.
         elif self.owner.direct_image_edit.get():
+            if self.selected is None:
+                return
             self.selected = None
             self.owner.render_preview()
         elif self.enabled:
             self.toggle()
+        else:
+            return
         return 'break'

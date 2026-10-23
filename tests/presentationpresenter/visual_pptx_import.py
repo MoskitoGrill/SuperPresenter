@@ -31,6 +31,10 @@ def main():
             window.attributes('-topmost', True)
             window.lift()
             window.update()
+            # HWND coverage alone does not mean the Windows map/fade animation
+            # has finished; wait before capturing an opaque owned window.
+            window.after(600, window.quit)
+            window.mainloop()
             import ctypes
             from ctypes import wintypes
             class Point(ctypes.Structure):

@@ -47,8 +47,9 @@ def settings_path() -> Path:
     return Path(os.environ.get('LOCALAPPDATA', str(Path.home() / '.config'))) / 'PresentationPresenter' / 'settings.json'
 
 def load_settings(path: Path | None = None) -> AppSettings:
+    from .atomic_file import read_text
     try:
-        data = json.loads((path or settings_path()).read_text(encoding='utf-8'))
+        data = json.loads(read_text(path or settings_path()))
         settings = AppSettings(**data)
         settings.default_camera()
         validate_directories({field: getattr(settings, field) for field in FOLDER_LABELS})
@@ -75,8 +76,6 @@ def load_settings(path: Path | None = None) -> AppSettings:
         return AppSettings()
 
 def save_settings(settings: AppSettings, path: Path | None = None):
+    from .atomic_file import atomic_write
     path = path or settings_path()
-    path.parent.mkdir(parents=True, exist_ok=True)
-    temporary = path.with_suffix('.tmp')
-    temporary.write_text(json.dumps(asdict(settings), ensure_ascii=False, indent=2), encoding='utf-8')
-    temporary.replace(path)
+    atomic_write(path, json.dumps(asdict(settings), ensure_ascii=False, indent=2).encode('utf-8'))

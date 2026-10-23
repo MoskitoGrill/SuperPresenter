@@ -3,6 +3,7 @@ from pathlib import Path
 import hashlib
 import sys
 import unittest
+import subprocess
 
 root = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(root))
@@ -28,7 +29,14 @@ for pattern in ('test_module_boundaries.py', 'test_song_repository.py', 'test_so
                 'test_projection_config.py', 'test_release_stability.py', 'test_window_lifecycle.py', 'test_main_controls.py'):
     suite.addTests(unittest.defaultTestLoader.discover(str(root / 'tests'), pattern=pattern))
 result = unittest.TextTestRunner(verbosity=2).run(suite)
+# Legacy suites temporarily replace imported modules; dispatch checks need a
+# fresh import graph, like the actual separately launched companion process.
+code = (f'import sys, unittest; sys.path.append({str(project_packages)!r}); '
+        'import presentationpresenter.app, presentationpresenter.bible_window; '
+        f'suite=unittest.defaultTestLoader.discover({str(root / "tests")!r}, pattern="test_standalone.py"); '
+        'result=unittest.TextTestRunner(verbosity=2).run(suite); sys.exit(not result.wasSuccessful())')
+standalone = subprocess.run([sys.executable, '-B', '-c', code], cwd=root)
 after = snapshot()
 changed = [p for p in before.keys() | after.keys() if before.get(p) != after.get(p)]
 print('Protected files:', len(before), 'changed:', changed)
-sys.exit(0 if result.wasSuccessful() and not changed else 1)
+sys.exit(0 if result.wasSuccessful() and standalone.returncode == 0 and not changed else 1)

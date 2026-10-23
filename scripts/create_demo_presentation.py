@@ -98,7 +98,7 @@ def build():
          block(story * 3), images=(ImageItem(media[1].id, alt_text='Tyrkysový svislý obdélník'),))
     text('18 • Ruční umístění pro každý výstup',
          block('Obdélníky mají v sále jiné pozice než ve streamu. Výstupy jsou pro tento úsek odpojené.'),
-         block('Táhněte obrázek nebo jeho roh. Escape zruší tah. Při vypnutých přímých úpravách nejprve použijte Domů → Upravit obrázky.', size=28),
+         block('Táhněte obrázek nebo jeho roh. Escape zruší tah. V živém náhledu Escape zastaví projekci. Při vypnutých přímých úpravách nejprve použijte Domů → Upravit obrázky.', size=28),
          block('Nastavení → Úprava obrázků napřímo: výchozí stav je zapnuto.', size=28),
          images=(ImageItem(media[0].id, hall=ImagePlacement(.06, .45, .34),
                            stream=ImagePlacement(.04, .38, .26)),

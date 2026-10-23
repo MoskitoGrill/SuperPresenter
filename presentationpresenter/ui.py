@@ -2290,3 +2290,4 @@ class MainWindow:
             self.resize_job = None
             self.projections.clear()
             self.session = None
+            self.metrics.clear()
