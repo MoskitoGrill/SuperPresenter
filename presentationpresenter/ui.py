@@ -1785,9 +1785,9 @@ class MainWindow:
         self.refresh_sections()
         if reload:
             self.load_editor()
-        if self.pending:
-            self.root.after_cancel(self.pending)
-        self.pending = self.root.after(180, self.rebuild)
+        # Coalesce keystrokes without postponing the preview until typing stops.
+        if not self.pending:
+            self.pending = self.root.after(40, self.rebuild)
         self.history_buttons()
         self.update_version_status()
 
@@ -2159,27 +2159,44 @@ class MainWindow:
         if self.preview_section and not self.viewing_live():
             self.current = next((i for i, s in enumerate(plan.slides) if s.section_id == self.preview_section and not s.black), self.current)
             self.preview_section = None
-        for widget in self.strip_inner.winfo_children():
-            widget.destroy()
+        reuse = (previous_plan is not None
+                 and len(self.thumbnails) == len(plan.slides)
+                 and previous_plan.source.hall == plan.source.hall)
+        old_thumbnails = self.thumbnails if reuse else []
+        if not reuse:
+            for widget in self.strip_inner.winfo_children():
+                widget.destroy()
         self.projected_thumbnail_index = None
         self.thumbnails = []
         self.labels = []
         for i, slide in enumerate(plan.slides):
-            frame = tk.Frame(self.strip_inner, width=self.thumbnail_width+12, height=max(SLIDE_STRIP_HEIGHT, self.strip.winfo_height()))
-            frame.pack(side='left', padx=3)
-            frame.pack_propagate(False)
             width, height, _, _ = geometry(plan.source.hall)
-            canvas = tk.Canvas(frame, width=self.thumbnail_width, height=round(self.thumbnail_width*height/width), bg='black', highlightthickness=3, highlightbackground='#666666', highlightcolor='#666666')
-            canvas.pack()
-            draw(canvas, slide, 'hall', self.metrics, self.typography, scale=self.thumbnail_width/width)
+            if reuse:
+                canvas = old_thumbnails[i]
+                frame = canvas.master
+                canvas.configure(highlightbackground='#666666', highlightcolor='#666666')
+                old_slide = previous_plan.slides[i]
+            else:
+                frame = tk.Frame(self.strip_inner, width=self.thumbnail_width+12, height=max(SLIDE_STRIP_HEIGHT, self.strip.winfo_height()))
+                frame.pack(side='left', padx=3)
+                frame.pack_propagate(False)
+                canvas = tk.Canvas(frame, width=self.thumbnail_width, height=round(self.thumbnail_width*height/width), bg='black', highlightthickness=3, highlightbackground='#666666', highlightcolor='#666666')
+                canvas.pack()
+                old_slide = None
+            if old_slide is None or (old_slide.black, old_slide.hall) != (slide.black, slide.hall):
+                draw(canvas, slide, 'hall', self.metrics, self.typography, scale=self.thumbnail_width/width)
             if slide.black:
                 label = 'Černý konec' if slide.id.endswith(':end') else ('Černý začátek' if slide.section_id is None else 'Černý předěl')
             else:
                 source = next(s for s in plan.source.sections if s.id == slide.section_id)
                 label = ' • '.join(part for part in (source.title, source.reference) if part) or 'Bez názvu'
             self.labels.append(label)
-            caption = tk.Label(frame, text=f'{i+1}. {label}', anchor='w', font=self.appearance.small)
-            caption.pack(fill='x')
+            if reuse:
+                caption = frame.winfo_children()[1]
+                caption.configure(text=f'{i+1}. {label}')
+            else:
+                caption = tk.Label(frame, text=f'{i+1}. {label}', anchor='w', font=self.appearance.small)
+                caption.pack(fill='x')
             for widget in (canvas, caption):
                 widget.bind('<Button-1>', lambda e, index=i: self.thumbnail_clicked(index))
             self.thumbnails.append(canvas)
