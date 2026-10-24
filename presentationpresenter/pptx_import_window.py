@@ -99,8 +99,8 @@ class ImportWindow:
         try:
             self.result = read_pptx(self.path, style=self.owner.default_content_style(), join_same=self.join.get(),
                                     hall=self.owner.document.hall, stream=self.owner.document.stream)
-            from .storage import validate, encode
-            encode(validate(self.result.document))
+            from .storage import encode
+            encode(self.result.document)
             self.plan = paginate(self.result.document, self.owner.metrics, self.owner.typography)
             self.position_label.configure(width=2*max(2, len(str(len(self.plan.slides))))+3)
             self.index = 0

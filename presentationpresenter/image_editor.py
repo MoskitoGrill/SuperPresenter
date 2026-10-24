@@ -141,7 +141,9 @@ class ImageEditor:
             self.notice.set('Úsek byl odstraněn. Lze jej vrátit pomocí Zpět.')
             return
         try:
-            plan = paginate(self.document, self.owner.metrics, self.owner.typography)
+            plan = self.owner.draft_plan
+            if plan is None or plan.source != self.document:
+                plan = paginate(self.document, self.owner.metrics, self.owner.typography)
             self.slides = [s for s in plan.slides if s.section_id == section.id and not s.black]
             self.page = min(self.page, max(0, len(self.slides)-1))
             if not self.slides:

@@ -24,22 +24,24 @@ class SongEditorPanel:
             self.song_editor_widget.set_selected_repetition_text(self.construct_variable.get())
 
 
-    def _update_song_caption(self):
+    def _update_song_caption(self, dirty=None):
         editor = self.song_editor_widget
-        suffix = ' *' if editor.dirty else ''
+        suffix = ' *' if (editor.dirty if dirty is None else dirty) else ''
         self.sourceLab.config(text=(editor.title_variable.get() or '(neuložená píseň)') + suffix)
         self.dirtyLabel.config(text=suffix)
 
     def _editor_changed(self, song):
-        self._update_song_caption()
+        self._update_song_caption(self.song_editor_widget.session.dirty)
         self._syncing_song = True
         try:
-            self.construct_variable.set(song.guide)
+            if self.construct_variable.get() != song.guide:
+                self.construct_variable.set(song.guide)
             languages = list(song.variant_texts)
             for index, combo in enumerate((self.var1Combo, self.var2Combo, self.var3Combo)):
                 choices = languages if index == 0 else ['-----'] + languages
                 current = combo.get()
-                combo['values'] = choices
+                if tuple(combo['values']) != tuple(choices):
+                    combo['values'] = choices
                 if current not in choices:
                     combo.set(choices[0] if choices else '')
         finally:

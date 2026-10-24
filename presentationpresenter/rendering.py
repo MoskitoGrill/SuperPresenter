@@ -14,6 +14,7 @@ class TkMetrics:
         for name, limit in (('font', 512), ('width', 16384), ('height', 64), ('ascent', 256)):
             setattr(self, name, lru_cache(maxsize=limit)(getattr(self, name)))
         self.rasters = ScaledRasterCache()
+        self.section_layout_cache = {}
 
     def resolve_family(self, family):
         return self.available_families.get(family.casefold(), self.fallback_family)
@@ -42,6 +43,7 @@ class TkMetrics:
         for name in ('font', 'width', 'height', 'ascent'):
             getattr(self, name).cache_clear()
         self.rasters.clear()
+        self.section_layout_cache.clear()
 
 
 def draw(canvas, slide, output, metrics, typography, show_camera=True, scale=1, resize_canvas=True):

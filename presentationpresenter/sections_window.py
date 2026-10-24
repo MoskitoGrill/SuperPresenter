@@ -69,6 +69,10 @@ class SectionsWindow:
         self.window.destroy()
 
     def refresh(self):
+        signature = (tuple((s.id, section_label(s)) for s in self.owner.document.sections), self.owner.selected_id)
+        if getattr(self, '_signature', None) == signature:
+            return
+        self._signature = signature
         self.cancel()
         top = self.listbox.yview()[0]
         self.ids = tuple(s.id for s in self.owner.document.sections)

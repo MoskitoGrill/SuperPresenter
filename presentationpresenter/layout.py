@@ -315,8 +315,25 @@ def _flow(section, chunks, config, metrics, typography, image_layout=None):
 
 def paginate(source, metrics, typography=Typography()):
     """Greedy common source slices; each output independently wraps those slices."""
-    slides = []
+    cache = getattr(metrics, 'section_layout_cache', None)
+    if cache is None:
+        return with_black_breaks(source, _paginate_content(source, metrics, typography, source.sections))
+    slides, updated = [], {}
     for section in source.sections:
+        key = (section, source.hall, source.stream, source.media, typography)
+        previous = cache.get(section.id)
+        content = previous[1] if previous is not None and previous[0] == key else _paginate_content(source, metrics, typography, (section,))
+        slides.extend(content)
+        if len(updated) < 1024:
+            updated[section.id] = (key, content)
+    plan = with_black_breaks(source, tuple(slides))
+    metrics.section_layout_cache = updated
+    return plan
+
+
+def _paginate_content(source, metrics, typography, sections):
+    slides = []
+    for section in sections:
         if not isinstance(section, TextSection):
             from .media import dimensions
             asset = next(a for a in source.media if a.id == section.media_id)
@@ -329,11 +346,19 @@ def paginate(source, metrics, typography=Typography()):
         from .composition import compose_pair
         first_images = compose_pair(source, section, first=True) if section.images else (None, None)
         other_images = compose_pair(source, section, first=False) if section.images else (None, None)
+        last_key = last_layouts = None
         def layouts(chunks):
+            nonlocal last_key, last_layouts
+            key = (emitted, tuple(chunks))
+            if key == last_key:
+                return last_layouts
             image_pair = first_images if emitted == 0 else other_images
             if section.images and not any(run.text for b in section.blocks for run in b.runs):
-                return image_pair
-            return tuple(_flow(section, chunks, output, metrics, typography, images) for output, images in zip((source.hall, source.stream), image_pair))
+                result = image_pair
+            else:
+                result = tuple(_flow(section, chunks, output, metrics, typography, images) for output, images in zip((source.hall, source.stream), image_pair))
+            last_key, last_layouts = key, result
+            return result
         def fits(chunks):
             return all(item is not None for item in layouts(chunks))
         def emit(chunks):
@@ -351,7 +376,7 @@ def paginate(source, metrics, typography=Typography()):
                                       lambda: emitted == 0 and any(not i.repeat for i in section.images))
         if pending or not section.blocks:
             emit(pending)
-    return with_black_breaks(source, tuple(slides))
+    return tuple(slides)
 
 
 def image_layout(config, size, locator):

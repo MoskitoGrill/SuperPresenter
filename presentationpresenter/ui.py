@@ -744,7 +744,10 @@ class MainWindow:
             self.bible_window.query_entry.focus_set()
             return self.bible_window
         from .bible_window import BibleWindow
-        self.bible_window = BibleWindow(self.root, insert=self.insert_bible_section)
+        if getattr(self, 'bible_service', None) is None:
+            from .bible import BibleService
+            self.bible_service = BibleService()
+        self.bible_window = BibleWindow(self.root, service=self.bible_service, insert=self.insert_bible_section)
         return self.bible_window
 
     def insert_bible_section(self, section):
@@ -1356,9 +1359,11 @@ class MainWindow:
         dirty = self.session and self.session.plan.source != self.document
         self.apply_button.configure(state='normal' if dirty else 'disabled')
         self.section_apply_button.configure(state='normal' if dirty else 'disabled')
-        self.unapplied_changes.set('Nepoužité změny' if dirty else '')
-        self.arrange_apply_row()
-        self.queue_workspace_resize()
+        notice = 'Nepoužité změny' if dirty else ''
+        if self.unapplied_changes.get() != notice:
+            self.unapplied_changes.set(notice)
+            self.arrange_apply_row()
+            self.queue_workspace_resize()
         text = ('ŽIVÁ verze • navigace ovládá projekci' if self.viewing_live() else 'ROZPRACOVANÁ verze • navigace mění jen náhled')
         if dirty:
             text += ' • Nepoužité změny'
@@ -1502,6 +1507,8 @@ class MainWindow:
         except ValueError:
             self.status.set('Velikost písma musí být celé číslo od 8 do 144 px.')
             return 'break'
+        if self.status.get() == 'Velikost písma musí být celé číslo od 8 do 144 px.':
+            self.status.set('')
         return self.apply_text_style('size', value)
 
     def apply_font_family(self, event=None):
@@ -1509,6 +1516,8 @@ class MainWindow:
         if value is None:
             self.status.set('Vyberte nainstalovaný font ze seznamu.')
             return 'break'
+        if self.status.get() == 'Vyberte nainstalovaný font ze seznamu.':
+            self.status.set('')
         return self.apply_text_style('family', value)
 
     def apply_text_style(self, field, value):
@@ -1625,8 +1634,8 @@ class MainWindow:
         old_lines = [''.join(r.text for r in b.runs) for b in old]
         lines, starts = [''], ['1.0']
         for offset, char in enumerate(text):
-            index = self.text.index(f'1.0+{offset}c')
-            if char == '\n' and 'soft' not in self.text.tag_names(index):
+            index = self.text.index(f'1.0+{offset}c') if char == '\n' else None
+            if index is not None and 'soft' not in self.text.tag_names(index):
                 lines.append('')
                 starts.append(self.text.index(index+'+1c'))
             else:
@@ -1640,15 +1649,19 @@ class MainWindow:
         blocks = []
         for number, line in enumerate(lines):
             chunks = []
-            for offset, char in enumerate(line):
-                index = self.text.index(starts[number]+f'+{offset}c')
+            end = starts[number]+f'+{len(line)}c'
+            # Tk already partitions text at tag boundaries. Read styled spans
+            # in one call instead of crossing into Tcl for every character.
+            for key, value, index in self.text.dump(starts[number], end, text=True, tag=True):
+                if key != 'text':
+                    continue
                 tags = self.text.tag_names(index)
                 style = next((self.styles[t] for t in reversed(tags) if t in self.styles), TextStyle())
                 rid = next((t[4:] for t in tags if t.startswith('run:')), None)
                 if chunks and chunks[-1][1:3] == (style, rid):
-                    chunks[-1] = (chunks[-1][0]+char, style, rid, chunks[-1][3])
+                    chunks[-1] = (chunks[-1][0]+value, style, rid, chunks[-1][3])
                 else:
-                    chunks.append((char, style, rid, index))
+                    chunks.append((value, style, rid, index))
             runs = []
             previous = mapping.get(number) or marked.get(starts[number])
             if previous and any(n != number and b.id == previous.id for n, b in mapping.items()):
@@ -1802,10 +1815,14 @@ class MainWindow:
         from .sections_window import section_label
         if self.selected_id not in {s.id for s in self.document.sections}:
             self.selected_id = self.document.sections[0].id if self.document.sections else None
-        self.sections.delete(0, 'end')
+        rows = tuple(f'{i+1}. {section_label(section)}' for i, section in enumerate(self.document.sections))
+        if getattr(self, '_section_rows', None) != rows:
+            self.sections.delete(0, 'end')
+            if rows:
+                self.sections.insert('end', *rows)
+            self._section_rows = rows
+        self.sections.selection_clear(0, 'end')
         for i, section in enumerate(self.document.sections):
-            label = section_label(section)
-            self.sections.insert('end', f'{i+1}. {label}')
             if section.id == self.selected_id:
                 self.sections.selection_set(i)
                 self.sections.see(i)
@@ -2024,16 +2041,23 @@ class MainWindow:
         tags = self.text.tag_names(start)
         first = next((self.styles[t] for t in reversed(tags) if t in self.styles), TextStyle())
         value = value if value is not None else not getattr(first, field)
-        index = start
-        while self.text.compare(index, '<', end):
-            following = self.text.index(index+'+1c')
+        boundaries = [start]
+        for key, tag, index in self.text.dump(start, end, tag=True):
+            if tag in self.styles and index != boundaries[-1] and self.text.compare(index, '<', end):
+                boundaries.append(index)
+        boundaries.append(end)
+        # Snapshot styles before changing tags: adding a new style can change
+        # Tk tag priority, which must not affect the rest of this selection.
+        spans = []
+        for index, following in zip(boundaries, boundaries[1:]):
             tags = self.text.tag_names(index)
             style = next((self.styles[t] for t in reversed(tags) if t in self.styles), TextStyle())
+            spans.append((index, following, tags, replace(style, **{field: value})))
+        for index, following, tags, style in spans:
             for tag in tags:
                 if tag in self.styles:
                     self.text.tag_remove(tag, index, following)
-            self.text.tag_add(self.style_tag(replace(style, **{field: value})), index, following)
-            index = following
+            self.text.tag_add(self.style_tag(style), index, following)
         self.end_group()
         self.update_section(replace(self.section(), blocks=self.read_blocks()))
         self.text.focus_set()
@@ -2200,7 +2224,11 @@ class MainWindow:
             for widget in (canvas, caption):
                 widget.bind('<Button-1>', lambda e, index=i: self.thumbnail_clicked(index))
             self.thumbnails.append(canvas)
-        self.status.set(self.version_status.get() if self.session else 'Rozpracovaná prezentace • spuštění projekce potvrdí aktuální dokument')
+        # A delayed preview must not erase a newer validation/save message.
+        message = self.version_status.get() if self.session else 'Rozpracovaná prezentace • spuštění projekce potvrdí aktuální dokument'
+        if self.status.get() in ('', getattr(self, '_preview_status', None)) or had_layout_error:
+            self.status.set(message)
+        self._preview_status = message
         self.resize_thumbnail_strip()
         self.jump(self.current, preserve_anchor=True)
         self.history_buttons()

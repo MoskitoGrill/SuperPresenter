@@ -13,8 +13,10 @@ from dataclasses import replace
 from . import persistence
 from .domain import Presentation, ImageSection, TextSection, TextBlock, TextRun, ImportOrigin
 from .media import decode, from_bytes
+from collections import OrderedDict
 
 MAX_FILE = 100 * 1024 * 1024
+_validated_media = OrderedDict()
 
 def validate(document):
     if type(document.title) is not str:
@@ -24,13 +26,21 @@ def validate(document):
     for asset in document.media:
         if asset.mime_type != 'image/png':
             raise ValueError('Nepodporované médium')
-        decode(asset.locator)
+        # Retain only successful validation, never mutable decoded rasters.
+        if asset.locator not in _validated_media:
+            decode(asset.locator)
+            if len(asset.locator) <= 8 * 1024 * 1024:
+                while _validated_media and (len(_validated_media) >= 128 or sum(map(len, _validated_media)) + len(asset.locator) > 8 * 1024 * 1024):
+                    _validated_media.popitem(last=False)
+                _validated_media[asset.locator] = None
+        else:
+            _validated_media.move_to_end(asset.locator)
     return document
 
 def encode(document):
     validate(document)
     payload = json.dumps({'format': 'PresentationPresenter', 'version': 2,
-                          'document': json.loads(persistence.dumps(document))},
+                          'document': persistence.to_dict(document)},
                          ensure_ascii=False, allow_nan=False).encode('utf-8')
     if len(payload) > MAX_FILE:
         raise ValueError('Prezentace překračuje 100 MiB')

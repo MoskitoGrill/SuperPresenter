@@ -5,7 +5,7 @@ from .domain import (Presentation, TextSection, ImageSection, TextBlock, TextRun
                      TextStyle, ImportOrigin, MediaAsset, OutputConfig, Aspect,
                      BlockKind, CameraRegion, SCHEMA_VERSION, ImageItem, ImagePlacement)
 
-def dumps(document: Presentation) -> str:
+def to_dict(document: Presentation) -> dict:
     data = asdict(document)
     for section, encoded in zip(document.sections, data['sections']):
         encoded['type'] = 'text' if isinstance(section, TextSection) else 'image'
@@ -18,7 +18,11 @@ def dumps(document: Presentation) -> str:
                         run['style'].pop('family')
                     if run['style']['size'] == 36:
                         run['style'].pop('size')
-    return json.dumps(data, ensure_ascii=False, indent=2, allow_nan=False)
+    return data
+
+
+def dumps(document: Presentation) -> str:
+    return json.dumps(to_dict(document), ensure_ascii=False, indent=2, allow_nan=False)
 
 def loads(payload: str) -> Presentation:
     try:
