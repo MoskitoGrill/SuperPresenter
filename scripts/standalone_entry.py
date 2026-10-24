@@ -19,6 +19,7 @@ def main():
     parser = argparse.ArgumentParser()
     modes = parser.add_mutually_exclusive_group()
     modes.add_argument('--presentation-editor', action='store_true')
+    modes.add_argument('--bible', action='store_true')
     modes.add_argument('--repair-xml', action='store_true')
     modes.add_argument('--smoke-test', metavar='REPORT_JSON')
     parser.add_argument('--version', action='version', version=VERSION)
@@ -39,9 +40,14 @@ def main():
                 original_streams = sys.stdout, sys.stderr
                 try:
                     sys.stdout = sys.stderr = stream
-                    if args.presentation_editor or args.repair_xml:
-                        script = 'presentation_presenter.py' if args.presentation_editor else 'oprava_xml_tagu.py'
-                        runpy.run_path(str(Path(PROJECT_ROOT) / script), run_name='__main__')
+                    if args.presentation_editor:
+                        from presentationpresenter.app import main as run_presenter
+                        run_presenter()
+                    elif args.bible:
+                        from presentationpresenter.bible_window import main as run_bible
+                        run_bible()
+                    elif args.repair_xml:
+                        runpy.run_path(str(Path(PROJECT_ROOT) / 'oprava_xml_tagu.py'), run_name='__main__')
                     else:
                         from superpresenter.app import main as run_app
                         run_app()

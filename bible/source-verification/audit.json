@@ -1,0 +1,1432 @@
+{
+  "summaries": [
+    {
+      "code": "BKR",
+      "source": "CZ_Kb",
+      "sha256": "c95a211853e150257023dc2c9688a4fd8d3351c3481876850f0364f800aa543d",
+      "books": 66,
+      "chapters": 1189,
+      "verses": 31194,
+      "removed_empty_placeholders": 0,
+      "numbering_gaps_preserved": []
+    },
+    {
+      "code": "CSP",
+      "source": "CZ_Csp",
+      "sha256": "99e415b7da61b6657ba4aa0c3741235f093ac7be465be08fb796e1d5efcc5113",
+      "books": 66,
+      "chapters": 1189,
+      "verses": 31170,
+      "removed_empty_placeholders": 0,
+      "numbering_gaps_preserved": []
+    },
+    {
+      "code": "EKU",
+      "source": "CZ_Cep",
+      "sha256": "6c163193daa743d601d9a107ceabbfabdaec73fba6d80474dc1f6b868f42af04",
+      "books": 66,
+      "chapters": 1189,
+      "verses": 31169,
+      "removed_empty_placeholders": 0,
+      "numbering_gaps_preserved": []
+    },
+    {
+      "code": "B21",
+      "source": "CZ_Nbk21",
+      "sha256": "9accc00b0b80b06e94df6c60bd6f95dd40ff3c2c2174901fd6b32c2da2995be1",
+      "books": 66,
+      "chapters": 1189,
+      "verses": 31153,
+      "removed_empty_placeholders": 0,
+      "numbering_gaps_preserved": [
+        {
+          "book": "Matouš",
+          "chapter": "17",
+          "missing": [
+            21
+          ]
+        },
+        {
+          "book": "Matouš",
+          "chapter": "18",
+          "missing": [
+            11
+          ]
+        },
+        {
+          "book": "Matouš",
+          "chapter": "23",
+          "missing": [
+            14
+          ]
+        },
+        {
+          "book": "Marek",
+          "chapter": "7",
+          "missing": [
+            16
+          ]
+        },
+        {
+          "book": "Marek",
+          "chapter": "9",
+          "missing": [
+            44,
+            46
+          ]
+        },
+        {
+          "book": "Marek",
+          "chapter": "11",
+          "missing": [
+            26
+          ]
+        },
+        {
+          "book": "Marek",
+          "chapter": "15",
+          "missing": [
+            28
+          ]
+        },
+        {
+          "book": "Lukáš",
+          "chapter": "17",
+          "missing": [
+            36
+          ]
+        },
+        {
+          "book": "Lukáš",
+          "chapter": "23",
+          "missing": [
+            17
+          ]
+        },
+        {
+          "book": "Jan",
+          "chapter": "5",
+          "missing": [
+            4
+          ]
+        },
+        {
+          "book": "Skutky",
+          "chapter": "8",
+          "missing": [
+            37
+          ]
+        },
+        {
+          "book": "Skutky",
+          "chapter": "15",
+          "missing": [
+            34
+          ]
+        },
+        {
+          "book": "Skutky",
+          "chapter": "24",
+          "missing": [
+            7
+          ]
+        },
+        {
+          "book": "Skutky",
+          "chapter": "28",
+          "missing": [
+            29
+          ]
+        },
+        {
+          "book": "Římanům",
+          "chapter": "16",
+          "missing": [
+            24
+          ]
+        }
+      ]
+    },
+    {
+      "code": "NKB",
+      "source": "CZ_Nbk",
+      "sha256": "2172b0067be0d7174a934a51ebda7752d61798c10886ec5fbf5c518eecb3d487",
+      "books": 27,
+      "chapters": 260,
+      "verses": 7958,
+      "removed_empty_placeholders": 39,
+      "numbering_gaps_preserved": []
+    }
+  ],
+  "changes": [
+    {
+      "code": "BKR",
+      "kind": "number-repair",
+      "book": "Žalmy",
+      "chapter": "55",
+      "before": {
+        "number": "23",
+        "text": "Ale onyno, ty Bože, svedeš do jámy zatracení; lidé zajisté vražedlní a lstiví nedojdou polovice dnů svých, já pak v tebe doufati budu."
+      },
+      "after": {
+        "number": "24",
+        "text": "Ale onyno, ty Bože, svedeš do jámy zatracení; lidé zajisté vražedlní a lstiví nedojdou polovice dnů svých, já pak v tebe doufati budu."
+      }
+    },
+    {
+      "code": "BKR",
+      "kind": "number-repair",
+      "book": "Žalmy",
+      "chapter": "65",
+      "before": {
+        "number": "13",
+        "text": "Přiodíny bývají roviny dobytkem, a údolí přistřína obilím, tak že radostí prokřikují, a prozpěvují."
+      },
+      "after": {
+        "number": "14",
+        "text": "Přiodíny bývají roviny dobytkem, a údolí přistřína obilím, tak že radostí prokřikují, a prozpěvují."
+      }
+    },
+    {
+      "code": "BKR",
+      "kind": "book-name",
+      "before": "Izajáš",
+      "after": "Izaiáš"
+    },
+    {
+      "code": "BKR",
+      "kind": "book-name",
+      "before": "Jeremjáš",
+      "after": "Jeremiáš"
+    },
+    {
+      "code": "BKR",
+      "kind": "book-name",
+      "before": "Efezským",
+      "after": "Efeským"
+    },
+    {
+      "code": "BKR",
+      "kind": "book-name",
+      "before": "Jakubův",
+      "after": "Jakub"
+    },
+    {
+      "code": "BKR",
+      "kind": "book-name",
+      "before": "Judův",
+      "after": "Juda"
+    },
+    {
+      "code": "CSP",
+      "kind": "book-name",
+      "before": "Izajáš",
+      "after": "Izaiáš"
+    },
+    {
+      "code": "CSP",
+      "kind": "book-name",
+      "before": "Jeremjáš",
+      "after": "Jeremiáš"
+    },
+    {
+      "code": "CSP",
+      "kind": "book-name",
+      "before": "Efezským",
+      "after": "Efeským"
+    },
+    {
+      "code": "CSP",
+      "kind": "book-name",
+      "before": "Jakubův",
+      "after": "Jakub"
+    },
+    {
+      "code": "CSP",
+      "kind": "book-name",
+      "before": "Judův",
+      "after": "Juda"
+    },
+    {
+      "code": "EKU",
+      "kind": "book-name",
+      "before": "Izajáš",
+      "after": "Izaiáš"
+    },
+    {
+      "code": "EKU",
+      "kind": "book-name",
+      "before": "Jeremjáš",
+      "after": "Jeremiáš"
+    },
+    {
+      "code": "EKU",
+      "kind": "book-name",
+      "before": "Efezským",
+      "after": "Efeským"
+    },
+    {
+      "code": "EKU",
+      "kind": "book-name",
+      "before": "Jakubův",
+      "after": "Jakub"
+    },
+    {
+      "code": "EKU",
+      "kind": "book-name",
+      "before": "Judův",
+      "after": "Juda"
+    },
+    {
+      "code": "B21",
+      "kind": "split-verse",
+      "reference": "Deuteronomium 9:23–24",
+      "before": {
+        "number": "23",
+        "text": "Když vás pak Hospodin vysílal z Kádeš-barné se slovy: \"Vzhůru, obsaďte zemi, kterou jsem vám dal,\" vzepřeli jste se příkazu Hospodina, svého Boha. Nevěřili jste mu a neposlechli ho. 24Bouřili jste se proti Hospodinu ode dne, kdy jsem vás poznal!"
+      },
+      "after": {
+        "23": "Když vás pak Hospodin vysílal z Kádeš-barné se slovy: \"Vzhůru, obsaďte zemi, kterou jsem vám dal,\" vzepřeli jste se příkazu Hospodina, svého Boha. Nevěřili jste mu a neposlechli ho.",
+        "24": "Bouřili jste se proti Hospodinu ode dne, kdy jsem vás poznal!"
+      }
+    },
+    {
+      "code": "B21",
+      "kind": "number-repair",
+      "book": "Žalmy",
+      "chapter": "119",
+      "before": {
+        "number": "10",
+        "text": "0 Rozumnější jsem dokonce nad starce, neboť se držím tvých pravidel."
+      },
+      "after": {
+        "number": "100",
+        "text": "Rozumnější jsem dokonce nad starce, neboť se držím tvých pravidel."
+      }
+    },
+    {
+      "code": "B21",
+      "kind": "number-repair",
+      "book": "Žalmy",
+      "chapter": "119",
+      "before": {
+        "number": "10",
+        "text": "1 Od každé zlé cesty své kroky zdržuji, abych se řídil slovem tvým."
+      },
+      "after": {
+        "number": "101",
+        "text": "Od každé zlé cesty své kroky zdržuji, abych se řídil slovem tvým."
+      }
+    },
+    {
+      "code": "B21",
+      "kind": "number-repair",
+      "book": "Žalmy",
+      "chapter": "119",
+      "before": {
+        "number": "10",
+        "text": "2 Od tvých pokynů neodvracím se, vždyť ty sám jsi můj učitel."
+      },
+      "after": {
+        "number": "102",
+        "text": "Od tvých pokynů neodvracím se, vždyť ty sám jsi můj učitel."
+      }
+    },
+    {
+      "code": "B21",
+      "kind": "number-repair",
+      "book": "Žalmy",
+      "chapter": "119",
+      "before": {
+        "number": "10",
+        "text": "3 Jak sladce mi chutnají tvé výroky - sladší než med jsou ústům mým!"
+      },
+      "after": {
+        "number": "103",
+        "text": "Jak sladce mi chutnají tvé výroky - sladší než med jsou ústům mým!"
+      }
+    },
+    {
+      "code": "B21",
+      "kind": "number-repair",
+      "book": "Žalmy",
+      "chapter": "119",
+      "before": {
+        "number": "10",
+        "text": "4 Z tvých pravidel jsem se rozumu naučil, a proto nenávidím každou cestu lži."
+      },
+      "after": {
+        "number": "104",
+        "text": "Z tvých pravidel jsem se rozumu naučil, a proto nenávidím každou cestu lži."
+      }
+    },
+    {
+      "code": "B21",
+      "kind": "number-repair",
+      "book": "Žalmy",
+      "chapter": "119",
+      "before": {
+        "number": "10",
+        "text": "5 Svíce mým krokům je slovo tvé, svítí mi na cestě."
+      },
+      "after": {
+        "number": "105",
+        "text": "Svíce mým krokům je slovo tvé, svítí mi na cestě."
+      }
+    },
+    {
+      "code": "B21",
+      "kind": "number-repair",
+      "book": "Žalmy",
+      "chapter": "119",
+      "before": {
+        "number": "10",
+        "text": "6 Co jsem odpřisáhl, to také splním, tvé spravedlivé soudy dodržím."
+      },
+      "after": {
+        "number": "106",
+        "text": "Co jsem odpřisáhl, to také splním, tvé spravedlivé soudy dodržím."
+      }
+    },
+    {
+      "code": "B21",
+      "kind": "number-repair",
+      "book": "Žalmy",
+      "chapter": "119",
+      "before": {
+        "number": "10",
+        "text": "7 Přespříliš jsem byl pokořen, svým slovem, Hospodine, obživ mě!"
+      },
+      "after": {
+        "number": "107",
+        "text": "Přespříliš jsem byl pokořen, svým slovem, Hospodine, obživ mě!"
+      }
+    },
+    {
+      "code": "B21",
+      "kind": "number-repair",
+      "book": "Žalmy",
+      "chapter": "119",
+      "before": {
+        "number": "10",
+        "text": "8 Přijmi, Hospodine, vděčné oběti mých rtů a vyuč mě svým pokynům."
+      },
+      "after": {
+        "number": "108",
+        "text": "Přijmi, Hospodine, vděčné oběti mých rtů a vyuč mě svým pokynům."
+      }
+    },
+    {
+      "code": "B21",
+      "kind": "number-repair",
+      "book": "Žalmy",
+      "chapter": "119",
+      "before": {
+        "number": "10",
+        "text": "9 I když můj život stále visí na vlásku, nezapomínám na Zákon tvůj."
+      },
+      "after": {
+        "number": "109",
+        "text": "I když můj život stále visí na vlásku, nezapomínám na Zákon tvůj."
+      }
+    },
+    {
+      "code": "B21",
+      "kind": "number-repair",
+      "book": "Žalmy",
+      "chapter": "119",
+      "before": {
+        "number": "11",
+        "text": "0 I když mi ničemové nastražili past, neopustil jsem tvá pravidla."
+      },
+      "after": {
+        "number": "110",
+        "text": "I když mi ničemové nastražili past, neopustil jsem tvá pravidla."
+      }
+    },
+    {
+      "code": "B21",
+      "kind": "number-repair",
+      "book": "Žalmy",
+      "chapter": "119",
+      "before": {
+        "number": "11",
+        "text": "1 Tvá svědectví jsou mi věčným dědictvím, naplňují přece mé srdce radostí."
+      },
+      "after": {
+        "number": "111",
+        "text": "Tvá svědectví jsou mi věčným dědictvím, naplňují přece mé srdce radostí."
+      }
+    },
+    {
+      "code": "B21",
+      "kind": "number-repair",
+      "book": "Žalmy",
+      "chapter": "119",
+      "before": {
+        "number": "11",
+        "text": "2 Rozhodl jsem se plnit tvé zákony - v tom je odplata navěky!"
+      },
+      "after": {
+        "number": "112",
+        "text": "Rozhodl jsem se plnit tvé zákony - v tom je odplata navěky!"
+      }
+    },
+    {
+      "code": "B21",
+      "kind": "number-repair",
+      "book": "Žalmy",
+      "chapter": "119",
+      "before": {
+        "number": "11",
+        "text": "3 Nesnáším ty, kdo jsou vrtkaví, tvůj Zákon ale miluji."
+      },
+      "after": {
+        "number": "113",
+        "text": "Nesnáším ty, kdo jsou vrtkaví, tvůj Zákon ale miluji."
+      }
+    },
+    {
+      "code": "B21",
+      "kind": "number-repair",
+      "book": "Žalmy",
+      "chapter": "119",
+      "before": {
+        "number": "11",
+        "text": "4 Ty jsi má skrýše a můj štít, tvé slovo je mou nadějí."
+      },
+      "after": {
+        "number": "114",
+        "text": "Ty jsi má skrýše a můj štít, tvé slovo je mou nadějí."
+      }
+    },
+    {
+      "code": "B21",
+      "kind": "number-repair",
+      "book": "Žalmy",
+      "chapter": "119",
+      "before": {
+        "number": "11",
+        "text": "5 Odstupte ode mě, bídáci, příkazy svého Boha plnit chci!"
+      },
+      "after": {
+        "number": "115",
+        "text": "Odstupte ode mě, bídáci, příkazy svého Boha plnit chci!"
+      }
+    },
+    {
+      "code": "B21",
+      "kind": "number-repair",
+      "book": "Žalmy",
+      "chapter": "119",
+      "before": {
+        "number": "11",
+        "text": "6 Podpírej mě, jak jsi zaslíbil, abych žil, nedej, abych byl zklamán ve své naději!"
+      },
+      "after": {
+        "number": "116",
+        "text": "Podpírej mě, jak jsi zaslíbil, abych žil, nedej, abych byl zklamán ve své naději!"
+      }
+    },
+    {
+      "code": "B21",
+      "kind": "number-repair",
+      "book": "Žalmy",
+      "chapter": "119",
+      "before": {
+        "number": "11",
+        "text": "7 Podpoř mě, abych byl zachráněn, k tvým zákonům abych stále hledět směl."
+      },
+      "after": {
+        "number": "117",
+        "text": "Podpoř mě, abych byl zachráněn, k tvým zákonům abych stále hledět směl."
+      }
+    },
+    {
+      "code": "B21",
+      "kind": "number-repair",
+      "book": "Žalmy",
+      "chapter": "119",
+      "before": {
+        "number": "11",
+        "text": "8 Odmítáš všechny, kdo opouštějí tvé zákony, vždyť jejich bludy jsou pouhé lži!"
+      },
+      "after": {
+        "number": "118",
+        "text": "Odmítáš všechny, kdo opouštějí tvé zákony, vždyť jejich bludy jsou pouhé lži!"
+      }
+    },
+    {
+      "code": "B21",
+      "kind": "number-repair",
+      "book": "Žalmy",
+      "chapter": "119",
+      "before": {
+        "number": "11",
+        "text": "9 Jak smetí zavrhuješ všechny ničemy na zemi, a proto miluji tvá svědectví."
+      },
+      "after": {
+        "number": "119",
+        "text": "Jak smetí zavrhuješ všechny ničemy na zemi, a proto miluji tvá svědectví."
+      }
+    },
+    {
+      "code": "B21",
+      "kind": "number-repair",
+      "book": "Žalmy",
+      "chapter": "119",
+      "before": {
+        "number": "12",
+        "text": "0 Tělo se mi chvěje hrůzou před tebou - v úžasu hledím na tvůj soud!"
+      },
+      "after": {
+        "number": "120",
+        "text": "Tělo se mi chvěje hrůzou před tebou - v úžasu hledím na tvůj soud!"
+      }
+    },
+    {
+      "code": "B21",
+      "kind": "number-repair",
+      "book": "Žalmy",
+      "chapter": "119",
+      "before": {
+        "number": "12",
+        "text": "1 Právem a spravedlností řídím se, nevydej mě těm, kdo vydírají mě!"
+      },
+      "after": {
+        "number": "121",
+        "text": "Právem a spravedlností řídím se, nevydej mě těm, kdo vydírají mě!"
+      }
+    },
+    {
+      "code": "B21",
+      "kind": "number-repair",
+      "book": "Žalmy",
+      "chapter": "119",
+      "before": {
+        "number": "12",
+        "text": "2 Zaruč se ve prospěch svého služebníka, ať už mě pyšní přestanou vydírat."
+      },
+      "after": {
+        "number": "122",
+        "text": "Zaruč se ve prospěch svého služebníka, ať už mě pyšní přestanou vydírat."
+      }
+    },
+    {
+      "code": "B21",
+      "kind": "number-repair",
+      "book": "Žalmy",
+      "chapter": "119",
+      "before": {
+        "number": "12",
+        "text": "3 Oči mi slábnou, tvou spásu vyhlížím a tvou spravedlnost, kterou jsi zaslíbil."
+      },
+      "after": {
+        "number": "123",
+        "text": "Oči mi slábnou, tvou spásu vyhlížím a tvou spravedlnost, kterou jsi zaslíbil."
+      }
+    },
+    {
+      "code": "B21",
+      "kind": "number-repair",
+      "book": "Žalmy",
+      "chapter": "119",
+      "before": {
+        "number": "12",
+        "text": "4 Se svým služebníkem nalož laskavě, pouč mě prosím o svých zákonech!"
+      },
+      "after": {
+        "number": "124",
+        "text": "Se svým služebníkem nalož laskavě, pouč mě prosím o svých zákonech!"
+      }
+    },
+    {
+      "code": "B21",
+      "kind": "number-repair",
+      "book": "Žalmy",
+      "chapter": "119",
+      "before": {
+        "number": "12",
+        "text": "5 Dej mi rozum, vždyť jsem tvůj služebník, abych rozuměl tvým svědectvím."
+      },
+      "after": {
+        "number": "125",
+        "text": "Dej mi rozum, vždyť jsem tvůj služebník, abych rozuměl tvým svědectvím."
+      }
+    },
+    {
+      "code": "B21",
+      "kind": "number-repair",
+      "book": "Žalmy",
+      "chapter": "119",
+      "before": {
+        "number": "12",
+        "text": "6 Čas jednat, Hospodine, už je tu - lidé porušují Zákon tvůj!"
+      },
+      "after": {
+        "number": "126",
+        "text": "Čas jednat, Hospodine, už je tu - lidé porušují Zákon tvůj!"
+      }
+    },
+    {
+      "code": "B21",
+      "kind": "number-repair",
+      "book": "Žalmy",
+      "chapter": "119",
+      "before": {
+        "number": "12",
+        "text": "7 Protože miluji tvé příkazy, jsou mi nad zlato, i to nejčistší."
+      },
+      "after": {
+        "number": "127",
+        "text": "Protože miluji tvé příkazy, jsou mi nad zlato, i to nejčistší."
+      }
+    },
+    {
+      "code": "B21",
+      "kind": "number-repair",
+      "book": "Žalmy",
+      "chapter": "119",
+      "before": {
+        "number": "12",
+        "text": "8 Všech tvých pravidel cením si, a proto nenávidím každou cestu lži!"
+      },
+      "after": {
+        "number": "128",
+        "text": "Všech tvých pravidel cením si, a proto nenávidím každou cestu lži!"
+      }
+    },
+    {
+      "code": "B21",
+      "kind": "number-repair",
+      "book": "Žalmy",
+      "chapter": "119",
+      "before": {
+        "number": "12",
+        "text": "9 Tvá svědectví jsou úžasná, to proto je chci zachovat!"
+      },
+      "after": {
+        "number": "129",
+        "text": "Tvá svědectví jsou úžasná, to proto je chci zachovat!"
+      }
+    },
+    {
+      "code": "B21",
+      "kind": "number-repair",
+      "book": "Žalmy",
+      "chapter": "119",
+      "before": {
+        "number": "13",
+        "text": "0 Tvé slovo s sebou světlo přináší, prostým dodává moudrosti."
+      },
+      "after": {
+        "number": "130",
+        "text": "Tvé slovo s sebou světlo přináší, prostým dodává moudrosti."
+      }
+    },
+    {
+      "code": "B21",
+      "kind": "number-repair",
+      "book": "Žalmy",
+      "chapter": "119",
+      "before": {
+        "number": "13",
+        "text": "1 S ústy otevřenými vzdychám dychtivě, protože toužím po tvých příkazech!"
+      },
+      "after": {
+        "number": "131",
+        "text": "S ústy otevřenými vzdychám dychtivě, protože toužím po tvých příkazech!"
+      }
+    },
+    {
+      "code": "B21",
+      "kind": "number-repair",
+      "book": "Žalmy",
+      "chapter": "119",
+      "before": {
+        "number": "13",
+        "text": "2 Pohlédni na mě, prosím smiluj se dle práva těch, kdo milují jméno tvé."
+      },
+      "after": {
+        "number": "132",
+        "text": "Pohlédni na mě, prosím smiluj se dle práva těch, kdo milují jméno tvé."
+      }
+    },
+    {
+      "code": "B21",
+      "kind": "number-repair",
+      "book": "Žalmy",
+      "chapter": "119",
+      "before": {
+        "number": "13",
+        "text": "3 Upevni mé kroky ve svých výrocích, ať mě neovládne žádný hřích!"
+      },
+      "after": {
+        "number": "133",
+        "text": "Upevni mé kroky ve svých výrocích, ať mě neovládne žádný hřích!"
+      }
+    },
+    {
+      "code": "B21",
+      "kind": "number-repair",
+      "book": "Žalmy",
+      "chapter": "119",
+      "before": {
+        "number": "13",
+        "text": "4 Vysvoboď mě z lidského bezpráví, abych se řídil tvými pravidly."
+      },
+      "after": {
+        "number": "134",
+        "text": "Vysvoboď mě z lidského bezpráví, abych se řídil tvými pravidly."
+      }
+    },
+    {
+      "code": "B21",
+      "kind": "number-repair",
+      "book": "Žalmy",
+      "chapter": "119",
+      "before": {
+        "number": "13",
+        "text": "5 Rozjasni svou tvář nad služebníkem svým, nauč mě prosím svoje zákony."
+      },
+      "after": {
+        "number": "135",
+        "text": "Rozjasni svou tvář nad služebníkem svým, nauč mě prosím svoje zákony."
+      }
+    },
+    {
+      "code": "B21",
+      "kind": "number-repair",
+      "book": "Žalmy",
+      "chapter": "119",
+      "before": {
+        "number": "13",
+        "text": "6 Z očí mi slzy proudí potokem - lidé se neřídí tvým Zákonem!"
+      },
+      "after": {
+        "number": "136",
+        "text": "Z očí mi slzy proudí potokem - lidé se neřídí tvým Zákonem!"
+      }
+    },
+    {
+      "code": "B21",
+      "kind": "number-repair",
+      "book": "Žalmy",
+      "chapter": "119",
+      "before": {
+        "number": "13",
+        "text": "7 Spravedlivý jsi, Hospodine, a soudy tvé jsou poctivé."
+      },
+      "after": {
+        "number": "137",
+        "text": "Spravedlivý jsi, Hospodine, a soudy tvé jsou poctivé."
+      }
+    },
+    {
+      "code": "B21",
+      "kind": "number-repair",
+      "book": "Žalmy",
+      "chapter": "119",
+      "before": {
+        "number": "13",
+        "text": "8 Svědectví, která jsi svěřil nám, spravedlivá jsou a zcela pravdivá."
+      },
+      "after": {
+        "number": "138",
+        "text": "Svědectví, která jsi svěřil nám, spravedlivá jsou a zcela pravdivá."
+      }
+    },
+    {
+      "code": "B21",
+      "kind": "number-repair",
+      "book": "Žalmy",
+      "chapter": "119",
+      "before": {
+        "number": "13",
+        "text": "9 Až se zalykám samým horlením, že moji protivníci na tvé slovo nedbají."
+      },
+      "after": {
+        "number": "139",
+        "text": "Až se zalykám samým horlením, že moji protivníci na tvé slovo nedbají."
+      }
+    },
+    {
+      "code": "B21",
+      "kind": "number-repair",
+      "book": "Žalmy",
+      "chapter": "119",
+      "before": {
+        "number": "14",
+        "text": "0 Tvé výroky jsou zcela ryzí, já, tvůj služebník, je miluji!"
+      },
+      "after": {
+        "number": "140",
+        "text": "Tvé výroky jsou zcela ryzí, já, tvůj služebník, je miluji!"
+      }
+    },
+    {
+      "code": "B21",
+      "kind": "number-repair",
+      "book": "Žalmy",
+      "chapter": "119",
+      "before": {
+        "number": "14",
+        "text": "1 I když jsem nepatrný, i když jsem pohrdán, nezapomínám na tvá pravidla."
+      },
+      "after": {
+        "number": "141",
+        "text": "I když jsem nepatrný, i když jsem pohrdán, nezapomínám na tvá pravidla."
+      }
+    },
+    {
+      "code": "B21",
+      "kind": "number-repair",
+      "book": "Žalmy",
+      "chapter": "119",
+      "before": {
+        "number": "14",
+        "text": "2 Tvá spravedlnost navždy obstojí, tvůj Zákon je zcela pravdivý."
+      },
+      "after": {
+        "number": "142",
+        "text": "Tvá spravedlnost navždy obstojí, tvůj Zákon je zcela pravdivý."
+      }
+    },
+    {
+      "code": "B21",
+      "kind": "number-repair",
+      "book": "Žalmy",
+      "chapter": "119",
+      "before": {
+        "number": "14",
+        "text": "3 Doléhá na mě úzkost a trápení, tvá přikázání však jsou mi rozkoší."
+      },
+      "after": {
+        "number": "143",
+        "text": "Doléhá na mě úzkost a trápení, tvá přikázání však jsou mi rozkoší."
+      }
+    },
+    {
+      "code": "B21",
+      "kind": "number-repair",
+      "book": "Žalmy",
+      "chapter": "119",
+      "before": {
+        "number": "14",
+        "text": "4 Navěky spravedlivá jsou tvá svědectví - dej mi porozumění, abych žil!"
+      },
+      "after": {
+        "number": "144",
+        "text": "Navěky spravedlivá jsou tvá svědectví - dej mi porozumění, abych žil!"
+      }
+    },
+    {
+      "code": "B21",
+      "kind": "number-repair",
+      "book": "Žalmy",
+      "chapter": "119",
+      "before": {
+        "number": "14",
+        "text": "5 Celým srdcem volám, Hospodine, slyš: Chci zachovávat tvé zákony!"
+      },
+      "after": {
+        "number": "145",
+        "text": "Celým srdcem volám, Hospodine, slyš: Chci zachovávat tvé zákony!"
+      }
+    },
+    {
+      "code": "B21",
+      "kind": "number-repair",
+      "book": "Žalmy",
+      "chapter": "119",
+      "before": {
+        "number": "14",
+        "text": "6 Volám k tobě, prosím zachraň mě, abych tvá svědectví mohl dodržet!"
+      },
+      "after": {
+        "number": "146",
+        "text": "Volám k tobě, prosím zachraň mě, abych tvá svědectví mohl dodržet!"
+      }
+    },
+    {
+      "code": "B21",
+      "kind": "number-repair",
+      "book": "Žalmy",
+      "chapter": "119",
+      "before": {
+        "number": "14",
+        "text": "7 Před svítáním vstávám s voláním, na tvé slovo čekám s nadějí."
+      },
+      "after": {
+        "number": "147",
+        "text": "Před svítáním vstávám s voláním, na tvé slovo čekám s nadějí."
+      }
+    },
+    {
+      "code": "B21",
+      "kind": "number-repair",
+      "book": "Žalmy",
+      "chapter": "119",
+      "before": {
+        "number": "14",
+        "text": "8 Oka nezamhouřím, celé noci bdím, abych přemýšlel o tvých výrocích."
+      },
+      "after": {
+        "number": "148",
+        "text": "Oka nezamhouřím, celé noci bdím, abych přemýšlel o tvých výrocích."
+      }
+    },
+    {
+      "code": "B21",
+      "kind": "number-repair",
+      "book": "Žalmy",
+      "chapter": "119",
+      "before": {
+        "number": "14",
+        "text": "9 Prosím vyslyš mě v lásce své, dle svého práva, Hospodine, obživ mě!"
+      },
+      "after": {
+        "number": "149",
+        "text": "Prosím vyslyš mě v lásce své, dle svého práva, Hospodine, obživ mě!"
+      }
+    },
+    {
+      "code": "B21",
+      "kind": "number-repair",
+      "book": "Žalmy",
+      "chapter": "119",
+      "before": {
+        "number": "15",
+        "text": "0 Blíží se ti, kdo běží za zvrhlostí, od tvého Zákona se ale vzdalují."
+      },
+      "after": {
+        "number": "150",
+        "text": "Blíží se ti, kdo běží za zvrhlostí, od tvého Zákona se ale vzdalují."
+      }
+    },
+    {
+      "code": "B21",
+      "kind": "number-repair",
+      "book": "Žalmy",
+      "chapter": "119",
+      "before": {
+        "number": "15",
+        "text": "1 Ty, Hospodine, blízký jsi; spolehlivé jsou všechny tvé příkazy."
+      },
+      "after": {
+        "number": "151",
+        "text": "Ty, Hospodine, blízký jsi; spolehlivé jsou všechny tvé příkazy."
+      }
+    },
+    {
+      "code": "B21",
+      "kind": "number-repair",
+      "book": "Žalmy",
+      "chapter": "119",
+      "before": {
+        "number": "15",
+        "text": "2 Odedávna vím o tvých svědectvích, že jsi je potvrdil navěky."
+      },
+      "after": {
+        "number": "152",
+        "text": "Odedávna vím o tvých svědectvích, že jsi je potvrdil navěky."
+      }
+    },
+    {
+      "code": "B21",
+      "kind": "number-repair",
+      "book": "Žalmy",
+      "chapter": "119",
+      "before": {
+        "number": "15",
+        "text": "3 Hleď na mé trápení a dej mi záchranu, nezapomínám přece na Zákon tvůj."
+      },
+      "after": {
+        "number": "153",
+        "text": "Hleď na mé trápení a dej mi záchranu, nezapomínám přece na Zákon tvůj."
+      }
+    },
+    {
+      "code": "B21",
+      "kind": "number-repair",
+      "book": "Žalmy",
+      "chapter": "119",
+      "before": {
+        "number": "15",
+        "text": "4 Veď moji při a buď mi Zastáncem; jak jsi zaslíbil, prosím obživ mě!"
+      },
+      "after": {
+        "number": "154",
+        "text": "Veď moji při a buď mi Zastáncem; jak jsi zaslíbil, prosím obživ mě!"
+      }
+    },
+    {
+      "code": "B21",
+      "kind": "number-repair",
+      "book": "Žalmy",
+      "chapter": "119",
+      "before": {
+        "number": "15",
+        "text": "5 Ničemové jsou daleko od spásy, neboť se neptají na tvé zákony."
+      },
+      "after": {
+        "number": "155",
+        "text": "Ničemové jsou daleko od spásy, neboť se neptají na tvé zákony."
+      }
+    },
+    {
+      "code": "B21",
+      "kind": "number-repair",
+      "book": "Žalmy",
+      "chapter": "119",
+      "before": {
+        "number": "15",
+        "text": "6 Veliké je, Hospodine, slitování tvé, dle svého práva prosím obživ mě!"
+      },
+      "after": {
+        "number": "156",
+        "text": "Veliké je, Hospodine, slitování tvé, dle svého práva prosím obživ mě!"
+      }
+    },
+    {
+      "code": "B21",
+      "kind": "number-repair",
+      "book": "Žalmy",
+      "chapter": "119",
+      "before": {
+        "number": "15",
+        "text": "7 Mnozí mě pronásledují a sužují, nevzdálím se však od tvých svědectví."
+      },
+      "after": {
+        "number": "157",
+        "text": "Mnozí mě pronásledují a sužují, nevzdálím se však od tvých svědectví."
+      }
+    },
+    {
+      "code": "B21",
+      "kind": "number-repair",
+      "book": "Žalmy",
+      "chapter": "119",
+      "before": {
+        "number": "15",
+        "text": "8 Pohled na zrádce hnusím si, neboť nedbají na tvé výroky."
+      },
+      "after": {
+        "number": "158",
+        "text": "Pohled na zrádce hnusím si, neboť nedbají na tvé výroky."
+      }
+    },
+    {
+      "code": "B21",
+      "kind": "number-repair",
+      "book": "Žalmy",
+      "chapter": "119",
+      "before": {
+        "number": "15",
+        "text": "9 Jak miluji tvá pravidla, Hospodine, hleď, ve své lásce prosím obživ mě!"
+      },
+      "after": {
+        "number": "159",
+        "text": "Jak miluji tvá pravidla, Hospodine, hleď, ve své lásce prosím obživ mě!"
+      }
+    },
+    {
+      "code": "B21",
+      "kind": "number-repair",
+      "book": "Žalmy",
+      "chapter": "119",
+      "before": {
+        "number": "16",
+        "text": "0 Úhrnem tvého slova pravda je, navěky spravedlivé jsou všechny soudy tvé."
+      },
+      "after": {
+        "number": "160",
+        "text": "Úhrnem tvého slova pravda je, navěky spravedlivé jsou všechny soudy tvé."
+      }
+    },
+    {
+      "code": "B21",
+      "kind": "number-repair",
+      "book": "Žalmy",
+      "chapter": "119",
+      "before": {
+        "number": "16",
+        "text": "1 I když mě bezdůvodně honí vládcové, před tvým slovem v srdci chvěji se."
+      },
+      "after": {
+        "number": "161",
+        "text": "I když mě bezdůvodně honí vládcové, před tvým slovem v srdci chvěji se."
+      }
+    },
+    {
+      "code": "B21",
+      "kind": "number-repair",
+      "book": "Žalmy",
+      "chapter": "119",
+      "before": {
+        "number": "16",
+        "text": "2 Ze tvých výroků mám tolik radosti, jako bych našel poklad nejdražší."
+      },
+      "after": {
+        "number": "162",
+        "text": "Ze tvých výroků mám tolik radosti, jako bych našel poklad nejdražší."
+      }
+    },
+    {
+      "code": "B21",
+      "kind": "number-repair",
+      "book": "Žalmy",
+      "chapter": "119",
+      "before": {
+        "number": "16",
+        "text": "3 Lež se mi hnusí, nenávidím ji, tvůj Zákon ale miluji!"
+      },
+      "after": {
+        "number": "163",
+        "text": "Lež se mi hnusí, nenávidím ji, tvůj Zákon ale miluji!"
+      }
+    },
+    {
+      "code": "B21",
+      "kind": "number-repair",
+      "book": "Žalmy",
+      "chapter": "119",
+      "before": {
+        "number": "16",
+        "text": "4 Sedmkrát za den chválím tě za spravedlivé soudy tvé."
+      },
+      "after": {
+        "number": "164",
+        "text": "Sedmkrát za den chválím tě za spravedlivé soudy tvé."
+      }
+    },
+    {
+      "code": "B21",
+      "kind": "number-repair",
+      "book": "Žalmy",
+      "chapter": "119",
+      "before": {
+        "number": "16",
+        "text": "5 Kdo milují tvůj Zákon, mají hojný mír, žádné překážky je nesrazí!"
+      },
+      "after": {
+        "number": "165",
+        "text": "Kdo milují tvůj Zákon, mají hojný mír, žádné překážky je nesrazí!"
+      }
+    },
+    {
+      "code": "B21",
+      "kind": "number-repair",
+      "book": "Žalmy",
+      "chapter": "119",
+      "before": {
+        "number": "16",
+        "text": "6 Čekám, Hospodine, na tvé spasení a plním tvé příkazy."
+      },
+      "after": {
+        "number": "166",
+        "text": "Čekám, Hospodine, na tvé spasení a plním tvé příkazy."
+      }
+    },
+    {
+      "code": "B21",
+      "kind": "number-repair",
+      "book": "Žalmy",
+      "chapter": "119",
+      "before": {
+        "number": "16",
+        "text": "7 V duši opatruji tvá svědectví - jak velice je miluji!"
+      },
+      "after": {
+        "number": "167",
+        "text": "V duši opatruji tvá svědectví - jak velice je miluji!"
+      }
+    },
+    {
+      "code": "B21",
+      "kind": "number-repair",
+      "book": "Žalmy",
+      "chapter": "119",
+      "before": {
+        "number": "16",
+        "text": "8 Tvých pravidel a svědectví držím se, ty přece vidíš všechny cesty mé."
+      },
+      "after": {
+        "number": "168",
+        "text": "Tvých pravidel a svědectví držím se, ty přece vidíš všechny cesty mé."
+      }
+    },
+    {
+      "code": "B21",
+      "kind": "number-repair",
+      "book": "Žalmy",
+      "chapter": "119",
+      "before": {
+        "number": "16",
+        "text": "9 Kéž se mé volání k tobě, Hospodine, přiblíží, dle svého slova rozum daruj mi!"
+      },
+      "after": {
+        "number": "169",
+        "text": "Kéž se mé volání k tobě, Hospodine, přiblíží, dle svého slova rozum daruj mi!"
+      }
+    },
+    {
+      "code": "B21",
+      "kind": "number-repair",
+      "book": "Žalmy",
+      "chapter": "119",
+      "before": {
+        "number": "17",
+        "text": "0 Kéž má modlitba k tobě dorazí, vysvoboď mě, jak jsi zaslíbil!"
+      },
+      "after": {
+        "number": "170",
+        "text": "Kéž má modlitba k tobě dorazí, vysvoboď mě, jak jsi zaslíbil!"
+      }
+    },
+    {
+      "code": "B21",
+      "kind": "number-repair",
+      "book": "Žalmy",
+      "chapter": "119",
+      "before": {
+        "number": "17",
+        "text": "1 Kéž chvála přetéká z mých rtů - vždyť ty mě učíš svým zákonům."
+      },
+      "after": {
+        "number": "171",
+        "text": "Kéž chvála přetéká z mých rtů - vždyť ty mě učíš svým zákonům."
+      }
+    },
+    {
+      "code": "B21",
+      "kind": "number-repair",
+      "book": "Žalmy",
+      "chapter": "119",
+      "before": {
+        "number": "17",
+        "text": "2 Kéž jazyk můj zpívá o tvých výrocích, neboť jsou spravedlivé všechny tvé příkazy."
+      },
+      "after": {
+        "number": "172",
+        "text": "Kéž jazyk můj zpívá o tvých výrocích, neboť jsou spravedlivé všechny tvé příkazy."
+      }
+    },
+    {
+      "code": "B21",
+      "kind": "number-repair",
+      "book": "Žalmy",
+      "chapter": "119",
+      "before": {
+        "number": "17",
+        "text": "3 Kéž mi pomáhá ruka tvá, vždyť jsem si zvolil tvá pravidla."
+      },
+      "after": {
+        "number": "173",
+        "text": "Kéž mi pomáhá ruka tvá, vždyť jsem si zvolil tvá pravidla."
+      }
+    },
+    {
+      "code": "B21",
+      "kind": "number-repair",
+      "book": "Žalmy",
+      "chapter": "119",
+      "before": {
+        "number": "17",
+        "text": "4 Toužím, Hospodine, po tvém spasení, tvůj Zákon je mi rozkoší!"
+      },
+      "after": {
+        "number": "174",
+        "text": "Toužím, Hospodine, po tvém spasení, tvůj Zákon je mi rozkoší!"
+      }
+    },
+    {
+      "code": "B21",
+      "kind": "number-repair",
+      "book": "Žalmy",
+      "chapter": "119",
+      "before": {
+        "number": "17",
+        "text": "5 Kéž mohu žít, abych tě oslavil, kéž jsou mi pomocí tvé pokyny."
+      },
+      "after": {
+        "number": "175",
+        "text": "Kéž mohu žít, abych tě oslavil, kéž jsou mi pomocí tvé pokyny."
+      }
+    },
+    {
+      "code": "B21",
+      "kind": "number-repair",
+      "book": "Žalmy",
+      "chapter": "119",
+      "before": {
+        "number": "17",
+        "text": "6 Jak ovce ztracená jsem zabloudil, hledej mě - jsem tvůj služebník, nezapomínám na tvé příkazy!"
+      },
+      "after": {
+        "number": "176",
+        "text": "Jak ovce ztracená jsem zabloudil, hledej mě - jsem tvůj služebník, nezapomínám na tvé příkazy!"
+      }
+    },
+    {
+      "code": "B21",
+      "kind": "book-name",
+      "before": "Izajáš",
+      "after": "Izaiáš"
+    },
+    {
+      "code": "B21",
+      "kind": "book-name",
+      "before": "Jeremjáš",
+      "after": "Jeremiáš"
+    },
+    {
+      "code": "B21",
+      "kind": "book-name",
+      "before": "Joél",
+      "after": "Jóel"
+    },
+    {
+      "code": "B21",
+      "kind": "book-name",
+      "before": "Abdiáš",
+      "after": "Abdijáš"
+    },
+    {
+      "code": "B21",
+      "kind": "book-name",
+      "before": "Efezským",
+      "after": "Efeským"
+    },
+    {
+      "code": "B21",
+      "kind": "book-name",
+      "before": "Jakubův",
+      "after": "Jakub"
+    },
+    {
+      "code": "B21",
+      "kind": "book-name",
+      "before": "Judův",
+      "after": "Juda"
+    },
+    {
+      "code": "NKB",
+      "kind": "book-name",
+      "before": "Efezským",
+      "after": "Efeským"
+    },
+    {
+      "code": "NKB",
+      "kind": "book-name",
+      "before": "Jakubův",
+      "after": "Jakub"
+    },
+    {
+      "code": "NKB",
+      "kind": "book-name",
+      "before": "Judův",
+      "after": "Juda"
+    }
+  ]
+}

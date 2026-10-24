@@ -1,0 +1,15 @@
+test_parallel_saves_are_complete_and_do_not_share_temporary_names (tests.presentationpresenter.test_stabilization.PreferenceWriteTests.test_parallel_saves_are_complete_and_do_not_share_temporary_names) ... ok
+test_replace_failure_preserves_preferences_and_profiles (tests.presentationpresenter.test_stabilization.PreferenceWriteTests.test_replace_failure_preserves_preferences_and_profiles) ... ok
+test_raster_cache_keeps_pixels_and_respects_budget (tests.presentationpresenter.test_stabilization.ResourceTests.test_raster_cache_keeps_pixels_and_respects_budget) ... ok
+test_repeated_canvas_draw_decodes_once_and_caches_do_not_retain_metrics (tests.presentationpresenter.test_stabilization.ResourceTests.test_repeated_canvas_draw_decodes_once_and_caches_do_not_retain_metrics) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.397s
+
+OK
+{"hall": "4:3", "stream": "4:3", "sections": 24, "slides": 60, "warnings": 0, "seconds": 2.485, "raster_cache_bytes": 623072}
+{"hall": "4:3", "stream": "16:9", "sections": 24, "slides": 57, "warnings": 0, "seconds": 1.704, "raster_cache_bytes": 850796}
+{"hall": "16:9", "stream": "4:3", "sections": 24, "slides": 60, "warnings": 0, "seconds": 1.437, "raster_cache_bytes": 1309644}
+{"hall": "16:9", "stream": "16:9", "sections": 24, "slides": 56, "warnings": 0, "seconds": 1.895, "raster_cache_bytes": 1309644}
+Example, guide and generator unchanged.
+30 repeated image renders: 0.235 seconds

@@ -1,0 +1,44 @@
+test_groups_scroll_in_one_row_and_focus_reveals_command (tests.presentationpresenter.test_ribbon_overlay.RibbonOverlayTests.test_groups_scroll_in_one_row_and_focus_reveals_command) ... ok
+test_legacy_mode_and_escape (tests.presentationpresenter.test_ribbon_overlay.RibbonOverlayTests.test_legacy_mode_and_escape) ... ok
+test_overlay_switch_dismiss_and_pin (tests.presentationpresenter.test_ribbon_overlay.RibbonOverlayTests.test_overlay_switch_dismiss_and_pin) ... ok
+test_checkbox_output_and_aspect_preserve_live_session (tests.presentationpresenter.test_pp8l.RibbonTests.test_checkbox_output_and_aspect_preserve_live_session) ... ok
+test_collapse_tabs_scroll_and_section_actions (tests.presentationpresenter.test_pp8l.RibbonTests.test_collapse_tabs_scroll_and_section_actions) ... ok
+test_continuous_motion_does_not_starve_control_painting (tests.presentationpresenter.test_pp8l.RibbonTests.test_continuous_motion_does_not_starve_control_painting) ... ok
+test_navigation_buttons_use_section_and_slide_controls (tests.presentationpresenter.test_pp8l.RibbonTests.test_navigation_buttons_use_section_and_slide_controls) ... ok
+test_resize_updates_are_coalesced_and_cancelled_on_destroy (tests.presentationpresenter.test_pp8l.RibbonTests.test_resize_updates_are_coalesced_and_cancelled_on_destroy) ... ok
+test_ribbon_start_and_apply_remain_available_when_footer_hidden (tests.presentationpresenter.test_pp8l.RibbonTests.test_ribbon_start_and_apply_remain_available_when_footer_hidden) ... ok
+test_small_window_actions_and_formatting_selection (tests.presentationpresenter.test_pp8l.RibbonTests.test_small_window_actions_and_formatting_selection) ... ok
+test_strip_drag_and_wheel_preserve_preview_and_editor_focus (tests.presentationpresenter.test_pp8l.RibbonTests.test_strip_drag_and_wheel_preserve_preview_and_editor_focus) ... ok
+test_control_visibility_persists_and_survives_refresh (tests.presentationpresenter.test_content_defaults.ContentDefaultsTests.test_control_visibility_persists_and_survives_refresh) ... ok
+test_invalid_or_failed_save_keeps_previous_defaults (tests.presentationpresenter.test_content_defaults.ContentDefaultsTests.test_invalid_or_failed_save_keeps_previous_defaults) ... ok
+test_save_new_content_restart_and_existing_source (tests.presentationpresenter.test_content_defaults.ContentDefaultsTests.test_save_new_content_restart_and_existing_source) ... can't invoke "event" command: application has been destroyed
+    while executing
+"event generate $w <<ThemeChanged>>"
+    (procedure "ttk::ThemeChanged" line 6)
+    invoked from within
+"ttk::ThemeChanged"
+ok
+test_settings_roundtrip_legacy_and_validation (tests.presentationpresenter.test_content_defaults.ContentDefaultsTests.test_settings_roundtrip_legacy_and_validation) ... ok
+test_default_calibri_and_legacy_fonts_are_preserved (tests.presentationpresenter.test_font_size.FontSizeTests.test_default_calibri_and_legacy_fonts_are_preserved) ... can't invoke "event" command: application has been destroyed
+    while executing
+"event generate $w <<ThemeChanged>>"
+    (procedure "ttk::ThemeChanged" line 6)
+    invoked from within
+"ttk::ThemeChanged"
+ok
+test_family_selection_preserves_size_and_other_style_and_live (tests.presentationpresenter.test_font_size.FontSizeTests.test_family_selection_preserves_size_and_other_style_and_live) ... ok
+test_font_suggestions_filter_keep_focus_and_enter_applies_selection (tests.presentationpresenter.test_font_size.FontSizeTests.test_font_suggestions_filter_keep_focus_and_enter_applies_selection) ... ok
+test_font_suggestions_mouse_escape_no_matches_and_collapse (tests.presentationpresenter.test_font_size.FontSizeTests.test_font_suggestions_mouse_escape_no_matches_and_collapse) ... ok
+test_future_family_mixed_selection_escape_and_validation (tests.presentationpresenter.test_font_size.FontSizeTests.test_future_family_mixed_selection_escape_and_validation) ... ok
+test_future_size_survives_list_commands_and_unconfirmed_field_edit_is_discarded (tests.presentationpresenter.test_font_size.FontSizeTests.test_future_size_survives_list_commands_and_unconfirmed_field_edit_is_discarded) ... ok
+test_future_typing_and_enter_inherit_size_without_changing_existing_text (tests.presentationpresenter.test_font_size.FontSizeTests.test_future_typing_and_enter_inherit_size_without_changing_existing_text) ... ok
+test_missing_family_warns_without_rewriting_portable_data (tests.presentationpresenter.test_font_size.FontSizeTests.test_missing_family_warns_without_rewriting_portable_data) ... ok
+test_mixed_families_share_baseline_and_preserve_all_text (tests.presentationpresenter.test_font_size.FontSizeTests.test_mixed_families_share_baseline_and_preserve_all_text) ... ok
+test_mixed_layout_roundtrip_and_copy_all_aspects (tests.presentationpresenter.test_font_size.FontSizeTests.test_mixed_layout_roundtrip_and_copy_all_aspects) ... ok
+test_mixed_selection_escape_validation_and_typing_after_empty_paragraph (tests.presentationpresenter.test_font_size.FontSizeTests.test_mixed_selection_escape_validation_and_typing_after_empty_paragraph) ... ok
+test_selection_changes_only_selected_size_with_undo_and_live_isolation (tests.presentationpresenter.test_font_size.FontSizeTests.test_selection_changes_only_selected_size_with_undo_and_live_isolation) ... ok
+
+----------------------------------------------------------------------
+Ran 27 tests in 32.155s
+
+OK

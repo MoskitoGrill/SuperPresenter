@@ -1,0 +1,334 @@
+test_legacy_exports_are_same_objects (test_module_boundaries.ModuleBoundaryTests.test_legacy_exports_are_same_objects) ... ok
+test_no_data_imports_tk_and_no_back_import_to_launcher (test_module_boundaries.ModuleBoundaryTests.test_no_data_imports_tk_and_no_back_import_to_launcher) ... ok
+test_resource_root_and_image_path (test_module_boundaries.ModuleBoundaryTests.test_resource_root_and_image_path) ... ok
+test_services_import_without_ui_dependencies (test_module_boundaries.ModuleBoundaryTests.test_services_import_without_ui_dependencies) ... ok
+test_startup_keeps_recovery_before_mainloop (test_module_boundaries.ModuleBoundaryTests.test_startup_keeps_recovery_before_mainloop) ... ok
+test_all_existing_songs_roundtrip (test_song_repository.RepositoryTests.test_all_existing_songs_roundtrip) ... ok
+test_constructed_model (test_song_repository.RepositoryTests.test_constructed_model) ... ok
+test_errors_have_path_and_cause (test_song_repository.RepositoryTests.test_errors_have_path_and_cause) ... ok
+test_failed_replace_preserves_existing_file (test_song_repository.RepositoryTests.test_failed_replace_preserves_existing_file) ... ok
+test_failed_save_does_not_change_target (test_song_repository.RepositoryTests.test_failed_save_does_not_change_target) ... ok
+test_missing_and_multiple_main (test_song_repository.RepositoryTests.test_missing_and_multiple_main) ... ok
+test_nested_repetition_and_tail_survive (test_song_repository.RepositoryTests.test_nested_repetition_and_tail_survive) ... ok
+test_unicode_whitespace_order_and_main_roundtrip (test_song_repository.RepositoryTests.test_unicode_whitespace_order_and_main_roundtrip) ... ok
+test_widget_opt_in_does_not_change_legacy_results (test_song_repository.RepositoryTests.test_widget_opt_in_does_not_change_legacy_results) ... ok
+test_xml_carriage_return_reference (test_song_repository.RepositoryTests.test_xml_carriage_return_reference) ... ok
+test_corrupt_record_remains_available_for_manual_repair (test_song_recovery.RecoveryTests.test_corrupt_record_remains_available_for_manual_repair) ... ok
+test_draft_and_xml_metadata_roundtrip (test_song_recovery.RecoveryTests.test_draft_and_xml_metadata_roundtrip) ... ok
+test_failed_recovery_write_preserves_previous_backup (test_song_recovery.RecoveryTests.test_failed_recovery_write_preserves_previous_backup) ... ok
+test_process_crash_releases_recovery_for_next_start (test_song_recovery.RecoveryTests.test_process_crash_releases_recovery_for_next_start) ... ok
+test_recovery_roundtrip_keeps_clean_baseline_and_original (test_song_recovery.RecoveryTests.test_recovery_roundtrip_keeps_clean_baseline_and_original) ... ok
+test_running_instance_is_not_offered_as_crashed (test_song_recovery.RecoveryTests.test_running_instance_is_not_offered_as_crashed) ... ok
+test_cancelled_fallback_keeps_layout (test_projection_config.ProjectionConfigTests.test_cancelled_fallback_keeps_layout) ... ok
+test_dropdown_refresh_preserves_selected_output (test_projection_config.ProjectionConfigTests.test_dropdown_refresh_preserves_selected_output) ... ok
+test_duplicate_style_rejected (test_projection_config.ProjectionConfigTests.test_duplicate_style_rejected) ... ok
+test_failed_replace_preserves_previous_file_and_cleans_temp (test_projection_config.ProjectionConfigTests.test_failed_replace_preserves_previous_file_and_cleans_temp) ... ok
+test_first_start_keeps_defaults_and_does_not_write (test_projection_config.ProjectionConfigTests.test_first_start_keeps_defaults_and_does_not_write) ... ok
+test_image_paths_independent_of_cwd (test_projection_config.ProjectionConfigTests.test_image_paths_independent_of_cwd) ... ok
+test_invalid_last_layout_not_overwritten_on_close (test_projection_config.ProjectionConfigTests.test_invalid_last_layout_not_overwritten_on_close) ... ok
+test_invalid_load_keeps_layout (test_projection_config.ProjectionConfigTests.test_invalid_load_keeps_layout) ... ok
+test_invalid_profiles (test_projection_config.ProjectionConfigTests.test_invalid_profiles) ... ok
+test_invalid_save_preserves_previous_file (test_projection_config.ProjectionConfigTests.test_invalid_save_preserves_previous_file) ... ok
+test_load_blocked_during_projection (test_projection_config.ProjectionConfigTests.test_load_blocked_during_projection) ... ok
+test_missing_and_ambiguous_monitor (test_projection_config.ProjectionConfigTests.test_missing_and_ambiguous_monitor) ... ok
+test_missing_and_broken_json (test_projection_config.ProjectionConfigTests.test_missing_and_broken_json) ... ok
+test_missing_monitor_fallback_is_windowed (test_projection_config.ProjectionConfigTests.test_missing_monitor_fallback_is_windowed) ... ok
+test_monitor_labels_do_not_replace_hardware_names (test_projection_config.ProjectionConfigTests.test_monitor_labels_do_not_replace_hardware_names) ... ok
+test_monitor_reordering_and_repositioning (test_projection_config.ProjectionConfigTests.test_monitor_reordering_and_repositioning) ... ok
+test_position_labels_follow_connected_layout (test_projection_config.ProjectionConfigTests.test_position_labels_follow_connected_layout) ... ok
+test_restore_resolves_style_name_and_each_output (test_projection_config.ProjectionConfigTests.test_restore_resolves_style_name_and_each_output) ... ok
+test_round_trip_and_unicode_profile (test_projection_config.ProjectionConfigTests.test_round_trip_and_unicode_profile) ... ok
+test_service_imports_without_gui (test_projection_config.ProjectionConfigTests.test_service_imports_without_gui) ... ok
+test_style_errors_identify_style_and_field (test_projection_config.ProjectionConfigTests.test_style_errors_identify_style_and_field) ... ok
+test_vertical_and_diagonal_monitor_labels (test_projection_config.ProjectionConfigTests.test_vertical_and_diagonal_monitor_labels) ... ok
+test_utf8_file_idempotence_and_rotation (test_release_stability.LoggingTests.test_utf8_file_idempotence_and_rotation) ... ok
+test_all_shipped_styles_and_combined_stationary (test_release_stability.ReleaseTests.test_all_shipped_styles_and_combined_stationary) ... ok
+test_callback_failure_logs_without_new_dialog (test_release_stability.ReleaseTests.test_callback_failure_logs_without_new_dialog) ... ok
+test_close_during_projection_and_cancel_dirty_close (test_release_stability.ReleaseTests.test_close_during_projection_and_cancel_dirty_close) ... ok
+test_empty_title_save_reports_existing_validation (test_release_stability.ReleaseTests.test_empty_title_save_reports_existing_validation) ... ok
+test_language_selection_and_single_song (test_release_stability.ReleaseTests.test_language_selection_and_single_song) ... ok
+test_late_preview_language_event_after_stop_is_safe (test_release_stability.ReleaseTests.test_late_preview_language_event_after_stop_is_safe) ... ok
+test_legacy_immediate_and_animation_send_identical_indices (test_release_stability.ReleaseTests.test_legacy_immediate_and_animation_send_identical_indices) ... ok
+test_legacy_repeated_rows_expand_before_pairing (test_release_stability.ReleaseTests.test_legacy_repeated_rows_expand_before_pairing) ... ok
+test_original_stream_last_pair_and_existing_song_transition (test_release_stability.ReleaseTests.test_original_stream_last_pair_and_existing_song_transition) ... ok
+test_original_stream_with_two_languages (test_release_stability.ReleaseTests.test_original_stream_with_two_languages) ... ok
+test_presentation_editor_button_keeps_its_original_command (test_release_stability.ReleaseTests.test_presentation_editor_button_keeps_its_original_command) ... ok
+test_sorter_cancel_and_commit_preserve_selected_song (test_release_stability.ReleaseTests.test_sorter_cancel_and_commit_preserve_selected_song) ... ok
+test_start_failure_cleans_up_before_existing_error_handling (test_release_stability.ReleaseTests.test_start_failure_cleans_up_before_existing_error_handling) ... ok
+test_stop_cancels_pending_animation (test_release_stability.ReleaseTests.test_stop_cancels_pending_animation) ... ok
+test_image_files_close_even_when_photo_creation_fails (test_window_lifecycle.LifecycleTests.test_image_files_close_even_when_photo_creation_fails) ... ok
+test_recovery_idle_and_main_timers_cancel_on_root_destroy (test_window_lifecycle.LifecycleTests.test_recovery_idle_and_main_timers_cancel_on_root_destroy) ... ok
+test_remove_compacts_indices_preserves_duplicates_sorter_and_snapshot (test_window_lifecycle.LifecycleTests.test_remove_compacts_indices_preserves_duplicates_sorter_and_snapshot) ... ok
+test_sorter_remote_and_qr_destroy_cancel_pending_jobs (test_window_lifecycle.LifecycleTests.test_sorter_remote_and_qr_destroy_cancel_pending_jobs) ... ok
+test_stop_releases_renderers_and_failed_partial_start_can_restart (test_window_lifecycle.LifecycleTests.test_stop_releases_renderers_and_failed_partial_start_can_restart) ... ok
+test_callback_error_restores_controls (test_main_controls.ControlsTests.test_callback_error_restores_controls) ... ok
+test_compact_width_and_button_spacing (test_main_controls.ControlsTests.test_compact_width_and_button_spacing) ... ok
+test_counter_and_reset_all_modes (test_main_controls.ControlsTests.test_counter_and_reset_all_modes) ... ok
+test_dirty_caption_save_and_xml_title (test_main_controls.ControlsTests.test_dirty_caption_save_and_xml_title) ... ok
+test_discard_draft_and_recovery_caption (test_main_controls.ControlsTests.test_discard_draft_and_recovery_caption) ... ok
+test_edits_save_variants_and_order_only_affect_next_run (test_main_controls.ControlsTests.test_edits_save_variants_and_order_only_affect_next_run) ... ok
+test_empty_song_boundaries (test_main_controls.ControlsTests.test_empty_song_boundaries) ... ok
+test_fullscreen_toggle_keeps_running_plan_and_canvas (test_main_controls.ControlsTests.test_fullscreen_toggle_keeps_running_plan_and_canvas) ... ok
+test_layout_and_dynamic_repetitions (test_main_controls.ControlsTests.test_layout_and_dynamic_repetitions) ... ok
+test_lock_restore_and_error_cleanup (test_main_controls.ControlsTests.test_lock_restore_and_error_cleanup) ... ok
+test_scrollbar_both_directions_and_manual_scroll (test_main_controls.ControlsTests.test_scrollbar_both_directions_and_manual_scroll) ... ok
+
+----------------------------------------------------------------------
+Ran 74 tests in 18.381s
+
+OK
+Protected files: 917 changed: []
+test_break_follows_its_section_and_terminal_black (test_break_before.BeforeBreakTests.test_break_follows_its_section_and_terminal_black) ... ok
+test_codec_optional_flags_and_old_v1_compatibility (test_break_before.BeforeBreakTests.test_codec_optional_flags_and_old_v1_compatibility) ... ok
+test_collapsed_black_removes_all_contributors (test_break_before.BeforeBreakTests.test_collapsed_black_removes_all_contributors) ... ok
+test_delete_before_final_and_undo_redo (test_break_before.BeforeBreakTests.test_delete_before_final_and_undo_redo) ... ok
+test_delete_in_text_entry_or_on_content_does_not_remove_slide (test_break_before.BeforeBreakTests.test_delete_in_text_entry_or_on_content_does_not_remove_slide) ... ok
+test_control_visibility_persists_and_survives_refresh (test_content_defaults.ContentDefaultsTests.test_control_visibility_persists_and_survives_refresh) ... ok
+test_invalid_or_failed_save_keeps_previous_defaults (test_content_defaults.ContentDefaultsTests.test_invalid_or_failed_save_keeps_previous_defaults) ... ok
+test_save_new_content_restart_and_existing_source (test_content_defaults.ContentDefaultsTests.test_save_new_content_restart_and_existing_source) ... can't invoke "event" command: application has been destroyed
+    while executing
+"event generate $w <<ThemeChanged>>"
+    (procedure "ttk::ThemeChanged" line 6)
+    invoked from within
+"ttk::ThemeChanged"
+ok
+test_settings_roundtrip_legacy_and_validation (test_content_defaults.ContentDefaultsTests.test_settings_roundtrip_legacy_and_validation) ... ok
+test_default_calibri_and_legacy_fonts_are_preserved (test_font_size.FontSizeTests.test_default_calibri_and_legacy_fonts_are_preserved) ... can't invoke "event" command: application has been destroyed
+    while executing
+"event generate $w <<ThemeChanged>>"
+    (procedure "ttk::ThemeChanged" line 6)
+    invoked from within
+"ttk::ThemeChanged"
+ok
+test_family_selection_preserves_size_and_other_style_and_live (test_font_size.FontSizeTests.test_family_selection_preserves_size_and_other_style_and_live) ... ok
+test_font_suggestions_filter_keep_focus_and_enter_applies_selection (test_font_size.FontSizeTests.test_font_suggestions_filter_keep_focus_and_enter_applies_selection) ... ok
+test_font_suggestions_mouse_escape_no_matches_and_collapse (test_font_size.FontSizeTests.test_font_suggestions_mouse_escape_no_matches_and_collapse) ... ok
+test_future_family_mixed_selection_escape_and_validation (test_font_size.FontSizeTests.test_future_family_mixed_selection_escape_and_validation) ... ok
+test_future_size_survives_list_commands_and_unconfirmed_field_edit_is_discarded (test_font_size.FontSizeTests.test_future_size_survives_list_commands_and_unconfirmed_field_edit_is_discarded) ... ok
+test_future_typing_and_enter_inherit_size_without_changing_existing_text (test_font_size.FontSizeTests.test_future_typing_and_enter_inherit_size_without_changing_existing_text) ... ok
+test_missing_family_warns_without_rewriting_portable_data (test_font_size.FontSizeTests.test_missing_family_warns_without_rewriting_portable_data) ... ok
+test_mixed_families_share_baseline_and_preserve_all_text (test_font_size.FontSizeTests.test_mixed_families_share_baseline_and_preserve_all_text) ... ok
+test_mixed_layout_roundtrip_and_copy_all_aspects (test_font_size.FontSizeTests.test_mixed_layout_roundtrip_and_copy_all_aspects) ... ok
+test_mixed_selection_escape_validation_and_typing_after_empty_paragraph (test_font_size.FontSizeTests.test_mixed_selection_escape_validation_and_typing_after_empty_paragraph) ... ok
+test_selection_changes_only_selected_size_with_undo_and_live_isolation (test_font_size.FontSizeTests.test_selection_changes_only_selected_size_with_undo_and_live_isolation) ... ok
+test_camera_asymmetric_limit_and_editor_only_warning (test_image_composition.GeometryTests.test_camera_asymmetric_limit_and_editor_only_warning) ... ok
+test_camera_layout_uses_left_bottom_for_portrait_and_three_images (test_image_composition.GeometryTests.test_camera_layout_uses_left_bottom_for_portrait_and_three_images) ... ok
+test_grid_and_ratios_all_output_aspects (test_image_composition.GeometryTests.test_grid_and_ratios_all_output_aspects) ... ok
+test_linked_relative_size_order_and_independent_stream (test_image_composition.GeometryTests.test_linked_relative_size_order_and_independent_stream) ... ok
+test_portable_v2_and_v1_migration (test_image_composition.GeometryTests.test_portable_v2_and_v1_migration) ... ok
+test_varied_camera_and_larger_combinations (test_image_composition.GeometryTests.test_varied_camera_and_larger_combinations) ... ok
+test_camera_warning_never_drawn_on_projection (test_image_composition.MixedTests.test_camera_warning_never_drawn_on_projection) ... ok
+test_complete_text_wrap_repeat_and_first_only (test_image_composition.MixedTests.test_complete_text_wrap_repeat_and_first_only) ... ok
+test_empty_section_insertion_edit_mouse_and_isolation (test_image_composition.MixedTests.test_empty_section_insertion_edit_mouse_and_isolation) ... can't invoke "event" command: application has been destroyed
+    while executing
+"event generate $w <<ThemeChanged>>"
+    (procedure "ttk::ThemeChanged" line 6)
+    invoked from within
+"ttk::ThemeChanged"
+can't invoke "event" command: application has been destroyed
+    while executing
+"event generate $w <<ThemeChanged>>"
+    (procedure "ttk::ThemeChanged" line 6)
+    invoked from within
+"ttk::ThemeChanged"
+ok
+test_full_first_only_image_can_precede_text_without_loss (test_image_composition.MixedTests.test_full_first_only_image_can_precede_text_without_loss) ... ok
+test_mixed_two_projection_windows_publish_and_resize (test_image_composition.MixedTests.test_mixed_two_projection_windows_publish_and_resize) ... can't invoke "event" command: application has been destroyed
+    while executing
+"event generate $w <<ThemeChanged>>"
+    (procedure "ttk::ThemeChanged" line 6)
+    invoked from within
+"ttk::ThemeChanged"
+ok
+test_button_toggle_enter_typing_and_undo (test_numbered.NumberedTests.test_button_toggle_enter_typing_and_undo) ... ok
+test_common_pagination_number_restart_and_wide_markers (test_numbered.NumberedTests.test_common_pagination_number_restart_and_wide_markers) ... ok
+test_nested_enter_paste_and_exit (test_numbered.NumberedTests.test_nested_enter_paste_and_exit) ... ok
+test_nested_numbering_pagination_portability_and_copy (test_numbered.NumberedTests.test_nested_numbering_pagination_portability_and_copy) ... ok
+test_paste_in_empty_numbered_item_keeps_list (test_numbered.NumberedTests.test_paste_in_empty_numbered_item_keeps_list) ... ok
+test_roundtrip_copy_and_live_isolation (test_numbered.NumberedTests.test_roundtrip_copy_and_live_isolation) ... ok
+test_tab_shift_tab_selection_limits_and_live_isolation (test_numbered.NumberedTests.test_tab_shift_tab_selection_limits_and_live_isolation) ... ok
+test_black_breaks_and_stable_ids (test_pp1.ModelTests.test_black_breaks_and_stable_ids) ... ok
+test_codec_rejects_future_corrupt_and_unknown_data (test_pp1.ModelTests.test_codec_rejects_future_corrupt_and_unknown_data) ... ok
+test_defaults_and_independent_outputs (test_pp1.ModelTests.test_defaults_and_independent_outputs) ... ok
+test_domain_layers_have_no_ui_or_legacy_dependencies (test_pp1.ModelTests.test_domain_layers_have_no_ui_or_legacy_dependencies) ... ok
+test_invalid_sources (test_pp1.ModelTests.test_invalid_sources) ... ok
+test_plan_validates_source_ranges (test_pp1.ModelTests.test_plan_validates_source_ranges) ... ok
+test_roundtrip_all_content_and_ids (test_pp1.ModelTests.test_roundtrip_all_content_and_ids) ... ok
+test_session_is_confirmed_snapshot (test_pp1.ModelTests.test_session_is_confirmed_snapshot) ... ok
+test_settings_own_path_roundtrip_and_corruption (test_pp1.ModelTests.test_settings_own_path_roundtrip_and_corruption) ... ok
+test_break_flags_empty_blocks_and_format_boundaries (test_pp2.PaginationTests.test_break_flags_empty_blocks_and_format_boundaries) ... ok
+test_bullet_moves_whole_and_oversized_bullet_continues (test_pp2.PaginationTests.test_bullet_moves_whole_and_oversized_bullet_continues) ... ok
+test_four_aspect_combinations_and_real_canvas_ink (test_pp2.PaginationTests.test_four_aspect_combinations_and_real_canvas_ink) ... ok
+test_many_empty_paragraphs_keep_block_identities (test_pp2.PaginationTests.test_many_empty_paragraphs_keep_block_identities) ... ok
+test_movable_camera_and_long_heading (test_pp2.PaginationTests.test_movable_camera_and_long_heading) ... ok
+test_ui_rebuild_both_outputs (test_pp2.PaginationTests.test_ui_rebuild_both_outputs) ... ok
+test_empty_delete_new_and_layout_error_recovery (test_pp3.EditorTests.test_empty_delete_new_and_layout_error_recovery) ... ok
+test_exact_continuation_copy_and_thumbnail_navigation_cache (test_pp3.EditorTests.test_exact_continuation_copy_and_thumbnail_navigation_cache) ... ok
+test_paste_paragraphs_delete_and_identity (test_pp3.EditorTests.test_paste_paragraphs_delete_and_identity) ... ok
+test_section_commands_and_complete_undo_redo (test_pp3.EditorTests.test_section_commands_and_complete_undo_redo) ... ok
+test_stable_ids_and_embedded_newlines (test_pp3.EditorTests.test_stable_ids_and_embedded_newlines) ... ok
+test_trailing_source_newline_and_empty_block_roundtrip (test_pp3.EditorTests.test_trailing_source_newline_and_empty_block_roundtrip) ... ok
+test_typing_formatting_focus_and_history (test_pp3.EditorTests.test_typing_formatting_focus_and_history) ... ok
+test_coalescing_and_redo_branch (test_pp3.HistoryTests.test_coalescing_and_redo_branch) ... ok
+test_actual_monitor_enumeration_and_root_lifecycle (test_pp4.ProjectionTests.test_actual_monitor_enumeration_and_root_lifecycle) ... ok
+test_monitor_conflicts_disconnect_and_invalid_plan (test_pp4.ProjectionTests.test_monitor_conflicts_disconnect_and_invalid_plan) ... can't invoke "event" command: application has been destroyed
+    while executing
+"event generate $w <<ThemeChanged>>"
+    (procedure "ttk::ThemeChanged" line 6)
+    invoked from within
+"ttk::ThemeChanged"
+ok
+test_physical_window_and_canvas_cover_each_available_monitor (test_pp4.ProjectionTests.test_physical_window_and_canvas_cover_each_available_monitor) ... ok
+test_signed_placement_text_key_and_window_close (test_pp4.ProjectionTests.test_signed_placement_text_key_and_window_close) ... ok
+test_synchronization_snapshot_blackout_resize_and_restart (test_pp4.ProjectionTests.test_synchronization_snapshot_blackout_resize_and_restart) ... ok
+test_two_movable_windows_on_one_monitor_and_fullscreen_conflict (test_pp4.ProjectionTests.test_two_movable_windows_on_one_monitor_and_fullscreen_conflict) ... ok
+test_exact_operations_repeated_sentences_and_fallbacks (test_pp5.AnchorTests.test_exact_operations_repeated_sentences_and_fallbacks) ... ok
+test_natural_pagination_all_aspects_contains_anchor_and_complete_source (test_pp5.AnchorTests.test_natural_pagination_all_aspects_contains_anchor_and_complete_source) ... ok
+test_section_and_block_removal_use_original_successors (test_pp5.AnchorTests.test_section_and_block_removal_use_original_successors) ... ok
+test_black_break_removal_section_removal_aspect_and_invalid_apply (test_pp5.LiveEditTests.test_black_break_removal_section_removal_aspect_and_invalid_apply) ... can't invoke "event" command: application has been destroyed
+    while executing
+"event generate $w <<ThemeChanged>>"
+    (procedure "ttk::ThemeChanged" line 6)
+    invoked from within
+"ttk::ThemeChanged"
+ok
+test_continuation_survives_move_and_preceding_section_removal (test_pp5.LiveEditTests.test_continuation_survives_move_and_preceding_section_removal) ... ok
+test_isolation_draft_preview_undo_redo_and_atomic_apply (test_pp5.LiveEditTests.test_isolation_draft_preview_undo_redo_and_atomic_apply) ... ok
+test_mouse_thumbnail_focus_keeps_selected_and_projected_borders (test_pp5.LiveEditTests.test_mouse_thumbnail_focus_keeps_selected_and_projected_borders) ... ok
+test_prepend_first_slide_and_word_at_continuation_use_natural_plan (test_pp5.LiveEditTests.test_prepend_first_slide_and_word_at_continuation_use_natural_plan) ... ok
+test_preview_switch_maps_content_without_projecting_preview_selection (test_pp5.LiveEditTests.test_preview_switch_maps_content_without_projecting_preview_selection) ... ok
+test_sentence_change_delete_and_insertion_of_new_paragraph (test_pp5.LiveEditTests.test_sentence_change_delete_and_insertion_of_new_paragraph) ... ok
+test_sentence_replacement_with_delete_insert_and_black_end_undo (test_pp5.LiveEditTests.test_sentence_replacement_with_delete_insert_and_black_end_undo) ... ok
+test_small_edit_on_second_of_two_pages_keeps_second (test_pp5.LiveEditTests.test_small_edit_on_second_of_two_pages_keeps_second) ... ok
+test_switch_maps_block_identity_and_deleted_block_fallback (test_pp5.LiveEditTests.test_switch_maps_block_identity_and_deleted_block_fallback) ... ok
+test_three_pages_shrink_to_two_keep_second_or_clamp_third (test_pp5.LiveEditTests.test_three_pages_shrink_to_two_keep_second_or_clamp_third) ... ok
+test_actual_unclean_process_recovery (test_pp6.StorageTests.test_actual_unclean_process_recovery) ... ok
+test_corruption_versions_and_invalid_media (test_pp6.StorageTests.test_corruption_versions_and_invalid_media) ... ok
+test_interrupted_replace_and_invalid_save_preserve_previous (test_pp6.StorageTests.test_interrupted_replace_and_invalid_save_preserve_previous) ... ok
+test_legacy_import_preserves_original_and_warns (test_pp6.StorageTests.test_legacy_import_preserves_original_and_warns) ... ok
+test_maximal_image_fit_all_aspects_and_camera_positions (test_pp6.StorageTests.test_maximal_image_fit_all_aspects_and_camera_positions) ... ok
+test_portable_without_original_and_settings (test_pp6.StorageTests.test_portable_without_original_and_settings) ... ok
+test_recovery_crash_clean_and_failed_write (test_pp6.StorageTests.test_recovery_crash_clean_and_failed_write) ... ok
+test_declined_recovery_is_not_offered_again (test_pp6.UITests.test_declined_recovery_is_not_offered_again) ... ok
+test_failed_recovery_adoption_keeps_previous_journal (test_pp6.UITests.test_failed_recovery_adoption_keeps_previous_journal) ... ok
+test_image_undo_duplicate_render_and_live_isolation (test_pp6.UITests.test_image_undo_duplicate_render_and_live_isolation) ... ok
+test_open_invalid_keeps_history_and_live_recovery_offer (test_pp6.UITests.test_open_invalid_keeps_history_and_live_recovery_offer) ... ok
+test_recovery_offered_once_and_new_crash_has_latest_draft (test_pp6.UITests.test_recovery_offered_once_and_new_crash_has_latest_draft) ... ok
+test_save_new_document_resets_path_and_json_is_protected (test_pp6.UITests.test_save_new_document_resets_path_and_json_is_protected) ... ok
+test_two_projection_windows_images_blackout_and_draft (test_pp6.UITests.test_two_projection_windows_images_blackout_and_draft) ... can't invoke "event" command: application has been destroyed
+    while executing
+"event generate $w <<ThemeChanged>>"
+    (procedure "ttk::ThemeChanged" line 6)
+    invoked from within
+"ttk::ThemeChanged"
+can't invoke "event" command: application has been destroyed
+    while executing
+"event generate $w <<ThemeChanged>>"
+    (procedure "ttk::ThemeChanged" line 6)
+    invoked from within
+"ttk::ThemeChanged"
+can't invoke "event" command: application has been destroyed
+    while executing
+"event generate $w <<ThemeChanged>>"
+    (procedure "ttk::ThemeChanged" line 6)
+    invoked from within
+"ttk::ThemeChanged"
+can't invoke "event" command: application has been destroyed
+    while executing
+"event generate $w <<ThemeChanged>>"
+    (procedure "ttk::ThemeChanged" line 6)
+    invoked from within
+"ttk::ThemeChanged"
+can't invoke "event" command: application has been destroyed
+    while executing
+"event generate $w <<ThemeChanged>>"
+    (procedure "ttk::ThemeChanged" line 6)
+    invoked from within
+"ttk::ThemeChanged"
+can't invoke "event" command: application has been destroyed
+    while executing
+"event generate $w <<ThemeChanged>>"
+    (procedure "ttk::ThemeChanged" line 6)
+    invoked from within
+"ttk::ThemeChanged"
+ok
+test_missing_data (test_pp7.BibleTests.test_missing_data) ... ok
+test_names_aliases_and_john (test_pp7.BibleTests.test_names_aliases_and_john) ... ok
+test_ranges_and_errors (test_pp7.BibleTests.test_ranges_and_errors) ... ok
+test_real_data_and_read_only (test_pp7.BibleTests.test_real_data_and_read_only) ... ok
+test_dropdown_keyboard_mouse_dismiss_and_lifecycle (test_pp7.BibleWindowTests.test_dropdown_keyboard_mouse_dismiss_and_lifecycle) ... ok
+test_embedded_insert_history_live_and_lifecycle (test_pp7.BibleWindowTests.test_embedded_insert_history_live_and_lifecycle) ... ok
+test_insert_into_empty_or_new_section_and_defaults (test_pp7.BibleWindowTests.test_insert_into_empty_or_new_section_and_defaults) ... ok
+test_selection_ambiguity_and_clipboard (test_pp7.BibleWindowTests.test_selection_ambiguity_and_clipboard) ... can't invoke "event" command: application has been destroyed
+    while executing
+"event generate $w <<ThemeChanged>>"
+    (procedure "ttk::ThemeChanged" line 6)
+    invoked from within
+"ttk::ThemeChanged"
+can't invoke "event" command: application has been destroyed
+    while executing
+"event generate $w <<ThemeChanged>>"
+    (procedure "ttk::ThemeChanged" line 6)
+    invoked from within
+"ttk::ThemeChanged"
+ok
+test_standalone_and_multiple_windows (test_pp7.BibleWindowTests.test_standalone_and_multiple_windows) ... ok
+test_actual_monitor_enumeration_and_root_lifecycle (test_pp8.PlaybackIntegrationTests.test_actual_monitor_enumeration_and_root_lifecycle) ... ok
+test_f5_start_and_escape_stop_all (test_pp8.PlaybackIntegrationTests.test_f5_start_and_escape_stop_all) ... can't invoke "event" command: application has been destroyed
+    while executing
+"event generate $w <<ThemeChanged>>"
+    (procedure "ttk::ThemeChanged" line 6)
+    invoked from within
+"ttk::ThemeChanged"
+ok
+test_local_navigation_keys_and_text_focus (test_pp8.PlaybackIntegrationTests.test_local_navigation_keys_and_text_focus) ... ok
+test_monitor_conflicts_disconnect_and_invalid_plan (test_pp8.PlaybackIntegrationTests.test_monitor_conflicts_disconnect_and_invalid_plan) ... ok
+test_physical_window_and_canvas_cover_each_available_monitor (test_pp8.PlaybackIntegrationTests.test_physical_window_and_canvas_cover_each_available_monitor) ... ok
+test_playback_live_draft_blackout_apply_and_shutdown (test_pp8.PlaybackIntegrationTests.test_playback_live_draft_blackout_apply_and_shutdown) ... ok
+test_section_jumps_and_click_releases_text_focus (test_pp8.PlaybackIntegrationTests.test_section_jumps_and_click_releases_text_focus) ... ok
+test_shift_f5_current_and_f5_beginning (test_pp8.PlaybackIntegrationTests.test_shift_f5_current_and_f5_beginning) ... ok
+test_signed_placement_text_key_and_window_close (test_pp8.PlaybackIntegrationTests.test_signed_placement_text_key_and_window_close) ... ok
+test_synchronization_snapshot_blackout_resize_and_restart (test_pp8.PlaybackIntegrationTests.test_synchronization_snapshot_blackout_resize_and_restart) ... ok
+test_two_movable_windows_on_one_monitor_and_fullscreen_conflict (test_pp8.PlaybackIntegrationTests.test_two_movable_windows_on_one_monitor_and_fullscreen_conflict) ... ok
+test_blackout_manual_live_confirmation_and_stale_callback (test_pp8.PlaybackTests.test_blackout_manual_live_confirmation_and_stale_callback) ... ok
+test_full_wait_end_and_repeat (test_pp8.PlaybackTests.test_full_wait_end_and_repeat) ... ok
+test_stop_restart_invalid_input (test_pp8.PlaybackTests.test_stop_restart_invalid_input) ... ok
+test_validation (test_pp8.PlaybackTests.test_validation) ... ok
+test_continuations_disabled_break_and_boundaries (test_pp8.SectionDestinationTests.test_continuations_disabled_break_and_boundaries) ... ok
+test_cancel_and_failed_save_block_all_replacements (test_pp8f.FinalizationTests.test_cancel_and_failed_save_block_all_replacements) ... ok
+test_file_shortcuts_and_dialog_scope (test_pp8f.FinalizationTests.test_file_shortcuts_and_dialog_scope) ... ok
+test_format_keys_preserve_text_selection_and_are_undoable (test_pp8f.FinalizationTests.test_format_keys_preserve_text_selection_and_are_undoable) ... ok
+test_import_discard_is_unsaved_and_preserves_live_and_original (test_pp8f.FinalizationTests.test_import_discard_is_unsaved_and_preserves_live_and_original) ... ok
+test_list_operations_keep_focus_and_do_not_publish (test_pp8f.FinalizationTests.test_list_operations_keep_focus_and_do_not_publish) ... ok
+test_new_section_and_slide_copy_do_not_insert_control_characters (test_pp8f.FinalizationTests.test_new_section_and_slide_copy_do_not_insert_control_characters) ... ok
+test_open_save_and_undo_restore_file_identity (test_pp8f.FinalizationTests.test_open_save_and_undo_restore_file_identity) ... ok
+test_publish_shortcut_rejects_invalid_layout_and_dialog_cannot_publish (test_pp8f.FinalizationTests.test_publish_shortcut_rejects_invalid_layout_and_dialog_cannot_publish) ... ok
+test_checkbox_output_and_aspect_preserve_live_session (test_pp8l.RibbonTests.test_checkbox_output_and_aspect_preserve_live_session) ... ok
+test_collapse_tabs_scroll_and_section_actions (test_pp8l.RibbonTests.test_collapse_tabs_scroll_and_section_actions) ... ok
+test_continuous_motion_does_not_starve_control_painting (test_pp8l.RibbonTests.test_continuous_motion_does_not_starve_control_painting) ... ok
+test_navigation_buttons_use_section_and_slide_controls (test_pp8l.RibbonTests.test_navigation_buttons_use_section_and_slide_controls) ... ok
+test_resize_updates_are_coalesced_and_cancelled_on_destroy (test_pp8l.RibbonTests.test_resize_updates_are_coalesced_and_cancelled_on_destroy) ... ok
+test_ribbon_start_and_apply_remain_available_when_footer_hidden (test_pp8l.RibbonTests.test_ribbon_start_and_apply_remain_available_when_footer_hidden) ... ok
+test_small_window_actions_and_formatting_selection (test_pp8l.RibbonTests.test_small_window_actions_and_formatting_selection) ... ok
+test_strip_drag_and_wheel_preserve_preview_and_editor_focus (test_pp8l.RibbonTests.test_strip_drag_and_wheel_preserve_preview_and_editor_focus) ... ok
+test_detects_text_overflow_camera_and_lost_range (test_pp9.PreflightTests.test_detects_text_overflow_camera_and_lost_range) ... ok
+test_geometry_checks_and_allowed_camera_warning (test_pp9.PreflightTests.test_geometry_checks_and_allowed_camera_warning) ... ok
+test_long_counter_and_minimum_editor_space (test_pp9.PreflightTests.test_long_counter_and_minimum_editor_space) ... ok
+test_long_plans_all_aspects_and_complete_source (test_pp9.PreflightTests.test_long_plans_all_aspects_and_complete_source) ... ok
+test_media_failure_is_reported_and_live_draft_survives (test_pp9.PreflightTests.test_media_failure_is_reported_and_live_draft_survives) ... ok
+test_monitor_discovery_failure_does_not_use_stale_inventory (test_pp9.PreflightTests.test_monitor_discovery_failure_does_not_use_stale_inventory) ... ok
+test_output_checks_and_multiple_unlayoutable_sections (test_pp9.PreflightTests.test_output_checks_and_multiple_unlayoutable_sections) ... ok
+test_report_navigation_never_projects_and_repeated_lifecycle (test_pp9.PreflightTests.test_report_navigation_never_projects_and_repeated_lifecycle) ... ok
+test_roundtrip_validation_and_corruption (test_profiles.CatalogTests.test_roundtrip_validation_and_corruption) ... ok
+test_compact_output_counter_display_style_and_plus (test_profiles.ProfileUITests.test_compact_output_counter_display_style_and_plus) ... ok
+test_delete_transaction_and_duplicate_name (test_profiles.ProfileUITests.test_delete_transaction_and_duplicate_name) ... ok
+test_editor_cancel_save_rename_apply_and_failure (test_profiles.ProfileUITests.test_editor_cancel_save_rename_apply_and_failure) ... ok
+test_editor_two_windowed_outputs_on_same_monitor (test_profiles.ProfileUITests.test_editor_two_windowed_outputs_on_same_monitor) ... ok
+test_load_saved_profile_and_monitor_topology_draft (test_profiles.ProfileUITests.test_load_saved_profile_and_monitor_topology_draft) ... ok
+test_missing_monitor_and_conflict_require_explicit_choice (test_profiles.ProfileUITests.test_missing_monitor_and_conflict_require_explicit_choice) ... ok
+test_select_start_and_live_guard (test_profiles.ProfileUITests.test_select_start_and_live_guard) ... ok
+
+----------------------------------------------------------------------
+Ran 153 tests in 141.381s
+
+OK

@@ -4,7 +4,8 @@ from enum import Enum
 import re
 from uuid import uuid4
 
-SCHEMA_VERSION = 1
+SCHEMA_VERSION = 2
+DEFAULT_CONTENT_FONT = 'Calibri'
 
 def new_id() -> str:
     return str(uuid4())
@@ -16,6 +17,7 @@ class Aspect(str, Enum):
 class BlockKind(str, Enum):
     PARAGRAPH = 'paragraph'
     BULLET = 'bullet'
+    NUMBERED = 'numbered'
 
 @dataclass(frozen=True)
 class TextStyle:
@@ -23,8 +25,14 @@ class TextStyle:
     italic: bool = False
     underline: bool = False
     color: str = '#ffffff'
+    size: int = 36
+    family: str = ''
 
     def __post_init__(self):
+        if type(self.family) is not str or len(self.family) > 128 or self.family != self.family.strip() or any(ord(c) < 32 for c in self.family):
+            raise ValueError('Invalid font family')
+        if type(self.size) is not int or not 8 <= self.size <= 144:
+            raise ValueError('Font size must be an integer from 8 to 144 px')
         if any(type(v) is not bool for v in (self.bold, self.italic, self.underline)):
             raise ValueError('Formatting flags must be boolean')
         if not re.fullmatch(r'#[0-9a-fA-F]{6}', self.color):
@@ -45,8 +53,11 @@ class TextBlock:
     runs: tuple[TextRun, ...]
     kind: BlockKind = BlockKind.PARAGRAPH
     id: str = field(default_factory=new_id)
+    level: int = 0
 
     def __post_init__(self):
+        if type(self.level) is not int or not 0 <= self.level <= 2 or (self.kind == BlockKind.PARAGRAPH and self.level):
+            raise ValueError('Invalid list level')
         if type(self.runs) is not tuple or not isinstance(self.kind, BlockKind) or any(not isinstance(r, TextRun) for r in self.runs):
             raise ValueError('Invalid text block')
 
@@ -58,6 +69,32 @@ class ImportOrigin:
     item_key: str
 
 @dataclass(frozen=True)
+class ImagePlacement:
+    """Normalized top-left and width. Height always derives from media aspect."""
+    x: float
+    y: float
+    width: float
+
+    def __post_init__(self):
+        if any(type(v) not in (int, float) or not 0 <= v <= 1 for v in (self.x, self.y, self.width)) or self.width == 0:
+            raise ValueError('Invalid image placement')
+
+@dataclass(frozen=True)
+class ImageItem:
+    media_id: str
+    hall: ImagePlacement | None = None
+    stream: ImagePlacement | None = None
+    repeat: bool = True
+    id: str = field(default_factory=new_id)
+    alt_text: str = ''
+
+    def __post_init__(self):
+        if type(self.media_id) is not str or type(self.repeat) is not bool or type(self.alt_text) is not str:
+            raise ValueError('Invalid image item')
+        if any(p is not None and not isinstance(p, ImagePlacement) for p in (self.hall, self.stream)):
+            raise ValueError('Invalid image placement')
+
+@dataclass(frozen=True)
 class TextSection:
     title: str
     blocks: tuple[TextBlock, ...]
@@ -65,10 +102,17 @@ class TextSection:
     break_after: bool = True
     origin: ImportOrigin | None = None
     id: str = field(default_factory=new_id)
+    break_before: bool = False
+    images: tuple[ImageItem, ...] = ()
+    stream_linked: bool = True
 
     def __post_init__(self):
         if type(self.blocks) is not tuple or any(not isinstance(b, TextBlock) for b in self.blocks):
             raise ValueError('Invalid section blocks')
+        if type(self.images) is not tuple or any(not isinstance(i, ImageItem) for i in self.images) or len(self.images) > 64:
+            raise ValueError('Invalid section images (maximum 64)')
+        if type(self.stream_linked) is not bool:
+            raise ValueError('Invalid stream link')
 
 @dataclass(frozen=True)
 class ImageSection:
@@ -79,10 +123,11 @@ class ImageSection:
     break_after: bool = True
     origin: ImportOrigin | None = None
     id: str = field(default_factory=new_id)
+    break_before: bool = False
 
 @dataclass(frozen=True)
 class MediaAsset:
-    """Logical media identity; locator is not yet a portable embedded asset."""
+    """Logical media identity; portable files require an embedded PNG data URI."""
     locator: str
     mime_type: str
     id: str = field(default_factory=new_id)
@@ -121,10 +166,14 @@ class Presentation:
     black_start: bool = True
     id: str = field(default_factory=new_id)
     schema_version: int = SCHEMA_VERSION
+    black_end: bool = False
+    content_defaults: TextStyle | None = None
 
     def __post_init__(self):
         if type(self.schema_version) is not int or self.schema_version != SCHEMA_VERSION:
             raise ValueError('Unsupported presentation schema')
+        if self.content_defaults is not None and not isinstance(self.content_defaults, TextStyle):
+            raise ValueError('Invalid presentation content defaults')
         ids = [self.id]
         for sequence in (self.sections, self.media):
             if type(sequence) is not tuple:
@@ -142,7 +191,13 @@ class Presentation:
                 raise ValueError('Invalid import provenance')
             if type(section.break_after) is not bool:
                 raise ValueError('break_after must be boolean')
+            if type(section.break_before) is not bool:
+                raise ValueError('break_before must be boolean')
             if isinstance(section, TextSection):
+                for item in section.images:
+                    ids.append(item.id)
+                    if item.media_id not in assets:
+                        raise ValueError('Image references unknown media')
                 if type(section.blocks) is not tuple:
                     raise ValueError('Blocks must be immutable tuples')
                 for block in section.blocks:
@@ -161,6 +216,8 @@ class Presentation:
             raise ValueError('Content IDs must be nonempty and globally unique')
         if type(self.black_start) is not bool:
             raise ValueError('black_start must be boolean')
+        if type(self.black_end) is not bool:
+            raise ValueError('black_end must be boolean')
         for output in (self.hall, self.stream):
             if not isinstance(output, OutputConfig):
                 raise ValueError('Invalid aspect ratio')

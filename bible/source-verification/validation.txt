@@ -1,0 +1,1 @@
+2026-10-20: Import completed. BibleService loaded 5 translations without warnings; every output verse matched loaded text. All 77 repaired Psalm 119 verses matched the independent B21 reference after normalization. python -m unittest tests.presentationpresenter.test_pp7.BibleTests: 4 tests, OK.

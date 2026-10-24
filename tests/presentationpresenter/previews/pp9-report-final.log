@@ -1,0 +1,11 @@
+test_media_failure_is_reported_and_live_draft_survives (tests.presentationpresenter.test_pp9.PreflightTests.test_media_failure_is_reported_and_live_draft_survives) ... ok
+test_report_navigation_never_projects_and_repeated_lifecycle (tests.presentationpresenter.test_pp9.PreflightTests.test_report_navigation_never_projects_and_repeated_lifecycle) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 3.441s
+
+OK
+{"scale": 100, "sections": 100, "slides": 201, "rebuild_seconds": 1.476, "navigation_100_seconds": 0.07, "window": [920, 650], "editor": [393, 91], "callback_errors": []}
+{"scale": 125, "sections": 100, "slides": 201, "rebuild_seconds": 1.441, "navigation_100_seconds": 0.087, "window": [1000, 650], "editor": [368, 67], "callback_errors": []}
+{"scale": 150, "sections": 100, "slides": 201, "rebuild_seconds": 1.455, "navigation_100_seconds": 0.13, "window": [1105, 650], "editor": [369, 59], "callback_errors": []}
+{"scale": 200, "sections": 100, "slides": 201, "rebuild_seconds": 1.47, "navigation_100_seconds": 0.092, "window": [1280, 805], "editor": [369, 74], "callback_errors": []}

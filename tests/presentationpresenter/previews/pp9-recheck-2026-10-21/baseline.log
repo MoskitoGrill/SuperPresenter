@@ -1,0 +1,348 @@
+test_break_follows_its_section_and_terminal_black (test_break_before.BeforeBreakTests.test_break_follows_its_section_and_terminal_black) ... ok
+test_codec_optional_flags_and_old_v1_compatibility (test_break_before.BeforeBreakTests.test_codec_optional_flags_and_old_v1_compatibility) ... ok
+test_collapsed_black_removes_all_contributors (test_break_before.BeforeBreakTests.test_collapsed_black_removes_all_contributors) ... ok
+test_delete_before_final_and_undo_redo (test_break_before.BeforeBreakTests.test_delete_before_final_and_undo_redo) ... ok
+test_delete_in_text_entry_or_on_content_does_not_remove_slide (test_break_before.BeforeBreakTests.test_delete_in_text_entry_or_on_content_does_not_remove_slide) ... ok
+test_apply_once_undo_live_isolation_and_portability (test_camera_settings.CameraSettingsTests.test_apply_once_undo_live_isolation_and_portability) ... ok
+test_both_aspects_calibration_border_matches_config (test_camera_settings.CameraSettingsTests.test_both_aspects_calibration_border_matches_config) ... ok
+test_calibration_window_controls_and_cleanup (test_camera_settings.CameraSettingsTests.test_calibration_window_controls_and_cleanup) ... ok
+test_disconnect_stops_only_calibration_and_live_blocks_test (test_camera_settings.CameraSettingsTests.test_disconnect_stops_only_calibration_and_live_blocks_test) ... ok
+test_invalid_layout_blocks_apply_and_legacy_uses_saved_default (test_camera_settings.CameraSettingsTests.test_invalid_layout_blocks_apply_and_legacy_uses_saved_default) ... ok
+test_resize_edges_center_and_full_size_roundtrip (test_camera_settings.CameraSettingsTests.test_resize_edges_center_and_full_size_roundtrip) ... ok
+test_save_defaults_new_documents_old_settings_and_failed_save (test_camera_settings.CameraSettingsTests.test_save_defaults_new_documents_old_settings_and_failed_save) ... ok
+test_slider_constraints_and_cancel_keep_document (test_camera_settings.CameraSettingsTests.test_slider_constraints_and_cancel_keep_document) ... ok
+test_control_visibility_persists_and_survives_refresh (test_content_defaults.ContentDefaultsTests.test_control_visibility_persists_and_survives_refresh) ... ok
+test_invalid_or_failed_save_keeps_previous_defaults (test_content_defaults.ContentDefaultsTests.test_invalid_or_failed_save_keeps_previous_defaults) ... ok
+test_one_global_save_collects_every_group_and_local_save_is_portable (test_content_defaults.ContentDefaultsTests.test_one_global_save_collects_every_group_and_local_save_is_portable) ... can't invoke "event" command: application has been destroyed
+    while executing
+"event generate $w <<ThemeChanged>>"
+    (procedure "ttk::ThemeChanged" line 6)
+    invoked from within
+"ttk::ThemeChanged"
+ok
+test_save_new_content_restart_and_existing_source (test_content_defaults.ContentDefaultsTests.test_save_new_content_restart_and_existing_source) ... ok
+test_settings_roundtrip_legacy_and_validation (test_content_defaults.ContentDefaultsTests.test_settings_roundtrip_legacy_and_validation) ... ok
+test_all_dialogs_use_their_purpose_and_save_keeps_existing_file (test_folder_defaults.FolderDefaultsTests.test_all_dialogs_use_their_purpose_and_save_keeps_existing_file) ... can't invoke "event" command: application has been destroyed
+    while executing
+"event generate $w <<ThemeChanged>>"
+    (procedure "ttk::ThemeChanged" line 6)
+    invoked from within
+"ttk::ThemeChanged"
+ok
+test_dialog_cancel_validation_failed_save_and_persistence (test_folder_defaults.FolderDefaultsTests.test_dialog_cancel_validation_failed_save_and_persistence) ... ok
+test_roundtrip_legacy_invalid_and_unavailable_fallback (test_folder_defaults.FolderDefaultsTests.test_roundtrip_legacy_invalid_and_unavailable_fallback) ... ok
+test_default_calibri_and_legacy_fonts_are_preserved (test_font_size.FontSizeTests.test_default_calibri_and_legacy_fonts_are_preserved) ... ok
+test_family_selection_preserves_size_and_other_style_and_live (test_font_size.FontSizeTests.test_family_selection_preserves_size_and_other_style_and_live) ... ok
+test_font_suggestions_filter_keep_focus_and_enter_applies_selection (test_font_size.FontSizeTests.test_font_suggestions_filter_keep_focus_and_enter_applies_selection) ... ok
+test_font_suggestions_mouse_escape_no_matches_and_collapse (test_font_size.FontSizeTests.test_font_suggestions_mouse_escape_no_matches_and_collapse) ... ok
+test_future_family_mixed_selection_escape_and_validation (test_font_size.FontSizeTests.test_future_family_mixed_selection_escape_and_validation) ... ok
+test_future_size_survives_list_commands_and_unconfirmed_field_edit_is_discarded (test_font_size.FontSizeTests.test_future_size_survives_list_commands_and_unconfirmed_field_edit_is_discarded) ... ok
+test_future_typing_and_enter_inherit_size_without_changing_existing_text (test_font_size.FontSizeTests.test_future_typing_and_enter_inherit_size_without_changing_existing_text) ... ok
+test_missing_family_warns_without_rewriting_portable_data (test_font_size.FontSizeTests.test_missing_family_warns_without_rewriting_portable_data) ... ok
+test_mixed_families_share_baseline_and_preserve_all_text (test_font_size.FontSizeTests.test_mixed_families_share_baseline_and_preserve_all_text) ... ok
+test_mixed_layout_roundtrip_and_copy_all_aspects (test_font_size.FontSizeTests.test_mixed_layout_roundtrip_and_copy_all_aspects) ... ok
+test_mixed_selection_escape_validation_and_typing_after_empty_paragraph (test_font_size.FontSizeTests.test_mixed_selection_escape_validation_and_typing_after_empty_paragraph) ... ok
+test_selection_changes_only_selected_size_with_undo_and_live_isolation (test_font_size.FontSizeTests.test_selection_changes_only_selected_size_with_undo_and_live_isolation) ... ok
+test_camera_asymmetric_limit_and_editor_only_warning (test_image_composition.GeometryTests.test_camera_asymmetric_limit_and_editor_only_warning) ... ok
+test_camera_layout_uses_left_bottom_for_portrait_and_three_images (test_image_composition.GeometryTests.test_camera_layout_uses_left_bottom_for_portrait_and_three_images) ... ok
+test_grid_and_ratios_all_output_aspects (test_image_composition.GeometryTests.test_grid_and_ratios_all_output_aspects) ... ok
+test_linked_relative_size_order_and_independent_stream (test_image_composition.GeometryTests.test_linked_relative_size_order_and_independent_stream) ... ok
+test_portable_v2_and_v1_migration (test_image_composition.GeometryTests.test_portable_v2_and_v1_migration) ... ok
+test_varied_camera_and_larger_combinations (test_image_composition.GeometryTests.test_varied_camera_and_larger_combinations) ... ok
+test_camera_warning_never_drawn_on_projection (test_image_composition.MixedTests.test_camera_warning_never_drawn_on_projection) ... ok
+test_complete_text_wrap_repeat_and_first_only (test_image_composition.MixedTests.test_complete_text_wrap_repeat_and_first_only) ... ok
+test_empty_section_insertion_edit_mouse_and_isolation (test_image_composition.MixedTests.test_empty_section_insertion_edit_mouse_and_isolation) ... can't invoke "event" command: application has been destroyed
+    while executing
+"event generate $w <<ThemeChanged>>"
+    (procedure "ttk::ThemeChanged" line 6)
+    invoked from within
+"ttk::ThemeChanged"
+can't invoke "event" command: application has been destroyed
+    while executing
+"event generate $w <<ThemeChanged>>"
+    (procedure "ttk::ThemeChanged" line 6)
+    invoked from within
+"ttk::ThemeChanged"
+ok
+test_full_first_only_image_can_precede_text_without_loss (test_image_composition.MixedTests.test_full_first_only_image_can_precede_text_without_loss) ... ok
+test_mixed_two_projection_windows_publish_and_resize (test_image_composition.MixedTests.test_mixed_two_projection_windows_publish_and_resize) ... can't invoke "event" command: application has been destroyed
+    while executing
+"event generate $w <<ThemeChanged>>"
+    (procedure "ttk::ThemeChanged" line 6)
+    invoked from within
+"ttk::ThemeChanged"
+ok
+test_button_toggle_enter_typing_and_undo (test_numbered.NumberedTests.test_button_toggle_enter_typing_and_undo) ... ok
+test_common_pagination_number_restart_and_wide_markers (test_numbered.NumberedTests.test_common_pagination_number_restart_and_wide_markers) ... ok
+test_nested_enter_paste_and_exit (test_numbered.NumberedTests.test_nested_enter_paste_and_exit) ... ok
+test_nested_numbering_pagination_portability_and_copy (test_numbered.NumberedTests.test_nested_numbering_pagination_portability_and_copy) ... ok
+test_paste_in_empty_numbered_item_keeps_list (test_numbered.NumberedTests.test_paste_in_empty_numbered_item_keeps_list) ... ok
+test_roundtrip_copy_and_live_isolation (test_numbered.NumberedTests.test_roundtrip_copy_and_live_isolation) ... ok
+test_tab_shift_tab_selection_limits_and_live_isolation (test_numbered.NumberedTests.test_tab_shift_tab_selection_limits_and_live_isolation) ... ok
+test_black_breaks_and_stable_ids (test_pp1.ModelTests.test_black_breaks_and_stable_ids) ... ok
+test_codec_rejects_future_corrupt_and_unknown_data (test_pp1.ModelTests.test_codec_rejects_future_corrupt_and_unknown_data) ... ok
+test_defaults_and_independent_outputs (test_pp1.ModelTests.test_defaults_and_independent_outputs) ... ok
+test_domain_layers_have_no_ui_or_legacy_dependencies (test_pp1.ModelTests.test_domain_layers_have_no_ui_or_legacy_dependencies) ... ok
+test_invalid_sources (test_pp1.ModelTests.test_invalid_sources) ... ok
+test_plan_validates_source_ranges (test_pp1.ModelTests.test_plan_validates_source_ranges) ... ok
+test_roundtrip_all_content_and_ids (test_pp1.ModelTests.test_roundtrip_all_content_and_ids) ... ok
+test_session_is_confirmed_snapshot (test_pp1.ModelTests.test_session_is_confirmed_snapshot) ... ok
+test_settings_own_path_roundtrip_and_corruption (test_pp1.ModelTests.test_settings_own_path_roundtrip_and_corruption) ... ok
+test_break_flags_empty_blocks_and_format_boundaries (test_pp2.PaginationTests.test_break_flags_empty_blocks_and_format_boundaries) ... ok
+test_bullet_moves_whole_and_oversized_bullet_continues (test_pp2.PaginationTests.test_bullet_moves_whole_and_oversized_bullet_continues) ... ok
+test_four_aspect_combinations_and_real_canvas_ink (test_pp2.PaginationTests.test_four_aspect_combinations_and_real_canvas_ink) ... ok
+test_many_empty_paragraphs_keep_block_identities (test_pp2.PaginationTests.test_many_empty_paragraphs_keep_block_identities) ... ok
+test_movable_camera_and_long_heading (test_pp2.PaginationTests.test_movable_camera_and_long_heading) ... ok
+test_ui_rebuild_both_outputs (test_pp2.PaginationTests.test_ui_rebuild_both_outputs) ... ok
+test_empty_delete_new_and_layout_error_recovery (test_pp3.EditorTests.test_empty_delete_new_and_layout_error_recovery) ... ok
+test_exact_continuation_copy_and_thumbnail_navigation_cache (test_pp3.EditorTests.test_exact_continuation_copy_and_thumbnail_navigation_cache) ... ok
+test_paste_paragraphs_delete_and_identity (test_pp3.EditorTests.test_paste_paragraphs_delete_and_identity) ... ok
+test_section_commands_and_complete_undo_redo (test_pp3.EditorTests.test_section_commands_and_complete_undo_redo) ... ok
+test_stable_ids_and_embedded_newlines (test_pp3.EditorTests.test_stable_ids_and_embedded_newlines) ... ok
+test_trailing_source_newline_and_empty_block_roundtrip (test_pp3.EditorTests.test_trailing_source_newline_and_empty_block_roundtrip) ... ok
+test_typing_formatting_focus_and_history (test_pp3.EditorTests.test_typing_formatting_focus_and_history) ... ok
+test_coalescing_and_redo_branch (test_pp3.HistoryTests.test_coalescing_and_redo_branch) ... ok
+test_actual_monitor_enumeration_and_root_lifecycle (test_pp4.ProjectionTests.test_actual_monitor_enumeration_and_root_lifecycle) ... ok
+test_monitor_conflicts_disconnect_and_invalid_plan (test_pp4.ProjectionTests.test_monitor_conflicts_disconnect_and_invalid_plan) ... can't invoke "event" command: application has been destroyed
+    while executing
+"event generate $w <<ThemeChanged>>"
+    (procedure "ttk::ThemeChanged" line 6)
+    invoked from within
+"ttk::ThemeChanged"
+ok
+test_physical_window_and_canvas_cover_each_available_monitor (test_pp4.ProjectionTests.test_physical_window_and_canvas_cover_each_available_monitor) ... ok
+test_signed_placement_text_key_and_window_close (test_pp4.ProjectionTests.test_signed_placement_text_key_and_window_close) ... ok
+test_synchronization_snapshot_blackout_resize_and_restart (test_pp4.ProjectionTests.test_synchronization_snapshot_blackout_resize_and_restart) ... ok
+test_two_movable_windows_on_one_monitor_and_fullscreen_conflict (test_pp4.ProjectionTests.test_two_movable_windows_on_one_monitor_and_fullscreen_conflict) ... ok
+test_exact_operations_repeated_sentences_and_fallbacks (test_pp5.AnchorTests.test_exact_operations_repeated_sentences_and_fallbacks) ... ok
+test_natural_pagination_all_aspects_contains_anchor_and_complete_source (test_pp5.AnchorTests.test_natural_pagination_all_aspects_contains_anchor_and_complete_source) ... ok
+test_section_and_block_removal_use_original_successors (test_pp5.AnchorTests.test_section_and_block_removal_use_original_successors) ... ok
+test_black_break_removal_section_removal_aspect_and_invalid_apply (test_pp5.LiveEditTests.test_black_break_removal_section_removal_aspect_and_invalid_apply) ... can't invoke "event" command: application has been destroyed
+    while executing
+"event generate $w <<ThemeChanged>>"
+    (procedure "ttk::ThemeChanged" line 6)
+    invoked from within
+"ttk::ThemeChanged"
+can't invoke "event" command: application has been destroyed
+    while executing
+"event generate $w <<ThemeChanged>>"
+    (procedure "ttk::ThemeChanged" line 6)
+    invoked from within
+"ttk::ThemeChanged"
+ok
+test_continuation_survives_move_and_preceding_section_removal (test_pp5.LiveEditTests.test_continuation_survives_move_and_preceding_section_removal) ... ok
+test_isolation_draft_preview_undo_redo_and_atomic_apply (test_pp5.LiveEditTests.test_isolation_draft_preview_undo_redo_and_atomic_apply) ... ok
+test_mouse_thumbnail_focus_keeps_selected_and_projected_borders (test_pp5.LiveEditTests.test_mouse_thumbnail_focus_keeps_selected_and_projected_borders) ... ok
+test_prepend_first_slide_and_word_at_continuation_use_natural_plan (test_pp5.LiveEditTests.test_prepend_first_slide_and_word_at_continuation_use_natural_plan) ... ok
+test_preview_switch_maps_content_without_projecting_preview_selection (test_pp5.LiveEditTests.test_preview_switch_maps_content_without_projecting_preview_selection) ... ok
+test_sentence_change_delete_and_insertion_of_new_paragraph (test_pp5.LiveEditTests.test_sentence_change_delete_and_insertion_of_new_paragraph) ... ok
+test_sentence_replacement_with_delete_insert_and_black_end_undo (test_pp5.LiveEditTests.test_sentence_replacement_with_delete_insert_and_black_end_undo) ... ok
+test_small_edit_on_second_of_two_pages_keeps_second (test_pp5.LiveEditTests.test_small_edit_on_second_of_two_pages_keeps_second) ... ok
+test_switch_maps_block_identity_and_deleted_block_fallback (test_pp5.LiveEditTests.test_switch_maps_block_identity_and_deleted_block_fallback) ... ok
+test_three_pages_shrink_to_two_keep_second_or_clamp_third (test_pp5.LiveEditTests.test_three_pages_shrink_to_two_keep_second_or_clamp_third) ... ok
+test_actual_unclean_process_recovery (test_pp6.StorageTests.test_actual_unclean_process_recovery) ... ok
+test_corruption_versions_and_invalid_media (test_pp6.StorageTests.test_corruption_versions_and_invalid_media) ... ok
+test_interrupted_replace_and_invalid_save_preserve_previous (test_pp6.StorageTests.test_interrupted_replace_and_invalid_save_preserve_previous) ... ok
+test_legacy_import_preserves_original_and_warns (test_pp6.StorageTests.test_legacy_import_preserves_original_and_warns) ... ok
+test_maximal_image_fit_all_aspects_and_camera_positions (test_pp6.StorageTests.test_maximal_image_fit_all_aspects_and_camera_positions) ... ok
+test_portable_without_original_and_settings (test_pp6.StorageTests.test_portable_without_original_and_settings) ... ok
+test_recovery_crash_clean_and_failed_write (test_pp6.StorageTests.test_recovery_crash_clean_and_failed_write) ... ok
+test_declined_recovery_is_not_offered_again (test_pp6.UITests.test_declined_recovery_is_not_offered_again) ... ok
+test_failed_recovery_adoption_keeps_previous_journal (test_pp6.UITests.test_failed_recovery_adoption_keeps_previous_journal) ... ok
+test_image_undo_duplicate_render_and_live_isolation (test_pp6.UITests.test_image_undo_duplicate_render_and_live_isolation) ... ok
+test_open_invalid_keeps_history_and_live_recovery_offer (test_pp6.UITests.test_open_invalid_keeps_history_and_live_recovery_offer) ... ok
+test_recovery_offered_once_and_new_crash_has_latest_draft (test_pp6.UITests.test_recovery_offered_once_and_new_crash_has_latest_draft) ... ok
+test_save_new_document_resets_path_and_json_is_protected (test_pp6.UITests.test_save_new_document_resets_path_and_json_is_protected) ... ok
+test_two_projection_windows_images_blackout_and_draft (test_pp6.UITests.test_two_projection_windows_images_blackout_and_draft) ... can't invoke "event" command: application has been destroyed
+    while executing
+"event generate $w <<ThemeChanged>>"
+    (procedure "ttk::ThemeChanged" line 6)
+    invoked from within
+"ttk::ThemeChanged"
+can't invoke "event" command: application has been destroyed
+    while executing
+"event generate $w <<ThemeChanged>>"
+    (procedure "ttk::ThemeChanged" line 6)
+    invoked from within
+"ttk::ThemeChanged"
+can't invoke "event" command: application has been destroyed
+    while executing
+"event generate $w <<ThemeChanged>>"
+    (procedure "ttk::ThemeChanged" line 6)
+    invoked from within
+"ttk::ThemeChanged"
+can't invoke "event" command: application has been destroyed
+    while executing
+"event generate $w <<ThemeChanged>>"
+    (procedure "ttk::ThemeChanged" line 6)
+    invoked from within
+"ttk::ThemeChanged"
+can't invoke "event" command: application has been destroyed
+    while executing
+"event generate $w <<ThemeChanged>>"
+    (procedure "ttk::ThemeChanged" line 6)
+    invoked from within
+"ttk::ThemeChanged"
+can't invoke "event" command: application has been destroyed
+    while executing
+"event generate $w <<ThemeChanged>>"
+    (procedure "ttk::ThemeChanged" line 6)
+    invoked from within
+"ttk::ThemeChanged"
+ok
+test_continuous_text_and_verse_layout (test_pp7.BibleTests.test_continuous_text_and_verse_layout) ... ok
+test_missing_data (test_pp7.BibleTests.test_missing_data) ... ok
+test_names_aliases_and_john (test_pp7.BibleTests.test_names_aliases_and_john) ... ok
+test_ranges_and_errors (test_pp7.BibleTests.test_ranges_and_errors) ... ok
+test_real_data_and_read_only (test_pp7.BibleTests.test_real_data_and_read_only) ... ok
+test_dropdown_keyboard_mouse_dismiss_and_lifecycle (test_pp7.BibleWindowTests.test_dropdown_keyboard_mouse_dismiss_and_lifecycle) ... ok
+test_embedded_insert_history_live_and_lifecycle (test_pp7.BibleWindowTests.test_embedded_insert_history_live_and_lifecycle) ... ok
+test_insert_into_empty_or_new_section_and_defaults (test_pp7.BibleWindowTests.test_insert_into_empty_or_new_section_and_defaults) ... ok
+test_layout_switch_preview_copy_and_insert (test_pp7.BibleWindowTests.test_layout_switch_preview_copy_and_insert) ... ok
+test_selection_ambiguity_and_clipboard (test_pp7.BibleWindowTests.test_selection_ambiguity_and_clipboard) ... can't invoke "event" command: application has been destroyed
+    while executing
+"event generate $w <<ThemeChanged>>"
+    (procedure "ttk::ThemeChanged" line 6)
+    invoked from within
+"ttk::ThemeChanged"
+can't invoke "event" command: application has been destroyed
+    while executing
+"event generate $w <<ThemeChanged>>"
+    (procedure "ttk::ThemeChanged" line 6)
+    invoked from within
+"ttk::ThemeChanged"
+can't invoke "event" command: application has been destroyed
+    while executing
+"event generate $w <<ThemeChanged>>"
+    (procedure "ttk::ThemeChanged" line 6)
+    invoked from within
+"ttk::ThemeChanged"
+ok
+test_standalone_and_multiple_windows (test_pp7.BibleWindowTests.test_standalone_and_multiple_windows) ... ok
+test_actual_monitor_enumeration_and_root_lifecycle (test_pp8.PlaybackIntegrationTests.test_actual_monitor_enumeration_and_root_lifecycle) ... ok
+test_f5_start_and_escape_stop_all (test_pp8.PlaybackIntegrationTests.test_f5_start_and_escape_stop_all) ... can't invoke "event" command: application has been destroyed
+    while executing
+"event generate $w <<ThemeChanged>>"
+    (procedure "ttk::ThemeChanged" line 6)
+    invoked from within
+"ttk::ThemeChanged"
+FAIL
+test_local_navigation_keys_and_text_focus (test_pp8.PlaybackIntegrationTests.test_local_navigation_keys_and_text_focus) ... ok
+test_monitor_conflicts_disconnect_and_invalid_plan (test_pp8.PlaybackIntegrationTests.test_monitor_conflicts_disconnect_and_invalid_plan) ... ok
+test_physical_window_and_canvas_cover_each_available_monitor (test_pp8.PlaybackIntegrationTests.test_physical_window_and_canvas_cover_each_available_monitor) ... ok
+test_playback_live_draft_blackout_apply_and_shutdown (test_pp8.PlaybackIntegrationTests.test_playback_live_draft_blackout_apply_and_shutdown) ... ok
+test_section_jumps_and_click_releases_text_focus (test_pp8.PlaybackIntegrationTests.test_section_jumps_and_click_releases_text_focus) ... ok
+test_shift_f5_current_and_f5_beginning (test_pp8.PlaybackIntegrationTests.test_shift_f5_current_and_f5_beginning) ... ok
+test_signed_placement_text_key_and_window_close (test_pp8.PlaybackIntegrationTests.test_signed_placement_text_key_and_window_close) ... ok
+test_synchronization_snapshot_blackout_resize_and_restart (test_pp8.PlaybackIntegrationTests.test_synchronization_snapshot_blackout_resize_and_restart) ... ok
+test_two_movable_windows_on_one_monitor_and_fullscreen_conflict (test_pp8.PlaybackIntegrationTests.test_two_movable_windows_on_one_monitor_and_fullscreen_conflict) ... ok
+test_blackout_manual_live_confirmation_and_stale_callback (test_pp8.PlaybackTests.test_blackout_manual_live_confirmation_and_stale_callback) ... ok
+test_full_wait_end_and_repeat (test_pp8.PlaybackTests.test_full_wait_end_and_repeat) ... ok
+test_stop_restart_invalid_input (test_pp8.PlaybackTests.test_stop_restart_invalid_input) ... ok
+test_validation (test_pp8.PlaybackTests.test_validation) ... ok
+test_continuations_disabled_break_and_boundaries (test_pp8.SectionDestinationTests.test_continuations_disabled_break_and_boundaries) ... ok
+test_cancel_and_failed_save_block_all_replacements (test_pp8f.FinalizationTests.test_cancel_and_failed_save_block_all_replacements) ... can't invoke "event" command: application has been destroyed
+    while executing
+"event generate $w <<ThemeChanged>>"
+    (procedure "ttk::ThemeChanged" line 6)
+    invoked from within
+"ttk::ThemeChanged"
+ok
+test_file_shortcuts_and_dialog_scope (test_pp8f.FinalizationTests.test_file_shortcuts_and_dialog_scope) ... ok
+test_format_keys_preserve_text_selection_and_are_undoable (test_pp8f.FinalizationTests.test_format_keys_preserve_text_selection_and_are_undoable) ... ok
+test_import_discard_is_unsaved_and_preserves_live_and_original (test_pp8f.FinalizationTests.test_import_discard_is_unsaved_and_preserves_live_and_original) ... ok
+test_list_operations_keep_focus_and_do_not_publish (test_pp8f.FinalizationTests.test_list_operations_keep_focus_and_do_not_publish) ... ok
+test_new_section_and_slide_copy_do_not_insert_control_characters (test_pp8f.FinalizationTests.test_new_section_and_slide_copy_do_not_insert_control_characters) ... ok
+test_open_save_and_undo_restore_file_identity (test_pp8f.FinalizationTests.test_open_save_and_undo_restore_file_identity) ... ok
+test_publish_shortcut_rejects_invalid_layout_and_dialog_cannot_publish (test_pp8f.FinalizationTests.test_publish_shortcut_rejects_invalid_layout_and_dialog_cannot_publish) ... ok
+test_checkbox_output_and_aspect_preserve_live_session (test_pp8l.RibbonTests.test_checkbox_output_and_aspect_preserve_live_session) ... ok
+test_collapse_tabs_scroll_and_section_actions (test_pp8l.RibbonTests.test_collapse_tabs_scroll_and_section_actions) ... ok
+test_continuous_motion_does_not_starve_control_painting (test_pp8l.RibbonTests.test_continuous_motion_does_not_starve_control_painting) ... ok
+test_navigation_buttons_use_section_and_slide_controls (test_pp8l.RibbonTests.test_navigation_buttons_use_section_and_slide_controls) ... ok
+test_resize_updates_are_coalesced_and_cancelled_on_destroy (test_pp8l.RibbonTests.test_resize_updates_are_coalesced_and_cancelled_on_destroy) ... ok
+test_ribbon_start_and_apply_remain_available_when_footer_hidden (test_pp8l.RibbonTests.test_ribbon_start_and_apply_remain_available_when_footer_hidden) ... ok
+test_small_window_actions_and_formatting_selection (test_pp8l.RibbonTests.test_small_window_actions_and_formatting_selection) ... ok
+test_strip_drag_and_wheel_preserve_preview_and_editor_focus (test_pp8l.RibbonTests.test_strip_drag_and_wheel_preserve_preview_and_editor_focus) ... FAIL
+test_detects_text_overflow_camera_and_lost_range (test_pp9.PreflightTests.test_detects_text_overflow_camera_and_lost_range) ... ok
+test_geometry_checks_and_allowed_camera_warning (test_pp9.PreflightTests.test_geometry_checks_and_allowed_camera_warning) ... ok
+test_long_counter_and_minimum_editor_space (test_pp9.PreflightTests.test_long_counter_and_minimum_editor_space) ... ok
+test_long_plans_all_aspects_and_complete_source (test_pp9.PreflightTests.test_long_plans_all_aspects_and_complete_source) ... ok
+test_media_failure_is_reported_and_live_draft_survives (test_pp9.PreflightTests.test_media_failure_is_reported_and_live_draft_survives) ... ok
+test_monitor_discovery_failure_does_not_use_stale_inventory (test_pp9.PreflightTests.test_monitor_discovery_failure_does_not_use_stale_inventory) ... ok
+test_output_checks_and_multiple_unlayoutable_sections (test_pp9.PreflightTests.test_output_checks_and_multiple_unlayoutable_sections) ... ok
+test_report_navigation_never_projects_and_repeated_lifecycle (test_pp9.PreflightTests.test_report_navigation_never_projects_and_repeated_lifecycle) ... ok
+test_detached_review_cancel_and_change_option (test_pptx_import.ImportGuiTests.test_detached_review_cancel_and_change_option) ... ok
+test_fixed_counter_description_and_keyboard_navigation (test_pptx_import.ImportGuiTests.test_fixed_counter_description_and_keyboard_navigation) ... ok
+test_insert_is_confirmation_and_invalid_import_stays_disabled (test_pptx_import.ImportGuiTests.test_insert_is_confirmation_and_invalid_import_stays_disabled) ... ok
+test_insert_undo_redo_live_isolation_and_manual_merge (test_pptx_import.ImportGuiTests.test_insert_undo_redo_live_isolation_and_manual_merge) ... ok
+test_manual_merge_images_uses_grid_and_preserves_outer_breaks (test_pptx_import.ImportGuiTests.test_manual_merge_images_uses_grid_and_preserves_outer_breaks) ... ok
+test_preview_aspects_fit_both_outputs_on_resize (test_pptx_import.ImportGuiTests.test_preview_aspects_fit_both_outputs_on_resize) ... ok
+test_starter_and_trailing_black_before_existing_section (test_pptx_import.ImportGuiTests.test_starter_and_trailing_black_before_existing_section) ... ok
+test_black_cover_and_theme_background (test_pptx_import.PptxTests.test_black_cover_and_theme_background) ... ok
+test_bullet_inheritance_soft_break_and_images_portable (test_pptx_import.PptxTests.test_bullet_inheritance_soft_break_and_images_portable) ... ok
+test_corrupt_and_entity_refused (test_pptx_import.PptxTests.test_corrupt_and_entity_refused) ... ok
+test_empty_titles_do_not_join_and_numbering_warns (test_pptx_import.PptxTests.test_empty_titles_do_not_join_and_numbering_warns) ... ok
+test_external_image_warning_and_invalid_package_path (test_pptx_import.PptxTests.test_external_image_warning_and_invalid_package_path) ... ok
+test_join_and_black_boundaries_and_source_preserved (test_pptx_import.PptxTests.test_join_and_black_boundaries_and_source_preserved) ... ok
+test_template_title_is_named_textbox (test_pptx_import.PptxTests.test_template_title_is_named_textbox) ... ok
+test_unknown_empty_not_silently_black_and_animation_warning (test_pptx_import.PptxTests.test_unknown_empty_not_silently_black_and_animation_warning) ... ok
+test_edit_rebuild_and_live_mismatch (test_preview_highlight.HighlightTests.test_edit_rebuild_and_live_mismatch) ... ok
+test_exact_continuations_selection_and_black (test_preview_highlight.HighlightTests.test_exact_continuations_selection_and_black) ... ok
+test_legacy_image_section_and_noop (test_preview_image_edit.PreviewImageEditTests.test_legacy_image_section_and_noop) ... ok
+test_move_is_one_undo_and_leaves_peer_and_live_unchanged (test_preview_image_edit.PreviewImageEditTests.test_move_is_one_undo_and_leaves_peer_and_live_unchanged) ... ok
+test_preference_applies_immediately_and_survives_restart (test_preview_image_edit.PreviewImageEditTests.test_preference_applies_immediately_and_survives_restart) ... ok
+test_preference_waits_for_global_save (test_preview_image_edit.PreviewImageEditTests.test_preference_waits_for_global_save) ... can't invoke "event" command: application has been destroyed
+    while executing
+"event generate $w <<ThemeChanged>>"
+    (procedure "ttk::ThemeChanged" line 6)
+    invoked from within
+"ttk::ThemeChanged"
+ok
+test_resize_and_escape (test_preview_image_edit.PreviewImageEditTests.test_resize_and_escape) ... ok
+test_stream_detaches_and_does_not_move_hall (test_preview_image_edit.PreviewImageEditTests.test_stream_detaches_and_does_not_move_hall) ... ok
+test_switch_output_stale_drag_and_failed_layout (test_preview_image_edit.PreviewImageEditTests.test_switch_output_stale_drag_and_failed_layout) ... ok
+test_camera_limit_keeps_opposite_corner (test_preview_image_edit.ResizeTests.test_camera_limit_keeps_opposite_corner) ... ok
+test_direct_edit_preference_old_invalid_and_roundtrip (test_preview_image_edit.ResizeTests.test_direct_edit_preference_old_invalid_and_roundtrip) ... ok
+test_four_fixed_corners_and_bounds (test_preview_image_edit.ResizeTests.test_four_fixed_corners_and_bounds) ... ok
+test_roundtrip_validation_and_corruption (test_profiles.CatalogTests.test_roundtrip_validation_and_corruption) ... ok
+test_compact_output_counter_display_style_and_plus (test_profiles.ProfileUITests.test_compact_output_counter_display_style_and_plus) ... ok
+test_delete_transaction_and_duplicate_name (test_profiles.ProfileUITests.test_delete_transaction_and_duplicate_name) ... ok
+test_editor_cancel_save_rename_apply_and_failure (test_profiles.ProfileUITests.test_editor_cancel_save_rename_apply_and_failure) ... ok
+test_editor_two_windowed_outputs_on_same_monitor (test_profiles.ProfileUITests.test_editor_two_windowed_outputs_on_same_monitor) ... ok
+test_load_saved_profile_and_monitor_topology_draft (test_profiles.ProfileUITests.test_load_saved_profile_and_monitor_topology_draft) ... ok
+test_missing_monitor_and_conflict_require_explicit_choice (test_profiles.ProfileUITests.test_missing_monitor_and_conflict_require_explicit_choice) ... ok
+test_select_start_and_live_guard (test_profiles.ProfileUITests.test_select_start_and_live_guard) ... can't invoke "event" command: application has been destroyed
+    while executing
+"event generate $w <<ThemeChanged>>"
+    (procedure "ttk::ThemeChanged" line 6)
+    invoked from within
+"ttk::ThemeChanged"
+ok
+test_groups_scroll_in_one_row_and_focus_reveals_command (test_ribbon_overlay.RibbonOverlayTests.test_groups_scroll_in_one_row_and_focus_reveals_command) ... ok
+test_legacy_mode_and_escape (test_ribbon_overlay.RibbonOverlayTests.test_legacy_mode_and_escape) ... ok
+test_overlay_switch_dismiss_and_pin (test_ribbon_overlay.RibbonOverlayTests.test_overlay_switch_dismiss_and_pin) ... ok
+test_autoscroll_and_close_cancels_timer (test_sections_window.SectionsWindowTests.test_autoscroll_and_close_cancels_timer) ... ok
+test_drag_undo_and_live_isolation (test_sections_window.SectionsWindowTests.test_drag_undo_and_live_isolation) ... ok
+test_labels_selection_cancel_and_lifecycle (test_sections_window.SectionsWindowTests.test_labels_selection_cancel_and_lifecycle) ... ok
+test_stale_drag_and_empty_list (test_sections_window.SectionsWindowTests.test_stale_drag_and_empty_list) ... ok
+
+======================================================================
+FAIL: test_f5_start_and_escape_stop_all (test_pp8.PlaybackIntegrationTests.test_f5_start_and_escape_stop_all)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\moski\Documents\Progr�mky\SuperPresenter\tests\presentationpresenter\test_pp8.py", line 211, in test_f5_start_and_escape_stop_all
+    self.assertIsNone(w.session)
+AssertionError: ProjectionSession(plan=SlidePlan(source=Presentation(title='Nov� prezentace', sections=(TextSection(title='', blocks=(TextBlock(runs=(TextRun(text='Projekce', style=TextStyle(bold=False, italic=False, underline=False, color='#ffffff', size=36, family=''), id='3ba1b527-b961-4311-84cb-e17bf3f518a4'),), kind=<BlockKind.PARAGRAPH: 'paragraph'>, id='147976b9-ff13-4ccf-a94e-42061fb7d63a', level=0),), reference='', break_after=False, origin=None, id='feb48a60-2ba5-46ef-aeab-ed473284d27c', break_before=True, images=(), stream_linked=True),), media=(), hall=OutputConfig(aspect=<Aspect.STANDARD: '4:3'>, camera=None), stream=OutputConfig(aspect=<Aspect.WIDE: '16:9'>, camera=CameraRegion(x=0.5, y=0.5, width=0.5, height=0.5, gap=0.02)), black_start=False, id='1da2d8fe-7774-45eb-826d-6ac27b6267ff', schema_version=2, black_end=True, content_defaults=TextStyle(bold=False, italic=False, underline=False, color='#ffffff', size=36, family='Calibri')), slides=(Slide(id='feb48a60-2ba5-46ef-aeab-ed473284d27c:before', section_id='feb48a60-2ba5-46ef-aeab-ed473284d27c', ranges=(), media_id=None, black=True, hall=None, stream=None, block_ids=()), Slide(id='feb48a60-2ba5-46ef-aeab-ed473284d27c:3ba1b527-b961-4311-84cb-e17bf3f518a4:0', section_id='feb48a60-2ba5-46ef-aeab-ed473284d27c', ranges=(ContentRange(section_id='feb48a60-2ba5-46ef-aeab-ed473284d27c', block_id='147976b9-ff13-4ccf-a94e-42061fb7d63a', run_id='3ba1b527-b961-4311-84cb-e17bf3f518a4', start=0, end=8),), media_id=None, black=False, hall=OutputLayout(width=960, height=720, pieces=(Piece(text='Projekce', style=TextStyle(bold=False, italic=False, underline=False, color='#ffffff', size=36, family=''), box=Rect(x=32, y=48, width=180, height=45), source=ContentRange(section_id='feb48a60-2ba5-46ef-aeab-ed473284d27c', block_id='147976b9-ff13-4ccf-a94e-42061fb7d63a', run_id='3ba1b527-b961-4311-84cb-e17bf3f518a4', start=0, end=8), font_size=36),), camera=None, exclusion=None, image_box=None, image_locator=None, images=(), warnings=()), stream=OutputLayout(width=1280, height=720, pieces=(Piece(text='Projekce', style=TextStyle(bold=False, italic=False, underline=False, color='#ffffff', size=36, family=''), box=Rect(x=32, y=48, width=180, height=45), source=ContentRange(section_id='feb48a60-2ba5-46ef-aeab-ed473284d27c', block_id='147976b9-ff13-4ccf-a94e-42061fb7d63a', run_id='3ba1b527-b961-4311-84cb-e17bf3f518a4', start=0, end=8), font_size=36),), camera=Rect(x=640.0, y=360.0, width=640.0, height=360.0), exclusion=Rect(x=614.4, y=345.59999999999997, width=691.2, height=388.8), image_box=None, image_locator=None, images=(), warnings=()), block_ids=('147976b9-ff13-4ccf-a94e-42061fb7d63a',)), Slide(id='1da2d8fe-7774-45eb-826d-6ac27b6267ff:end', section_id=None, ranges=(), media_id=None, black=True, hall=None, stream=None, block_ids=()))), current_slide_id='feb48a60-2ba5-46ef-aeab-ed473284d27c:before', blackout=False) is not None
+
+======================================================================
+FAIL: test_strip_drag_and_wheel_preserve_preview_and_editor_focus (test_pp8l.RibbonTests.test_strip_drag_and_wheel_preserve_preview_and_editor_focus)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\moski\Documents\Progr�mky\SuperPresenter\tests\presentationpresenter\test_pp8l.py", line 285, in test_strip_drag_and_wheel_preserve_preview_and_editor_focus
+    self.assertGreater(w.strip.winfo_height(), old_height)
+AssertionError: 179 not greater than 179
+
+----------------------------------------------------------------------
+Ran 201 tests in 261.014s
+
+FAILED (failures=2)

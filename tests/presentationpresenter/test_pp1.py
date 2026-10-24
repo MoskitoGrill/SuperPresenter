@@ -36,7 +36,7 @@ class ModelTests(unittest.TestCase):
         for create in (
             lambda: Presentation(sections=(section, section)),
             lambda: Presentation(sections=(ImageSection('Missing', 'no-media'),)),
-            lambda: Presentation(schema_version=2),
+            lambda: Presentation(schema_version=99),
             lambda: Presentation(sections=[section]),
             lambda: Presentation(black_start='false'),
             lambda: TextStyle(color='red'),
@@ -48,7 +48,7 @@ class ModelTests(unittest.TestCase):
 
     def test_codec_rejects_future_corrupt_and_unknown_data(self):
         valid = json.loads(dumps(sample_document()))
-        for payload in ('{', '[]', json.dumps({**valid, 'schema_version': 2}),
+        for payload in ('{', '[]', json.dumps({**valid, 'schema_version': 99}),
                         json.dumps({**valid, 'unexpected': 1}),
                         json.dumps({**valid, 'sections': [{'type': 'video'}]})):
             with self.subTest(payload=payload), self.assertRaises(ValueError):

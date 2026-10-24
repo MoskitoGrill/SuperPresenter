@@ -22,11 +22,11 @@ def main():
                     '--distpath', str(output), '--workpath', str(ROOT / 'build' / stamp),
                     str(ROOT / 'packaging' / 'SuperPresenter.spec')], cwd=ROOT, check=True)
     app = output / 'SuperPresenter-v3'
-    for name in ('songs', 'images', 'bible', 'presentations'):
+    for name in ('songs', 'images', 'bible', 'presentations', 'presentation'):
         shutil.copytree(ROOT / name, app / name,
                         ignore=shutil.ignore_patterns('__pycache__', '.song-recovery', '*.tmp', '*.temp'))
     for name in ('gui_style.json', 'projectors_styles.json', 'settings.json',
-                 'presentation_presenter.py', 'oprava_xml_tagu.py'):
+                 'presentation_presenter.py', 'presentation_presenter_v2.py', 'presentation_bible.py', 'oprava_xml_tagu.py'):
         shutil.copy2(ROOT / name, app / name)
     shutil.copy2(ROOT / 'docs' / 'windows-release.md', app / 'CTI-ME.md')
     packages = subprocess.check_output([sys.executable, '-m', 'pip', 'freeze'], text=True)

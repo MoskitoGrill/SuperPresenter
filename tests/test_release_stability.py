@@ -233,12 +233,84 @@ class ReleaseTests(unittest.TestCase):
         self.gui.stepsLangUpdate()
         self.error.assert_not_called()
 
-    def test_presentation_editor_button_keeps_its_original_command(self):
+    def test_presentation_editor_button_launches_v2(self):
         self.assertEqual(self.gui.openPresentation.cget('text'), 'prez')
         self.assertEqual(self.gui.openPresentation.winfo_manager(), 'grid')
         with patch('subprocess.Popen') as launch:
+            launch.return_value.poll.return_value = None
             self.gui.openPresentation.invoke()
-        self.assertEqual(Path(launch.call_args.args[0][1]).name, 'presentation_presenter.py')
+            self.gui.openPresentation.invoke()
+        launch.assert_called_once()
+        self.assertEqual(Path(launch.call_args.args[0][1]).name, 'presentation_presenter_v2.py')
+
+    def test_bible_button_launches_independent_copy_tool(self):
+        button = self.gui.openBible
+        self.assertEqual(button.cget('text'), 'bible')
+        self.assertEqual(button.grid_info()['row'], self.gui.openPresentation.grid_info()['row'])
+        self.assertEqual(button.grid_info()['column'], self.gui.openPresentation.grid_info()['column'] + 1)
+        with patch('subprocess.Popen') as launch:
+            launch.return_value.poll.return_value = None
+            button.invoke()
+            button.invoke()
+            launch.assert_called_once()
+            self.assertEqual(Path(launch.call_args.args[0][1]).name, 'presentation_bible.py')
+            launch.return_value.poll.return_value = 0
+            button.invoke()
+            self.assertEqual(launch.call_count, 2)
+
+
+class CloseCompanionTests(unittest.TestCase):
+    def gui(self):
+        return SimpleNamespace(win=Mock(), runState=False,
+            _prepare_song_transition=Mock(return_value=True), stop_monitor_watch=Mock(),
+            persist_layout=Mock(), presentation_editor_win=Mock(poll=Mock(return_value=None)))
+
+    def test_main_only_leaves_child_running(self):
+        gui = self.gui()
+        with patch('superpresenter.ui.close_scope_dialog.ask_close_scope', return_value='main'), \
+             patch('superpresenter.processes.request_tool_close') as close:
+            GUI.on_closing(gui)
+        close.assert_not_called()
+        gui.presentation_editor_win.terminate.assert_not_called()
+        gui.win.destroy.assert_called_once()
+
+    def test_all_requests_normal_close_for_both_tools(self):
+        gui = self.gui()
+        gui.bible_win = Mock(poll=Mock(return_value=None))
+        with patch('superpresenter.ui.close_scope_dialog.ask_close_scope', return_value='all'), \
+             patch('superpresenter.processes.request_tool_close', return_value=True) as close:
+            GUI.on_closing(gui)
+        self.assertEqual(close.call_count, 2)
+        gui.presentation_editor_win.terminate.assert_not_called()
+        gui.win.destroy.assert_called_once()
+
+    def test_cancel_and_song_cancel_keep_everything(self):
+        for scope, song_result in ((None, True), ('all', False)):
+            gui = self.gui()
+            gui._prepare_song_transition.return_value = song_result
+            with patch('superpresenter.ui.close_scope_dialog.ask_close_scope', return_value=scope), \
+                 patch('superpresenter.processes.request_tool_close') as close:
+                GUI.on_closing(gui)
+            close.assert_not_called()
+            gui.win.destroy.assert_not_called()
+            gui.stop_monitor_watch.assert_not_called()
+
+    def test_finished_child_needs_no_prompt(self):
+        gui = self.gui()
+        gui.presentation_editor_win.poll.return_value = 0
+        with patch('superpresenter.ui.close_scope_dialog.ask_close_scope') as ask:
+            GUI.on_closing(gui)
+        ask.assert_not_called()
+        gui.win.destroy.assert_called_once()
+
+    def test_close_request_failure_keeps_parent(self):
+        gui = self.gui()
+        with patch('superpresenter.ui.close_scope_dialog.ask_close_scope', return_value='all'), \
+             patch('superpresenter.processes.request_tool_close', return_value=False), \
+             patch('superpresenter.ui.main_window.tkmsg.showerror') as error:
+            GUI.on_closing(gui)
+        error.assert_called_once()
+        gui.win.destroy.assert_not_called()
 
 
 class LoggingTests(unittest.TestCase):
