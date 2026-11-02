@@ -1,0 +1,9 @@
+body { font-family: system-ui, sans-serif; max-width: 960px; margin: 1.5rem auto; padding: 0 1rem; }
+button, input, select, textarea { font: inherit; margin: .25rem; padding: .4rem; }
+label { display: block; margin: .5rem 0; }
+label input, textarea { display: block; width: min(95%, 48rem); }
+textarea { min-height: 7rem; }
+section { border: 1px solid #aaa; padding: .5rem; margin: .5rem 0; }
+pre { white-space: pre-wrap; font: inherit; }
+button { cursor: pointer; }
+:focus-visible { outline: 3px solid #235bba; }

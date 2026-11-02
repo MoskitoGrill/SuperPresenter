@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide name="pokusná" song-id="c79d7304-9e78-445e-a2ea-8d350fe42b93"><variant name="čeština"><section name="v1">Prší, prší, jen se leje
+Kam koníčky pojedeme
+Pojedeme na luka
+Až kukačka zakuká
+Pojedeme na luka
+Až kukačka zakuká</section><section name="v2">Kukačka už zakukala
+Má panenka zaplakala
+Kukačko, už nekukej
+Má panenko, neplakej
+Kukačko, už nekukej
+Má panenko, neplakej</section></variant><repetition name="default" main="1">v1 v2 v1 v1</repetition></slide>
