@@ -6,9 +6,9 @@ export async function openFile(file: File) {
   catch { throw new Error('Soubor není platné UTF-8. Převeďte kopii do UTF-8.'); }
   return importXml(text);
 }
-export function download(text: string, title: string) {
-  const url = URL.createObjectURL(new Blob([text], { type: 'application/xml;charset=utf-8' }));
+export function download(text: string, title: string, extension = 'xml') {
+  const url = URL.createObjectURL(new Blob([text], { type: extension === 'json' ? 'application/json;charset=utf-8' : 'application/xml;charset=utf-8' }));
   const a = document.createElement('a'); a.href = url;
-  a.download = (title.replace(/[<>:"/\\|?*\x00-\x1f]/g, '_').trim() || 'pisen') + '.xml';
+  a.download = (title.replace(/[<>:"/\\|?*\x00-\x1f]/g, '_').trim() || 'pisen') + '.' + extension;
   a.click(); setTimeout(() => URL.revokeObjectURL(url), 10000);
 }

@@ -1,7 +1,8 @@
 # Samostatný webový editor písní — plán a předání
 
-Stav k 3. 11. 2026: implementován funkční základ etapy 1 v `web-song-editor/`.
-Aktuální předání implementace, výsledky a ruční scénář jsou v oddílu 8.
+Stav k 3. 11. 2026: doplněna kompatibilita a funkce etapy 2 v `web-song-editor/`.
+Aktuální předání implementace, výsledky a ruční scénář jsou v oddílu 9.
+Oddíly 7–8 popisují historický stav před těmito změnami.
 Původní průzkum a historické předání jsou ponechány jako kontext.
 Tento dokument je trvalý kontext pro další chaty. Před implementací znovu přečíst
 aktuální AGENTS.md a ověřit případné změny níže uvedených zdrojů.
@@ -458,3 +459,153 @@ pojmenovaných pořadí, main a kolizí. Teprve po úplné kompatibilitě řeši
 hosting a vzhled. Není provedena migrace knihovny ani commit.
 
 **Připomenutí: po kontrole vytvořit ruční commit; agent ho nevytváří.**
+
+## 9. Předání kompatibility a obnovy (3. 11. 2026)
+
+### Rozsah a chování
+
+Použity pokyny `C:/Users/moski/Documents/AGENTS.md`; další AGENTS.md nenalezen.
+Změny jsou izolované ve webovém editoru a dokumentaci. Desktopové zdroje,
+závislosti, knihovna XML ani konfigurace desktopu nebyly změněny. Bez databáze,
+serveru, hostingu, TXT a návrhu finálního vzhledu. Commit nebyl vytvořen.
+
+- Jazykové varianty lze přepínat, přidávat a výslovně přejmenovat. Nový jazyk
+  dostane všechny existující ID s prázdnými texty; nejde o automatický překlad.
+  Pořadí částí lze měnit pro aktuální jazyk, bez nutnosti shodných částí ve všech
+  jazycích. Chybějící odkazované části se hlásí; export je přesto zachová.
+  Tlačítko „Odebrat jazyk“ po potvrzení odstraní vybraný jazyk a jeho texty;
+  poslední jazyk odstranit nelze. Vnořená pořadí se přesunou ke kořeni na místo
+  odebírané varianty, aby zůstalo zachováno jejich pořadí, metadata i main.
+  Potvrzení upozorní na části, které po odebrání neexistují v jiném jazyce;
+  případné odkazy se nemažou a zobrazí se jako uzamčené s diagnostikou.
+- Pořadí lze přidat, přejmenovat a výslovně nastavit jako jediné výchozí.
+  Původní umístění repetition pod variantou zůstává. Duplicity jmen, prázdná
+  jména a více main se zachovávají; výběr má číslo, umístění a vysvětlení
+  fallbacku první main → default → první. Ke sloučení podle jména nedochází.
+- Stromový editor nabízí opakování bloku, seskupení se sousedem, vnoření,
+  počet opakování, rozpuštění skupiny do jednoho průchodu, přesuny i výběry
+  řádků/rozsahů a připojení k předchozímu bloku. Není třeba psát syntaxi.
+  Skupiny se nezplošťují; nově upravený guide používá explicitní násobení.
+- Každý neupravený guide zůstává přesně ve svém původním textu. XML DOM
+  zachovává texty, neznámé atributy, metadata a umístění uzlů. Odstranění části
+  přepisuje pouze pořadí, která na tuto část skutečně odkazovala.
+- Neplatné guide, neznámé reference a rizikové historické konstrukce (řádek 0,
+  prázdná skupina, nulové opakování) zůstávají uzamčené. Texty lze upravit,
+  původní výraz prohlédnout a XML stáhnout po upozornění na všechny problémy.
+  „Sestavit náhradní pořadí“ po potvrzení výslovně nahradí vybraný výraz první
+  částí; poté se používá běžný vizuální editor. Před náhradou lze stáhnout originál.
+  Neplatné XML se odmítne s podrobností parseru, aktuální koncept zůstává.
+- Odstranění části ukáže dopad v každém pořadí, včetně odkazů uvnitř skupin.
+  Zrušení nemění nic. Po potvrzení se odstraní odkazy ve všech jazycích a
+  vyprázdněné skupiny. Vyprázdnění celého pořadí je atomicky odmítnuto.
+  Jakékoli uzamčené pořadí blokuje mazání částí, protože dopad nelze zaručit.
+- Chybějící pořadí ani prázdný název se při importu automaticky nedoplňují.
+  Nové pořadí vzniká až výslovnou akcí. Export s prázdným názvem používá
+  název souboru `pisen.xml`; desktop může název pro prezentaci odvodit ze souboru.
+- Identita běžné úpravy i exportu zůstává stejná; pouze nová píseň, legacy
+  import bez ID a výslovná kopie generují UUID. Kopie nezmění původní koncept.
+- Místní úložiště prohlížeče průběžně zachovává XML, identitu, dirty stav,
+  výběry a případný původní koncept při práci s kopií. Po obnovení se načtou.
+  Nejde o sdílené ani trvalé uložení; závisí na stejném prohlížeči, profilu
+  a adrese webu. Vymazání dat, anonymní režim či kvóta mohou obnovu znemožnit.
+  Selhání zápisu je viditelné. Nečitelný koncept se automaticky nepřepíše:
+  lze stáhnout surovou JSON zálohu a až výslovně povolit nový místní koncept.
+  Stále je nutné stahovat XML a ručně ho umístit do knihovny SuperPresenteru.
+
+### Změněné soubory
+
+- `src/construct/tree.ts`: port gramatiky, uspořádané typy, limity před
+  rozbalením, serializace a práce s odkazy. Starý `simple.ts` zůstává pomocnou
+  přísnou podmnožinou; UI ho již pro pořadí nepoužívá.
+- `src/domain/song.ts`: stromové operace, diagnostika napříč jazyky, kontrola
+  prezentačních řádků, varianty, pojmenovaná pořadí, výchozí a bezpečné mazání.
+- `src/xml/songXml.ts`: oddělení strukturálních chyb od zachovaných vadných
+  guide, podrobnosti chyb XML, podpora duplicitních/nested a chybějících pořadí.
+- `src/ui/main.ts`, `src/io/files.ts`: formuláře, strom, ochrany, obnova
+  konceptů a JSON záloha. Všechny importované hodnoty se vykreslují jako text.
+- `tests/editor.test.ts`, `tests/verify_desktop.py`,
+  `tests/browser/editor.spec.ts`: sémantika korpusu, diferenční strom/řádky,
+  prohlížečové změny, identity, neplatné guide a obnovení kopie i originálu.
+- `web-song-editor/README.md` a tento dokument: ovládání, výsledky a omezení.
+
+### Automatické kontroly
+
+- TypeScript a produkční Vite build: OK. Knihovna písní se do buildu nebalí.
+- Vitest: **13 testů OK**, včetně celého aktuálního korpusu **862 XML**
+  (860 v `songs/`, včetně souboru `.xml`, a 2 v `Testovací písně/`). Všechna
+  se načetla a exportovala; originály se pouze četly. Aktuální počet se liší
+  od historické inventury; test dynamicky prochází dostupné soubory.
+- **862 sémantických roundtripů ověřeno Pythonem**: rovnost SongRepository
+  modelů, metadat, umístění repetition a skutečných textů WidgetSource.
+  Přidělené legacy UUID se při porovnání zohlední. U prázdného XML názvu se
+  ignoruje jen prezentační název odvozený z odlišné cesty testovacího exportu.
+  Nevyžaduje se stejné formátování XML, atributové pořadí ani odsazení mezi uzly.
+- **865 guide**: **861 shodných stromů** proti Python parseru, včetně skupin,
+  počtů, řádků/rozsahů a pin; **4 shodně odmítnuté**, zachované beze změny
+  (`buh_vsech_narodu` dvakrát, Suchdol `b1.2*4`, `V1 V2 V3`). Dalších
+  10 souborů nemá žádné pořadí. Webové čištění řádků je porovnáno s WidgetSource
+  pro každou část každého jazyka; limity se ověřují i s více jazyky.
+- Chromium/Playwright: **5 scénářů OK**. Základní editace a identita; jazyky,
+  počet skupiny, pojmenované/výchozí pořadí, obnova kopie i originálu a
+  zrušené/potvrzené mazání; uzamčený vadný guide po editaci, exportu a reloadu.
+  Čtvrtý scénář ověřil ochranu nečitelného místního konceptu a stažení přesné
+  JSON zálohy bez automatického přepsání. Skutečné základní i pokročilé XML načetl desktopový loader
+  bez fallbacku. Vadný guide v dalším downloadu zůstal nezměněn.
+  Pátý scénář ověřil zrušení i potvrzení odebrání jazyka, přesun jeho pořadí,
+  zachování identity, obnovu stránky a export. Doménový test navíc kontroluje
+  duplicity/main, chybějící část a atomické odmítnutí odstranění posledního jazyka.
+- Existující desktopové testy parseru a limitů:
+  `python -m unittest discover -s tests -p test_construct*.py`: **25 OK**.
+  Nejde o kompletní sadu desktopového GUI. Doplňkově znovu spuštěny existující
+  `test_song_repository.py`: 10 testů, 1 chyba v korpusovém zápisu; a
+  `test_song_compatibility.py`: 1 test, 4 chyby podtestů. Všechny chyby jsou
+  PermissionError/WinError 5 při `os.replace` dočasného XML, i mimo sandbox.
+  Stejná třída problému byla zaznamenána už v oddílu 7; přesná příčina není
+  prokázána a v této webové etapě se neopravovala. Tyto sady nejsou úspěšné.
+- Vitest, Python a Chromium vyžadovaly povolení mimo sandbox (blokovaný rename
+  dočasných souborů / spuštění Pythonu). Žádné závislosti nebyly instalovány.
+  Výstupy a report zůstávají jen v ignorovaném `web-song-editor/test-output/`.
+
+### Známá omezení a další práce
+
+Náhled není projektor: nepočítá kapacitu stránek, styly ani skutečné spojování @.
+Řádková čísla odpovídají desktopovému odstranění prázdných řádků a levého
+odsazení; diagnostika ověřuje všechny jazyky. Nově přidaný jazyk má prázdné
+texty, proto může výběr řádků dočasně uzamknout pořadí. Po doplnění textu
+stisknout „Znovu ověřit pořadí po změně textů“ (nebo přepnout pořadí).
+
+Uzamčené konstrukce nelze jednotlivě opravovat vizuálně; lze je zachovat nebo
+výslovně sestavit náhradu. Poškozené XML a ID, DTD, namespace známých uzlů,
+vnořený obsah section/repetition, prázdná/duplicitní ID částí či jazyků se
+odmítají. Početní hodnoty mimo bezpečná celá čísla JS se vizuálně neupravují.
+Limity XML 1 MiB / 10 000 uzlů / 64 úrovní, guide 16 384 znaků / 32 skupin /
+4096 kroků a řádků. Překročený guide se zachová uzamčený, nerozbaluje se.
+Pouze UTF-8, přesné formátování XML není smlouvou.
+
+Není mazání celých pojmenovaných pořadí, přejmenování ID částí,
+drag-and-drop, historie ani řešení souběžné práce více oken (poslední místní
+zápis vyhraje). Udržuje se jedna kopie a její originál. JSON záloha nečitelného
+konceptu nemá samostatné importní UI. Místní úložiště nenahrazuje export.
+Testován Chromium; Firefox, Safari, mobilní prohlížeče, hosting a distribuované
+EXE zbývají ručně. Zatím neprohlašovat kompatibilitu všech historických EXE.
+
+### Co ručně otestovat
+
+1. Vícejazyčná píseň: přepnout jazyky, upravit každý samostatně, přidat jazyk
+   a doplnit text. Export/reimport musí zachovat názvy, texty a song-id.
+2. Více pořadí: přidat a přejmenovat pořadí, nastavit výchozí; otevřít export
+   znovu. U nested/duplicitních pořadí ověřit jejich zachování a rozlišení.
+3. Pokročilé opakování: `vzyvam_jmeno_jezis.xml`,
+   `k_panu_ruce_pozvedam.xml` a obě Testovací písně; změnit počet, skupinu,
+   vnoření, řádky a připojení pomocí ovladačů. Ověřit průchod v desktopu.
+4. Odstranění používané části: zrušit a pak potvrdit, ověřit všechna pořadí
+   a jazyky. Poslední odkazovanou část ani část při uzamčeném guide nesmazat.
+5. Neplatný soubor: vadné XML nesmí nahradit koncept. Vadný odkaz se musí
+   zobrazit jako uzamčený; změna textu ani export ho nesmí tiše odstranit.
+6. Obnovení stránky: rozpracovat originál i kopii, obnovit stránku a ověřit
+   obě práce a identity. Vyzkoušet také zakázané/plné místní úložiště.
+7. Exporty otevřít v používaném SuperPresenter EXE na testovací kopii knihovny,
+   přehrát všechny varianty/pořadí, uložit desktopovým editorem a ověřit ID.
+   Běžná úprava musí zachovat ID, „Vytvořit kopii“ musí mít nové ID.
+
+**Po ruční kontrole připomínáme commit; agent žádný nevytváří.**

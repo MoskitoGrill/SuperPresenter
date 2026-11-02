@@ -38,3 +38,99 @@ test('create song, shared chorus, identity and safe replacement', async ({ page 
   expect(diagnostic.message()).toContain('Neplatné XML'); await diagnostic.accept();
   await expect(page.getByLabel('Název písně', { exact: true })).toHaveValue('Ruční zkouška');
 });
+
+test('multilingual groups, named orders, deletion and recovery of copy and original', async ({ page }) => {
+  await page.goto('/');
+  const xml = '<slide name="Languages" song-id="11111111-1111-4111-8111-111111111111"><variant name="cz"><section name="v1">A\nB</section><section name="r">R</section><repetition name="nested">v1</repetition></variant><variant name="uk"><section name="v1">А\nБ</section><section name="r">Р</section></variant><repetition name="live" main="yes">(v1.1:2 @r)*3</repetition></slide>';
+  await page.getByLabel('Název písně', { exact: true }).fill('Before');
+  page.once('dialog', d => d.accept());
+  await page.getByLabel('Otevřít XML', { exact: true }).setInputFiles({ name: 'languages.xml', mimeType: 'application/xml', buffer: Buffer.from(xml) });
+  await expect(page.getByLabel('Počet opakování')).toHaveValue('3');
+  await page.getByLabel('Počet opakování').fill('4');
+  await page.getByLabel('Počet opakování').press('Tab');
+  await expect(page.locator('#preview pre')).toHaveCount(8);
+  await page.getByLabel('Jazyková varianta', { exact: true }).selectOption('1');
+  await expect(page.getByLabel('v1', { exact: true })).toHaveValue('А\nБ');
+  page.once('dialog', d => d.accept('english'));
+  await page.getByRole('button', { name: 'Přidat jazyk', exact: true }).click();
+  await page.getByLabel('v1', { exact: true }).fill('One\nTwo');
+  await page.getByLabel('r', { exact: true }).fill('Chorus');
+  await page.getByRole('button', { name: 'Znovu ověřit pořadí po změně textů' }).click();
+  page.once('dialog', d => d.accept('short'));
+  await page.getByRole('button', { name: 'Přidat pojmenované pořadí' }).click();
+  page.once('dialog', d => d.accept());
+  await page.getByRole('button', { name: 'Nastavit jako výchozí' }).click();
+  await page.getByLabel('Název písně', { exact: true }).fill('Original draft');
+  page.once('dialog', d => d.accept('Copy draft'));
+  await page.getByRole('button', { name: 'Vytvořit kopii', exact: true }).click();
+  const copyState = await page.locator('#state').innerText();
+  page.once('dialog', d => d.accept()); await page.reload();
+  await expect(page.getByLabel('Název písně', { exact: true })).toHaveValue('Copy draft');
+  await expect(page.locator('#state')).toHaveText(copyState);
+  page.once('dialog', d => d.accept());
+  await page.getByRole('button', { name: 'Vrátit původní koncept' }).click();
+  await expect(page.getByLabel('Název písně', { exact: true })).toHaveValue('Original draft');
+  await expect(page.locator('#state')).toContainText('11111111-1111-4111-8111-111111111111');
+  // r is used only inside a group; cancellation must preserve everything.
+  page.once('dialog', d => { expect(d.message()).toContain('live'); return d.dismiss(); });
+  await page.locator('section').filter({ has: page.getByLabel('r', { exact: true }) }).getByRole('button', { name: 'Odebrat část' }).click();
+  await expect(page.getByLabel('r', { exact: true })).toBeVisible();
+  page.once('dialog', d => d.accept());
+  await page.locator('section').filter({ has: page.getByLabel('r', { exact: true }) }).getByRole('button', { name: 'Odebrat část' }).click();
+  await expect(page.getByLabel('r', { exact: true })).toHaveCount(0);
+  const [download] = await Promise.all([page.waitForEvent('download'), page.getByRole('button', { name: 'Stáhnout XML', exact: true }).click()]);
+  await download.saveAs('test-output/browser-advanced.xml');
+  const exported = readFileSync('test-output/browser-advanced.xml','utf-8');
+  expect(exported).toContain('(v1.1:2)*4'); expect(exported).toContain('name="nested"'); expect(exported).toContain('name="english"');
+});
+
+test('invalid legacy guides stay locked and survive text edits, export and reload', async ({ page }) => {
+  await page.goto('/'); page.once('dialog', d => d.accept());
+  await page.getByLabel('Otevřít XML').setInputFiles({ name: 'legacy.xml', mimeType: 'application/xml', buffer: Buffer.from('<slide name="Legacy"><variant name="cz"><section name="v1">A</section></variant><repetition name="default">V1 missing</repetition></slide>') });
+  await expect(page.getByText('Importované pořadí je uzamčené.', { exact: false })).toBeVisible();
+  await page.getByLabel('v1', { exact: true }).fill('Changed');
+  page.once('dialog', d => { expect(d.message()).toContain('Mazání je blokováno'); return d.accept(); });
+  await page.getByRole('button', { name: 'Odebrat část' }).click();
+  page.once('dialog', d => d.accept());
+  const [download] = await Promise.all([page.waitForEvent('download'), page.getByRole('button', { name: 'Stáhnout XML', exact: true }).click()]);
+  await download.saveAs('test-output/browser-legacy.xml');
+  expect(readFileSync('test-output/browser-legacy.xml','utf-8')).toContain('V1 missing');
+  await page.reload(); await expect(page.getByLabel('v1', { exact: true })).toHaveValue('Changed');
+});
+
+test('unreadable local backup is not overwritten and can be downloaded', async ({ page }) => {
+  await page.goto('/');
+  await page.evaluate(() => localStorage.setItem('superpresenter-song-draft-v1', '{broken backup'));
+  page.once('dialog', d => d.accept()); await page.reload();
+  await expect(page.locator('#storage')).toContainText('nelze načíst');
+  await page.getByLabel('Název písně', { exact: true }).fill('Safe new work');
+  expect(await page.evaluate(() => localStorage.getItem('superpresenter-song-draft-v1'))).toBe('{broken backup');
+  const [backup] = await Promise.all([page.waitForEvent('download'), page.getByRole('button', { name: 'Stáhnout zálohu konceptu' }).click()]);
+  expect(backup.suggestedFilename()).toBe('zaloha-konceptu.json');
+  await backup.saveAs('test-output/corrupt-backup.json');
+  expect(readFileSync('test-output/corrupt-backup.json','utf-8')).toBe('{broken backup');
+});
+
+test('language deletion can be cancelled and preserves nested order through reload/export', async ({ page }) => {
+  await page.goto('/');
+  await expect(page.getByRole('button', { name: 'Odebrat jazyk', exact: true })).toBeDisabled();
+  page.once('dialog', d => d.accept());
+  await page.getByLabel('Otevřít XML').setInputFiles({ name: 'languages.xml', mimeType: 'application/xml', buffer: Buffer.from('<slide name="Delete language" song-id="11111111-1111-4111-8111-111111111111"><variant name="cz"><section name="v1">Keep</section></variant><variant name="uk"><section name="v1">Remove</section><repetition name="live" main="yes">(v1)*3</repetition></variant></slide>') });
+  await page.getByLabel('Jazyková varianta', { exact: true }).selectOption('1');
+  page.once('dialog', d => d.dismiss());
+  await page.getByRole('button', { name: 'Odebrat jazyk', exact: true }).click();
+  await expect(page.getByLabel('v1', { exact: true })).toHaveValue('Remove');
+  page.once('dialog', d => { expect(d.message()).toContain('1 pořadí'); return d.accept(); });
+  await page.getByRole('button', { name: 'Odebrat jazyk', exact: true }).click();
+  await expect(page.getByLabel('v1', { exact: true })).toHaveValue('Keep');
+  await expect(page.getByRole('button', { name: 'Odebrat jazyk', exact: true })).toBeDisabled();
+  await expect(page.getByLabel('Počet opakování')).toHaveValue('3');
+  page.once('dialog', d => d.accept()); await page.reload();
+  await expect(page.getByLabel('v1', { exact: true })).toHaveValue('Keep');
+  const [download] = await Promise.all([page.waitForEvent('download'), page.getByRole('button', { name: 'Stáhnout XML', exact: true }).click()]);
+  await download.saveAs('test-output/browser-delete-language.xml');
+  const xml = readFileSync('test-output/browser-delete-language.xml','utf-8');
+  expect(xml).not.toContain('name="uk"');
+  expect(xml).toContain('</variant><repetition name="live" main="yes">(v1)*3</repetition>');
+  expect(xml).toContain('11111111-1111-4111-8111-111111111111');
+});

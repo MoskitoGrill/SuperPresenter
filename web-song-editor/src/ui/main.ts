@@ -1,17 +1,41 @@
-import { newSong, type SongDocument } from '../domain/song';
-import { exportXml } from '../xml/songXml';
+import { newSong, presentationLines, type SongDocument } from '../domain/song';
+import { exportXml, importXml } from '../xml/songXml';
+import { leaves, type Node } from '../construct/tree';
 import { openFile, download } from '../io/files';
 import './style.css';
 
 let song = newSong(), dirty = true, variantIndex = 0, repetitionIndex = 0;
 let original: { song: SongDocument; dirty: boolean } | undefined;
+const storageKey = 'superpresenter-song-draft-v1';
+let storageMessage = '', recoveryFailed = false;
+function persist() {
+  if (recoveryFailed) return;
+  try {
+    const xml = (s: SongDocument) => new XMLSerializer().serializeToString(s.root).replace(/\r/g, '&#13;');
+    localStorage.setItem(storageKey, JSON.stringify({ version: 1, xml: xml(song), dirty, variantIndex, repetitionIndex, original: original && { xml: xml(original.song), dirty: original.dirty } }));
+    storageMessage = 'Koncept je v místním úložišti tohoto prohlížeče.';
+  } catch { storageMessage = 'Místní obnova není dostupná (úložiště je plné nebo zakázané). Stáhněte XML.'; }
+}
+try {
+  const raw = localStorage.getItem(storageKey);
+  if (raw) {
+    const saved = JSON.parse(raw);
+    if (saved.version !== 1) throw new Error('Neznámá verze konceptu');
+    const next = importXml(saved.xml), previous = saved.original && importXml(saved.original.xml);
+    song = next; dirty = !!saved.dirty;
+    variantIndex = Math.max(0, Math.min(Math.trunc(Number(saved.variantIndex)) || 0, song.variants.length - 1));
+    repetitionIndex = Math.max(0, Math.min(Math.trunc(Number(saved.repetitionIndex)) || 0, song.repetitions.length - 1));
+    if (previous) original = { song: previous, dirty: !!saved.original.dirty };
+    storageMessage = 'Rozpracovaná práce byla obnovena.';
+  }
+} catch { recoveryFailed = true; storageMessage = 'Uložený koncept nelze načíst. Nebyl přepsán; stáhněte zálohu tlačítkem níže.'; }
 const app = document.querySelector<HTMLElement>('#app')!;
 function el<K extends keyof HTMLElementTagNameMap>(tag: K, text = '') {
   const e = document.createElement(tag); e.textContent = text; return e;
 }
 function button(text: string, action: () => void, disabled = false) {
   const b = el('button', text); b.type = 'button'; b.disabled = disabled;
-  b.onclick = () => { try { action(); } catch (e) { alert(String((e as Error).message)); } }; return b;
+  b.onclick = () => { try { action(); } catch (e) { alert(String((e as Error).message)); render(); } }; return b;
 }
 function field(caption: string, value: string, change: (value: string) => void, multiline = false) {
   const label = el('label', caption); const input = multiline ? el('textarea') : el('input');
@@ -21,14 +45,29 @@ function field(caption: string, value: string, change: (value: string) => void, 
 function mayReplace(discardOriginal = false) { return !(dirty || (discardOriginal && original?.dirty)) || confirm('Nahrazované koncepty obsahují změny, které nebyly staženy. Zahodit je a pokračovat?'); }
 function replace(next: SongDocument, changed: boolean) { song = next; dirty = changed; variantIndex = 0; repetitionIndex = song.repetitions.indexOf(song.selectedRepetition); render(); }
 function move<T>(list: T[], index: number, delta: number) { [list[index], list[index + delta]] = [list[index + delta], list[index]]; return list; }
-function status() { document.querySelector('#state')!.textContent = `${dirty ? 'Změny nebyly staženy' : 'XML staženo / načteno'} · ID: ${song.id}${original ? ' · Pracujete s kopií; původní koncept je dostupný tlačítkem.' : ''}`; }
+function status() {
+  persist();
+  document.querySelector('#state')!.textContent = `${dirty ? 'Změny nebyly staženy' : 'XML staženo / načteno'} · ID: ${song.id}${original ? ' · Pracujete s kopií; původní koncept je dostupný tlačítkem.' : ''}`;
+  document.querySelector('#storage')!.textContent = storageMessage + ' Nejde o sdílené ani trvalé uložení. Vymazání dat prohlížeče nebo změna adresy webu koncept znepřístupní. Pro uchování stáhněte XML.';
+}
 function preview() {
   const area = document.querySelector('#preview')!; area.replaceChildren();
   const variant = song.variants[variantIndex];
-  for (const id of song.steps(song.repetitions[repetitionIndex])) {
-    const section = song.sections(variant).find(s => s.getAttribute('name') === id)!;
-    area.append(el('h3', id), el('pre', section.textContent ?? ''));
+  const rep = song.repetitions[repetitionIndex];
+  if (!rep) { area.append(el('p', 'Soubor nemá pořadí. Je zachován beze změny; můžete výslovně přidat nové pořadí.')); return; }
+  const errors = song.diagnostics(rep);
+  if (errors.length) { area.append(el('p', errors.join('\n'))); return; }
+  function show(nodes: Node[]) {
+    for (const node of nodes) {
+      if ('children' in node) { for (let i = 0; i < node.repeat; i++) show(node.children); }
+      else {
+        const section = song.sections(variant).find(s => s.getAttribute('name') === node.section)!;
+        const text = node.start === undefined ? section.textContent ?? '' : presentationLines(section.textContent ?? '').slice(node.start - 1, node.end ?? node.start).join('\n');
+        area.append(el('h3', node.section + (node.pinned ? ' — připojit k předchozímu bloku' : '')), el('pre', text));
+      }
+    }
   }
+  show(song.tree(rep));
 }
 function render() {
   app.replaceChildren(el('h1', 'Editor písní SuperPresenter'));
@@ -43,7 +82,11 @@ function render() {
       if (mayReplace(true)) { original = undefined; replace(next, true); }
     } catch (e) { alert((e as Error).message); }
   };
-  nav.append(file, button('Stáhnout XML', () => { download(exportXml(song), song.title); dirty = false; status(); }), button('Vytvořit kopii', () => {
+  nav.append(file, button('Stáhnout XML', () => {
+    const warnings = song.repetitions.flatMap((r,i) => song.diagnostics(r).map(message => `${i+1}. ${r.getAttribute('name')}: ${message}`));
+    if (warnings.length && !confirm('XML zachová problematická pořadí; jejich přehrání nemusí fungovat.\n' + warnings.join('\n') + '\nStáhnout beze změny těchto pořadí?')) return;
+    download(exportXml(song), song.title); dirty = false; status();
+  }), button('Vytvořit kopii', () => {
     const title = prompt('Název nové kopie (původní koncept zůstane dostupný):', song.title + ' (kopie)');
     if (!title?.trim()) return;
     if (title.trim() === song.title.trim()) throw new Error('Zadejte vlastní název kopie odlišný od původního.');
@@ -55,28 +98,46 @@ function render() {
   }));
   app.append(nav, el('p', 'Stažení XML nepřepíše původní soubor. Stažený soubor musíte sami umístit do knihovny SuperPresenteru a případně nahradit původní soubor.'), el('p', 'Staršímu XML bez song-id přidělíme identitu konceptu. Pro další úpravy otevírejte stažený soubor s ID. Prohlížeč může přidat číslo k názvu souboru.'), Object.assign(el('p'), { id: 'state' }));
   app.append(field('Název písně', song.title, value => { song.title = value; }));
+  app.append(Object.assign(el('p'), { id: 'storage' }));
+  if (recoveryFailed) app.append(button('Stáhnout zálohu konceptu', () => { download(localStorage.getItem(storageKey) ?? '', 'zaloha-konceptu', 'json'); }), button('Povolit nový místní koncept', () => { if (confirm('Přepsat nečitelnou zálohu? Nejprve ji stáhněte.')) { recoveryFailed = false; status(); } }));
   const vlabel = el('label', 'Jazyková varianta'); const vselect = el('select');
+  vselect.setAttribute('aria-label', 'Jazyková varianta');
   song.variants.forEach((v,i) => { const opt = el('option', v.getAttribute('name')!); opt.value = String(i); vselect.append(opt); });
   vselect.value = String(variantIndex); vselect.onchange = () => { variantIndex = Number(vselect.value); render(); }; vlabel.append(vselect); app.append(vlabel);
   const variant = song.variants[variantIndex];
-  app.append(field('Název varianty', variant.getAttribute('name')!, value => variant.setAttribute('name', value)));
+  app.append(button('Přejmenovat jazyk', () => {
+    const name = prompt('Název jazyka:', variant.getAttribute('name') ?? ''); if (!name) return;
+    if (!name.trim() || song.variants.some(v => v !== variant && v.getAttribute('name') === name)) throw new Error('Zadejte neprázdný jedinečný název.');
+    variant.setAttribute('name', name); dirty = true; render();
+  }));
+  app.append(button('Přidat jazyk', () => { const name = prompt('Název nového jazyka (texty budou prázdné):'); if (!name) return; const v = song.addVariant(name); variantIndex = song.variants.indexOf(v); dirty = true; render(); }));
+  app.append(button('Odebrat jazyk', () => {
+    const nested = Array.from(variant.children).filter(e => e.tagName === 'repetition');
+    const remainingIds = new Set(song.variants.filter(v => v !== variant).flatMap(v => song.sections(v).map(s => s.getAttribute('name'))));
+    const lostIds = song.sections(variant).map(s => s.getAttribute('name')!).filter(id => !remainingIds.has(id));
+    const warning = lostIds.length ? `\nČásti ${lostIds.join(', ')} nejsou v žádném jiném jazyce. Odkazy na ně zůstanou zachovány, ale příslušná pořadí budou uzamčena s chybou chybějící části.` : '';
+    if (!confirm(`Odebrat jazyk „${variant.getAttribute('name')}“ a všech jeho ${song.sections(variant).length} textů? Ostatní jazyky zůstanou zachovány.\n${nested.length} pořadí uvnitř tohoto jazyka bude přesunuto ke společným pořadím; jejich obsah, vzájemné pořadí a výchozí označení se zachovají.${warning}\nPro zálohu textů nejprve stáhněte XML.`)) return;
+    const selected = song.repetitions[repetitionIndex];
+    song.removeVariant(variant);
+    variantIndex = Math.min(variantIndex, song.variants.length - 1);
+    repetitionIndex = song.repetitions.indexOf(selected);
+    dirty = true; render();
+  }, song.variants.length <= 1));
+  app.append(el('p', 'Každý jazyk má vlastní text. Nový jazyk dostane stejné části s prázdnými texty. Názvy jazyků se automaticky nepřekládají.'));
   app.append(el('h2', 'Části — text se sdílí ve všech výskytech pořadí'));
   const sections = song.sections(variant);
   sections.forEach((section,i) => {
     const id = section.getAttribute('name')!; const card = el('section');
     card.append(field(id, section.textContent ?? '', value => { section.textContent = value; }, true));
     for (const delta of [-1,1]) card.append(button(delta < 0 ? 'Část nahoru' : 'Část dolů', () => {
-      for (const v of song.variants) {
-        const nodes = song.sections(v), current = nodes.find(s => s.getAttribute('name') === id)!;
-        const otherId = sections[i + delta].getAttribute('name');
-        const other = nodes.find(s => s.getAttribute('name') === otherId)!;
-        if (delta < 0) v.insertBefore(current, other); else v.insertBefore(other, current);
-      }
+      const other = sections[i + delta];
+      if (delta < 0) variant.insertBefore(section, other); else variant.insertBefore(other, section);
       dirty = true; render();
     }, i + delta < 0 || i + delta >= sections.length));
     card.append(button('Odebrat část', () => {
-      const count = song.repetitions.reduce((n,r) => n + song.steps(r).filter(s => s === id).length, 0);
-      if (confirm(`Odebrat ${id} ze všech ${song.variants.length} variant a odstranit ${count} odkazů ve všech pořadích?`)) { song.removeSection(id); dirty = true; render(); }
+      if (song.repetitions.some(r => song.diagnostics(r).length)) throw new Error('Mazání je blokováno: nejprve opravte nebo nahraďte uzamčená pořadí. Nelze bezpečně určit všechny odkazy.');
+      const impacts = song.repetitions.map((r,i) => `${i+1}. ${r.getAttribute('name')}: ${leaves(song.tree(r)).filter(s => s.section === id).length} odkazů (uvnitř skupin se mohou opakovat)`).join('\n');
+      if (confirm(`Odebrat ${id} ze všech ${song.variants.length} variant? Odstraní se odkazy a vyprázdněné skupiny:\n${impacts}`)) { song.removeSection(id); dirty = true; render(); }
     })); app.append(card);
   });
   for (const [label,prefix] of [['Sloka','v'],['Refrén','r'],['Bridge','b'],['Vlastní blok','s']]) app.append(button(`Přidat: ${label}`, () => {
@@ -86,16 +147,66 @@ function render() {
   }));
   app.append(el('h2', 'Pořadí přehrávání'));
   const rlabel = el('label', 'Pojmenované pořadí'); const rselect = el('select');
-  song.repetitions.forEach((r,i) => { const opt = el('option', r.getAttribute('name')!); opt.value = String(i); rselect.append(opt); });
+  rselect.setAttribute('aria-label', 'Pojmenované pořadí');
+  song.repetitions.forEach((r,i) => { const opt = el('option', `${i+1}. ${r.getAttribute('name') ?? '(bez jména)'}${r === song.selectedRepetition ? ' — výchozí' : ''}${r.parentElement === song.root ? '' : ' — uvnitř jazyka'}`); opt.value = String(i); rselect.append(opt); });
   rselect.value = String(repetitionIndex); rselect.onchange = () => { repetitionIndex = Number(rselect.value); render(); }; rlabel.append(rselect); app.append(rlabel);
-  const rep = song.repetitions[repetitionIndex], steps = song.steps(rep);
-  function saveSteps(next: string[]) { rep.textContent = next.join(' '); dirty = true; render(); }
-  steps.forEach((id,i) => {
-    const row = el('div', `${i+1}. ${id} `);
-    for (const delta of [-1,1]) row.append(button(delta < 0 ? 'Výskyt nahoru' : 'Výskyt dolů', () => saveSteps(move([...steps],i,delta)), i + delta < 0 || i + delta >= steps.length));
-    row.append(button('Odebrat výskyt', () => saveSteps(steps.filter((_,j) => j !== i)), steps.length <= 1)); app.append(row);
-  });
-  for (const s of sections) { const id = s.getAttribute('name')!; app.append(button(`Zařadit ${id}`, () => saveSteps([...steps,id]))); }
+  const rep = song.repetitions[repetitionIndex];
+  app.append(button('Znovu ověřit pořadí po změně textů', () => render()));
+  app.append(button('Přidat pojmenované pořadí', () => { const name = prompt('Jméno nového pořadí:'); if (!name) return; const r = song.addRepetition(name); repetitionIndex = song.repetitions.indexOf(r); dirty = true; render(); }));
+  if (!rep) {
+    app.append(el('p', 'Import nemá žádné pořadí; žádné nebylo automaticky doplněno.'), Object.assign(el('div'), { id: 'preview' })); status(); preview(); return;
+  }
+  app.append(button('Přejmenovat pořadí', () => {
+    const name = prompt('Nové jedinečné jméno pořadí:', rep.getAttribute('name') ?? ''); if (!name) return;
+    if (song.repetitions.some(r => r !== rep && r.getAttribute('name') === name)) throw new Error('Toto jméno již existuje.');
+    rep.setAttribute('name', name); dirty = true; render();
+  }), button('Nastavit jako výchozí', () => {
+    if (!confirm('Nastavit toto pořadí jako jediné výchozí? Případná ostatní označení main budou odstraněna.')) return;
+    song.setDefault(rep); dirty = true; render();
+  }));
+  const names = song.repetitions.map(r => r.getAttribute('name'));
+  if (new Set(names).size !== names.length || names.some(n => !n?.trim()) || song.repetitions.filter(r => /^(1|true|yes)$/i.test(r.getAttribute('main') ?? '')).length > 1) app.append(el('p', 'Import obsahuje shodná/prázdná jména nebo více výchozích pořadí. Všechna jsou zachována a odlišena číslem a umístěním. Výběr: první main, jinak default, jinak první. Přejmenování a nastavení výchozího je výslovné.'));
+  const errors = song.diagnostics(rep);
+  if (errors.length) {
+    app.append(el('p', 'Importované pořadí je uzamčené. Texty lze upravit a XML stáhnout se zachovaným původním pořadím. ' + errors.join('\n')), el('pre', rep.textContent ?? ''));
+    app.append(button('Sestavit náhradní pořadí', () => {
+      if (!confirm('Nahradit celé vybrané pořadí první částí? Původní výraz se tím z tohoto konceptu odstraní. Pro jeho uchování nejprve stáhněte XML.')) return;
+      song.saveTree(rep, [{ section: song.ids[0], pinned: false }]); dirty = true; render();
+    }, !song.ids.length));
+  } else {
+    const tree = song.tree(rep);
+    function save() { song.saveTree(rep, tree); dirty = true; render(); }
+    function edit(nodes: Node[], parent: HTMLElement) {
+      nodes.forEach((node,i) => {
+        const row = el('fieldset'); row.append(el('legend', 'children' in node ? 'Opakovaná skupina' : `Část ${node.section}`));
+        for (const delta of [-1,1]) row.append(button(delta < 0 ? 'Výskyt nahoru' : 'Výskyt dolů', () => { move(nodes,i,delta); save(); }, i + delta < 0 || i + delta >= nodes.length));
+        row.append(button('Odebrat výskyt', () => { nodes.splice(i,1); save(); }, nodes.length <= 1));
+        row.append(button('Opakovat tento blok', () => { nodes[i] = { children: [node], repeat: 2 }; save(); }));
+        row.append(button('Seskupit s následujícím', () => { nodes.splice(i,2,{ children: [node,nodes[i+1]], repeat: 2 }); save(); }, i === nodes.length - 1));
+        const numeric = (caption: string, value: number, apply: (n: number) => void) => {
+          const label = el('label', caption), input = el('input'); input.type = 'number'; input.min = '1'; input.max = '4096'; input.value = String(value);
+          input.onchange = () => { try { const n = Number(input.value); if (!Number.isInteger(n) || n < 1 || n > 4096) throw new Error('Zadejte celé číslo 1 až 4096.'); apply(n); save(); } catch(e) { alert((e as Error).message); render(); } }; label.append(input); row.append(label);
+        };
+        if ('children' in node) {
+          numeric('Počet opakování', node.repeat, n => { node.repeat = n; });
+          row.append(button('Zrušit skupinu (ponechat jeden průchod)', () => { nodes.splice(i,1,...node.children); save(); }));
+          edit(node.children,row);
+        } else {
+          const label = el('label', 'Připojit k předchozímu bloku při volné kapacitě'), check = el('input'); check.type = 'checkbox'; check.checked = node.pinned;
+          check.onchange = () => { node.pinned = check.checked; save(); }; label.append(check); row.append(label);
+          row.append(button(node.start === undefined ? 'Vybrat řádky' : 'Použít celou část', () => { if (node.start === undefined) node.start = 1; else { delete node.start; delete node.end; } save(); }));
+          if (node.start !== undefined) {
+            numeric('Od řádku (po odstranění prázdných řádků)', node.start, n => { node.start = n; });
+            numeric('Do řádku (včetně; stejné číslo = jeden řádek)', node.end ?? node.start, n => { if (n === node.start) delete node.end; else node.end = n; });
+          }
+        }
+        parent.append(row);
+      });
+      for (const id of song.ids) parent.append(button(`Zařadit ${id}`, () => { nodes.push({ section: id, pinned: false }); save(); }));
+    }
+    edit(tree,app);
+  }
+  app.append(el('p', 'Skupiny zachovávají své hranice i vnoření. Náhled ukazuje posloupnost, nikoli stránkování a styly projektoru; připojení závisí na jeho kapacitě.'));
   app.append(el('h2', 'Náhled výsledného pořadí'), Object.assign(el('div'), { id: 'preview' })); status(); preview();
 }
 window.addEventListener('beforeunload', event => { if (dirty || original?.dirty) { event.preventDefault(); event.returnValue = ''; } });
