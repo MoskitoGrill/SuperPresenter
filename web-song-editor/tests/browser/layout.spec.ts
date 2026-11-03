@@ -7,8 +7,9 @@ for (const viewport of [{ width: 1280, height: 720 }, { width: 390, height: 844 
     await expect(page.locator('.workspace > div')).toHaveCount(2);
     await expect(page.locator('#sequence > :last-child')).toHaveAttribute('id', 'result');
     await expect(page.locator('#preview')).not.toBeVisible();
-    await expect(page.getByRole('heading', { name: 'Baptisté Šumperk', exact: true })).toBeVisible();
-    await expect(page.locator('.main-actions > button')).toHaveText(['Nová píseň', 'Otevřít', 'Importovat']);
+    await expect(page.getByRole('heading', { name: 'Baptisté Šumperk: Editor písní', exact: true })).toBeVisible();
+    await expect(page.locator('.main-actions > button')).toHaveText(['Nová píseň', 'Otevřít', 'Importovat', 'Uložit']);
+    await expect(page.getByRole('button', { name: 'Uložit', exact: true })).toBeDisabled();
     const title = page.getByLabel('Název písně', { exact: true });
     await expect(title).toHaveValue('');
     await expect(title).toHaveAttribute('placeholder', 'Zadejte název písně');

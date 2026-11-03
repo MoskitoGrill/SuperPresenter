@@ -19,6 +19,7 @@ p { margin: .5rem 0; overflow-wrap: anywhere; }
 :focus-visible { outline: 3px solid #235bba; outline-offset: 3px; }
 .main-actions { position: sticky; top: 0; z-index: 2; background: white; border-bottom: 1px solid #aaa; padding: .35rem 0; display: flex; flex-wrap: wrap; gap: .25rem; align-items: center; }
 .main-actions input { flex: 1 1 220px; min-width: 0; }
+.main-actions .database-save { margin-left: auto; background: #e8e8e8; color: #707070; }
 #state, #feedback { font-size: .9rem; }
 #feedback:empty { display: none; }
 .song-title { font-weight: 600; max-width: 55rem; }

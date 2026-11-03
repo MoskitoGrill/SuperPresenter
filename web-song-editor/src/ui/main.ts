@@ -123,7 +123,7 @@ function render() {
     index: Array.from(app.querySelectorAll('input, select, textarea')).filter(e => controlName(e) === controlName(active)).indexOf(active),
   } : undefined;
   const expanded = new Map(Array.from(app.querySelectorAll('details')).map(d => [detailsKey(d), d.open]));
-  app.replaceChildren(el('h1', 'Baptisté Šumperk'));
+  app.replaceChildren(el('h1', 'Baptisté Šumperk: Editor písní'));
   const nav = el('nav');
   nav.append(button('Nová píseň', () => { if (mayReplace(true)) { original = undefined; replace(emptySong(), true); } }));
   const file = el('input'); file.type = 'file'; file.accept = '.xml,application/xml,text/xml'; file.setAttribute('aria-label', 'Otevřít XML');
@@ -177,6 +177,10 @@ function render() {
   const downloadOptions = el('div'); downloadOptions.className = 'template-options';
   downloadOptions.append(xmlDownload);
   downloads.append(el('summary', 'Stáhnout'), downloadOptions); nav.append(downloads);
+  const save = button('Uložit', () => {}, true);
+  save.className = 'database-save';
+  save.title = 'Ukládání do společné databáze zatím není dostupné.';
+  nav.append(save);
   downloads.onkeydown = event => {
     if (event.key === 'Escape') { downloads.open = false; downloads.querySelector('summary')?.focus(); }
   };

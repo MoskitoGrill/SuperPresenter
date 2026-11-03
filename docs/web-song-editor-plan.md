@@ -1439,3 +1439,13 @@ Workflow publikuje výhradně z `Sbor` (push trigger i podmínka deploy jobu),
 `test` zůstává vývojová větev. Před dokončením merge commitu zahrnout také
 upravený workflow, tento plán, předávací návod a ignorování cache `.vite/`.
 GitHub Pages nastavit na GitHub Actions a případné omezení prostředí na `Sbor`.
+
+## 27. Budoucí tlačítko Uložit a nadpis
+
+Nadpis nyní zní „Baptisté Šumperk: Editor písní“. V horní liště je za ostatními
+akcemi tlačítko „Uložit“, odsazené pružnou mezerou úplně doprava. Je skutečně
+disabled a šedé; popisek vysvětluje budoucí ukládání do společné databáze.
+Tlačítko neprovádí žádnou akci. Databáze zůstává samostatnou budoucí etapou.
+Změněny main.ts, style.css a očekávání stávajícího layout testu.
+Produkční build OK. Commit ani push nejsou součástí úpravy.
+Layout ověřen na produkčním buildu: Chromium 2/2 OK (1280 a 390 px).
