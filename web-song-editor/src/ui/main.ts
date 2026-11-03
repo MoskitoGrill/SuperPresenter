@@ -1,7 +1,9 @@
 import { newSong, presentationLines, type SongDocument } from '../domain/song';
 import { exportXml, importXml } from '../xml/songXml';
 import { leaves, type Node } from '../construct/tree';
-import { openFile, download } from '../io/files';
+import { openFile, readUtf8, openDocx, download } from '../io/files';
+import { exportTxt, parseTxt, songFromTxt, txtTemplate, updateLanguageFromTxt } from '../io/songTxt';
+import { exportDocx, docxTemplate } from '../io/songDocx';
 import './style.css';
 
 let song = newSong(), dirty = true, variantIndex = 0, repetitionIndex = 0;
@@ -97,6 +99,80 @@ function render() {
     if (!mayReplace()) return; const saved = original!; original = undefined; replace(saved.song, saved.dirty);
   }));
   app.append(nav, el('p', 'Stažení XML nepřepíše původní soubor. Stažený soubor musíte sami umístit do knihovny SuperPresenteru a případně nahradit původní soubor.'), el('p', 'Staršímu XML bez song-id přidělíme identitu konceptu. Pro další úpravy otevírejte stažený soubor s ID. Prohlížeč může přidat číslo k názvu souboru.'), Object.assign(el('p'), { id: 'state' }));
+  for (const format of ['TXT', 'DOCX'] as const) {
+    const txtFile = el('input'); txtFile.type = 'file'; txtFile.accept = format === 'TXT' ? '.txt,text/plain' : '.docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document'; txtFile.setAttribute('aria-label', `Importovat ${format}`);
+    const txtPreview = el('section'); txtPreview.setAttribute('aria-label', `Náhled importu ${format}`);
+    txtFile.onchange = async () => {
+      const selected = txtFile.files?.[0]; txtFile.value = ''; if (!selected) return;
+      txtPreview.replaceChildren();
+      try {
+        const converted = format === 'DOCX' ? await openDocx(selected) : { text: await readUtf8(selected), warnings: [] };
+        const source = converted.text;
+        function show(resolve = false) {
+          const p = parseTxt(source, resolve); txtPreview.replaceChildren(el('h2', `Náhled importu ${format}`), el('p', p.title));
+          if (format === 'DOCX') txtPreview.append(el('p', 'Z Wordu se přenášejí texty a pořadí částí. Písma, barvy, styly a rozložení stránek se nepřenášejí.'));
+          for (const warning of converted.warnings) txtPreview.append(el('p', warning));
+          for (const s of p.sections) txtPreview.append(el('h3', s.id), el('pre', s.text));
+          txtPreview.append(el('p', 'Pořadí: ' + p.order.join(' → ')));
+          for (const problem of p.problems) txtPreview.append(el('p', problem));
+          for (const conflict of p.conflicts) txtPreview.append(el('p', conflict + (resolve ? ' Vytvořena číslovaná varianta; následující prázdné odkazy míří na ni.' : ' Import je do vyřešení blokován.')));
+          if (p.conflicts.length && !resolve) txtPreview.append(button('Vyřešit odlišné texty vytvořením variant', () => show(true)));
+          const blocked = !!p.problems.length || (!!p.conflicts.length && !resolve);
+          const sameTitle = (a: string, b: string) => a.normalize('NFC').trim().toLocaleLowerCase('cs') === b.normalize('NFC').trim().toLocaleLowerCase('cs');
+          const known = [song, ...(original ? [original.song] : [])];
+          const matches = known.filter(s => sameTitle(s.title, p.title));
+          txtPreview.append(el('p', matches.length ? 'Píseň se stejným názvem už je otevřená. Chcete upravit její jazyk, nebo vytvořit novou píseň s jiným názvem?' : 'Import vytvoří novou píseň. Shodu názvu kontrolujeme jen s otevřeným konceptem a jeho případným originálem; knihovnu na disku web neprohledává.'));
+          for (const target of matches) {
+            const langLabel = el('label', 'Jazyk pro přepsání textů'), language = el('select');
+            language.setAttribute('aria-label', target === song ? 'Jazyk pro přepsání textů' : 'Jazyk původní písně pro přepsání');
+            target.variants.forEach((v, i) => { const o = el('option', v.getAttribute('name')!); o.value = String(i); language.append(o); });
+            language.value = String(target === song ? variantIndex : 0); langLabel.append(language); txtPreview.append(langLabel);
+            txtPreview.append(el('p', `Nahradí se texty odpovídajících částí pouze zvoleného jazyka. Ostatní jazyky, vynechané části, všechna původní pořadí, metadata i identita zůstanou zachované. Nové části mohou v jiných jazycích chybět. Změněné pořadí z ${format} se přidá jako nové pořadí ${format}; výchozí se nezmění.`));
+            txtPreview.append(button(target === song ? 'Přepsat texty vybraného jazyka' : 'Přepsat texty jazyka původní písně', () => {
+              const index = Number(language.value);
+              const result = updateLanguageFromTxt(target, p, index, target === song ? repetitionIndex : target.repetitions.indexOf(target.selectedRepetition), format);
+              if (!confirm(`Přepsat texty jazyka „${target.variants[index].getAttribute('name')}“ písně „${target.title}“?${result.addedOrder ? ` Pořadí z ${format} bude přidáno jako nové, původní pořadí zůstanou.` : ''}`)) return;
+              if (!mayReplace(true)) return;
+              original = undefined; replace(result.song, true); variantIndex = index; render();
+            }, blocked));
+          }
+          const newLanguageLabel = el('label', 'Jazyk nové písně'), newLanguage = el('input');
+          newLanguage.setAttribute('aria-label', 'Jazyk nové písně'); newLanguage.value = 'čeština'; newLanguageLabel.append(newLanguage);
+          txtPreview.append(newLanguageLabel, button(matches.length ? 'Vytvořit novou s jiným názvem' : 'Importovat jako novou píseň', () => {
+            let title = p.title;
+            if (matches.length) {
+              const answer = prompt('Název nové písně:', p.title + ' (nová)'); if (!answer?.trim()) return;
+              title = answer.trim();
+              if (known.some(s => sameTitle(s.title, title))) throw new Error('Zadejte nový název odlišný od otevřených písní.');
+            }
+            const next = songFromTxt({ ...p, title, language: newLanguage.value.trim() });
+            if (!mayReplace(true)) return;
+            original = undefined; replace(next, true);
+          }, blocked), button(`Zrušit import ${format}`, () => txtPreview.replaceChildren()));
+        }
+        show();
+      } catch (e) { alert((e as Error).message); }
+    };
+    const txtExport = el('section');
+    app.append(button(`Stáhnout ${format}`, () => {
+      txtExport.replaceChildren(el('h2', `Stažení ${format}`));
+      const language = el('select'), order = el('select');
+      language.setAttribute('aria-label', `Jazyk pro ${format}`); order.setAttribute('aria-label', `Pořadí pro ${format}`);
+      song.variants.forEach((v, i) => { const o = el('option', v.getAttribute('name')!); o.value = String(i); language.append(o); });
+      song.repetitions.forEach((r, i) => { const o = el('option', `${i + 1}. ${r.getAttribute('name')}`); o.value = String(i); order.append(o); });
+      language.value = String(variantIndex); order.value = String(repetitionIndex);
+      const languageLabel = el('label', `Jazyk pro ${format}`); languageLabel.append(language);
+      const orderLabel = el('label', `Pořadí pro ${format}`); orderLabel.append(order);
+      txtExport.append(languageLabel, orderLabel, el('p', `${format} obsahuje jen název, texty vybraného jazyka a vybrané jednoduché pořadí. Neobsahuje identitu, další jazyky a pořadí ani metadata. Plnou zálohu stáhněte jako XML. Pro návrat změn ponechte stejný název a otevřenou původní píseň.`));
+      if (format === 'DOCX') txtExport.append(el('p', 'Ve Wordu upravujte běžné odstavce. Formátování se při návratu nepřebírá; nepoužívejte tabulky, textová pole ani automatické číslování nadpisů.'));
+      txtExport.append(button(`Stáhnout vybraný jazyk do ${format}`, () => {
+        const index = Number(language.value);
+        const text = format === 'TXT' ? exportTxt(song, index, Number(order.value)) : exportDocx(song, index, Number(order.value));
+        download(text, song.title + ' - ' + song.variants[index].getAttribute('name'), format.toLowerCase()); txtExport.replaceChildren();
+      }), button(`Zrušit stažení ${format}`, () => txtExport.replaceChildren()));
+    }), button(`Stáhnout prázdnou ${format} šablonu`, () => download(format === 'TXT' ? txtTemplate : docxTemplate(), 'sablona-pisne', format.toLowerCase())), txtFile,
+    el('p', `${format} pro ${format === 'TXT' ? 'Poznámkový blok' : 'Word'}: název na prvním řádku, potom Sloka 1, Refrén 1, Bridge 1 a texty. Dvojtečky nejsou potřeba. Před importem se zobrazí náhled.`), txtExport, txtPreview);
+  }
   app.append(field('Název písně', song.title, value => { song.title = value; }));
   app.append(Object.assign(el('p'), { id: 'storage' }));
   if (recoveryFailed) app.append(button('Stáhnout zálohu konceptu', () => { download(localStorage.getItem(storageKey) ?? '', 'zaloha-konceptu', 'json'); }), button('Povolit nový místní koncept', () => { if (confirm('Přepsat nečitelnou zálohu? Nejprve ji stáhněte.')) { recoveryFailed = false; status(); } }));

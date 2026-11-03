@@ -1,7 +1,9 @@
 # Samostatný webový editor písní — plán a předání
 
-Stav k 3. 11. 2026: doplněna kompatibilita a funkce etapy 2 v `web-song-editor/`.
-Aktuální předání implementace, výsledky a ruční scénář jsou v oddílu 9.
+Stav k 3. 11. 2026: doplněn DOCX se stejným postupem jako zjednodušený TXT.
+Aktuální předání DOCX, výsledky a ruční scénář jsou v oddílu 12; TXT v oddílu 11.
+Nové zadání nahrazuje původní požadavek identity v TXT z oddílů 3–6 a 10:
+TXT nyní nemá hlavičku ani ID; při shodě názvu vyžaduje ruční rozhodnutí.
 Oddíly 7–8 popisují historický stav před těmito změnami.
 Původní průzkum a historické předání jsou ponechány jako kontext.
 Tento dokument je trvalý kontext pro další chaty. Před implementací znovu přečíst
@@ -609,3 +611,238 @@ EXE zbývají ručně. Zatím neprohlašovat kompatibilitu všech historických 
    Běžná úprava musí zachovat ID, „Vytvořit kopii“ musí mít nové ID.
 
 **Po ruční kontrole připomínáme commit; agent žádný nevytváří.**
+
+## 10. Předání jednoduchého TXT (3. 11. 2026)
+
+Použity pokyny `C:/Users/moski/Documents/AGENTS.md` (české shrnutí); další
+AGENTS.md v projektu ani nadřazených kontrolovaných adresářích nenalezen.
+Předchozí oddíly jsou historický kontext. Word/DOCX, hosting, desktopové zdroje,
+knihovna písní ani závislosti se v této etapě nemění. Commit nebyl vytvořen.
+
+### Rozhodnutí a soubory
+
+- `web-song-editor/src/io/songTxt.ts`: samostatný parser, náhled, tvorba modelu
+  a export. Lidské nadpisy Sloka/Refrén/Bridge, čísla, case a diakritika,
+  volitelná dvojtečka, prázdné odkazy na dřívější definici. Vnitřní prázdné
+  řádky nejsou oddělovačem částí. Odlišné texty stejného ID blokují import;
+  explicitní řešení vytvoří nové volné číslo a ukáže výsledné reference.
+- TXT v1 má dva technické řádky (verze a JSON s identitou/jazykem/pořadím/main).
+  Hlavičku uživatel nemá měnit. Import bez ID vyžaduje výslovnou volbu nová
+  píseň versus úprava otevřené; název nikdy nerozhoduje. Stejné ID se zachovává
+  i při přejmenování. Není detekce revizí ani automatické slučování.
+- `src/ui/main.ts`: tlačítko exportu s upozorněním, TXT file input, náhled
+  všech textů, pořadí a problémů, výslovné řešení konfliktů a volba cíle.
+  Náhled nemění koncept. Použití vyžaduje potvrzení náhrady a stávající ochranu
+  neexportovaných změn včetně originálu kopie. Import je atomický.
+- `src/io/files.ts`: společné striktní UTF-8 čtení s limitem 1 MiB a TXT MIME.
+  Export používá BOM + CRLF pro Poznámkový blok. TXT export nemaže dirty stav.
+- `docs/song-txt-format.md`: specifikace, escaping, zacházení s mezerami,
+  limity, stručný návod a konkrétní ruční průchod až do používaného EXE.
+  `web-song-editor/examples/ukazkova-pisen.txt`: ukázka s pevnou testovací
+  identitou, třemi definicemi a pořadím v1 r1 v2 r1. README odkazuje na oba soubory.
+- `tests/txt.test.ts`, `tests/browser/txt.spec.ts`, `tests/verify_txt_desktop.py`:
+  automatické ověření parseru, exportu, UI a skutečného browser XML v desktop loaderu.
+
+### Záměrně omezený přenos bez tiché ztráty
+
+TXT přenáší jeden jazyk a jedno ploché pořadí. Zachovává jména jazyka a pořadí
+a hodnotu main v hlavičce. Více jazyků, více pořadí, nested repetition,
+pokročilé konstrukce, metadata, vlastní ID, nepoužité/prázdné části a texty,
+které formát neumí přesně vyjádřit, export blokují s doporučením XML.
+Není ztrátové potvrzení ani automatická projekce vybrané varianty.
+Úprava aktuální identity přes TXT také vyžaduje reprezentovatelný současný
+koncept, aby nepřišel o jeho další funkce. Import jiné identity je explicitní
+otevření jiné písně s potvrzením náhrady. Pořadí karet definic po importu vychází
+z prvního výskytu v TXT; upozornění exportu na to výslovně pamatuje.
+Původní XML formátování a přesný zápis plochého guide nejsou součástí TXT smlouvy.
+
+### Ověření a zbývající ruční kontrola
+
+- TypeScript + produkční build: OK.
+- Vitest: 18/18 OK (13 původních + 5 TXT), včetně současné korpusové sady.
+  Po finální ochraně neelementového textu opět 5/5 cílených TXT testů OK.
+- Česká diakritika, BOM, CRLF, interní prázdné řádky, escapované nadpisy,
+  více prázdných opakování, neexistující reference, konflikty a explicitní
+  varianty, zachování ID i přes XML a odmítnutí ztrátových exportů ověřeny.
+- Chromium: nový TXT scénář OK; kompletní sada sériově 6/6 OK.
+  První souběžný běh měl 5/6 OK a timeout staršího testu při page.goto;
+  sériové opakování prošlo. Počáteční běh v sandboxu nedosáhl na testovací
+  server; Vitest blokoval EPERM při rename. Testy dokončeny mimo sandbox.
+- Skutečné XML stažené Chromiem po úpravě TXT načetl aktuální SongRepository
+  a WidgetSource bez fallbacku/varování. Ověřeno v1 r1 v2 r1 a české texty.
+  Výstupy zůstávají v ignorovaném test-output; původní XML se nezapisovala.
+- Poznámkový blok ani distribuované SuperPresenter EXE nebyly automatizovány.
+  Je nutné ručně provést export TXT → úpravu v Poznámkovém bloku → import
+  s kontrolou stejného ID a tří definic → kontrolu v1 r1 v2 r1 → XML →
+  přehrání v používaném EXE na testovací kopii knihovny. Přesné kroky obsahuje
+  `docs/song-txt-format.md`, oddíl „Ruční průchod až do SuperPresenteru“.
+
+**Po ruční kontrole vytvořte commit; agent ho nevytváří.**
+
+## 11. Zjednodušení TXT podle uživatelské zpětné vazby (3. 11. 2026)
+
+Toto je aktuální zadání a nahrazuje chování z oddílu 10: uživatel výslovně
+odmítl technickou hlavičku i volbu „Vyberte cíl“ a požádal o výběr jednoho
+jazyka k offline úpravě. Export nyní obsahuje jen první řádek s názvem,
+nadpisy bez dvojteček a texty. UUID zůstává pouze v editoru/XML.
+
+### Změny a rozhodnutí
+
+- `src/io/songTxt.ts`: prostý TXT bez hlavičky a povinných dvojteček,
+  prázdná šablona Název písně / Sloka 1 / Refrén 1 / Bridge 1. Parser přijímá
+  sloka1, Sloka 1, SLOKA 1, varianty diakritiky, volitelnou dvojtečku i
+  nečíslovanou Sloku (v1). Shodné texty stejného nadpisu sdílejí definici;
+  odlišné vyžadují řešení, při němž se stejný alternativní text také neskladuje
+  znovu. Starý formát s hlavičkou lze číst, ale jeho identita se nepřebírá.
+- Export umožňuje vybrat jeden jazyk a jedno pořadí i z vícejazyčné písně
+  s metadaty a více pořadími. UI výslovně vysvětluje omezený rozsah TXT
+  a doporučuje XML zálohu. Skupiny, řádky, @, nepoužité/prázdné části
+  vybraného jazyka a další nepřevoditelné údaje daného textu stále blokuje;
+  nic tiše nezplošťuje. TXT není úplný roundtrip XML.
+- `src/ui/main.ts`: odstraněno „Vyberte cíl“. Bez shody názvu vzniká nová
+  píseň; jazyk nové písně je viditelně předvyplněný jako čeština a lze jej změnit.
+  Při shodě názvu s otevřeným konceptem/původním konceptem kopie nabídne
+  přepsání textů zvoleného jazyka nebo novou píseň s jiným názvem.
+  Název spouští pouze nabídku, nikdy automatické přepsání. Nový název musí
+  být odlišný od známých konceptů. Kontrola ignoruje case a okolní mezery.
+  **Web nemá knihovnu a nevyhledává názvy všech XML na disku.**
+- `updateLanguageFromTxt` pracuje na klonu: při přepsání textů zachová
+  UUID, název, ostatní jazyky, atributy, metadata, vynechané části a všechna
+  původní pořadí včetně main a umístění. Nové části přidá jen do vybraného
+  jazyka (UI upozorní na chybějící protějšky). Změněné TXT pořadí přidá jako
+  nové nevýchozí TXT/TXT 2; shodné s aktuálním plochým pořadím nic nepřidává.
+  Původní pokročilé výrazy se nikdy nepřepisují. Změny textů mohou nově
+  vyvolat diagnostiku jejich řádkových výběrů; to se nezamlčuje.
+- Ochrana rozpracovaného konceptu i originálu kopie zůstává. Zrušení náhledu,
+  přepsání či zadání nového názvu práci nemění. TXT download nemaže dirty stav.
+- `examples/ukazkova-pisen.txt` upraven na prostý zápis;
+  `examples/sablona-pisne.txt` nově obsahuje prázdnou šablonu (oba UTF-8 BOM/CRLF).
+  `README.md` a `docs/song-txt-format.md` popisují nový postup i ruční test.
+  `tests/txt.test.ts`, `tests/browser/txt.spec.ts`, `tests/verify_txt_desktop.py`
+  ověřují novou podobu, název, šablonu, konflikty i zachování druhého jazyka.
+
+### Ověření
+
+- TypeScript a produkční build: OK.
+- Vitest: 20/20 OK, včetně původní korpusové sady a 7 TXT testů.
+- Chromium sériově: 6/6 OK. TXT scénář ověřuje download prázdné šablony,
+  nový import bez volby cíle, výběr jazyka vícejazyčného exportu, absenci
+  hlavičky/dvojteček, zrušení a potvrzení přepsání jednoho jazyka při shodě
+  názvu, zachování UUID a ukrajinštiny, novou píseň s odlišným názvem/UUID,
+  neexistující odkazy, konflikty a opakované alternativní texty.
+- Skutečný XML download po TXT úpravě češtiny načetl SongRepository a
+  WidgetSource bez fallbacku/varování; ověřeno v1 r1 v2 r1, český refrén
+  a zachovaný ukrajinský text. GUI Poznámkového bloku ani používané EXE
+  nebyly automatizovány. Výstupy jen v ignorovaném test-output.
+- Sandbox opět blokoval rename dočasných souborů Vitestu (EPERM), úspěšné
+  testy byly provedeny s povolením mimo sandbox. Žádné závislosti se neinstalovaly.
+
+### Ruční průchod
+
+Import ukázky jako nové písně → doplnění druhého jazyka → XML záloha → export
+vybrané češtiny do TXT → úprava refrénu v Poznámkovém bloku bez změny názvu
+→ import a náhled → shoda názvu a potvrzení přepsání češtiny → kontrola
+v1 r1 v2 r1, stejného UUID a nedotčeného druhého jazyka → XML → testovací
+knihovna používaného SuperPresenter EXE a přehrání obou jazyků. Dále změnit
+TXT pořadí a ověřit nové nevýchozí TXT pořadí i zachování původního.
+Podrobné kroky jsou v `docs/song-txt-format.md`.
+
+Word/DOCX, hosting, migrace ani desktop se neimplementovaly. Knihovna písní
+se nezapisovala. **Po ruční kontrole vytvořte commit; agent ho nevytváří.**
+
+## 12. Word DOCX se stejným tokem jako TXT (3. 11. 2026)
+
+Uživatel následně výslovně požádal i o Word. Starší odložení DOCX v předchozích
+oddílech proto neplatí. Rozsah a ochrany vycházejí z aktuálního TXT v oddílu 11.
+Přečten `C:/Users/moski/Documents/AGENTS.md`; další projektový AGENTS.md nenalezen.
+Desktop, knihovna XML ani hosting se nemění; commit nebyl vytvořen.
+
+### Implementace a soubory
+
+- `web-song-editor/src/io/songDocx.ts`: OOXML export skutečného DOCX ZIP balíčku
+  s běžnými odstavci, A4, černým písmem a Word Title stylem názvu. Název a nadpisy
+  bez technické hlavičky a povinných dvojteček. Export vybraného jazyka a pořadí
+  používá stejný převod textu jako TXT, bez automatické projekce složitých guide.
+  Prázdná šablona obsahuje Název písně / Sloka 1 / Refrén 1 / Bridge 1.
+- Import čte lokálně `word/document.xml` a content types. Textové úseky spojuje,
+  odstavce i ruční zalomení převádí na řádky. Zachovává Unicode, mezery,
+  tabulátory a prázdné řádky. Podporuje namespace WordprocessingML Transitional
+  i Strict, prefixy nehrají roli. Nepotřebuje Word styly pro rozpoznání nadpisů.
+- `src/ui/main.ts`: oba formáty sdílejí stejný kód náhledu, řešení konfliktů,
+  shody názvu, nové písně a potvrzeného přepsání jazyka. Přidána tlačítka
+  Stáhnout DOCX, Stáhnout prázdnou DOCX šablonu a vstup Importovat DOCX.
+  Export nabízí jazyk a pořadí a vysvětluje rozsah dokumentu.
+- `src/io/songTxt.ts`: společná aktualizace jazyka přijímá jméno formátu pro
+  přidané pořadí. DOCX změna pořadí vytvoří nevýchozí DOCX/DOCX 2; původní
+  pořadí, jejich umístění a main zůstanou. Při shodném pořadí nic nepřidává.
+  ID, ostatní jazyky, atributy, vynechané části a metadata se zachovávají stejně
+  jako při TXT aktualizaci. Výchozí import jiného názvu je nová píseň s novým ID.
+- `src/io/files.ts`: binární download se správným DOCX MIME, čtení DOCX
+  s vlastní kontrolou velikosti a přípony. TXT/XML/JSON downloady zůstávají.
+- `package.json`, `pnpm-lock.yaml`: přímá závislost fflate 0.8.3 pro ZIP.
+  Dokumentace ověřena v primárním zdroji https://github.com/101arrowz/fflate.
+  Instalace mimo sandbox po EPERM, se systémovými CA Windows po prvním TLS
+  odmítnutí; ověřování certifikátů nebylo vypnuto. Knihovna se bundluje lokálně,
+  není CDN, server ani upload. Build po změně přibližně 57 kB JS / 22.5 kB gzip.
+- `examples/ukazkova-pisen.docx`, `examples/sablona-pisne.docx`: ukázka a šablona;
+  `docs/song-docx-format.md`, README a odkaz v TXT specifikaci: nový návod.
+- `tests/docx.test.ts`, `tests/browser/docx.spec.ts`,
+  `tests/verify_docx_word.ps1`, `tests/verify_docx_desktop.py`: převod, UI,
+  skutečný Word i následné XML. `tests/fixtures/word-edited.docx` je ukázka
+  skutečně upravená a uložená Wordem, po odstranění osobních metadat a rsid.
+
+### Rozsah a limity
+
+Přenášejí se texty a pořadí, ne fonty, barvy, Word styly, stránkování a cíle
+odkazů. UI před použitím importu zobrazuje toto omezení. Záhlaví, zápatí,
+komentáře a samostatné poznámky se nepřenášejí a vyvolají upozornění.
+Tabulky, obrázky/textová pole, vložené objekty, pole, reference poznámek,
+sledované změny a přímo číslované seznamy se odmítají s radou používat běžné
+odstavce a nejprve přijmout/odmítnout revize. Čísla zděděná ze stylů nejsou
+prostý text; definice automatického číslování vyvolají upozornění k náhledu.
+Starší .doc, makra a heslem šifrované dokumenty nejsou podporovány.
+
+ZIP do 5 MiB, nejvýše 256 položek, hlavní XML do 1 MiB, content types do 64 KiB,
+nejvýše 30 000 XML elementů / 64 úrovní. Kontrola úplného ZIP zakončení,
+poškozeného XML, DTD/entities a duplicitních položek. Průběžné rozbalování
+v malých vstupních blocích kontroluje i skutečnou délku výstupu nezávisle na
+ZIP deklaraci. Žádné položky se nezapisují na disk ani nevykonávají, externí
+vztahy se nenačítají. Chyba importu nepoškodí otevřený koncept.
+
+### Ověřeno
+
+- TypeScript a produkční build OK. Vitest **27/27 OK** (20 předchozích + 7 DOCX).
+  Po doplnění kontroly zakončení ZIP a upozornění na číslování znovu 7/7 DOCX OK.
+- Chromium sériově **7/7 OK** včetně stávajícího TXT a editoru; finální DOCX
+  scénář zopakován po vyčištění Word fixture, OK. Ověřen download šablony,
+  skutečný Wordem uložený vstup, rozpoznání českých textů a prázdných bloků,
+  výběr jazyka exportu, absence ID/hlavičky, náhled, zrušení a potvrzení
+  přepsání češtiny při zachování ukrajinštiny a ID, přidání DOCX pořadí
+  i odmítnutí dokumentu s tabulkou bez ztráty konceptu.
+- Windows Microsoft Word skrytě otevřel oba vygenerované dokumenty bez
+  opravného režimu, změnil refrén, nastavil tučné písmo a uložil DOCX. Tento
+  reálný soubor prošel browser importem. Volitelný helper otevírá jen vlastní
+  test-output soubory a Word zavírá; nepoužívá otevřené uživatelské dokumenty.
+- Dovednost documents: pokus `render_docx.py` selhal, protože na Windows není
+  LibreOffice/soffice.exe. Diagnostika potvrzena mimo sandbox. Pro QA byly
+  oba DOCX převedeny instalovaným Wordem na PDF a baleným pdf2image na PNG;
+  obě jednotlivé stránky vizuálně zkontrolovány, bez ořezů a chyb diakritiky.
+  Interní PDF/PNG zůstávají jen v ignorovaném test-output, nejsou deliverable.
+- Skutečné XML stažené Chromiem po DOCX aktualizaci načetly SongRepository
+  a WidgetSource bez fallbacku či varování; ověřeno v1 r1 v2 r1, české texty
+  a zachovaný ukrajinský text. Prezentační čištění prázdných řádků odpovídá desktopu.
+  Distribuované SuperPresenter EXE zatím tímto průchodem ručně ověřeno není.
+- EPERM rename dočasných souborů Vitestu v sandboxu vyžadoval povolené testy
+  mimo sandbox. Žádné změny původní knihovny, žádný commit.
+
+### Ruční průchod až do používaného EXE
+
+Stáhnout DOCX vybraného jazyka → ve Wordu upravit refrén a uložit .docx se
+stejným názvem → Importovat DOCX → zkontrolovat tři definice a v1 r1 v2 r1
+→ při shodě názvu potvrdit přepsání správného jazyka → ověřit ID a druhý jazyk
+→ stáhnout XML → vložit do testovací kopie knihovny používaného SuperPresenteru
+→ promítnout oba jazyky a celé pořadí → po desktopovém uložení ověřit song-id.
+Změněné pořadí dokumentu kontrolovat jako nové nevýchozí DOCX. Podrobný scénář
+včetně šablony a odmítaných případů je v `docs/song-docx-format.md`.
+
+**Po ruční kontrole vytvořte commit; agent ho nevytváří.**

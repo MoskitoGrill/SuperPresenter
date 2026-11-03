@@ -94,3 +94,47 @@ Existující desktopové zápisové sady mají nadále chyby WinError 5 při os.
 dočasných XML; jejich běh nelze označit za úspěšný. Podrobnosti jsou v předání.
 Ruční scénář a známá omezení jsou v `../docs/web-song-editor-plan.md`, oddíl 9.
 Distribuované EXE a další prohlížeče zbývají ověřit ručně. Commit provádí uživatel.
+## TXT pro Poznámkový blok
+
+Použijte **Stáhnout TXT**, vyberte jazyk a pořadí, upravte soubor v UTF-8
+a načtěte jej přes **Importovat TXT**. Soubor nemá technickou hlavičku ani
+povinné dvojtečky. **Stáhnout prázdnou TXT šablonu** nabídne název a prázdnou
+sloku, refrén a bridge k doplnění. Před importem se zobrazí náhled a problémy.
+Import obvykle vytvoří novou píseň. Při shodě názvu s otevřeným konceptem
+nabídne přepsání textů zvoleného jazyka (ostatní data a identita zůstanou)
+nebo novou píseň s jiným názvem. Knihovnu na disku web neprohledává.
+TXT je jen vybraný jazyk a jedno jednoduché pořadí; plná záloha je XML.
+Změněné pořadí se při aktualizaci přidá jako nové nevýchozí TXT pořadí.
+Stejný postup je dostupný také pro Word DOCX, viz níže.
+
+Podrobná pravidla a ruční test: [specifikace TXT](../docs/song-txt-format.md).
+Ukázka: [ukazkova-pisen.txt](examples/ukazkova-pisen.txt).
+Prázdná šablona: [sablona-pisne.txt](examples/sablona-pisne.txt).
+
+## Word DOCX
+
+**Stáhnout DOCX** nabízí jazyk a pořadí; **Stáhnout prázdnou DOCX šablonu**
+připraví dokument k doplnění. Upravte jej ve Wordu a vraťte přes **Importovat DOCX**.
+Náhled, rozpoznání částí, konflikty, shoda názvu a ochrany jsou stejné jako u TXT.
+Přenášejí se texty a pořadí, nikoli fonty, barvy a Word formátování.
+Při přepsání jazyka se zachovají ostatní data a UUID; změněné pořadí se přidá
+jako nové nevýchozí DOCX pořadí. Starší `.doc` není podporován.
+
+Pravidla, omezení a ruční průchod: [návod DOCX](../docs/song-docx-format.md).
+Ukázka: [ukazkova-pisen.docx](examples/ukazkova-pisen.docx).
+Šablona: [sablona-pisne.docx](examples/sablona-pisne.docx).
+
+DOCX ZIP čte a zapisuje lokálně [fflate](https://github.com/101arrowz/fflate)
+(přímá závislost 0.8.3, uzamčená v pnpm-lock.yaml). Žádné uploady ani CDN.
+Kontroly po `pnpm test` a `pnpm test:browser`:
+
+```powershell
+# Z kořene repozitáře:
+python web-song-editor/tests/verify_docx_desktop.py
+# Volitelně ve web-song-editor na Windows s instalovaným Wordem:
+./tests/verify_docx_word.ps1
+```
+
+Word kontrola otevírá jen vygenerované test-output soubory skrytě, uloží
+upravený DOCX a QA PDF. `tests/fixtures/word-edited.docx` je referenční vzorek
+skutečně upravený a uložený Microsoft Wordem. Výstupy se necommitují.
