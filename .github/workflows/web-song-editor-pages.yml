@@ -1,0 +1,48 @@
+name: Web song editor Pages
+on:
+  push:
+    branches: [Sbor]
+    paths: ['web-song-editor/**', '.github/workflows/web-song-editor-pages.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: web-song-editor-pages
+  cancel-in-progress: false
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.25.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+          cache-dependency-path: web-song-editor/pnpm-lock.yaml
+      - run: pnpm install --frozen-lockfile
+        working-directory: web-song-editor
+      - run: pnpm build && node scripts/check-dist.mjs
+        working-directory: web-song-editor
+      - run: pnpm exec playwright install --with-deps chromium
+        working-directory: web-song-editor
+      - run: pnpm test:browser
+        working-directory: web-song-editor
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: web-song-editor/dist
+  deploy:
+    if: github.ref == 'refs/heads/Sbor'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/deploy-pages@v4
+        id: deployment

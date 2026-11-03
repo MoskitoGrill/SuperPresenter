@@ -1,0 +1,12 @@
+﻿Ukázková píseň
+
+Sloka 1
+Text první sloky.
+
+Refrén 1
+Text refrénu.
+
+Sloka 2
+Text druhé sloky.
+
+Refrén 1
