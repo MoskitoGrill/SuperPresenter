@@ -1449,3 +1449,10 @@ Tlačítko neprovádí žádnou akci. Databáze zůstává samostatnou budoucí 
 Změněny main.ts, style.css a očekávání stávajícího layout testu.
 Produkční build OK. Commit ani push nejsou součástí úpravy.
 Layout ověřen na produkčním buildu: Chromium 2/2 OK (1280 a 390 px).
+
+## 28. Zjednodušení patičky
+
+Na přání uživatele byly odstraněny oba informační odstavce o společné knihovně
+a záloze. Stavová zpráva obnovy je nyní pod celým blokem Jazyky včetně Správy
+jazyků. Samotné ukládání a obnova konceptu se nemění; omezení zůstávají v návodu.
+Změněn `src/ui/main.ts`; produkční TypeScript/Vite build prošel.

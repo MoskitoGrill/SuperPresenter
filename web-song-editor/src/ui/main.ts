@@ -363,14 +363,14 @@ function arrange(expanded: Map<string, boolean>) {
   }
   workspace.append(writing, sequence); app.append(workspace);
   const footer = el('footer'); footer.className = 'page-footer';
-  footer.append(el('p', 'Společná knihovna zatím není zavedena. Změny se do SuperPresenteru automaticky nepředávají. Písně zpracovává pouze váš prohlížeč; přenos proveďte ručně stažením XML.'));
-  footer.append(el('p', 'Místní koncept není záloha. Pravidelně stahujte XML; vymazání dat prohlížeče nebo změna adresy může obnovu znemožnit.'));
-  const recovery = app.querySelector('#recovery-status'); if (recovery) footer.append(recovery);
+  const recovery = app.querySelector('#recovery-status');
   const languages = el('div'); languages.id = 'languages'; languages.className = 'languages';
   languages.append(el('h2', 'Jazyky'));
   const languageLabel = writing.querySelector('select[aria-label="Jazyková varianta"]')?.closest('label');
   if (languageLabel) languages.append(languageLabel);
-  languages.append(languageTools); footer.append(languages); app.append(footer);
+  languages.append(languageTools); footer.append(languages);
+  if (recovery) footer.append(recovery);
+  app.append(footer);
   app.querySelectorAll('details').forEach(d => { d.open = expanded.get(detailsKey(d)) ?? false; });
   if (focusedControl) {
     const { name, index } = focusedControl;
