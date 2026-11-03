@@ -3,10 +3,12 @@ import { readFileSync } from 'node:fs';
 import { unzipSync, zipSync, strFromU8, strToU8 } from 'fflate';
 
 test('Word DOCX template, real Word-saved input, selected language export and safe update', async ({ page }) => {
-  await page.goto('/');
-  const preview = page.getByRole('region', { name: 'Náhled importu DOCX', exact: true });
-  const upload = async (bytes: Uint8Array) => page.getByLabel('Importovat DOCX', { exact: true }).setInputFiles({ name: 'pisnicka.docx', mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', buffer: Buffer.from(bytes) });
-  const [template] = await Promise.all([page.waitForEvent('download'), page.getByRole('button', { name: 'Stáhnout prázdnou DOCX šablonu', exact: true }).click()]);
+  await page.goto('./');
+
+  const preview = page.getByRole('region', { name: 'Náhled importu DOCX', exact: true, includeHidden: true });
+  const upload = async (bytes: Uint8Array) => page.getByLabel('Importovat TXT nebo Word', { exact: true }).setInputFiles({ name: 'pisnicka.docx', mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', buffer: Buffer.from(bytes) });
+  await page.getByText('Stáhnout šablonu', { exact: true }).click();
+  const [template] = await Promise.all([page.waitForEvent('download'), page.getByRole('button', { name: 'Word', exact: true }).click()]);
   const templateBytes = readFileSync((await template.path())!);
   const templateXml = strFromU8(unzipSync(templateBytes)['word/document.xml']);
   expect(template.suggestedFilename()).toBe('sablona-pisne.docx');
@@ -15,20 +17,22 @@ test('Word DOCX template, real Word-saved input, selected language export and sa
   await expect(preview).toContainText('neexistující');
   await expect(preview.getByRole('button', { name: 'Importovat jako novou píseň', exact: true })).toBeDisabled();
   // Fixture was opened, edited, made bold and re-saved by Microsoft Word.
-  await page.getByLabel('Importovat DOCX', { exact: true }).setInputFiles('tests/fixtures/word-edited.docx');
+  await page.getByLabel('Importovat TXT nebo Word', { exact: true }).setInputFiles('tests/fixtures/word-edited.docx');
   await expect(preview).toContainText('v1 → r1 → v2 → r1');
   await expect(preview).toContainText('Upravený český refrén ve Wordu');
   await expect(preview).toContainText('styly a rozložení stránek se nepřenášejí');
-  await expect(page.getByLabel('Název písně', { exact: true })).toHaveValue('Nová píseň');
+  await expect(page.getByLabel('Název písně', { exact: true })).toHaveValue('');
   page.once('dialog', d => d.accept());
   await preview.getByRole('button', { name: 'Importovat jako novou píseň', exact: true }).click();
-  const id = (await page.locator('#state').innerText()).split('ID: ')[1];
+  const id = (await page.locator('#app').getAttribute('data-song-id'))!;
   page.once('dialog', d => d.accept('ukrajinština'));
+  await page.locator('#language-tools > summary').click();
   await page.getByRole('button', { name: 'Přidat jazyk', exact: true }).click();
-  await page.getByLabel('v1', { exact: true }).fill('Український текст');
-  await page.getByLabel('r1', { exact: true }).fill('Приспів');
-  await page.getByLabel('v2', { exact: true }).fill('Другий куплет');
-  await page.getByRole('button', { name: 'Stáhnout DOCX', exact: true }).click();
+  await page.getByLabel('Sloka 1', { exact: true }).fill('Український текст');
+  await page.getByLabel('Refrén 1', { exact: true }).fill('Приспів');
+  await page.getByLabel('Sloka 2', { exact: true }).fill('Другий куплет');
+  await page.getByText('Stáhnout', { exact: true }).click();
+  await page.locator('.export-menu').getByRole('button', { name: 'DOCX', exact: true }).click();
   await page.getByLabel('Jazyk pro DOCX', { exact: true }).selectOption('0');
   const [download] = await Promise.all([page.waitForEvent('download'), page.getByRole('button', { name: 'Stáhnout vybraný jazyk do DOCX', exact: true }).click()]);
   await download.saveAs('test-output/browser-song.docx');
@@ -44,11 +48,12 @@ test('Word DOCX template, real Word-saved input, selected language export and sa
   await expect(page.getByLabel('Jazyková varianta', { exact: true })).toHaveValue('1');
   const accept = (d: import('@playwright/test').Dialog) => d.accept(); page.on('dialog', accept);
   await preview.getByRole('button', { name: 'Přepsat texty vybraného jazyka', exact: true }).click(); page.off('dialog', accept);
-  await expect(page.locator('#state')).toContainText(id);
+  await expect(page.locator('#app')).toHaveAttribute('data-song-id', id);
   await expect(page.locator('#preview pre')).toHaveText(['Žluťoučký kůň & <text>.\n\nDruhý řádek','Refrén po dalším importu','Druhá sloka','Refrén po dalším importu']);
   await page.getByLabel('Jazyková varianta', { exact: true }).selectOption('1');
-  await expect(page.getByLabel('v1', { exact: true })).toHaveValue('Український текст');
-  const [songXml] = await Promise.all([page.waitForEvent('download'), page.getByRole('button', { name: 'Stáhnout XML', exact: true }).click()]);
+  await expect(page.getByLabel('Sloka 1', { exact: true })).toHaveValue('Український текст');
+  await page.getByText('Stáhnout', { exact: true }).click();
+  const [songXml] = await Promise.all([page.waitForEvent('download'), page.getByRole('button', { name: 'XML', exact: true }).click()]);
   await songXml.saveAs('test-output/browser-docx.xml');
   const exported = readFileSync('test-output/browser-docx.xml', 'utf8'); expect(exported).toContain(id);
   // Changed order is appended, never substituted for an existing order.
@@ -56,11 +61,11 @@ test('Word DOCX template, real Word-saved input, selected language export and sa
   await upload(zipSync(parts));
   page.once('dialog', d => d.accept());
   await preview.getByRole('button', { name: 'Přepsat texty vybraného jazyka', exact: true }).click();
-  await expect(page.getByLabel('Pojmenované pořadí')).toContainText('DOCX');
+  expect(await page.evaluate(() => JSON.parse(localStorage.getItem('superpresenter-song-draft-v1')!).xml)).toContain('name="DOCX"');
   // Unsupported contents fail before replacing the current concept.
   parts['word/document.xml'] = strToU8(xml.replace('<w:body>', '<w:body><w:tbl/>'));
   const error = page.waitForEvent('dialog'); await upload(zipSync(parts)); const dialog = await error;
   expect(dialog.message()).toContain('tabulky'); await dialog.accept();
-  await expect(page.locator('#state')).toContainText(id);
+  await expect(page.locator('#app')).toHaveAttribute('data-song-id', id);
   await expect(preview).toBeEmpty();
 });

@@ -85,7 +85,8 @@ if advanced.exists():
     assert song.main_repetition == 'short'
     assert [v.name for v in song.variants] == ['cz', 'uk', 'english']
     assert song.repetitions[0].name == 'nested' and song.repetition_locations[0][0] == 0
-    assert song.repetitions[1].guide == '(v1.1:2)*4'
+    assert song.repetitions[1].name == 'live' and song.repetitions[1].guide == '(v1.1:2)*3'
+    assert song.repetitions[2].name == 'short' and song.repetitions[2].guide == '(v1.1:2)*3'
     assert all(s.identifier != 'r' for v in song.variants for s in v.sections)
     for r in song.repetitions:
         parse_construct(r.guide, ['v1'])

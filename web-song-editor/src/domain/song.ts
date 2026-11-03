@@ -72,8 +72,9 @@ export class SongDocument {
   }
   removeSection(id: string) {
     // Compute every guide first, before mutating anything.
-    if (this.repetitions.some(r => this.diagnostics(r).length)) throw new Error('Část nelze odebrat: některé pořadí je uzamčené nebo neplatné. Nejprve výslovně opravte či nahraďte toto pořadí; původní data zůstala zachována.');
-    const changes = this.repetitions.filter(r => leaves(this.tree(r)).some(s => s.section === id)).map(r => [r, removeReferences(this.tree(r), id)] as const);
+    const populated = this.repetitions.filter(r => r.textContent?.trim());
+    if (populated.some(r => this.diagnostics(r).length)) throw new Error('Část nelze odebrat: některé pořadí je uzamčené nebo neplatné. Nejprve výslovně opravte či nahraďte toto pořadí; původní data zůstala zachována.');
+    const changes = populated.filter(r => leaves(this.tree(r)).some(s => s.section === id)).map(r => [r, removeReferences(this.tree(r), id)] as const);
     if (changes.some(([, steps]) => !steps.length)) throw new Error('Odstranění by vyprázdnilo pořadí. Nejprve přidejte do pořadí jinou část.');
     for (const v of this.variants) this.sections(v).find(s => s.getAttribute('name') === id)?.remove();
     for (const [r, steps] of changes) r.textContent = serializeTree(steps);
@@ -86,7 +87,7 @@ export function presentationLines(text: string) { return text.trim().split(/\r\n
 export function newSong(): SongDocument {
   const doc = document.implementation.createDocument(null, 'slide');
   const song = new SongDocument(doc);
-  song.title = 'Nová píseň';
+  song.title = '';
   song.root.setAttribute('song-id', crypto.randomUUID());
   const variant = doc.createElement('variant');
   variant.setAttribute('name', 'čeština');

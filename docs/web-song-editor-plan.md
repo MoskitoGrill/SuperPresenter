@@ -1,6 +1,6 @@
 # Samostatný webový editor písní — plán a předání
 
-Stav k 3. 11. 2026: doplněn DOCX se stejným postupem jako zjednodušený TXT.
+Stav k 3. 11. 2026: příprava GitHub Pages dokončena; aktuální nasazení a kontroly v oddílu 25. Veřejná publikace zatím neověřena (HTTP 404).
 Aktuální předání DOCX, výsledky a ruční scénář jsou v oddílu 12; TXT v oddílu 11.
 Nové zadání nahrazuje původní požadavek identity v TXT z oddílů 3–6 a 10:
 TXT nyní nemá hlavičku ani ID; při shodě názvu vyžaduje ruční rozhodnutí.
@@ -17,8 +17,7 @@ funkčnost, teprve potom řešit vzhled. Aplikace bude později na GitHub Pages.
 Bez serverové části, databáze, účtů a synchronizace. Písně zůstávají v prohlížeči;
 knihovna `songs/` se nemá automaticky publikovat ani přibalovat do webu.
 
-Odloženo: TXT do třetí etapy, hosting a ověření uživateli do čtvrté, vizuální
-design do páté. Databáze, historie změn a automatická synchronizace desktopu
+Aktuální pořadí: 3. TXT, 4. DOCX, 5. layout a pohodlné ovládání, 6. finální vizuální vzhled, 7. GitHub Pages a uživatelské ověření. Databáze, historie změn a automatická synchronizace desktopu
 jsou až navazující projekt po uživatelském ověření. Trvalé lokální koncepty,
 PWA a File System Access API nejsou podmínkou prvního vydání.
 
@@ -193,19 +192,23 @@ konkrétní dopad a neprovede tiché přečíslování legacy ID.
    metadata a chybové stavy. Celý korpus projde modelovým roundtripem,
    validní guide diferenčním testem a nevalidní se nezmění bez zásahu uživatele.
    Kompatibilita neznamená automaticky opravit staré vadné písně.
-3. **TXT import/export:** verzovaný UTF-8 formát, song-id v hlavičce, explicitní
-   oddělovače jazyků/sekcí/pořadí a escaping oddělovačů. Navrhnout samostatnou
-   specifikaci s ukázkami před implementací. Zachovat pořadí, Unicode a mezery;
-   úplná metadata a strom musí mít reprezentaci, jinak export předem označit
-   jako ztrátový a vyžádat vědomou volbu. TXT bez ID nepárovat podle názvu.
-4. **GitHub Pages a uživatelské ověření:** build do `web-song-editor/dist`,
+3. **TXT import/export:** hotový jednoduchý formát bez technické hlavičky a ID;
+   aktuální pravidla a omezení v oddílu 11 a `docs/song-txt-format.md`.
+4. **Word DOCX:** hotový přenos textů se stejným rozhodováním jako TXT;
+   aktuální pravidla a omezení v oddílu 12 a `docs/song-docx-format.md`.
+5. **Layout a pohodlné ovládání:** aktuální etapa. Rozlišit název, texty,
+   pořadí a náhled, dát prostor psaní a zpřístupnit akce, klávesnici a malé
+   obrazovky. Jednoduchý neutrální vzhled; předání a kontroly v oddílu 13.
+6. **Finální vizuální vzhled:** navázat na ověřené pracovní postupy a rozložení.
+   Až zde řešit konečnou paletu, vizuální styl a případné dekorace.
+7. **GitHub Pages a uživatelské ověření:** build do `web-song-editor/dist`,
    relativní base a žádné routerové závislosti na serverových přepisech.
    Samostatný workflow nasazuje jen build webu. Otestovat projektovou URL,
    načtení a download v cílových prohlížečích a reálný import do používaného EXE.
    Kapelníci vyzkouší novou píseň, úpravu, více jazyků a výslovnou kopii;
-   zapsat zpětnou vazbu před dalšími funkcemi. Hosting nyní neprovádět.
-5. **Vzhled:** až po ověření funkcí upravit grafiku a responzivní rozložení.
-   Přístupnost formulářů a ovládání klávesnicí musí fungovat už od základu.
+   zapsat zpětnou vazbu. Hosting nyní neprovádět.
+
+Databáze, přihlášení a synchronizace nejsou součástí těchto změn.
 
 ## 5. Identita a výslovné kopie
 
@@ -846,3 +849,583 @@ Změněné pořadí dokumentu kontrolovat jako nové nevýchozí DOCX. Podrobný
 včetně šablony a odmítaných případů je v `docs/song-docx-format.md`.
 
 **Po ruční kontrole vytvořte commit; agent ho nevytváří.**
+
+
+## 13. Etapa 5 — layout a pohodlné ovládání (3. 11. 2026)
+
+Aktuální pořadí etap je **5. Layout a pohodlné ovládání → 6. Finální vizuální
+vzhled → 7. Nasazení na GitHub Pages a uživatelské ověření**. Starší odkazy
+na hosting ve čtvrté etapě jsou historické. Přečten nadřazený
+`C:/Users/moski/Documents/AGENTS.md`; projektové AGENTS.md nenalezeny.
+Databáze, přihlášení, synchronizace ani nasazení nebyly implementovány.
+
+### Pracovní postupy a rozhodnutí
+
+- Nová / otevřená píseň: hlavní lišta Nová píseň, popsaný vstup Otevřít XML,
+  Stáhnout XML a Vytvořit kopii. Na notebooku zůstává lišta při posouvání
+  dostupná, na mobilu je v běžném toku, aby nezakrývala pracovní plochu.
+  Název je samostatné výrazné pole před pracovními oblastmi.
+- Psaní: části mají lidské názvy Sloka 1 / Refrén 1 / Bridge 1, širší textová
+  pole s výškou alespoň 13 rem a možností zvětšení. Legacy/vlastní ID se
+  nepřejmenovávají. Správa jazyků je sbalená, běžný výběr jazyka zůstává venku.
+  Přidání části rovnou zaměří její text. Pořadí definic a pořadí přehrávání
+  jsou samostatné oblasti s vlastními tlačítky přesunu.
+- Pořadí: očíslované výskyty, lidské názvy při zařazení a tlačítko Upravit text,
+  které přesune fokus do sdílené definice. Vysvětlení rozlišuje odstranění
+  výskytu od textové části. Přesun tlačítky funguje bez přetahování; fokus
+  následuje přesunutý výskyt. Opakování bloku a počet jsou dostupné přímo,
+  seskupení, připojování a volba řádků jsou v pokročilých volbách. Aktivní
+  číselné rozsahy zůstávají viditelné, aby nebyla použitá omezení skrytá.
+- Náhled: při šířce od 1100 px vedle textů a pořadí, zůstává dostupný při
+  posouvání. Mezi 761–1099 px dvě kolony, náhled pod pořadím. Do 760 px
+  jediný sloupec; odkazy Texty částí / Pořadí / Náhled přesunou i fokus.
+  Dlouhý náhled má na desktopu vlastní posouvání. Nadále nejde o emulaci
+  stránkování nebo grafiky projektoru.
+- XML/TXT/DOCX: rozšířené souborové akce a šablony jsou pod jasnou nabídkou
+  Import, TXT / Word a šablony. Náhled importu, konflikty, volba jazyka a
+  bezpečné potvrzené přepsání zůstávají zachovány. Úspěšné otevření a předání
+  exportu prohlížeči mají viditelnou stavovou zprávu; neprohlašuje se dokončený
+  zápis na disk. TXT/DOCX nadále nemažou stav neexportovaných změn.
+- Rozpracování a obnova jsou viditelné mimo nápovědu, podrobnosti místního
+  úložiště a identity jsou sbalené. Opraven funkční problém: běžný automatický
+  zápis při renderu ihned přepisoval zprávu o obnovené práci. Nyní informace
+  o obnově zůstává během daného otevření stránky zachována.
+- Klávesnice: nativní formuláře a details, viditelný fokus, cíle alespoň 44 px,
+  popsané vstupy souborů, zachování fokusu formulářových ovladačů a tlačítek
+  po překreslení. Hlášení používají role=status; průběžný náhled není živou
+  oblastí, aby při psaní nepřerušoval čtení. Potvrzení ztráty práce, mazání
+  textů a náhrady importu zůstávají; běžné psaní/přesuny potvrzení nemají.
+
+### Změněné soubory a kompatibilita
+
+`web-song-editor/src/ui/main.ts`, `src/ui/style.css`: rozložení, ovládání,
+popisky, fokus a stavové zprávy. Existující browser testy `editor.spec.ts`,
+`txt.spec.ts`, `docx.spec.ts` přizpůsobeny lidským názvům a rozbalení nabídek;
+nový `tests/browser/layout.spec.ts` kontroluje malé okno a pracovní průchod.
+Tento dokument aktualizuje plán a předání. Model, parsery, XML/TXT/DOCX
+serializace, UUID pravidla, desktop, knihovna písní i závislosti jsou beze změn.
+Žádný commit nebyl vytvořen.
+
+### Provedené kontroly a jejich hranice
+
+- TypeScript `tsc --noEmit` a produkční Vite build: OK.
+- Vitest: **27/27 OK**, včetně existující korpusové kompatibility a TXT/DOCX.
+- Chromium / Playwright sériově: **9/9 OK** v závěrečném běhu. Sada pokrývá novou
+  píseň, XML otevření/export, sdílený refrén, identitu/kopii, více jazyků,
+  skupiny, pojmenovaná pořadí, rušení mazání, neplatné importy, obnovu i
+  TXT/DOCX import/export. Nové průchody mají viewport **1280 × 720 a 390 × 844**,
+  přidání části s fokusem, zařazení přes Enter, přesun tlačítkem, skok do textu,
+  sdílenou úpravu refrénu, fokus náhledu, absenci vodorovného přetékání,
+  obnovu a download XML.
+- Skutečné snímky plné stránky i viewportu jsou v ignorovaném `test-output/`.
+  Vizuálně zkontrolován notebookový třísloupcový layout a mobilní jediný
+  sloupec, bez vodorovných ořezů. Plnostránkový screenshot může zachytit
+  sticky lištu v poloze odpovídající aktuálnímu scrollu; viewport snímek
+  ukazuje její skutečnou polohu po návratu nahoru.
+- Sandbox blokoval Vitest rename (EPERM) a místní browser server; úspěšné
+  běhy proběhly s povolením mimo sandbox. Nic se neinstalovalo.
+- Neprovedeno: uživatelské hodnocení pohodlí, úplný průchod pouze klávesnicí,
+  čtečka obrazovky, dotyková klávesnice skutečného mobilu, Firefox/Safari,
+  200% zoom, dlouhá reálná píseň se všemi pokročilými variantami a používané
+  distribuované EXE. Automatické malé viewporty nenahrazují skutečný mobil.
+
+### Konkrétní ruční scénáře pohodlí
+
+1. Nová píseň: pojmenovat „Zkouška pohodlí“, napsat čtyři řádky Sloky 1,
+   přidat Refrén, Sloku 2 a Bridge. Po přidání má kurzor rovnou psát do nové
+   části. Posoudit šířku, výšku a čitelnost při delším textu.
+2. Sestavit Sloka 1 → Refrén 1 → Sloka 2 → Refrén 1 → Bridge 1.
+   Výchozí Sloka 1 už v pořadí je. Tlačítky přesunout Bridge před poslední
+   refrén, odebrat jen jeho výskyt a znovu ho zařadit. Text Bridge musí zůstat.
+   Vyzkoušet Opakovat tento blok a změnit počet opakování.
+3. U druhého refrénu zvolit Upravit text a změnit jeden řádek. Oba refrény
+   v náhledu musí ukazovat tutéž změnu a nesmí vzniknout druhá definice.
+4. Přejít odkazem Náhled, zkontrolovat celý sled i opakování a vrátit se
+   k textům. Při dlouhé písni posoudit pohodlí posouvání náhledu.
+5. Stáhnout XML, otevřít právě stažený soubor, upravit název a text. ID musí
+   zůstat stejné. Zkusit novou píseň a zrušit varování; práce musí zůstat.
+   Obnovit stránku a ověřit hlášení obnovy i texty.
+6. Rozbalit Import, TXT / Word a šablony, stáhnout TXT jednoho jazyka,
+   upravit refrén v Poznámkovém bloku a importovat. Zkontrolovat náhled,
+   nejprve zrušit, potom potvrdit přepsání správného jazyka. Zkontrolovat
+   pořadí a stáhnout XML. Původní soubor musí uživatel nahradit ručně.
+7. Zopakovat v okně 1280 × 720, potom v šířce přibližně 390 px a na skutečném
+   telefonu. Ověřit přístup ke všem akcím, žádný vodorovný posuv, použitelnost
+   se zobrazenou softwarovou klávesnicí a čitelnost dlouhých názvů/textů.
+8. Bez myši použít Tab / Shift+Tab, Enter / mezerník, odkazy oblastí,
+   rozbalení nabídek, psaní, přidání části, přesun výskytu a export. Fokus
+   musí být viditelný a po přesunu zůstat u příslušného výskytu. Zopakovat
+   při 200% zoomu a zkontrolovat, že lišta nezakrývá zaměřený ovladač.
+
+### Předání do etapy 6
+
+Další etapa řeší konečnou paletu a grafický styl. Zachovat význam oblastí,
+čitelnost, prostor textu, viditelný fokus a popisky, sdílené části a ochrany
+ztráty práce. Současná šedá/bílá a modrý fokus/odkazy slouží jen orientaci;
+nejsou finálním designem. Nejsou přidány stíny, dekorace ani animace.
+Delší písně a vnořená pořadí stále mohou vyžadovat více posouvání; prioritu
+dalším úpravám dát podle ručních scénářů, nikoli měnit formáty nebo identity.
+Nasazení až v etapě 7. **Po ruční kontrole připomenout commit; agent jej nevytváří.**
+
+## 14. Upřesnění horního menu — PC má přednost (3. 11. 2026)
+
+Toto upřesnění nahrazuje příslušné rozhodnutí o horní liště z oddílu 13.
+Primárně se nyní ladí PC, další přizpůsobení mobilu až následně.
+
+- Hlavička je **Baptisté Šumperk**. Logo BJB Šumperk se doplní později,
+  až bude dodáno; nyní se nevymýšlí náhradní logo.
+- Menu: **Nová píseň → Kopie stávající písně → Otevřít → Importovat →
+  Stáhnout šablonu**. Otevřít nyní vyvolává výběr XML z počítače;
+  výběr počítač/databáze patří až k budoucí databázi, není implementován.
+- Importovat používá jediný souborový dialog s TXT i DOCX. Typ se určí
+  z přípony bez další volby uživatele; náhled zůstává před použitím importu.
+  Jiná přípona se odmítne bez změny práce.
+- Stáhnout šablonu rozbalí volbu **TXT / Word**. Po stažení se nabídka zavře.
+- Průběžný řádek změn s UUID ani hlášení „Otevřená píseň“ se nevykreslují.
+  Identita v modelu/XML a ochrany neexportovaných změn zůstávají funkční.
+  Obnova a informace o místním konceptu jsou v patičce. Zprávy o exportu
+  se zobrazují jen po příslušné akci.
+- Stažení XML je u náhledu. Další možnosti stažení TXT/DOCX a podrobnosti
+  místního uložení jsou dole, aby neprodlužovaly horní pracovní prostor.
+- Opraveno zachování rozbalených nabídek při překreslení: místo pozice v poli
+  se používá jméno nabídky a cesta výskytu. Přidané části dříve mohly zavřít
+  jinou nabídku, zejména možnosti exportu.
+
+Změněny `src/ui/main.ts`, `src/ui/style.css`, browser testy a tento dokument.
+Testy identity nyní kontrolují interní datový atribut místo odstraněného
+stavového řádku. Formáty ani pravidla identity se nemění, žádná databáze,
+přihlášení, synchronizace, logo ani commit se nepřidávají.
+
+Ruční kontrola PC: postupně kliknout Nová píseň, Kopie stávající písně,
+Otevřít (XML), Importovat nejprve TXT a pak DOCX stejným tlačítkem, stáhnout
+obě šablony z rozbalovací nabídky. Ověřit zrušení souborového dialogu i náhledu,
+obnovu stránky a informaci o obnově až dole. Připomenout commit po kontrole.
+
+Ověření tohoto upřesnění: TypeScript a produkční build OK; všech sedm
+stávajících Chromium scénářů XML/TXT/DOCX prošlo. Dva upravené layoutové
+scénáře po opravě testovacího API také prošly (2/2). Kontrolují pořadí menu,
+společný souborový dialog s oběma příponami, odstraněný stavový řádek a obnovu
+v patičce. Vizuálně zkontrolován skutečný PC screenshot 1280 × 720.
+Snímky zůstávají v ignorovaném test-output. Modelové testy se znovu nespouštěly,
+protože se model a převody neměnily; jejich předchozí výsledek je v oddílu 13.
+Úplné ruční posouzení pohodlí uživatelem zbývá. Commit nebyl vytvořen.
+
+## 15. Zjednodušení menu a prázdný název (3. 11. 2026)
+
+Aktuální zadání nahrazuje předchozí nabídku kopie a přeskoků mezi oblastmi.
+
+- Akce Kopie stávající písně byla z editoru odstraněna. Běžné stažení nadále
+  ponechává rozepsanou píseň otevřenou a nemění její identitu. Existující XML
+  song-id se nemění; ukládání souboru dál používá název. Modelovou metodu kopie
+  tato úprava nemaže a starší místní koncept s originálem lze stále obnovit,
+  aby aktualizace nezahodila dřívější práci. Nové kopie v UI nevznikají.
+- Nová píseň má skutečně prázdný název a jen placeholder „Zadejte název písně“.
+  Uživatel nemusí mazat předvyplněný text. Importované názvy se nemění.
+- Stáhnout šablonu otevírá plovoucí panel TXT / Word nad tlačítkem bez změny
+  výšky lišty či posunu obsahu. Escape, kliknutí mimo a výběr formátu nabídku
+  zavřou. Pokud je při posunuté sticky liště nad tlačítkem málo místa, panel
+  se otevře pod ním, aby nezmizel mimo okno; stále nepřesouvá obsah.
+- Odkazy Texty částí / Pořadí / Náhled jsou odstraněny. Samotné pracovní
+  oblasti zůstávají vedle sebe jako dříve.
+
+Změněny `src/ui/main.ts`, `src/ui/style.css`, výchozí název v
+`src/domain/song.ts`, navazující browser testy a tento dokument. Žádná změna
+serializace, pravidel identity, databáze ani přihlášení. Žádný commit.
+
+Ruční kontrola PC: Nová píseň → rovnou napsat název bez mazání; zkontrolovat,
+že v menu není kopie ani odkazy oblastí; otevřít šablony a ověřit plovoucí
+panel nad tlačítkem bez posunu názvu a textů; zkusit Escape i kliknutí mimo;
+stáhnout XML a pokračovat v úpravách téže písně. Zbývá uživatelské posouzení
+pohodlí; mobil se dál prioritně neladí.
+
+Ověřeno po úpravě: TypeScript a produkční build OK, Vitest 27/27,
+Chromium 9/9. Layoutové testy ověřují prázdný název, menu bez kopie,
+chybějící navigaci oblastí, polohu panelu nad tlačítkem a nezměněné souřadnice
+pole názvu po otevření nabídky. Skutečný snímek `templates-1280.png` byl
+vizuálně zkontrolován. Snímky zůstávají v ignorovaném test-output.
+
+## 16. Dvousloupcové sestavení pořadí a výběr řádků (3. 11. 2026)
+
+Toto zadání nahrazuje předchozí podobu pořadí a směr otevření šablon.
+Stále má přednost pohodlné použití na PC.
+
+### Ovládání
+
+- Šablony se otevírají **pod tlačítkem**, jako plovoucí panel nad obsahem
+  stránky. Obsah ani lišta se neposouvají. Escape a kliknutí mimo zůstávají.
+- Pořadí má vlevo seznam dostupných částí vybraného jazyka, vpravo sestavený
+  sled. Kliknutí na část ji přidá na konec; stejnou část lze zařadit vícekrát.
+  Fokus se po přidání vrací na stejné tlačítko, takže Enter přidává opakovaně.
+- Vpravo jsou kompaktní očíslované výskyty. Přesun se provádí přetažením,
+  s vyznačením vložení před/za cílový řádek. Klávesnice: zaměřit výskyt a
+  Alt + šipka nahoru/dolů; fokus následuje přesunutý výskyt. Křížek odebere
+  jen výskyt. Kliknutí na název výskytu zaměří sdílený text k úpravě.
+- Pod seznamem dostupných částí je **Řádky**. Modální dialog nabídne výběr
+  části a její skutečný prezentační text. Kliknutím na text řádku/checkbox
+  se označuje výběr. Prázdné řádky se při prezentaci vynechávají a nejsou
+  očíslovány jako vybratelné. Není třeba znát čísla nebo syntaxi XML.
+- Lze označit souvislý i nesouvislý výběr. Sousední řádky vytvoří jeden
+  rozsah, oddělené úseky více po sobě jdoucích výskytů. U řádkového výskytu
+  v pořadí tlačítko Řádky otevře úpravu se současným výběrem. Zrušení/Escape
+  neaplikují změny. Prázdný výběr ani část bez textu nejdou přidat.
+- Skupiny se v běžném seznamu přesouvají jako celek; jejich hranice se
+  nezplošťují. Vnoření, počty opakování, seskupení, připojení k předchozímu
+  a původní číselné rozsahy zůstávají v **Pokročilé úpravě skupin a opakování**.
+  Správa pojmenovaných/výchozích pořadí je v samostatné sbalené nabídce.
+  Vadné/nepochopené importované výrazy zůstávají chráněné jako dříve.
+
+### Prázdný koncept a kompatibilita
+
+Nová píseň v UI začíná s prázdným pořadím, aby první kliknutí na Sloku 1
+nevytvořilo její nečekanou duplicitu. Odstranit lze i poslední výskyt a pořadí
+znovu sestavit. Prázdné pořadí se místně obnoví; náhled vyzve k přidání části.
+Export prázdného pořadí stále vyžaduje dosavadní potvrzení diagnostiky XML,
+protože prázdný výraz není přehratelné pořadí. Parser ani XML gramatika se
+nerozšiřují. Texty lze před sestavením pořadí běžně odstraňovat — opravena
+blokace mazání nepoužité části pouhou přítomností prázdného pořadí.
+Neprázdné vadné výrazy mazání nadále blokují a poslední odkazovaná část se
+nesmí automaticky smazat z platného pořadí.
+
+Výběr řádků ověřuje stávající model také proti ostatním jazykům a limitům.
+Neplatnou změnu odmítne bez změny guide; dialog chybu vysvětlí a zůstane
+otevřený. Jazyky s odlišným počtem řádků vyžadují uživatelskou opravu textu
+nebo výběru. Song-id, atributy, metadata, formáty TXT/DOCX i XML zůstávají.
+
+### Soubory, ověření a omezení
+
+Nový `web-song-editor/src/ui/orderBuilder.ts`: kompaktní sestavovač, DnD,
+klávesnice a modální výběr řádků. `src/ui/main.ts` a `style.css`: integrace,
+rozložení, sbalené pokročilé funkce a směr šablon. `src/domain/song.ts`:
+mazání nepoužité části vedle prázdného pořadí. Browser testy upraveny na nové
+ovládání; nový `tests/browser/order-builder.spec.ts` ověřuje skutečný drag,
+klávesnici, zrušení dialogu, souvislé i oddělené řádky, Unicode, prázdné řádky,
+XML export/reimport a odstranění celého sledu. Modelový test chrání opravu
+mazání při prázdném pořadí i odmítnutí mazání při chybném neprázdném guide.
+
+Skutečné snímky sestavovače a dialogu v `test-output/order-builder.png` a
+`order-lines-dialog.png` vizuálně zkontrolovány. Nové browser scénáře prošly
+v Chromium; skutečný DnD test používá přetažení myší, nikoli volání modelu.
+Sada stále kontroluje viewporty 1280 × 720 a 390 × 844, ale mobilní dotykový
+přesun nebyl implementován ani ověřen. Delší/hlubší skupiny se editují v
+pokročilé části; nové kompaktní DnD nepřesouvá jednotlivé děti mezi skupinami.
+Úplné ruční posouzení pohodlí, jiné prohlížeče a distribuované EXE zbývají.
+
+### Ruční ověření PC
+
+1. Vytvořit píseň, napsat Sloku 1, přidat Refrén 1, Sloku 2 a Bridge 1.
+2. Vlevo kliknout Sloka 1 → Refrén 1 → Sloka 2 → Refrén 1 → Bridge 1.
+   Vpravo má být přesně těchto pět výskytů. Opakovaný refrén sdílí text.
+3. Přetáhnout Bridge před druhý refrén; potom první výskyt na konec.
+   Ověřit indikátor vložení a náhled. Zkusit přesun i Alt + šipkami.
+4. Řádky → Sloka 2 → označit dva řádky přímo v textu → nejprve Zrušit,
+   znovu otevřít a potvrdit. Ověřit přidaný rozsah a obsah náhledu.
+5. U rozsahu zvolit Řádky a změnit výběr na dva oddělené úseky. Ověřit jejich
+   pořadí v náhledu. Změnit sdílený refrén a ověřit oba jeho výskyty.
+6. Stáhnout XML, znovu otevřít a ověřit řádky, pořadí a stejnou identitu.
+   Nakonec otevřít šablony: panel pod tlačítkem nesmí posunout editor.
+
+Databáze, přihlášení, synchronizace ani hosting se nepřidávají. Po ruční
+kontrole připomenout commit; agent jej nevytváří.
+
+Závěrečné kontroly etapy 16: TypeScript a produkční build OK; Chromium
+**10/10 OK**, Vitest **28/28 OK** včetně korpusové kompatibility. Testy
+proběhly s povolením mimo sandbox kvůli dříve ověřeným omezením serveru
+a dočasných souborů. Žádná instalace závislostí, žádný commit.
+
+## 17. Hromadné označování řádků myší a stabilita přesunu (3. 11. 2026)
+
+- V dialogu Řádky lze podržet levé tlačítko nad textem nebo checkboxem
+  a táhnout přes celý úsek. Začátek na neoznačeném řádku úsek přidává,
+  začátek na označeném úsek odebírá. Tažení funguje oběma směry a při návratu
+  kurzoru zkracuje rozsah vůči původnímu výběru. Dříve vybrané vzdálené úseky
+  zůstávají zachovány. Jednotlivé klikání, mezerník i zrušení dialogu zůstávají.
+- Použity pointer události se zachycením ukazatele, aby uvolnění myši mimo
+  konkrétní řádek nezanechalo aktivní gesto. Pro dotyk zůstává nativní klikání
+  a posouvání; dotykové hromadné označování se zatím nezavádí.
+- U přesouvání pořadí značka vložení již nemění výšku a rozměry řádku
+  (místo silnějšího borderu používá vnitřní značku). Neaktualizuje se znovu,
+  pokud zůstává na stejném místě. Sjednocen kurzor uchopení, nastaven move
+  dropEffect a nativní tooltip přesunut do aria-description.
+- Uživatelův přesný jev blikajícího/mizejícího systémového kurzoru se nepodařilo
+  samostatně reprodukovat. Změny odstraňují možné příčiny v hitboxech a
+  přepínání stavů, ale úplné odstranění tohoto projevu musí potvrdit uživatel
+  ve svém prohlížeči; automatický test nezachytí vykreslení systémového kurzoru.
+
+Změněny `src/ui/orderBuilder.ts`, `src/ui/style.css`,
+`tests/browser/order-builder.spec.ts` a tento dokument. Formáty, metadata,
+identity, parser i pravidla výběru řádků se nemění.
+TypeScript a produkční build OK; Chromium **11/11 OK**. Nový test provádí
+skutečné tažení myši přes čtyři řádky, opačným tažením ruší výběr, ověřuje
+kliknutí na text, checkbox, mezerník a zrušení přes Escape. Původní drag pořadí
+s XML roundtripem i TXT/DOCX průchody stále procházejí. Modelová sada se znovu
+nespouštěla, protože se model neměnil. Mobilní gesto a jiné prohlížeče zbývají.
+
+Ruční kontrola PC: po načtení stránky zkusit najet a přetáhnout výskyt bez
+čekání; ověřit klidný kurzor i značku vložení. Řádky → táhnout přes více řádků
+shora dolů, potom zdola nahoru; zkusit odebrání úseku začátkem na označeném
+řádku a následné jednotlivé kliknutí. Potvrdit a zkontrolovat náhled.
+Commit nebyl vytvořen; po kontrole jej připomenout.
+
+## 18. Opakované přidávání vybraných řádků (3. 11. 2026)
+
+Pod tlačítkem Řádky je nově seznam **Vybrané řádky**, například
+„Sloka 1 · řádky 2–3“. Každý potvrzený výběr se zobrazí jednou; kliknutím
+se jeho řádky přidají na konec pořadí. Fokus zůstane na tlačítku, takže lze
+opakovat i Enterem. Nesouvislý výběr z jednoho dialogu má společné tlačítko,
+které znovu vloží všechny jeho úseky ve stejném pořadí.
+
+Výběry jsou reference na současné texty, nikoli kopie jejich obsahu. Zůstávají
+v nabídce i po odebrání všech jejich výskytů. Ukládají se spolu s místním
+konceptem a obnoví se při reloadu (načtení kontroluje tvar a rozsahy dat).
+Otevření jiné písně seznam obnoví z jejích řádkových rozsahů. XML/TXT/DOCX
+nedostávají nová metadata ani nový formát; XML neukládá historii uživatelských
+výběrů. Importovaný rozsah se také nabídne jako opakovatelná položka.
+Pokud výběr přesahuje aktuální text jazyka, tlačítko je neaktivní s vysvětlením.
+
+Změněny `src/ui/orderBuilder.ts`, `src/ui/main.ts`, `src/ui/style.css`,
+`tests/browser/order-builder.spec.ts` a tento dokument. Přidání je nadále
+validováno modelem, nepřiděluje novou identitu a neupravuje definici části.
+Při odmítnutém přidání se neuloží nový výběr. Databáze ani synchronizace nejsou.
+
+Ověřeno: TypeScript a produkční build OK; Chromium **12/12 OK**. Nový scénář
+vytvoří nesouvislý výběr 1, 3, znovu ho přidá kliknutím i Enterem, ověří jednu
+položku v nabídce, obnovu konceptu, odebrání všech výskytů a opětovné přidání,
+i sdílené aktualizace textu v náhledu. Vizuálně zkontrolován skutečný screenshot
+`test-output/reusable-lines.png`. Modelové testy znovu neběžely, model se neměnil.
+
+Ruční kontrola: vybrat několik řádků, potvrdit, pod Řádky dvakrát kliknout na
+vzniklé tlačítko. V pořadí a náhledu musí být tři průchody stejného výběru.
+Obnovit stránku a zkusit tlačítko znovu. Zbývá uživatelské posouzení pohodlí.
+Commit nebyl vytvořen; po ruční kontrole jej připomenout.
+
+## 19. Jediné pole Název opakování a zápis podle jména (3. 11. 2026)
+
+Toto zadání nahrazuje nabídky Pokročilá úprava skupin a opakování a Správa
+pořadí. Obě jsou odstraněny. Nad sestavovačem je pouze **Název opakování**,
+bez seznamu existujících jmen a bez přepínání pořadí. Prázdné pole má pouze
+placeholder `default`; při zápisu XML se použije název `default`. Vyplněný
+název se po oříznutí okolních mezer použije přesně, například `kapela 1`.
+Jména se rozlišují stejně jako v XML, včetně velikosti písmen.
+
+### Sémantika uložení
+
+- Pole určuje cíl zápisu sestaveného pořadí. Při jeho psaní se nepřepíná ani
+  nenačítá jiné pořadí. Běžný uživatel upraví sled a zadá své zavedené jméno.
+- Při stažení XML se existující opakování stejného jména **nahradí** aktuálním
+  sledem, nikoli přidá jako `kapela 1 2` nebo další stejnojmenný uzel.
+  Zachová se umístění i ostatní atributy cílového uzlu.
+- Nové jméno vytvoří nové opakování; ostatní pojmenovaná pořadí zůstanou.
+  Nově zvolený cíl se stane výchozím (`main=1`), aby se po otevření XML
+  načetlo právě uložené pořadí. Pouhá úprava již vybraného cíle jeho původní
+  označení main nepřepisuje. Čistý prázdný počáteční `default` se při prvním
+  uložení pod jiným jménem neponechává jako neplatná prázdná varianta.
+- Rozpracovaný sled je oddělený od uložených XML pořadí. Změna názvu tak
+  nezničí původní verzi a zrušený export ji nenahradí. Název i sled se obnovují
+  s místním konceptem. Po XML downloadu se pracovní stav překreslí proti
+  právě zapsanému modelu; opraveno pokračování v úpravách po stažení, které
+  jinak mohlo zapisovat do již odpojeného starého pracovního objektu.
+- TXT/DOCX export nabízí jazyk, ale již ne výběr pořadí; použije aktuálně
+  sestavený sled. Omezení jejich formátu a doporučení úplné XML zálohy trvá.
+- Import s více opakováními automaticky otevře dosavadní výchozí výběr
+  (první main, jinak default, jinak první). Ostatní uzly se zachovají bez UI
+  přepínače. U duplicitního cílového jména, které není právě načteným zdrojem,
+  se odmítne víceznačné přepsání s doporučením jiného názvu; neodstraňují se
+  tiše žádné staré uzly. Nezměněný právě načtený duplicitní zdroj lze zachovat.
+
+Importované skupiny/vnoření/počty zůstávají v modelu i exportu a přesouvají
+se jako celek; ovladače pro změnu jejich vnitřního obsahu už nejsou v UI.
+Vadné guide stále zobrazují diagnostiku a explicitní akci sestavení náhrady.
+Metadata, jazyky a song-id se nemění, žádná databáze nebo synchronizace není.
+Stažení XML nadále nenahrazuje původní soubor na disku automaticky.
+
+### Soubory a provedené kontroly
+
+- `src/ui/main.ts`: jediné pole, pracovní koncept pořadí a jeho obnova,
+  aplikace názvu při exportu, aktuální pořadí pro TXT/DOCX, odstranění nabídek.
+- Nový `src/ui/namedOrder.ts`: transakční zápis klonovaného modelu podle názvu,
+  zachování ostatních pořadí/metadat a ochrana víceznačných cílů.
+- `src/ui/orderBuilder.ts`: opraven popis importované skupiny po odebrání
+  pokročilé nabídky. Browser testy editoru/DOCX přizpůsobeny novému ovládání.
+- Nové `tests/browser/named-order.spec.ts` a `tests/named-order.test.ts`:
+  default, nové jméno, opakované přepsání bez duplicit, přepsání jiného
+  existujícího cíle, obnova názvu/rozpracovaného sledu, XML reimport,
+  nested cílové uzly, atributy, metadata a neměnnost vstupního modelu.
+- TypeScript + produkční build: OK. Vitest **29/29 OK**, Chromium **13/13 OK**.
+  Skutečný screenshot `test-output/named-order.png` vizuálně zkontrolován.
+  Testy proběhly mimo sandbox s povolením kvůli známým omezením serveru a
+  dočasných souborů. Žádné nové závislosti, žádný commit.
+
+### Ruční kontrola
+
+Vytvořit pořadí a nechat název prázdný → XML má `default`. Přidat refrén,
+vyplnit `kapela 1` a stáhnout XML → přidat další refrén a znovu stáhnout se
+stejným názvem → v XML má být právě jedno `kapela 1` s aktualizovaným sledem.
+Otevřít stažený soubor a ověřit název i náhled. Zkusit obnovu stránky před
+stažením; rozepsané jméno i sestavený sled musí zůstat. Jiné prohlížeče a
+používané distribuované EXE zbývají ručně. Po kontrole připomenout commit.
+
+## 20. Rozbalovací náhled dole v bloku pořadí (3. 11. 2026)
+
+Trvale zobrazený pravý panel náhledu je odstraněn. Pracovní plocha má na PC
+jen dva sloupce: texty a ovládání pořadí, oba s větší dostupnou šířkou.
+Úplně dole uvnitř bloku Pořadí přehrávání je sbalená část **Náhled výsledného
+pořadí**. Kliknutí, Enter nebo mezerník zobrazí dosavadní obsah náhledu přímo
+pod názvem; stejným ovládáním se opět schová. Po načtení stránky je zavřená,
+při běžném překreslení editoru se stav rozbalení zachová. Náhled nadále reaguje
+na texty a sestavený sled. Tlačítko Stáhnout XML je nad rozbalovacím náhledem,
+aby bylo dostupné i při jeho zavření.
+
+Změněny `src/ui/main.ts`, `src/ui/style.css`, stávající browser scénáře
+`tests/browser/layout.spec.ts` a tento dokument. Bez změny modelu, formátů,
+identity, databáze nebo synchronizace.
+
+Ověřeno: TypeScript a produkční build OK; Chromium **13/13 OK** včetně
+výchozího skrytí náhledu, jeho umístění jako poslední části bloku pořadí,
+dvousloupcové pracovní plochy a otevření/zavření klávesnicí. Skutečné snímky
+sbaleného i rozbaleného layoutu při šířce 1280 px vizuálně zkontrolovány;
+jsou v ignorovaném test-output. Modelové testy se neopakovaly, model se neměnil.
+Ruční pohodlí uživatelem zbývá: rozbalit dole náhled, ověřit celý sled,
+sbalit jej a pokračovat v úpravách. Commit nebyl vytvořen.
+
+## 21. Jednoduché karty textových částí (3. 11. 2026)
+
+Z textových karet odstraněna tlačítka Část nahoru / Část dolů. Pořadí
+přehrávání se ovládá výhradně ve vlastním sestavovači. Místo tlačítka Odebrat
+část je vpravo nahoře v hlavičce každé karty křížek s přístupným popiskem
+„Odebrat část: Sloka 1“ apod. Zachovány kontroly a potvrzení skutečného
+odstranění textu ze všech jazyků i dopadů na reference v pořadích.
+
+Nové části se vytvářejí pouze tlačítky **Sloka / Refrén / Bridge**, bez
+předpony Přidat:. Nabídka vytvoření vlastního bloku je odstraněna. Existující
+legacy či vlastní ID v importovaném XML se nepřejmenovávají ani nemažou;
+změna pouze omezuje vytváření z UI. Model a kompatibilita formátů se nemění.
+
+Změněny `src/ui/main.ts`, `src/ui/style.css`, popisky v navazujících browser
+testech a tento dokument. TypeScript + produkční build OK; Chromium
+**13/13 OK**, včetně zrušení i potvrzení mazání křížkem, ochrany uzamčeného
+guide a zachování ostatních jazyků/pořadí. Skutečný PC screenshot vizuálně
+zkontrolován. Modelová sada se neopakovala, model se neměnil.
+
+Ruční kontrola: přidat Sloku, Refrén a Bridge; zkusit křížek vpravo nahoře,
+nejprve zrušit, poté potvrdit a zkontrolovat sestavené pořadí. Commit nebyl
+vytvořen; po kontrole jej připomenout.
+
+## 22. Stáhnout jinak v horním menu (3. 11. 2026)
+
+Vedle Stáhnout šablonu je nově stejné rozbalovací ovládání **Stáhnout jinak**
+s volbami **TXT / DOCX**. Panel se zobrazuje pod tlačítkem přes obsah a
+neposouvá pracovní plochu. Výběr formátu zavře nabídku a otevře modální
+exportní dialog s dosavadním výběrem jazyka, vysvětlením omezení formátu
+a potvrzením stažení. Použije se právě sestavené pořadí. Zrušení/Escape
+vrací fokus do menu; kliknutí mimo či Escape také zavírá plovoucí nabídky.
+Původní nabídka Další možnosti stažení dole byla odstraněna. Stažení XML
+v bloku pořadí zůstává dostupné beze změny.
+
+Změněny `src/ui/main.ts`, `src/ui/style.css`, existující browser testy
+TXT/DOCX/layoutu a tento dokument. Formáty, identita, ochrany exportu a stav
+neexportovaných XML změn se nemění. Bez databáze, synchronizace či závislostí.
+TypeScript a produkční build OK; Chromium **13/13 OK**, včetně obou exportů
+přes nové menu. PC screenshot zkontrolován. Modelová sada se neopakovala,
+protože se převody ani model neměnily. Ručně zbývá posoudit pohodlí nového
+menu: Stáhnout jinak → TXT / DOCX → jazyk → stažení nebo zrušení. Commit
+nebyl vytvořen; po kontrole jej připomenout.
+
+## 23. Odstranění nápovědy a jazyky úplně dole (3. 11. 2026)
+
+Rozbalovací blok **Uložení, obnova a identita písně** je včetně své nápovědy
+odstraněn. Funkce místního ukládání/obnovy, ochrana nečitelných záloh,
+varování před ztrátou práce a zachování song-id se nemění. Krátká informace
+o obnově či chybě úložiště zůstává dole jako dosud.
+
+**Jazyková varianta** i celá **Správa jazyků** jsou nyní v samostatném bloku
+**Jazyky** úplně na konci stránky, pod pracovními oblastmi i stavovou zprávou.
+Správa je stále rozbalovací a obsahuje původní přidání, přejmenování a
+odebrání jazyka s kontrolami. Texty částí tak nahoře začínají přímo bez
+jazykových ovladačů. Přepnutí dole stále mění texty, náhled i dostupné části.
+
+Změněny `src/ui/main.ts`, `src/ui/style.css`, odkaz kontrolního browser testu
+na zachované hlášení obnovy a tento dokument. TypeScript a produkční build
+OK; Chromium **13/13 OK**, včetně více jazyků, rušení/mazání jazykové varianty,
+TXT/DOCX importů a nečitelné zálohy. PC screenshot celého layoutu zkontrolován.
+Modelové testy se neopakovaly, model ani formáty se neměnily. Žádná databáze,
+synchronizace, změna identity nebo commit.
+
+Ruční kontrola: sjet úplně dolů, přepnout variantu a ve Správě jazyků přidat
+jazyk. Vrátit se k textům a ověřit správný jazyk i náhled. Uživatelské
+posouzení pohodlí zbývá; po kontrole připomenout commit.
+
+## 24. Jednotná nabídka Stáhnout (3. 11. 2026)
+
+Stáhnout jinak je přejmenováno na **Stáhnout**. Rozbalovací menu vedle šablon
+obsahuje **XML / TXT / DOCX**. XML spouští původní kompatibilní export včetně
+zápisu opakování podle názvu a ochrany problematických guide; po akci se menu
+zavře a fokus vrátí na Stáhnout. TXT/DOCX zachovávají dialog volby jazyka.
+Samostatné Stáhnout XML uvnitř bloku pořadí je odstraněno.
+
+Změněny `src/ui/main.ts`, navazující browser testy a tento dokument.
+TypeScript a produkční build OK; Chromium **13/13 OK**, všechny XML exportní
+scénáře nyní používají nové menu. PC screenshot zkontrolován. Model ani
+formáty se nemění, modelové testy se neopakovaly. Ruční kontrola: v menu
+Stáhnout vyzkoušet XML, TXT a DOCX. Commit nebyl vytvořen; po kontrole jej
+připomenout.
+
+## 25. GitHub Pages a předání kapelníkům (3. 11. 2026)
+
+Toto je aktuální stav a nahrazuje historické zákazy hostingu i staré popisy
+UI v oddílech výše. Funkce a dosavadní finální jednoduchý vzhled jsou zachovány;
+layout byl ověřen na 1280 a 390 px. Bez databáze, přihlášení a synchronizace.
+
+- Připraven `.github/workflows/web-song-editor-pages.yml`: Node 24,
+  pnpm 11.25.0, frozen lockfile, produkční build, kontrola artefaktu,
+  Chromium nad hotovým buildem a upload pouze `web-song-editor/dist`.
+  Automatické spuštění pro změny webu na test/main/master, také ruční spuštění.
+- Vite `base: './'` zůstává; browserové scénáře nyní používají relativní
+  navigaci a preview produkčního sestavení pod `/SuperPresenter/`.
+  `EDITOR_URL` umožňuje tytéž scénáře proti veřejné adrese bez lokálního serveru.
+- Nový `scripts/check-dist.mjs` odmítá nepovolené soubory a absolutní cesty.
+  Zkontrolovaný artefakt má pouze index.html + jeden JS + jeden CSS,
+  bez knihovny písní, testů, konceptů či jiných uživatelských dat.
+- V patičce je výslovná informace: společná knihovna zatím není zavedena,
+  změny se automaticky nepředávají do SuperPresenteru, přenos XML je ruční.
+  Doplněno upozornění, že lokální koncept nenahrazuje zálohu XML.
+- Krátký návod nasazení, všech šest kapelnických scénářů a šablona zpětné
+  vazby: `docs/web-song-editor-deployment.md`.
+
+### Adresa a skutečný stav nasazení
+
+Cílová adresa: **https://moskitogrill.github.io/SuperPresenter/**.
+Přímá HTTP kontrola 3. 11. 2026 vrátila **404 Not Found**. Web tedy není
+ověřen jako publikovaný; funkční veřejná adresa zatím není k dispozici.
+GitHub CLI ani GitHub konektor pro nasazení nejsou dostupné. Žádný commit,
+push ani nasazení nebyly provedeny. Uživatel musí commitnout/pushnout změny,
+v Settings → Pages zvolit GitHub Actions a ověřit úspěch workflow a URL.
+Podrobný postup v předávacím dokumentu. Databáze zůstává budoucí samostatná etapa.
+
+### Kontroly a omezení
+
+Produkční TypeScript/Vite build OK. Vitest 29/29 OK. První kompletní průchod
+produkčním Chromium: 13/13 OK (XML/TXT/DOCX import/export, opakování, změna
+pořadí, obnova konceptu, mobilní layout). Kontrola obsahu dist OK.
+Následně přidán produkční scénář načtení assetů pod cestou repozitáře,
+práce a XML exportu bez sítě a obnovy po opětovném připojení.
+
+Desktop: 862 skutečných XML roundtripů + nová píseň a základní Chromium
+export přijaty repository/WidgetSource/parserem. Opraveno zastaralé očekávání
+v `tests/verify_desktop.py`: po současném scénáři se původní live zachová
+s 3 opakováními a vznikne nové výchozí short, nikoli 4 opakování původního.
+DOCX browser export přijat současným desktopovým loaderem.
+
+Uživatel na HTTPS nepotřebuje instalaci ani lokální server. `file://` není
+podporované spuštění; offline nové načtení bez PWA není garantováno. Lokální
+obnova závisí na úložišti prohlížeče, profilu a adrese. Test používaného EXE,
+Safari/Firefox a ruční kapelnické ověření zbývají. Po nasazení spustit testy
+s EDITOR_URL a projít scénáře na skutečné adrese. Připomenout uživateli commit,
+ale nevytvářet jej automaticky.
+
+Závěrečný výsledek: **14/14 produkčních Chromium scénářů OK**, včetně nového
+ověření práce bez sítě; **29/29 Vitest OK**. Obě desktopové kontrolní utility
+po aktualizaci očekávání prošly celé: 862 roundtripů + nová píseň, skutečné
+XML downloady, více jazyků a skupin, legacy guide a DOCX výstup. Skutečný
+screenshot produkčního desktopového layoutu byl vizuálně zkontrolován.
+`git diff --check` bez chyb. Veřejnou aplikaci nebylo možné funkčně otestovat,
+protože cílová URL vrací 404. Přímé ověření po nasazení zůstává povinné.

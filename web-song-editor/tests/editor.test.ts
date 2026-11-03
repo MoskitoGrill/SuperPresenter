@@ -109,3 +109,14 @@ it('classifies the real corpus without touching originals; exports supported son
   expect(report.filter(r => r.output).length).toBe(files.length);
   console.log(`Corpus: ${report.length} files; ${report.filter(r=>r.output).length} editable, ${report.filter(r=>r.reason).length} safely rejected`);
 }, 30000);
+
+it('removes unused text parts while an order is still empty without changing its guide', () => {
+  const song = newSong(); song.addSection('r');
+  const rep = song.selectedRepetition; rep.textContent = '';
+  song.removeSection('r1');
+  expect(song.ids).toEqual(['v1']);
+  expect(rep.textContent).toBe('');
+  rep.textContent = 'missing';
+  expect(() => song.removeSection('v1')).toThrow();
+  expect(song.ids).toEqual(['v1']);
+});
