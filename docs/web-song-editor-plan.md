@@ -1,6 +1,6 @@
 # Samostatný webový editor písní — plán a předání
 
-Stav k 3. 11. 2026: příprava GitHub Pages dokončena; aktuální nasazení a kontroly v oddílu 25. Veřejná publikace zatím neověřena (HTTP 404).
+Stav k 4. 11. 2026: finální vizuální vzhled dokončen; aktuální předání a kontroly v oddílu 26. Příprava GitHub Pages je v oddílu 25; publikace se v této etapě neprováděla.
 Aktuální předání DOCX, výsledky a ruční scénář jsou v oddílu 12; TXT v oddílu 11.
 Nové zadání nahrazuje původní požadavek identity v TXT z oddílů 3–6 a 10:
 TXT nyní nemá hlavičku ani ID; při shodě názvu vyžaduje ruční rozhodnutí.
@@ -1429,3 +1429,93 @@ XML downloady, více jazyků a skupin, legacy guide a DOCX výstup. Skutečný
 screenshot produkčního desktopového layoutu byl vizuálně zkontrolován.
 `git diff --check` bez chyb. Veřejnou aplikaci nebylo možné funkčně otestovat,
 protože cílová URL vrací 404. Přímé ověření po nasazení zůstává povinné.
+
+## 26. Finální vizuální vzhled a předání do nasazení (4. 11. 2026)
+
+Toto je aktuální předání. Zachovává poslední uživatelské úpravy z oddílů
+14–24; historické popisy tří sloupců, odkazů oblastí a jazyků nahoře neplatí.
+Přečten celý plán včetně zpětné vazby a nadřazený Documents/AGENTS.md.
+Projektový AGENTS.md nenalezen. Nebyl popsán další zásadní nevyřešený problém
+ovládání; zachovány dvě pracovní oblasti, sbalený náhled pod pořadím, jazyky
+úplně dole a horní nabídky. Žádná nová funkce ani režim vzhledu.
+
+### Změny
+
+- `web-song-editor/src/ui/style.css`: paleta přímo podle desktopového
+  `gui_style.json` a `superpresenter/ui/projection_editor.py`: pozadí #555555,
+  panely/tlačítka #444444, světlá pole #eeeeee. Jediný pevný vzhled.
+  Sjednoceny systémová typografie, hierarchie, okraje, mezery a zaoblení;
+  jemné stíny jen u plovoucích nabídek a dialogů. Textová pole zůstávají
+  široká, vysoká a zvětšitelná. Světlý čitelný náhled s oddělenými částmi.
+- Hover a stisk ovladačů, otevřená nabídka, výrazný focus-visible,
+  neaktivní tlačítka s přerušovaným okrajem, vybrané řádky s checkboxem,
+  chybová diagnostika a úspěšná hlášení mají sjednocený vzhled.
+  Nativní alert/prompt/confirm zůstávají vzhledem řízené prohlížečem/OS.
+- `web-song-editor/src/ui/main.ts`: pouze prezentační atribut druhu části
+  a třída existující diagnostiky. Názvy Sloka / Refrén / Bridge / vlastní ID
+  spolu s plnou / dvojitou / přerušovanou / tečkovanou linkou rozlišují části
+  bez spoléhání na barvu. Dlouhé názvy se zalamují v hlavičkách i popiscích,
+  tlačítko odebrání si zachovává prostor.
+- Na displeji do 420 px se dostupné části a sestavené pořadí skládají pod
+  sebe, aby zůstaly čitelné. Širší ověřené rozložení se nemění.
+- `web-song-editor/tests/browser/visual.spec.ts`: zátěžové scénáře 1440,
+  390 a 320 px, 60řádková sloka, dlouhé vlastní ID bez mezer, náhled,
+  fokus, viditelné ovladače, absence vodorovného přetékání a chyba pořadí.
+  Test odhalil a pomohl opravit přetékání dlouhého popisku.
+
+Model, parser, XML/TXT/DOCX převody, song-id, desktopová aplikace, knihovna
+písní a závislosti se neměnily. Databáze, synchronizace, publikace, commit
+ani push nebyly provedeny. Existující nesledovaná `.vite/` ponechána.
+
+### Skutečně ověřeno
+
+- TypeScript bez chyb, produkční Vite build a allowlist artefaktu OK.
+- Vitest **29/29 OK** včetně kompatibility a převodů. Sandbox blokoval
+  dočasné rename (EPERM); úspěšný běh proběhl s povolením mimo sandbox.
+- Produkční Chromium: všech **14 dosavadních scénářů OK** v úplném běhu;
+  po zpřesnění kontroly pouze viditelných tlačítek také **3/3 zátěžové
+  scénáře OK**. Ověřeny nová píseň, psaní a sdílený refrén, sestavení pořadí,
+  přesuny myší/klávesnicí, výběry řádků, více jazyků, identita, obnova,
+  ochrany chybného importu, XML/TXT/DOCX import/export a práce bez sítě.
+- Skutečné screenshoty v ignorovaném `web-song-editor/test-output/`:
+  vizuálně zkontrolovány desktop 1280 px, úzký layout 390 px, rozbalený
+  náhled a chybová diagnostika při 390/320 px. Úplné screenshoty dlouhé
+  stránky mohou zachytit sticky lištu v aktuální poloze scrollu;
+  `viewport-1280.png` ukazuje horní lištu po návratu nahoru.
+- Vypočtený kontrast: bílý text na #555555 **7,46 : 1**, vedlejší text
+  #dddddd na #444444 **7,17 : 1**, text polí **13,88 : 1**, úspěšné hlášení
+  **8,59 : 1**, chyba **8,17 : 1**, okraj ovladače proti panelu **3,13 : 1**,
+  světlý fokus proti pozadí **5,23 : 1**. Základní text přesahuje WCAG AA.
+  Toto není úplný audit přístupnosti. Fokus formulářů je tmavě modrý
+  na světlé ploše, vynucené systémové barvy zachovávají systémový fokus.
+- Desktopové Python utility nebyly znovu spuštěny: model/formáty se neměnily;
+  předchozí kompatibilitní výsledky z oddílu 25 zůstávají historickým důkazem.
+
+### Ruční kontrola vzhledu a ovládání
+
+1. Dlouhá reálná píseň: více slok, refrény, bridge, prázdné řádky, diakritika
+   a ukrajinština. Posoudit delší psaní, zvětšení polí, scroll náhledu a čitelnost.
+2. Velmi dlouhý název písně, části (vlastní ID z XML), jazyka i opakování:
+   zkontrolovat zalomení, křížky a nabídky bez vodorovného posuvu.
+3. Chybné XML/TXT/DOCX a uzamčené pořadí s chybějící částí: text diagnostiky
+   musí být celý čitelný, předchozí práce zachovaná. Zkontrolovat také nativní
+   chybové dialogy OS a úspěšné hlášení po stažení.
+4. Menší okno 390 i 320 px, malá výška a 200% zoom: menu Stáhnout a šablony,
+   výběr řádků, tlačítka dialogů i jazyky dole musí zůstat dostupné.
+   Na skutečném telefonu zkusit softwarovou klávesnici a dotykové posouvání.
+5. Pouze Tab / Shift+Tab / Enter / mezerník a Alt+šipky: posoudit viditelnost
+   fokusu a případné překrytí sticky lištou při scrollu. Zkusit hover, stisk,
+   neaktivní ovladače a výběry řádků. Firefox/Safari a čtečka zbývají ručně.
+6. Stáhnout XML a otevřít v používaném distribuovaném SuperPresenter EXE;
+   zkontrolovat texty, pořadí, více jazyků a zachování identity po uložení.
+
+### Předání do etapy 7 — GitHub Pages
+
+Vizuální etapa je dokončena s výše uvedeným ručním posouzením. Navázat
+existujícím `docs/web-song-editor-deployment.md` a připraveným workflow,
+bez přidávání databáze/synchronizace a bez publikování knihovny `songs/`.
+Před nasazením provést ruční kontrolu vzhledu, potom uživatelský commit/push,
+ověřit Pages nastavení a workflow. Po nasazení znovu projít scénáře s
+`EDITOR_URL` na skutečné projektové HTTPS adrese a předat kapelníkům.
+Veřejná URL se dnes nekontrolovala; historické 404 z oddílu 25 není dnešní
+ověření jejího stavu. **Připomenout commit; agent jej sám nevytváří.**

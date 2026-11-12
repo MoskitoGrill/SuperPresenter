@@ -1,0 +1,15 @@
+{
+  "hash": "c34b74b5",
+  "configHash": "b5711893",
+  "lockfileHash": "bbba2249",
+  "browserHash": "b86e98a6",
+  "optimized": {
+    "fflate": {
+      "src": "../../node_modules/.pnpm/fflate@0.8.3/node_modules/fflate/esm/browser.js",
+      "file": "fflate.js",
+      "fileHash": "4d7f02bd",
+      "needsInterop": false
+    }
+  },
+  "chunks": {}
+}

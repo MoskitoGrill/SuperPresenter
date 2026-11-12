@@ -103,7 +103,7 @@ function preview() {
   if (!rep) { area.append(el('p', 'Soubor nemá pořadí. Je zachován beze změny; můžete výslovně přidat nové pořadí.')); return; }
   if (!rep.textContent?.trim()) { area.append(el('p', 'Přidejte části do pořadí přehrávání.')); return; }
   const errors = song.diagnostics(rep);
-  if (errors.length) { area.append(el('p', errors.join('\n'))); return; }
+  if (errors.length) { area.append(Object.assign(el('p', errors.join('\n')), { className: 'diagnostic' })); return; }
   function show(nodes: Node[]) {
     for (const node of nodes) {
       if ('children' in node) { for (let i = 0; i < node.repeat; i++) show(node.children); }
@@ -292,6 +292,7 @@ function render() {
   sections.forEach(section => {
     const id = section.getAttribute('name')!; const card = el('section');
     card.className = 'text-card'; card.dataset.section = id;
+    card.dataset.kind = /^v\d*$/.test(id) ? 'verse' : /^r\d*$/.test(id) ? 'refrain' : /^b\d*$/.test(id) ? 'bridge' : 'other';
     const header = el('div'); header.className = 'text-card-header';
     const remove = button('×', () => {
       if (orderDraft.textContent?.trim() && song.diagnostics(orderDraft).length) throw new Error('Mazání je blokováno: nejprve opravte uzamčené pořadí. Nelze bezpečně určit odkazy.');
@@ -317,7 +318,8 @@ function render() {
   nameField.querySelector('input')!.placeholder = 'default'; app.append(nameField);
   const errors = rep.textContent?.trim() ? song.diagnostics(rep) : [];
   if (errors.length) {
-    app.append(el('p', 'Importované pořadí je uzamčené. Texty lze upravit a XML stáhnout se zachovaným původním pořadím. ' + errors.join('\n')), el('pre', rep.textContent ?? ''));
+    const diagnostic = el('p', 'Importované pořadí je uzamčené. Texty lze upravit a XML stáhnout se zachovaným původním pořadím. ' + errors.join('\n')); diagnostic.className = 'diagnostic';
+    app.append(diagnostic, el('pre', rep.textContent ?? ''));
     app.append(button('Sestavit náhradní pořadí', () => {
       if (!confirm('Nahradit celé vybrané pořadí první částí? Původní výraz se tím z tohoto konceptu odstraní. Pro jeho uchování nejprve stáhněte XML.')) return;
       song.saveTree(rep, [{ section: song.ids[0], pinned: false }]); dirty = true; render();
