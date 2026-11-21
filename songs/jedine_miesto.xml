@@ -1,3 +1,4 @@
+<?xml version='1.0' encoding='utf-8'?>
 <slide name="Jediné miesto">
     <variant name="čeština">
         <section name="v1">
@@ -41,7 +42,5 @@
     </variant>
 
     
-    <repetition name="Mira-band">
-        (v1 v2 v3)
-    </repetition>
+    <repetition name="Mira-band">(v1 @v2 v3)</repetition>
 </slide>
